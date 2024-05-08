@@ -1,24 +1,25 @@
-.Loginside {
-    width: 1280px;
-    height: 832px;
-    padding: 10px;
-    background: white;
+body{
+    background-color: #E5EBF0;
+    display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    display: inline-flex;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
 
 .Uibackground {
     width: 1206px;
-    height: 780px;
-    padding: 10px;
-    background: #FAFFFA;
+    height: 600px;
+    background: #FBFBFB;
     border-radius: 20px;
     overflow: hidden;
-    justify-content: flex-end;
     align-items: center;
-    display: flex;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .Leftbox {
@@ -33,6 +34,8 @@
     justify-content: center;
     align-items: center;
     display: inline-flex;
+    border-radius: 20px 0px 0px 20px;
+    margin: 0px;
 }
 
 .Rightbox {
@@ -63,6 +66,7 @@
     font-family: Inter;
     font-weight: 700;
     word-wrap: break-word;
+    text-align: center;
 }
 
 .Img {
@@ -132,3 +136,39 @@
     text-decoration: underline;
     word-wrap: break-word;
 }
+
+
+.coolinput {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    position: static;
+    max-width: 340px;
+    width: 200px;
+  }
+  
+  .coolinput label.text {
+    font-size: 0.75rem;
+    color: #79D779;
+    font-weight: 700;
+    position: relative;
+    top: 0.5rem;
+    margin: 0 0 0 7px;
+    padding: 0 3px;
+    background: #FBFBFB;
+    width: fit-content;
+  }
+  
+  .coolinput input[type=text],
+  .coolinput input[type=password],
+  .input {
+      padding: 11px 10px;
+      font-size: 0.75rem;
+      border: 2px #263135 solid;
+      border-radius: 5px;
+      background: #FBFBFB;
+  }
+  
+  .coolinput input[type=text].input:focus {
+    outline: none;
+  }

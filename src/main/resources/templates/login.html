@@ -6,28 +6,37 @@
     <link rel="stylesheet" type="text/css" href="/CSS/Login.css">
 </head>
 <body>
-<div class="Loginside">
     <div class="Uibackground">
         <div class="Leftbox">
-            <img class="Logo" src="https://via.placeholder.com/106x123" />
+            <img class="Logo" src="Images/PNGS/minkostplan-logo.png" />
             <div class="Header">Din billige vej til en skræddersyet kostplan</div>
-            <img class="Img" src="https://via.placeholder.com/517x342" />
+            <img class="Img" src="Images/Svgs/diet-food-bowl-for-person-suffering-from-glycemic-disease.svg" />
         </div>
         <div class="Rightbox">
             <div class="MinkostplanCom">MINKOSTPLAN.COM</div>
-            <div class="Emaillabel">Email</div>
-            <div class="Passwordlabel">Kodeord</div>
+            <form class="outer" >
+                <div class="coolinput">
+                    <label for="input"  class="text">E-Mail:</label>
+                    <input type="text" id="email" class="input"></input>
+                </div>
+                <div class="coolinput">
+                    <label for="input" class="text">Kodeord:</label>
+                    <input type="password" id="password" class="input"></input>
+                </div>
+                <div class="emailUsedError" role="alert">
+                    <span ></span>
+                </div>
+            </form>
             <div class="Forgotbutton">Glemt kodeord?</div>
             <div class="Loginbutton">
                 <div class="Loginlabel">LOG IN</div>
             </div>
-            <div class="Divider">-------  ELLER -------</div>
+            <div class="Divider">───── ELLER ─────</div>
             <div class="Createaccountlabel">
                 <span>Er du ny? </span><span>Opret en bruger</span>
             </div>
         </div>
     </div>
-</div>
 </body>
 </html>
 
