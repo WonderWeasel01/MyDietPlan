@@ -14,6 +14,8 @@ public class Recipe {
     // måske fil?
     String instructions;
 
+    Boolean active;
+
     ArrayList<Ingredient> ingredientList = new ArrayList<>();
 
     public Recipe() {

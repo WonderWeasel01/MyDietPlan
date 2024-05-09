@@ -62,8 +62,20 @@ public class RecipeRepository {
         return recipe;
     }
 
+    /**
+     * @param recipeID the id of a recipe from the database
+     * @return if return is 0 or above delete recipe from database
+     */
     public boolean deleteRecipe(int recipeID){
+        String sql = "SELECT * FROM `Recipe` WHERE recipe_id = ?";
+        int rowsAffected = jdbcTemplate.update(sql,recipeID);
 
+        if(rowsAffected < 0) {
+            return true;
+        }
+        else{
+           return false;
+        }
     }
 
     /**
@@ -79,6 +91,11 @@ public class RecipeRepository {
 
     }
 
+    /**
+     * Retrieves all breakfast recipes from the database.
+     *
+     * @return A list of all "Morgen" Recipes
+     */
     public List<Recipe> getAllBreakfastRecipes(){
 
         String sql = "SELECT * FROM `Recipe` WHERE time_of_day = ?";
