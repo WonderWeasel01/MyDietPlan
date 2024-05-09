@@ -29,6 +29,45 @@ public class RecipeRepository {
 
 
     }
+*/
+
+    /**
+     * Extracts a recipe object from the database and returns it.
+     * @param recipeID the id of the recipe that the user wants returned
+     * @return The recipe object that matches the given recipeID
+     */
+    public Recipe getRecipeByID(int recipeID) {
+        String sql = "SELECT * FROM `Recipe` WHERE `recipe_id` = ?";
+        Recipe recipe = jdbcTemplate.queryForObject(sql,new Object[]{recipeID}, recipeRowMapper());
+
+        if(recipe == null){
+            return null;
+        }
+
+        String sqlIngredients = "SELECT * FROM `Ingredient` WHERE `ingredient_id` IN (SELECT `ingredient_id` FROM `Recipe_has_ingredient` WHERE `recipe_id` = ?)";
+        List<Ingredient> ingredients = jdbcTemplate.query(sqlIngredients, new Object[]{recipe.getRecipeID()}, (resultSet, rowNum) -> {
+            Ingredient ingredient = new Ingredient();
+            ingredient.setIngredientID(resultSet.getInt("ingredient_id"));
+            ingredient.setName(resultSet.getString("name"));
+            ingredient.setWeightGrams(resultSet.getInt("weight"));
+            ingredient.setProteinPerHundredGrams(resultSet.getInt("protein"));
+            ingredient.setFatPerHundredGrams(resultSet.getInt("fat"));
+            ingredient.setCarbohydratesPerHundredGrams(resultSet.getInt("carbohydrates"));
+            ingredient.setCaloriesPerHundredGrams(resultSet.getInt("calories"));
+            return ingredient;
+        });
+        recipe.setIngredientList((ArrayList<Ingredient>) ingredients);
+        return recipe;
+
+    }
+
+
+
+    /**
+     * Inserts a new recipe into the database
+     * @param recipe The recipe that the user wants to create
+     * @return The newly created recipe with the auto generated id attached
+     */
 
     public Recipe createRecipe(Recipe recipe){
         String sql = "INSERT INTO `Recipe`(`time_of_day`, `total_calories`, `total_protein`, `total_fat`, `total_carbohydrates`, `active`) VALUES (?,?,?,?,?,?)";
@@ -89,7 +128,7 @@ public class RecipeRepository {
 
     }
 
-    }
+
 
     /**
      * Retrieves all breakfast recipes from the database.
@@ -103,11 +142,25 @@ public class RecipeRepository {
 
     }
 
+    /**
+     * Retrieves a list of all lunch recipes available from the database.
+     * @return A list of all "Middag" recipes.
+     */
+
     public List<Recipe> getAllLunchRecipes(){
+        String sql = "SELECT * FROM `Recipe` WHERE time_of_day = ?";
+        return jdbcTemplate.query(sql,recipeRowMapper(),"Middag");
 
     }
 
+    /**
+     * Retrieves a list of all dinner recipes available from the database.
+     * @return A list of all "Aften" recipes.
+     */
+
     public List<Recipe> getAllDinnerRecipes(){
+        String sql = "SELECT * FROM `Recipe` WHERE time_of_day = ?";
+        return jdbcTemplate.query(sql,recipeRowMapper(),"Aften");
 
     }
 

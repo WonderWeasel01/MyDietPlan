@@ -1,7 +1,6 @@
 package com.WebApplcation.MyDietPlan.Model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class User {
 

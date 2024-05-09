@@ -64,7 +64,31 @@ public class UserRepository {
         return rowsAffected > 0;
     }
 
+    /**
+     * Finds a user by their userId.
+     * @param id The userId you are searching for.
+     * @return The user, which matches the userId you are searching for.
+     * @throws EmptyResultDataAccessException Throws an exception whenever you are searching for a userId that doesn't exist.
+     */
+
+    public User getUserByID(int id) throws EmptyResultDataAccessException{
+        String sql ="SELECT * FROM `User` WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql,userRowMapper(),id);
+    }
+
+
+
+    /**
+     * Updates settings for a user in the database.
+     * @param userId The id of an existing user.
+     * @param user An existing user in the database.
+     * @return User that was just updated in the database.
+     */
+
     public User updateUser(int userId, User user){
+        String sql ="UPDATE `User` SET `user_id`=?, `first_name`=?, `email`=?, `goal`=?, `last_name`=?, `activity_level`=?, `gender`=?, `weight`=?, `height`=?,  `age`=?, `role`=? WHERE id = ?";
+        jdbcTemplate.update(sql, user.getUserId(), user.getFirstName(), user.getEmail(), user.getGoal(), user.getLastName(), user.getActivityLevel(), user.getGender(), user.getWeight(), user.getHeight(), user.getAge(), user.getRole(), userId);
+        return getUserByID(userId);
 
     }
 
