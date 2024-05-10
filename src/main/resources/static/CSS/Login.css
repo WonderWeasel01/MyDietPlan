@@ -1,3 +1,12 @@
+
+
+.josefin-sans{
+  font-family: "Josefin Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+
 body{
     background-color: #E5EBF0;
     display: flex;
@@ -49,12 +58,12 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 30px;
     display: inline-flex;
 }
 
 .Logo {
-    width: 106px;
+    width: 123px;
     height: 123px;
 }
 
@@ -74,45 +83,50 @@ body{
     height: 342px;
 }
 
-.MinkostplanCom {
-    color: #79D779;
-    font-size: 30px;
-    font-family: Inter;
-    font-weight: 700;
-    word-wrap: break-word;
-}
+
 
 .Emaillabel,
 .Passwordlabel,
 .Forgotbutton,
 .Divider,
 .Createaccountlabel span {
-    color: black;
-    font-size: 20px;
-    font-family: Inter;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 15px;
+    font-family: Joselin Sans;
     font-weight: 400;
     word-wrap: break-word;
+
+}
+
+.NewUser{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }
 
 .Forgotbutton {
     text-align: right;
     color: rgba(121, 215, 121, 0.70);
-    font-size: 20px;
-    font-family: Inter;
+    font-size: 15px;
+    font-family: Joselin Sans;
     font-weight: 400;
     text-decoration: underline;
     word-wrap: break-word;
 }
 
+.CreateUserButton{
+    color: #A0E2A0;
+}
+
 .Loginbutton {
-    width: 349px;
-    height: 64px;
-    padding-left: 82px;
+    width: 100px;
+    height: 40px;
+    padding-left: 82px;     
     padding-right: 82px;
     padding-top: 2px;
     padding-bottom: 2px;
     background: #263136;
-    border-radius: 20px;
+    border-radius: 5px;
     overflow: hidden;
     justify-content: center;
     align-items: center;
@@ -122,7 +136,7 @@ body{
 
 .Loginlabel {
     color: white;
-    font-size: 20px;
+    font-size: 15px;
     font-family: Inter;
     font-weight: 700;
     word-wrap: break-word;
@@ -137,38 +151,12 @@ body{
     word-wrap: break-word;
 }
 
-
-.coolinput {
+.classinput{
     display: flex;
     flex-direction: column;
-    width: fit-content;
-    position: static;
-    max-width: 340px;
-    width: 200px;
-  }
-  
-  .coolinput label.text {
-    font-size: 0.75rem;
-    color: #79D779;
-    font-weight: 700;
-    position: relative;
-    top: 0.5rem;
-    margin: 0 0 0 7px;
-    padding: 0 3px;
-    background: #FBFBFB;
-    width: fit-content;
-  }
-  
-  .coolinput input[type=text],
-  .coolinput input[type=password],
-  .input {
-      padding: 11px 10px;
-      font-size: 0.75rem;
-      border: 2px #263135 solid;
-      border-radius: 5px;
-      background: #FBFBFB;
-  }
-  
-  .coolinput input[type=text].input:focus {
-    outline: none;
-  }
+    width: 250px;
+}
+
+.text{
+    color: #8f8f8f;
+}

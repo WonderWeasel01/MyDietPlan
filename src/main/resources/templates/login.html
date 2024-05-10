@@ -4,36 +4,45 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="/CSS/Login.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+    </style>
+
 </head>
 <body>
     <div class="Uibackground">
         <div class="Leftbox">
-            <img class="Logo" src="Images/PNGS/minkostplan-logo.png" />
             <div class="Header">Din billige vej til en skræddersyet kostplan</div>
             <img class="Img" src="Images/Svgs/diet-food-bowl-for-person-suffering-from-glycemic-disease.svg" />
         </div>
         <div class="Rightbox">
-            <div class="MinkostplanCom">MINKOSTPLAN.COM</div>
+            <img class="Logo" src="Images/PNGS/minkostplan-logo.png" />
             <form class="outer" >
-                <div class="coolinput">
+                <div class="classinput">
                     <label for="input"  class="text">E-Mail:</label>
                     <input type="text" id="email" class="input"></input>
                 </div>
-                <div class="coolinput">
+                <div class="classinput">
                     <label for="input" class="text">Kodeord:</label>
                     <input type="password" id="password" class="input"></input>
                 </div>
                 <div class="emailUsedError" role="alert">
                     <span ></span>
                 </div>
+                <div class="Forgotbutton">Glemt kodeord?</div>
             </form>
-            <div class="Forgotbutton">Glemt kodeord?</div>
+            
             <div class="Loginbutton">
                 <div class="Loginlabel">LOG IN</div>
             </div>
-            <div class="Divider">───── ELLER ─────</div>
+            <div class="Divider">───── Eller ─────</div>
             <div class="Createaccountlabel">
-                <span>Er du ny? </span><span>Opret en bruger</span>
+                <div class="NewUser">
+                    <div>Har du ikke en bruger? </div> 
+                    <div class="CreateUserButton">
+                        <a th:href="@{/opretBruger}"><div>Opret en bruger</div> </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
