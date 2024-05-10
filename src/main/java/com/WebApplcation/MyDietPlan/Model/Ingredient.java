@@ -4,13 +4,15 @@ public class Ingredient {
 
     int ingredientID;
     String name;
-    int carbohydratesPerHundredGrams;
-    int fatPerHundredGrams;
-    int proteinPerHundredGrams;
-    int caloriesPerHundredGrams;
     int weightGrams;
+    int proteinPerHundredGrams;
+    int fatPerHundredGrams;
+    int carbohydratesPerHundredGrams;
+    int caloriesPerHundredGrams;
+
 
     public Ingredient() {
+
     }
 
     public Ingredient(String name, int carbohydratesPerHundredGrams, int fatPerHundredGrams, int proteinPerHundredGrams, int caloriesPerHundredGrams, int weightGrams) {

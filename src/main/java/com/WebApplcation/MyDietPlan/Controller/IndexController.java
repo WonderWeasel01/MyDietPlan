@@ -12,10 +12,7 @@ public class IndexController {
         return "Index";
 }
 
-    @GetMapping("/login")
-    public String loginForm() {
-        return "login";
-    }
+
 
 
 }

@@ -5,51 +5,81 @@ import java.util.HashMap;
 
 public class Recipe {
 
-    int recipeID;
-    int totalCalories;
-    int totalCarbohydrates;
-    int totalFat;
-    int totalProtein;
-    String timeOfDay;
+    private int recipeID;
+    private String title;
+    private int totalCalories;
+    private int totalCarbohydrates;
+    private int totalFat;
+    private int totalProtein;
+    private String prepTime;
+    private String timeOfDay;
     // måske fil?
-    String instructions;
+    private String instructions;
+    private Boolean active;
 
-    Boolean active;
-
-    ArrayList<Ingredient> ingredientList = new ArrayList<>();
+    ArrayList<Ingredient> ingredientList;
 
     public Recipe() {
 
     }
 
-    public Recipe(String timeOfDay, String instructions, Boolean active, ArrayList<Ingredient> ingredientList) {
+    public Recipe(String prepTime, String timeOfDay, String instructions, Boolean active, ArrayList<Ingredient> ingredientList) {
+        this.prepTime = prepTime;
         this.timeOfDay = timeOfDay;
         this.instructions = instructions;
         this.active = active;
         this.ingredientList = ingredientList;
+
     }
 
-    public Recipe(int totalCalories, int totalCarbohydrates, int totalFat, int totalProtein, String timeOfDay, String instructions, ArrayList<Ingredient> ingredientList, boolean active) {
+    public Recipe(int totalCalories, int totalCarbohydrates, int totalFat, int totalProtein, String prepTime, String timeOfDay, String instructions, Boolean active, ArrayList<Ingredient> ingredientList) {
         this.totalCalories = totalCalories;
         this.totalCarbohydrates = totalCarbohydrates;
         this.totalFat = totalFat;
         this.totalProtein = totalProtein;
+        this.prepTime = prepTime;
         this.timeOfDay = timeOfDay;
         this.instructions = instructions;
-        this.ingredientList = ingredientList;
         this.active = active;
+        this.ingredientList = ingredientList;
     }
 
-    public Recipe(int recipeID, int totalCalories, int totalCarbohydrates, int totalFat, int totalProtein, String timeOfDay, String instructions, Boolean active, ArrayList<Ingredient> ingredientList) {
+    public Recipe(int recipeID, int totalCalories, int totalCarbohydrates, int totalFat, int totalProtein, String prepTime, String timeOfDay, String instructions, Boolean active, ArrayList<Ingredient> ingredientList) {
         this.recipeID = recipeID;
         this.totalCalories = totalCalories;
         this.totalCarbohydrates = totalCarbohydrates;
         this.totalFat = totalFat;
         this.totalProtein = totalProtein;
+        this.prepTime = prepTime;
         this.timeOfDay = timeOfDay;
         this.instructions = instructions;
         this.active = active;
         this.ingredientList = ingredientList;
+    }
+
+    public void calculateMacros(){
+        for (Ingredient ingredient : ingredientList) {
+            this.totalFat += ingredient.fatPerHundredGrams * (ingredient.weightGrams / 100);
+            this.totalProtein += ingredient.proteinPerHundredGrams * (ingredient.weightGrams / 100);
+            this.totalCarbohydrates += ingredient.carbohydratesPerHundredGrams * (ingredient.weightGrams / 100);
+            this.totalCalories += ingredient.caloriesPerHundredGrams * (ingredient.weightGrams / 100);
+        }
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getPrepTime() {
+        return prepTime;
+    }
+
+    public void setPrepTime(String prepTime) {
+        this.prepTime = prepTime;
     }
 
     public Boolean getActive() {

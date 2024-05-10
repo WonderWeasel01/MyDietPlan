@@ -72,7 +72,6 @@ body{
     height: 143px;
     color: black;
     font-size: 50px;
-    font-family: Inter;
     font-weight: 700;
     word-wrap: break-word;
     text-align: center;
@@ -92,7 +91,7 @@ body{
 .Createaccountlabel span {
     color: rgba(0, 0, 0, 0.5);
     font-size: 15px;
-    font-family: Joselin Sans;
+    font-family: Joselin Sans, serif;
     font-weight: 400;
     word-wrap: break-word;
 
@@ -101,6 +100,7 @@ body{
 .NewUser{
     display: flex;
     flex-direction: row;
+    font-family: Josefin Sans, serif;
     gap: 10px;
 }
 
@@ -108,7 +108,7 @@ body{
     text-align: right;
     color: rgba(121, 215, 121, 0.70);
     font-size: 15px;
-    font-family: Joselin Sans;
+    font-family: Joselin Sans, serif;
     font-weight: 400;
     text-decoration: underline;
     word-wrap: break-word;
@@ -137,7 +137,7 @@ body{
 .Loginlabel {
     color: white;
     font-size: 15px;
-    font-family: Inter;
+    font-family: Josefin Sans, serif;
     font-weight: 700;
     word-wrap: break-word;
 }
@@ -145,7 +145,7 @@ body{
 .Createaccountlabel span {
     color: rgba(121, 215, 121, 0.70);
     font-size: 20px;
-    font-family: Inter;
+    font-family: Josefin sans, serif;
     font-weight: 400;
     text-decoration: underline;
     word-wrap: break-word;
@@ -159,4 +159,5 @@ body{
 
 .text{
     color: #8f8f8f;
+    font-family: Josefin sans, serif;
 }

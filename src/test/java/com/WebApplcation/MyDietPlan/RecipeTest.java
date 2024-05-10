@@ -39,7 +39,7 @@ class RecipeTest {
 	public void setUp() {
 		MockitoAnnotations.initMocks(this); // Initializes objects annotated with Mockito annotations
 		testIngredient = new Ingredient("Apple", 25, 0, 0, 52, 150);
-		testRecipe = new Recipe(200, 30, 10, 5, "Breakfast", "Chop apples and mix with yogurt", new ArrayList<>(Arrays.asList(testIngredient)), true);
+		testRecipe = new Recipe(200, 30, 10, 5, "Breakfast", "Chop apples and mix with yogurt", "30 mins", true, new ArrayList<>(Arrays.asList(testIngredient)) );
 
 		// Additional logging to confirm setup success
 		System.out.println("Setup complete with Recipe: " + testRecipe);

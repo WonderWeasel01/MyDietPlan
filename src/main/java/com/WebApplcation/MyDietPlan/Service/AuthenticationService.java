@@ -25,11 +25,21 @@ public class AuthenticationService {
     }
 
 
-
+    /**
+     *
+     * @param user A user with information to put in the database
+     * @return Returns the user with an auto generated id attached.
+     * @throws InputAlreadyExistsException If the given users email already exists in the database
+     * @throws SystemErrorException If the system cant connect to database, sql errors etc.
+     * @throws MissingInputException If the given user is missing important information.
+     */
     public User createUser(User user) throws InputAlreadyExistsException, SystemErrorException, MissingInputException {
+        if(user == null){
+            throw new MissingInputException("Missing inputs");
+        }
+
         try{
             String hashedPassword = hashPassword(user.getPassword());
-
             user.setPassword(hashedPassword);
             user.setRole("User");
             return ur.createUser(user);

@@ -71,18 +71,21 @@ public class RecipeRepository {
      */
 
     public Recipe createRecipe(Recipe recipe){
-        String sql = "INSERT INTO `Recipe`(`time_of_day`, `total_calories`, `total_protein`, `total_fat`, `total_carbohydrates`, `active`) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO `Recipe`(`time_of_day`,`recipe_title`,`prep_time`, `total_calories`, `total_protein`, `total_fat`, `total_carbohydrates`, `active`) " +
+                "VALUES (?,?,?,?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         //insert the recipe into the database
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, recipe.getTimeOfDay());
-            ps.setInt(2, recipe.getTotalCalories());
-            ps.setInt(3, recipe.getTotalFat());
-            ps.setInt(4, recipe.getTotalProtein());
-            ps.setInt(5,recipe.getTotalCarbohydrates());
-            ps.setBoolean(6,recipe.getActive());
+            ps.setString(2,recipe.getTitle());
+            ps.setString(3,recipe.getPrepTime());
+            ps.setInt(4, recipe.getTotalCalories());
+            ps.setInt(5, recipe.getTotalFat());
+            ps.setInt(6, recipe.getTotalProtein());
+            ps.setInt(7,recipe.getTotalCarbohydrates());
+            ps.setBoolean(8,recipe.getActive());
 
             return ps;
         }, keyHolder);

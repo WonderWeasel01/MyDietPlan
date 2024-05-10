@@ -1,4 +1,128 @@
-h1{
-    object-fit: center;
-    object-position: center;
+.Forside {
+    width: 1280px;
+    height: 2082px;
+    padding: 40px 10px;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
+.Mainframe {
+    width: 1206px;
+    height: 946px;
+    padding: 10px;
+    background: #E9FBEB;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+.Header {
+    width: 1122px;
+    height: 90px;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.Logo {
+    width: 79px;
+    height: 82px;
+}
+.MinProfil {
+    padding: 20px 200px 10px 43px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.Homeframe, .Mealplan, .KomIgangButton, .Login {
+    padding: 20px 35px 10px 43px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.Hometext, .Mealplantext, .KomIgang, .Login {
+    font-size: 32px;
+    font-family: Josefin Sans, sans-serif;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+.KomIgang {
+    font-weight: 600;
+    color: black;
+    text-decoration: underline;
+}
+.LoginButton a:link, .LoginButton a:visited{
+    font-weight: 600;
+    color: black;
+    text-decoration: none;
+}
+
+.Middleframe {
+    width: 1119px;
+    height: 403px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Leftframe {
+    padding: 117px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+.SundeMadretterAlleUgensDage, .FDinHeltEgenSkrDdersyetKostplanForKun49krOmUgenFDeFRste30DageHeltGratis {
+    color: black;
+    font-family: Josefin Sans;
+    word-wrap: break-word;
+}
+.SundeMadretterAlleUgensDage {
+    width: 447px;
+    height: 118px;
+    font-size: 48px;
+    font-weight: 400;
+}
+.FDinHeltEgenSkrDdersyetKostplanForKun49krOmUgenFDeFRste30DageHeltGratis {
+    width: 400px;
+    height: 60px;
+    font-size: 16px;
+}
+
+
+.Mainframe {
+    width: 100%;
+    height: 946px;
+    padding: 10px;
+    background: #E9FBEB;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+
+.Foodbowl1{
+    height: 300px;
+}
+
+.Yoghurt, .CaesarSalad, .Salmonbowl{
+    height: 150px;
+
+}
+
+.CaesarSaladText, .salmonText, .YoghurtText{
+    text-align: center;
+    font-family: Josefin Sans, sans-serif;
+}
+
+
+.Mealshowcase {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+}
+

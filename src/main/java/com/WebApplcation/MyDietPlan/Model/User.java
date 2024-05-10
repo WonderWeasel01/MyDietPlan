@@ -16,9 +16,8 @@ public class User {
     private String activityLevel;
     private String goal;
     private String role;
-
-
-    ArrayList<Recipe> favoriteRecipes = new ArrayList<Recipe>();
+    private WeeklyDietPlan wdp;
+    ArrayList<Recipe> favoriteRecipes = new ArrayList<>();
 
   public User() {
     }
@@ -50,6 +49,14 @@ public class User {
         this.activityLevel = activityLevel;
         this.goal = goal;
         this.role = role;
+    }
+
+    public WeeklyDietPlan getWdp() {
+        return wdp;
+    }
+
+    public void setWdp(WeeklyDietPlan wdp) {
+        this.wdp = wdp;
     }
 
     public String getPassword() {
