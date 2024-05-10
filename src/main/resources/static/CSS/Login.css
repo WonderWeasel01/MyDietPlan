@@ -155,9 +155,31 @@ body{
     display: flex;
     flex-direction: column;
     width: 250px;
+    margin-top: 10px;
+}
+.input{
+    width: 240px;
+    height: 30px;
+    margin-left: auto;
+    margin-right: auto;
+
 }
 
 .text{
     color: #8f8f8f;
     font-family: Josefin sans, serif;
+}
+
+.outer{
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+.Form{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 20px;
 }
