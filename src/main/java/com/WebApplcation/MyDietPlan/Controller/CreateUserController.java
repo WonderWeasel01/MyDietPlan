@@ -37,7 +37,7 @@ public class CreateUserController {
     public String createUser(@ModelAttribute User user, RedirectAttributes redirectAttributes){
         try{
             as.createUser(user);
-            return "redirect:/Index";
+            return "redirect:/";
         } catch (InputAlreadyExistsException e) {
             redirectAttributes.addFlashAttribute("emailExistError", "Email bruges allerede!");
         } catch (SystemErrorException e) {

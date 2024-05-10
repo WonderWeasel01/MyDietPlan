@@ -10,8 +10,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.mindrot.jbcrypt.BCrypt;
 
-import java.sql.SQLException;
+
 
 @Service
 public class AuthenticationService {
@@ -27,6 +28,9 @@ public class AuthenticationService {
 
     public User createUser(User user) throws InputAlreadyExistsException, SystemErrorException, MissingInputException {
         try{
+            String hashedPassword = hashPassword(user.getPassword());
+
+            user.setPassword(hashedPassword);
             user.setRole("User");
             return ur.createUser(user);
         } catch(DuplicateKeyException e){
@@ -39,6 +43,10 @@ public class AuthenticationService {
             e.printStackTrace();
             throw new SystemErrorException("An error occured on our side");
         }
+    }
+
+    public String hashPassword(String password){
+        return BCrypt.hashpw(password,BCrypt.gensalt());
     }
 /*
     public boolean validateUser(){

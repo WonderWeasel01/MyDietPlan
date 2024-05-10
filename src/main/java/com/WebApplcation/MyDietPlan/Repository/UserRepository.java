@@ -25,21 +25,22 @@ public class UserRepository {
      * @return The user that was insert into the database, with the auto-generated id attached.
      */
     public User createUser(User user){
-        String sql = "INSERT INTO `User`(`email`, `first_name`, `last_name`, `gender`, `height`, `weight`, `age`, `activity_level`, `goal`, `role`)" +
-                " VALUES (?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO `User`(`email`, `password`,`first_name`, `last_name`, `gender`, `height`, `weight`, `age`, `activity_level`, `goal`, `role`)" +
+                " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getEmail());
-            ps.setString(2, user.getFirstName());
-            ps.setString(3, user.getLastName());
-            ps.setString(4, String.valueOf(user.getGender()));
-            ps.setInt(5, user.getHeight());
-            ps.setInt(6, user.getWeight());
-            ps.setInt(7, user.getAge());
-            ps.setString(8, user.getActivityLevel());
-            ps.setString(9, user.getGoal());
-            ps.setString(10,user.getRole());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getFirstName());
+            ps.setString(4, user.getLastName());
+            ps.setString(5, String.valueOf(user.getGender()));
+            ps.setInt(6, user.getHeight());
+            ps.setInt(7, user.getWeight());
+            ps.setInt(8, user.getAge());
+            ps.setString(9, user.getActivityLevel());
+            ps.setString(10, user.getGoal());
+            ps.setString(11,user.getRole());
             return ps;
         }, keyHolder);
 

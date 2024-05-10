@@ -6,6 +6,7 @@ public class User {
 
     private int userId;
     private String email;
+    private String password;
     private String firstName;
     private String lastName;
     private char gender;
@@ -22,39 +23,41 @@ public class User {
   public User() {
     }
 
-
-    public User(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public User(String firstName, String lastName, String email, char gender, int height, int weight, int age, String role, String activityLevel, String goal, ArrayList<Recipe> favoriteRecipes) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String email, String password, String firstName, String lastName, char gender, int height, int weight, int age, String activityLevel, String goal, String role) {
         this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.gender = gender;
         this.height = height;
         this.weight = weight;
         this.age = age;
-        this.role = role;
         this.activityLevel = activityLevel;
         this.goal = goal;
-        this.favoriteRecipes = favoriteRecipes;
+        this.role = role;
     }
 
-    public User(int userId, String firstName, String lastName, String email, char gender, int height, int weight, int age, String role, String activityLevel, String goal, ArrayList<Recipe> favoriteRecipes) {
+    public User(int userId, String email, String password, String firstName, String lastName, char gender, int height, int weight, int age, String activityLevel, String goal, String role) {
         this.userId = userId;
+        this.email = email;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
         this.gender = gender;
         this.height = height;
         this.weight = weight;
         this.age = age;
-        this.role = role;
         this.activityLevel = activityLevel;
         this.goal = goal;
-        this.favoriteRecipes = favoriteRecipes;
+        this.role = role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getUserId() {
