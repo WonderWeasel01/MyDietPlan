@@ -3,86 +3,71 @@ package com.WebApplcation.MyDietPlan;
 import com.WebApplcation.MyDietPlan.Model.Ingredient;
 import com.WebApplcation.MyDietPlan.Model.Recipe;
 import com.WebApplcation.MyDietPlan.Repository.RecipeRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 class RecipeTest {
-	@Mock
-	private JdbcTemplate jdbcTemplate;
-	@Mock
-	private GeneratedKeyHolder keyHolder;
 
 	@InjectMocks
 	private RecipeRepository recipeRepository;
 
+	@Mock
+	private JdbcTemplate jdbcTemplate;
 
-	@Test
-	public void testCreateRecipeMorning() {
+	private Recipe testRecipe;
+	private Ingredient testIngredient;
 
-		Ingredient chickenBreast = new Ingredient("Chicken",0,2,20,98,200);
-		Ingredient salat = new Ingredient("Salat",3,1,0,15,100);
+	@BeforeEach
+	public void setUp() {
+		MockitoAnnotations.initMocks(this); // Initializes objects annotated with Mockito annotations
+		testIngredient = new Ingredient("Apple", 25, 0, 0, 52, 150);
+		testRecipe = new Recipe(200, 30, 10, 5, "Breakfast", "Chop apples and mix with yogurt", new ArrayList<>(Arrays.asList(testIngredient)), true);
 
-		ArrayList<Ingredient> ingredientList = new ArrayList<>();
-		ingredientList.add(chickenBreast);
-		ingredientList.add(salat);
-
-		Recipe recipe = new Recipe(540,20,60,30,"Morgen", "Boil", ingredientList,false);
-
-		// Mock the jdbcTemplate.update method to return 1. 1 = succesful insertion in database
-		when(jdbcTemplate.update(any(), any(), any())).thenReturn(1);
-
-		// Mock the keyHolder.getKey method to return 123. Simulates that the auto generated key in the database = 123
-		when(keyHolder.getKey()).thenReturn(123);
-
-		Recipe result = recipeRepository.createRecipe(recipe);
-
-		// Assert if the original recipe is equal to the recipe returned by createRecipe().
-		assertEquals(recipe.getIngredientList(),result.getIngredientList());
-		assertEquals(123,result.getRecipeID());
-
-
+		// Additional logging to confirm setup success
+		System.out.println("Setup complete with Recipe: " + testRecipe);
 	}
 
-	/*
 	@Test
-	public void testCreateRecipeWithNullGeneratedKey() {
-		Ingredient chickenBreast = new Ingredient("Chicken",0,2,20,98,200);
-		Ingredient salat = new Ingredient("Salat",3,1,0,15,100);
+	public void testCreateRecipe() {
+		// Prepare the mocks
+		GeneratedKeyHolder keyHolder = mock(GeneratedKeyHolder.class);
+		when(jdbcTemplate.update(any(), any(KeyHolder.class))).thenAnswer(invocation -> {
+			PreparedStatement ps = invocation.getArgument(0, PreparedStatementCreator.class).createPreparedStatement(null);
+			ps.executeUpdate();
+			return 1; // Ensures that update is considered executed
+		});
+		when(keyHolder.getKey()).thenReturn(1);
 
-		ArrayList<Ingredient> ingredientList = new ArrayList<>();
-		ingredientList.add(chickenBreast);
-		ingredientList.add(salat);
+		// Execute the method
+		Recipe result = recipeRepository.createRecipe(testRecipe);
 
-		Recipe recipe = new Recipe(540,20,60,30,"Morgen", "Boil", ingredientList,false);
+		// Assert and verify
+		assertNotNull(result);
+		assertEquals(1, result.getRecipeID());
+		verify(jdbcTemplate, times(1)).update(any(), any(KeyHolder.class)); // Verifying interaction
+		verify(jdbcTemplate, times(testRecipe.getIngredientList().size())).update(anyString(), eq(1), anyInt()); // Verifying ingredients update
 
-		when(jdbcTemplate.update(any(), any(), any())).thenReturn(1);
-		when(jdbcTemplate.update(any(), any(), any(), any(KeyHolder.class))).thenReturn(0); // Simulate null generated key
-
-		// Act
-		Recipe result = yourClass.createRecipe(recipe);
-
-		// Assert
-		// Add assertions to verify that the method handles null generated key appropriately
+		System.out.println("Test completed successfully with Recipe ID: " + result.getRecipeID());
 	}
 
-
-	 */
 
 
 

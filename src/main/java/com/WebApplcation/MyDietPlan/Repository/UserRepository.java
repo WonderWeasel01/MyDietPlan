@@ -6,10 +6,11 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-
+@Repository
 public class UserRepository {
 
     private JdbcTemplate jdbcTemplate;
@@ -24,20 +25,21 @@ public class UserRepository {
      * @return The user that was insert into the database, with the auto-generated id attached.
      */
     public User createUser(User user){
-        String sql = "INSERT INTO `User`(`first_name`, `email`, `goal`, `last_name`, `activity_level`, `gender`, `weight`, `age`, `role`) " +
-                "VALUES (?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO `User`(`email`, `first_name`, `last_name`, `gender`, `height`, `weight`, `age`, `activity_level`, `goal`, `role`)" +
+                " VALUES (?,?,?,?,?,?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, user.getFirstName());
-            ps.setString(2, user.getEmail());
-            ps.setString(3, user.getGoal());
-            ps.setString(4, user.getLastName());
-            ps.setString(5, user.getActivityLevel());
-            ps.setString(6, String.valueOf(user.getGender()));
-            ps.setDouble(7, user.getWeight());
-            ps.setInt(8, user.getAge());
-            ps.setString(9, user.getRole());
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getFirstName());
+            ps.setString(3, user.getLastName());
+            ps.setString(4, String.valueOf(user.getGender()));
+            ps.setInt(5, user.getHeight());
+            ps.setInt(6, user.getWeight());
+            ps.setInt(7, user.getAge());
+            ps.setString(8, user.getActivityLevel());
+            ps.setString(9, user.getGoal());
+            ps.setString(10,user.getRole());
             return ps;
         }, keyHolder);
 
@@ -102,9 +104,9 @@ public class UserRepository {
             user.setUserId(rs.getInt("user_id "));
             user.setFirstName(rs.getString("first_name"));
             user.setEmail(rs.getString("email"));
-            user.setGoals(rs.getString("goal"));
+            user.setGoal(rs.getString("goal"));
             user.setLastName(rs.getString("last_name"));
-            user.setHeight(rs.getInt("activity_level"));
+            user.setActivityLevel(rs.getString("activity_level"));
             user.setGender(rs.getString("gender").charAt(0));
             user.setWeight(rs.getInt("weight"));
             user.setHeight(rs.getInt("height"));

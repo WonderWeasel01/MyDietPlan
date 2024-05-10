@@ -4,7 +4,9 @@ import com.WebApplcation.MyDietPlan.Model.Recipe;
 import com.WebApplcation.MyDietPlan.Repository.RecipeRepository;
 import com.WebApplcation.MyDietPlan.Repository.UserRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AdminService {
     /*
     private RecipeRepository rr = new RecipeRepository( new JdbcTemplate());

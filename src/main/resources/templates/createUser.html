@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Opret bruger</title>
+</head>
+<body>
+<form class="outer" action="#" th:action="@{/opretBruger}" th:object="${user}" method="post">
+    <label for="emailLabel" class="text">Email:</label>
+    <input type="text" id="emailLabel" th:field="*{email}" class="input"></input>
+
+    <label for="firstNameLabel" class="text">Fornavn:</label>
+    <input type="text" id="firstNameLabel" th:field="*{firstName}" class="input"></input>
+
+    <label for="lastNameLabel" class="text">Efternavn:</label>
+    <input type="text" id="lastNameLabel" th:field="*{lastName}" class="input"></input>
+
+    <div class="genderDropdown">Køn</div>
+    <select id="genderDropdown" name="genderSelect" th:field="*{gender}">
+        <option value="M">Mand</option>
+        <option value="F">Kvinde</option>
+    </select>
+
+
+    <label for="heightLabel" class="text">Højde:</label>
+    <input type="text" id="heightLabel" th:field="*{height}" class="input"></input>
+
+    <label for="weightLabel" class="text">Vægt(kg):</label>
+    <input type="text" id="weightLabel" th:field="*{weight}" class="input"></input>
+
+    <label for="ageLabel" class="text">Alder:</label>
+    <input type="text" id="ageLabel" th:field="*{age}" class="input"></input>
+
+    <label for="activityDropdown"></label>
+    <select id="activityDropdown" name="activitySelect" th:field="*{activityLevel}">
+        <option value="No exercise">Ingen aktivitet</option>
+        <option value="Light activity">Let aktivitet</option>
+        <option value="Average activity">Middel aktivitet</option>
+        <option value="Intense activity">Intens aktivitet</option>
+        <option value="Extreme activity">Ekstrem aktivitet</option>
+    </select>
+    <label for="goalDropdown"> </label>
+    <select id="goalDropdown" name="activitySelect" th:field="*{goal}">
+        <option value="Build muscle">Opbyg muskler</option>
+        <option value="Loose weight">Tab vægt</option>
+        <option value="Increase weight">Øg din vægt</option>
+        <option value="Maintain weight">Hold vægten</option>
+    </select>
+
+    <button type="submit" class="NextButton">
+        <div class="NSte">OPRET KONTO</div>
+    </button>
+</form>
+</body>
+</html>

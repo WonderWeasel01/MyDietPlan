@@ -5,16 +5,16 @@ import java.util.ArrayList;
 public class User {
 
     private int userId;
+    private String email;
     private String firstName;
     private String lastName;
-    private String email;
     private char gender;
     private int height;
     private int weight;
     private int age;
-    private String role;
     private String activityLevel;
     private String goal;
+    private String role;
 
 
     ArrayList<Recipe> favoriteRecipes = new ArrayList<Recipe>();
@@ -141,7 +141,7 @@ public class User {
         return goal;
     }
 
-    public void setGoals(String goal) {
+    public void setGoal(String goal) {
         this.goal = goal;
     }
 

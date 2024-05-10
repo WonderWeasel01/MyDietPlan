@@ -2,10 +2,11 @@ package com.WebApplcation.MyDietPlan.Service;
 
 import com.WebApplcation.MyDietPlan.Model.Recipe;
 import com.WebApplcation.MyDietPlan.Repository.RecipeRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+@Service
 public class WebsiteService {
     /*
     private RecipeRepository rr;

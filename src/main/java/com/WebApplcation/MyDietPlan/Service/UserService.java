@@ -3,7 +3,9 @@ package com.WebApplcation.MyDietPlan.Service;
 import com.WebApplcation.MyDietPlan.Model.Recipe;
 import com.WebApplcation.MyDietPlan.Model.User;
 import com.WebApplcation.MyDietPlan.Repository.UserRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService {
 /*
     private User user;

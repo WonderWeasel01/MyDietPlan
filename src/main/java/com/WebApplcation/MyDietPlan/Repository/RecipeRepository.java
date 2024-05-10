@@ -7,13 +7,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+@Repository
 public class RecipeRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -79,7 +80,7 @@ public class RecipeRepository {
             ps.setString(1, recipe.getTimeOfDay());
             ps.setInt(2, recipe.getTotalCalories());
             ps.setInt(3, recipe.getTotalFat());
-            ps.setInt(4, recipe.getTotalFat());
+            ps.setInt(4, recipe.getTotalProtein());
             ps.setInt(5,recipe.getTotalCarbohydrates());
             ps.setBoolean(6,recipe.getActive());
 
