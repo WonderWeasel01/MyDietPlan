@@ -56,11 +56,19 @@ public class AuthenticationService {
     public String hashPassword(String password){
         return BCrypt.hashpw(password,BCrypt.gensalt());
     }
-/*
-    public boolean validateUser(){
 
+    public boolean validateUser(String email, String password){
+
+        String hashedPassword = ur.getPasswordByEmail(email);
+        return BCrypt.checkpw(password, hashedPassword);
     }
 
+    public  void loginUser(String email){
+        user = ur.getUserByEmail(email);
+    }
+
+
+/*
     public boolean logout(){
 
     }
@@ -72,7 +80,7 @@ public class AuthenticationService {
     public int calculateAge(int dateOfBirth){
 
     }
+ */
 
 
-*/
 }

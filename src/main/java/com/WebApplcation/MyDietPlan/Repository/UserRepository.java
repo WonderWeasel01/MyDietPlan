@@ -80,6 +80,22 @@ public class UserRepository {
     }
 
 
+    /**
+     * Finds a user by their email.
+     * @param email The email you are searching for.
+     * @return The user, which matches the email you are searching for.
+     * @throws EmptyResultDataAccessException Throws an exception whenever you are searching for an email that doesn't exist.
+     */
+    public User getUserByEmail(String email) throws EmptyResultDataAccessException{
+        String sql ="SELECT * FROM `User` WHERE email = ?";
+        return jdbcTemplate.queryForObject(sql,userRowMapper(),email);
+
+    }
+
+    public String getPasswordByEmail(String email) throws EmptyResultDataAccessException{
+        String sql = "SELECT password FROM `User` WHERE email = ?";
+        return jdbcTemplate.queryForObject(sql,new Object[]{email},  String.class);
+    }
 
     /**
      * Updates settings for a user in the database.

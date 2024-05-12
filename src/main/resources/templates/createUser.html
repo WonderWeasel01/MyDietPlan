@@ -3,56 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <title>Opret bruger</title>
+    <link rel="stylesheet" type="text/css" href="/CSS/Login.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+    </style>
 </head>
 <body>
-<form class="outer" action="#" th:action="@{/opretBruger}" th:object="${user}" method="post">
-    <label for="emailLabel" class="text">Email:</label>
-    <input type="text" id="emailLabel" th:field="*{email}" class="input"></input>
+    <div class="Uibackground">
+        <div class="Leftbox">
+            <div class="Header">Din billige vej til en skræddersyet kostplan</div>
+            <img class="Img" src="Images/Svgs/diet-food-bowl-for-person-suffering-from-glycemic-disease.svg" />
+        </div>
+        <div class="Rightbox">
+            <img class="Logo" src="Images/PNGS/minkostplan-logo.png" />
+            <form class="outer classinput" action="#" th:action="@{/opretBruger}" th:object="${user}" method="post">
+                <div class="Form">
+                    <div class="Step1">
+                        <label for="emailLabel" class="text">Email:</label>
+                        <input type="text" id="emailLabel" th:field="*{email}" class="input"></input>
+                    
+                        <label for="passwordLabel" class="text">Password:</label>
+                        <input type="password" id="passwordLabel" th:field="*{password}" class="input"></input>
+                        
+                        <div class="Button" id="Step1">
+                            <div class="ButtonLabel">Næste</div>
+                        </div>
+                        <script>
+                            document.getElementById("Step1").addEventListener("click", function() {
+                                // Add the "Step2" class to the element to make it visible
+                                document.querySelector(".Step2").style.display = "flex";
+                                document.querySelector(".Step1").style.display = "none";
+                            });
+                        </script>
+                        
 
-    <label for="passwordLabel" class="text">Password:</label>
-    <input type="password" id="passwordLabel" th:field="*{password}" class="input"></input>
+                    </div>
 
-    <label for="firstNameLabel" class="text">Fornavn:</label>
-    <input type="text" id="firstNameLabel" th:field="*{firstName}" class="input"></input>
+                    <div class="Step2">
+                        <label for="firstNameLabel" class="text">Fornavn:</label>
+                        <input type="text" id="firstNameLabel" th:field="*{firstName}" class="input"></input>
+                    
+                        <label for="lastNameLabel" class="text">Efternavn:</label>
+                        <input type="text" id="lastNameLabel" th:field="*{lastName}" class="input"></input>
 
-    <label for="lastNameLabel" class="text">Efternavn:</label>
-    <input type="text" id="lastNameLabel" th:field="*{lastName}" class="input"></input>
+                        <div class="Button" id="Step2">
+                            <div class="ButtonLabel">Næste</div>
+                        </div>
+                        <script>
+                            document.getElementById("Step2").addEventListener("click", function() {
+                                // Add the "Step2" class to the element to make it visible
+                                document.querySelector(".Step3").style.display = "flex";
+                                document.querySelector(".Step2").style.display = "none";
+                            });
+                        </script>
 
-    <div class="genderDropdown">Køn</div>
-    <select id="genderDropdown" name="genderSelect" th:field="*{gender}">
-        <option value="M">Mand</option>
-        <option value="F">Kvinde</option>
-    </select>
+                    </div>
+
+                    <div class="Step3">
+                        <div class="genderDropdown">Køn</div>
+                        <select id="genderDropdown" name="genderSelect" th:field="*{gender}">
+                            <option value="M">Mand</option>
+                            <option value="F">Kvinde</option>
+                        </select>
+                   
+                
+                    
+                            <label for="heightLabel" class="text">Højde:</label>
+                            <input type="text" id="heightLabel" th:field="*{height}" class="input"></input>
+                        
+                            <label for="weightLabel" class="text">Vægt(kg):</label>
+                            <input type="text" id="weightLabel" th:field="*{weight}" class="input"></input>
+                        
+                            <label for="ageLabel" class="text">Alder:</label>
+                            <input type="text" id="ageLabel" th:field="*{age}" class="input"></input>
+
+                            <div class="Button" id="Step3">
+                                <div class="ButtonLabel">Næste</div>
+                            </div>
+                            <script>
+                                document.getElementById("Step3").addEventListener("click", function() {
+                                    // Add the "Step2" class to the element to make it visible
+                                    document.querySelector(".Step4").style.display = "flex";
+                                    document.querySelector(".Step3").style.display = "none";
+                                });
+                            </script>
+
+                    </div>
+                    <div class="Step4">
+                            <label for="activityDropdown"></label>
+                            <select id="activityDropdown" name="activitySelect" th:field="*{activityLevel}">
+                                <option value="No exercise">Ingen aktivitet</option>
+                                <option value="Light activity">Let aktivitet</option>
+                                <option value="Average activity">Middel aktivitet</option>
+                                <option value="Intense activity">Intens aktivitet</option>
+                                <option value="Extreme activity">Ekstrem aktivitet</option>
+                            </select>
+                            <label for="goalDropdown"> </label>
+                            <select id="goalDropdown" name="activitySelect" th:field="*{goal}">
+                                <option value="Build muscle">Opbyg muskler</option>
+                                <option value="Loose weight">Tab vægt</option>
+                                <option value="Increase weight">Øg din vægt</option>
+                                <option value="Maintain weight">Hold vægten</option>
+                            </select>
+
+                            <button type="submit" class="Button">
+                                <div class="ButtonLabel">OPRET KONTO</div>
+                            </button>
+
+                    </div>
+                </div>
+
+            </form>
+            
+
+            <div class="Divider">───── Eller ─────</div>
+            <div class="Createaccountlabel">
+                <div class="NewUser">
+                    <div>Har du allerede en bruger? </div> 
+                    <div class="CreateUserButton">
+                        <a th:href="@{/login}"><div>Log in</div> </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
 
 
-    <label for="heightLabel" class="text">Højde:</label>
-    <input type="text" id="heightLabel" th:field="*{height}" class="input"></input>
 
-    <label for="weightLabel" class="text">Vægt(kg):</label>
-    <input type="text" id="weightLabel" th:field="*{weight}" class="input"></input>
 
-    <label for="ageLabel" class="text">Alder:</label>
-    <input type="text" id="ageLabel" th:field="*{age}" class="input"></input>
 
-    <label for="activityDropdown"></label>
-    <select id="activityDropdown" name="activitySelect" th:field="*{activityLevel}">
-        <option value="No exercise">Ingen aktivitet</option>
-        <option value="Light activity">Let aktivitet</option>
-        <option value="Average activity">Middel aktivitet</option>
-        <option value="Intense activity">Intens aktivitet</option>
-        <option value="Extreme activity">Ekstrem aktivitet</option>
-    </select>
-    <label for="goalDropdown"> </label>
-    <select id="goalDropdown" name="activitySelect" th:field="*{goal}">
-        <option value="Build muscle">Opbyg muskler</option>
-        <option value="Loose weight">Tab vægt</option>
-        <option value="Increase weight">Øg din vægt</option>
-        <option value="Maintain weight">Hold vægten</option>
-    </select>
 
-    <button type="submit" class="NextButton">
-        <div class="NSte">OPRET KONTO</div>
-    </button>
-</form>
+
 </body>
 </html>

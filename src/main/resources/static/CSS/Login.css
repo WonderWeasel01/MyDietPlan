@@ -86,15 +86,18 @@ body{
 
 .Emaillabel,
 .Passwordlabel,
-.Forgotbutton,
-.Divider,
-.Createaccountlabel span {
+.Forgotbutton{
     color: rgba(0, 0, 0, 0.5);
     font-size: 15px;
     font-family: Joselin Sans, serif;
     font-weight: 400;
     word-wrap: break-word;
+    margin-bottom: 20px;
 
+}
+
+.Createaccountlabel span {
+margin: 0;
 }
 
 .NewUser{
@@ -118,11 +121,9 @@ body{
     color: #A0E2A0;
 }
 
-.Loginbutton {
-    width: 100px;
+.Button {
+    width: 250px;
     height: 40px;
-    padding-left: 82px;     
-    padding-right: 82px;
     padding-top: 2px;
     padding-bottom: 2px;
     background: #263136;
@@ -134,7 +135,7 @@ body{
     display: inline-flex;
 }
 
-.Loginlabel {
+.ButtonLabel {
     color: white;
     font-size: 15px;
     font-family: Josefin Sans, serif;
@@ -162,6 +163,8 @@ body{
     height: 30px;
     margin-left: auto;
     margin-right: auto;
+    border-radius: 5px;
+    border: 1px solid #263136;
 
 }
 
@@ -180,6 +183,35 @@ body{
 .Form{
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
     margin-top: 20px;
+}
+
+.Step1{
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+ 
+}
+
+.Step2{
+    gap: 10px;
+    display: none;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.Step3{
+    gap: 10px;
+    display: none;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.Step4{
+    gap: 10px;
+    display: none;
+    flex-direction: column;
+    margin-bottom: 20px;
 }
