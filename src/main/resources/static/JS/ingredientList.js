@@ -11,18 +11,18 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function populateIngredientsDropdown() {
-    const select = document.getElementById('ingredientSelect');
-    const ingredients = [
-        { id: 1, name: 'Tomato' },
-        { id: 2, name: 'Cheese' },
-        { id: 3, name: 'Basil' }
-    ];
-    ingredients.forEach(ingredient => {
-        const option = document.createElement('option');
-        option.value = ingredient.id;
-        option.textContent = ingredient.name;
-        select.appendChild(option);
-    });
+    fetch('/admin')
+        .then(response => response.json())
+        .then(ingredients => {
+            const select = document.getElementById('ingredientSelect');
+            ingredients.forEach(ingredient => {
+                const option = document.createElement('option');
+                option.value = ingredient.id;
+                option.textContent = ingredient.name;
+                select.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error loading ingredients:', error));
 }
 
 function addIngredientToList() {

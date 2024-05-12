@@ -56,10 +56,13 @@
                         <input type="file" id="pictureURL" th:field="*{pictureURL}" accept="image/*">
                     </div>
                     <div class="Addingredientsbuttonframe">
-                        <h2>Add Ingredients to Recipe</h2>
+                        <h2>Tilføj ingrediens til opskrift</h2>
                         <select id="ingredientSelect">
+                            <option th:each="ingredient : ${ingredients}"
+                                    th:value="${ingredient.ingredientID}"
+                                    th:text="${ingredient.name}">Ingredient Name</option>
                         </select>
-                        <button type="button" id="addIngredientBtn" onclick="addIngredientToList()">Add Ingredient</button>
+                        <button type="button" id="addIngredientBtn" onclick="addIngredientToList()">Tilføj ingrediens</button>
                         <form id="recipeForm">
                             <ul id="ingredientList">
                             </ul>
@@ -71,6 +74,6 @@
         </div>
     </div>
 </div>
-<script src="src/main/resources/static/JS/ingredientList.js" defer></script>
+<script src="/JS/ingredientList.js" defer></script>
 </body>
 </html>
