@@ -1,7 +1,6 @@
 package com.WebApplcation.MyDietPlan.Service;
 
-import com.WebApplcation.MyDietPlan.Exception.InputAlreadyExistsException;
-import com.WebApplcation.MyDietPlan.Exception.MissingInputException;
+import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Model.User;
 import com.WebApplcation.MyDietPlan.Repository.UserRepository;
@@ -29,13 +28,12 @@ public class AuthenticationService {
      *
      * @param user A user with information to put in the database
      * @return Returns the user with an auto generated id attached.
-     * @throws InputAlreadyExistsException If the given users email already exists in the database
      * @throws SystemErrorException If the system cant connect to database, sql errors etc.
-     * @throws MissingInputException If the given user is missing important information.
+     * @throws InputErrorException If the given user is missing important information or is trying to use an already existing email.
      */
-    public User createUser(User user) throws InputAlreadyExistsException, SystemErrorException, MissingInputException {
+    public User createUser(User user) throws SystemErrorException, InputErrorException {
         if(user == null){
-            throw new MissingInputException("Missing inputs");
+            throw new InputErrorException("Missing inputs");
         }
 
         try{
@@ -45,13 +43,13 @@ public class AuthenticationService {
             return ur.createUser(user);
         } catch(DuplicateKeyException e){
             e.printStackTrace();
-            throw new InputAlreadyExistsException("Email already in use");
+            throw new DuplicateKeyException("Email already in use");
         } catch (DataIntegrityViolationException e){
             e.printStackTrace();
-            throw new MissingInputException("Missing input");
+            throw new InputErrorException("Failed to create user due to missing input");
         } catch (DataAccessException e){
             e.printStackTrace();
-            throw new SystemErrorException("An error occured on our side");
+            throw new SystemErrorException("Failed to create user due to a database issue");
         }
     }
 

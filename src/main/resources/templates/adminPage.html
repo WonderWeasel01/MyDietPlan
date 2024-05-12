@@ -1,10 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/CSS/adminPage.css">
+    <title>Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
-
+<div class="Adminrecipepage">
+    <div class="Topframe">
+        <div class="Logoframe">
+            <img class="Logo" src="Images/PNGS/minkostplan-logo.png" />
+        </div>
+        <div class="Header">
+            <div class="AdminSide">Admin side</div>
+        </div>
+    </div>
+    <div class="Middleframe">
+        <div class="Leftframe">
+            <div class="Addingredientsframe">
+                <div class="TilfJNyIngrediens">Tilføj ny ingrediens</div>
+            </div>
+            <div class="Addnewrecipeframe">
+                <div class="TilfJNyOpskrift">Tilføj ny opskrift</div>
+            </div>
+            <div class="Logoutframe">
+                <div class="Logouttext">Logout</div>
+            </div>
+        </div>
+        <div class="Rightframe">
+            <div class="Recipeheaderframe">
+                <div class="OpretEnOpskriftText">Opret en opskrift!</div>
+            </div>
+            <form action="#" th:action="@{/admin}" th:object="${recipe}" method="post">
+                <div class="Recipeinputframe">
+                    <div class="Recipenameframe">
+                        <label for="title" class="OpskriftNavntext">Opskrift navn</label>
+                        <input type="text" id="title" th:field="*{title}" class="recipe-input" placeholder="Opskrift navn">
+                    </div>
+                    <div class="Preptimeframe">
+                        <label for="prepTime" class="Tilberedningstidtext">Tilberedningstid</label>
+                        <input type="text" id="prepTime" th:field="*{prepTime}" class="prep-time-input" placeholder="Tilberedningstid">
+                    </div>
+                    <div class="Timeofdayframe">
+                        <label for="timeOfDay" class="Tidspunkttext">Tidspunkt</label>
+                        <input type="text" id="timeOfDay" th:field="*{timeOfDay}" class="time-of-day-input" placeholder="Tidspunkt">
+                    </div>
+                    <div class="Instructionframe">
+                        <label for="instructions" class="Instruktioner">Instruktioner</label>
+                        <textarea id="instructions" th:field="*{instructions}" class="instructions-input" placeholder="Instruktioner"></textarea>
+                    </div>
+                    <div class="Pictureframe">
+                        <label for="pictureURL" class="Recipepicturetext">Tilføj et billede til opskriften</label>
+                        <input type="file" id="pictureURL" th:field="*{pictureURL}" accept="image/*">
+                    </div>
+                    <div class="Addingredientsbuttonframe">
+                        <h2>Add Ingredients to Recipe</h2>
+                        <select id="ingredientSelect">
+                        </select>
+                        <button type="button" id="addIngredientBtn" onclick="addIngredientToList()">Add Ingredient</button>
+                        <form id="recipeForm">
+                            <ul id="ingredientList">
+                            </ul>
+                            <button type="submit">Submit Recipe</button>
+                        </form>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="src/main/resources/static/JS/ingredientList.js" defer></script>
 </body>
 </html>

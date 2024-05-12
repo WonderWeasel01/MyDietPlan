@@ -2,6 +2,7 @@ package com.WebApplcation.MyDietPlan.Repository;
 
 import com.WebApplcation.MyDietPlan.Model.Ingredient;
 import com.WebApplcation.MyDietPlan.Model.Recipe;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,6 +18,7 @@ import java.util.List;
 @Repository
 public class RecipeRepository {
 
+    @Autowired
     private final JdbcTemplate jdbcTemplate;
 
     public RecipeRepository(JdbcTemplate jdbcTemplate) {
@@ -95,7 +97,7 @@ public class RecipeRepository {
         if (generatedKey != null) {
             int recipeID = generatedKey.intValue();
             recipe.setRecipeID(recipeID);
-        }
+        } else return null;
 
         //Insert the ingredients into the database as well
         String sql1 = "INSERT INTO `Recipe_has_ingredient`(`recipe_id`, `ingredient_id`) VALUES (?,?)";
@@ -168,6 +170,11 @@ public class RecipeRepository {
 
     }
 
+    public List<Ingredient> getAllIngredients(){
+        String sql = "SELECT * FROM `Ingredient`";
+        return jdbcTemplate.query(sql,ingredientRowMapper());
+    }
+
     /**
      * @return A RowMapper for mapping ResultSet rows in DataBase
      */
@@ -183,6 +190,19 @@ public class RecipeRepository {
             recipe.setActive(rs.getBoolean("active"));
 
             return recipe;
+        });
+    }
+    private RowMapper<Ingredient> ingredientRowMapper(){
+        return ((rs, rowNum) -> {
+            Ingredient ingredient = new Ingredient();
+            ingredient.setIngredientID(rs.getInt("ingredient_id"));
+            ingredient.setName(rs.getString("name"));
+            ingredient.setWeightGrams(rs.getInt("weight"));
+            ingredient.setProteinPerHundredGrams(rs.getInt("protein"));
+            ingredient.setFatPerHundredGrams(rs.getInt("fat"));
+            ingredient.setCarbohydratesPerHundredGrams(rs.getInt("carbohydrates"));
+            ingredient.setCaloriesPerHundredGrams(rs.getInt("calories"));
+            return ingredient;
         });
     }
 

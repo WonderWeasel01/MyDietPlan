@@ -1,0 +1,252 @@
+* {
+    box-sizing: border-box; /* Include padding and borders in the element's total width and height */
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100vw; /* Ensures the body doesn't exceed the width of the viewport */
+    height: 100vh; /* Sets the body to the full height of the viewport */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+
+.Adminrecipepage {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* This will enforce left alignment */
+    width: 100vw;
+    height: 100vh;
+    padding: 10px;
+    background: white;
+    gap: 10px;
+    overflow: hidden;
+}
+.Topframe, .Middleframe, .Rightframe {
+    width: 100%; /* Ensure these frames do not exceed the width of their container */
+    overflow: hidden; /* Hide overflow within these frames */
+}
+
+.Topframe {
+    width: 100%; /* Full width to match the container */
+    height: auto; /* Adjust height based on content */
+    min-height: 50px; /* Minimum height to ensure visibility */
+    background: #E9FBEB;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    display: flex;
+    flex-shrink: 0; /* Prevents the frame from shrinking */
+}
+.Logoframe {
+    width: 150px;
+    padding-left: 10px;
+    padding-right: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: flex;
+}
+
+.Logo {
+    width: 88px;
+    height: 95px;
+}
+
+.Header {
+    width: 100vw;
+    height: auto;
+    padding: 14px 204px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: flex;
+}
+
+.AdminSide {
+    width: 165px;
+    height: 26px;
+    color: black;
+    font-size: 32px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+.Middleframe {
+    display: flex;
+    flex: 1; /* Allows this container to grow and fill the space */
+    padding: 0;
+    margin: 0;
+    overflow-y: auto; /* Allows scrolling within this section only if needed */
+}
+
+.Leftframe {
+    flex-basis: 25%;
+    max-width: 25%;
+    background: #E9FBEB;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.Addingredientsframe, .Addnewrecipeframe {
+    width: 370px;
+    height: 72px;
+    padding-left: 39px;
+    padding-right: 39px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: inline-flex;
+}
+
+.TilfJNyIngrediens, .TilfJNyOpskrift {
+    width: 282px;
+    height: 32px;
+    color: black;
+    font-size: 32px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+.Logoutframe {
+    width: 123px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: inline-flex;
+}
+
+.Logouttext {
+    width: 122px;
+    height: 47px;
+    color: black;
+    font-size: 32px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+
+.Rightframe {
+    flex-basis: 75%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    overflow-y: auto;
+}
+
+.Recipeheaderframe {
+    align-self: stretch;
+    padding-top: 35px;
+    padding-bottom: 45px;
+    padding-left: 77px;
+    padding-right: 77px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.OpretEnOpskriftText {
+    width: 308px;
+    height: 52px;
+    color: black;
+    font-size: 32px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+.Recipeinputframe {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    overflow-y: auto;
+    max-height: calc(100vh - 250px);
+}
+
+.Recipenameframe, .Preptimeframe, .Timeofdayframe, .Instructionframe, .Pictureframe, .Addingredientsbuttonframe {
+    justify-content: flex-start;
+    display: flex;
+    width: 100%;
+    padding: 10px 0;
+}
+
+
+.OpskriftNavntext, .Tilberedningstidtext, .Tidspunkttext, .Instruktioner, .Recipepicturetext, .Addingredientsbuttontext {
+    color: black;
+    font-size: 32px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+.Addingredientsbuttonframe select,
+.Addingredientsbuttonframe button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px; /* Creates a small space above the select and button */
+    border: 1px solid #ccc; /* Subtle border matching other inputs */
+    font-size: 18px; /* Slightly smaller font size for usability */
+    font-family: 'Josefin Sans', sans-serif;
+    font-style: italic;
+    background: white;
+    color: black;
+}
+
+/* Style specifically for the button to keep it visually distinct */
+.Addingredientsbuttonframe button {
+    background-color: #4CAF50; /* Green background for the button */
+    color: white; /* White text color for readability */
+    border: none;
+    cursor: pointer; /* Pointer to indicate it's clickable */
+}
+
+.Addingredientsbuttonframe button:hover {
+    background-color: #45a049; /* Slightly darker green on hover */
+}
+
+/* Styling the list of ingredients to match the theme */
+#ingredientList {
+    list-style-type: none; /* Removes default bullet points */
+    padding: 0; /* Removes default padding */
+    margin-top: 10px; /* Space between list and button */
+    width: 100%;
+}
+
+#ingredientList li {
+    background-color: #f3f3f3; /* Light grey background for list items */
+    border: 1px solid #ddd; /* Subtle border for each item */
+    padding: 8px; /* Padding for text inside list items */
+    margin-top: 2px; /* Space between list items */
+    font-family: 'Josefin Sans', sans-serif;
+    font-style: italic;
+    font-size: 18px;
+}
+
+/* Ensures that all elements in the ingredient frame are aligned nicely */
+.Addingredientsbuttonframe {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%; /* Ensures it takes the full width of its parent */
+    gap: 10px;
+}
+
+
+

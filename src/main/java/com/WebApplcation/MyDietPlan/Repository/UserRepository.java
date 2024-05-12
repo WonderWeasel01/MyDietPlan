@@ -75,7 +75,7 @@ public class UserRepository {
      */
 
     public User getUserByID(int id) throws EmptyResultDataAccessException{
-        String sql ="SELECT * FROM `User` WHERE id = ?";
+        String sql ="SELECT * FROM `User` WHERE user_id = ?";
         return jdbcTemplate.queryForObject(sql,userRowMapper(),id);
     }
 
@@ -102,16 +102,17 @@ public class UserRepository {
     private RowMapper<User> userRowMapper(){
         return ((rs, rowNum) -> {
             User user = new User();
-            user.setUserId(rs.getInt("user_id "));
-            user.setFirstName(rs.getString("first_name"));
+            user.setUserId(rs.getInt("user_id"));
             user.setEmail(rs.getString("email"));
-            user.setGoal(rs.getString("goal"));
+            user.setPassword(rs.getString("password"));
+            user.setFirstName(rs.getString("first_name"));
             user.setLastName(rs.getString("last_name"));
-            user.setActivityLevel(rs.getString("activity_level"));
             user.setGender(rs.getString("gender").charAt(0));
-            user.setWeight(rs.getInt("weight"));
             user.setHeight(rs.getInt("height"));
+            user.setWeight(rs.getInt("weight"));
             user.setAge(rs.getInt("age"));
+            user.setActivityLevel(rs.getString("activity_level"));
+            user.setGoal(rs.getString("goal"));
             user.setRole(rs.getString("role"));
             return user;
         });

@@ -15,7 +15,8 @@ public class Recipe {
     private String timeOfDay;
     // måske fil?
     private String instructions;
-    private Boolean active;
+    private Boolean active = false;
+    private String pictureURL;
 
     ArrayList<Ingredient> ingredientList;
 
@@ -23,11 +24,18 @@ public class Recipe {
 
     }
 
+    public String getPictureURL() {
+        return pictureURL;
+    }
+
+    public void setPictureURL(String pictureURL) {
+        this.pictureURL = pictureURL;
+    }
+
     public Recipe(String prepTime, String timeOfDay, String instructions, Boolean active, ArrayList<Ingredient> ingredientList) {
         this.prepTime = prepTime;
         this.timeOfDay = timeOfDay;
         this.instructions = instructions;
-        this.active = active;
         this.ingredientList = ingredientList;
 
     }
