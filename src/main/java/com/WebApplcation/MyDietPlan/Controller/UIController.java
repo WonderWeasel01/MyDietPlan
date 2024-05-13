@@ -18,23 +18,20 @@ import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Model.Ingredient;
 import com.WebApplcation.MyDietPlan.Model.Recipe;
 import com.WebApplcation.MyDietPlan.Model.User;
-import com.WebApplcation.MyDietPlan.Service.AdminService;
 import com.WebApplcation.MyDietPlan.Service.AuthenticationService;
-import com.WebApplcation.MyDietPlan.Service.RecipeService;
+import com.WebApplcation.MyDietPlan.Service.WebsiteService;
 
 @Controller
 public class UIController {
     
     @Autowired
     private AuthenticationService authenticationService;
-    private final AdminService as;
-    private final RecipeService rs;
+    private final WebsiteService ws;
 
 
-    public UIController(AuthenticationService authenticationService, AdminService adminService, RecipeService recipeService){
+    public UIController(AuthenticationService authenticationService, WebsiteService websiteService){
         this.authenticationService = authenticationService;
-        this.as = adminService;
-        this.rs = recipeService;
+        this.ws = websiteService;
     }
 
     @GetMapping("/")
@@ -61,7 +58,7 @@ public class UIController {
         if(AuthenticationService.user == null ||!Objects.equals(AuthenticationService.user.getRole(), "Admin")){
             return "redirect:/";
         }
-        List<Ingredient> ingredients = rs.getAllIngredients();
+        List<Ingredient> ingredients = ws.getAllIngredients();
         Recipe recipe = new Recipe();
 
         model.addAttribute("ingredients", ingredients);
@@ -108,7 +105,7 @@ public class UIController {
     @PostMapping("/admin")
     public String recipePost(@ModelAttribute Recipe recipe, RedirectAttributes redirectAttribute){
         try {
-            rs.createRecipe(recipe);
+            ws.createRecipe(recipe);
             redirectAttribute.addFlashAttribute("succesMessage", "Opskrift gemt succesfuldt!");
             return "redirect:/admin";
         } catch (InputErrorException e){

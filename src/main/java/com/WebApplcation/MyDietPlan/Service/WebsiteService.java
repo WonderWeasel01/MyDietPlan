@@ -7,19 +7,18 @@ import com.WebApplcation.MyDietPlan.Model.Recipe;
 import com.WebApplcation.MyDietPlan.Repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
 
 @Service
-public class RecipeService {
+public class WebsiteService {
 
     @Autowired
     private RecipeRepository rr;
 
-    public RecipeService(RecipeRepository recipeRepository){
+    public WebsiteService(RecipeRepository recipeRepository){
         this.rr = recipeRepository;
     }
 
