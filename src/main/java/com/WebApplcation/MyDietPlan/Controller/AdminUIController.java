@@ -7,7 +7,6 @@ import com.WebApplcation.MyDietPlan.Model.Recipe;
 import com.WebApplcation.MyDietPlan.Service.AuthenticationService;
 import com.WebApplcation.MyDietPlan.Service.WebsiteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,6 +51,7 @@ public class AdminUIController {
             }
             recipe.setIngredientList(ingredients);
             recipe.calculateMacros();
+            System.out.println(recipe);
             ws.createRecipe(recipe);
             redirectAttributes.addFlashAttribute("successMessage", "Recipe saved successfully!");
             return "redirect:/admin";

@@ -6,13 +6,12 @@ public class Recipe {
 
     private int recipeID;
     private String title;
-    private int totalCalories;
-    private int totalCarbohydrates;
-    private int totalFat;
-    private int totalProtein;
+    private double totalCalories = 0;
+    private double totalCarbohydrates = 0;
+    private double totalFat = 0;
+    private double totalProtein = 0;
     private String prepTime;
     private String timeOfDay;
-    // måske fil?
     private String instructions;
     private Boolean active = false;
     private String pictureURL;
@@ -65,11 +64,12 @@ public class Recipe {
     }
 
     public void calculateMacros(){
-        for (Ingredient ingredient : ingredientList) {
-            this.totalFat += ingredient.fatPerHundredGrams * (ingredient.weightGrams / 100);
-            this.totalProtein += ingredient.proteinPerHundredGrams * (ingredient.weightGrams / 100);
-            this.totalCarbohydrates += ingredient.carbohydratesPerHundredGrams * (ingredient.weightGrams / 100);
-            this.totalCalories += ingredient.caloriesPerHundredGrams * (ingredient.weightGrams / 100);
+        for(int i = 0; i<ingredientList.size(); i++) {
+            Ingredient ingredient = ingredientList.get(i);
+           this.totalProtein += ingredient.getProteinPerHundredGrams() * (ingredient.getWeightGrams() / 100);
+           this.totalFat += ingredient.getFatPerHundredGrams() * (ingredient.getWeightGrams() / 100) ;
+           this.totalCarbohydrates += ingredient.getCarbohydratesPerHundredGrams() * (ingredient.getWeightGrams() / 100);
+           this.totalCalories += ingredient.getCaloriesPerHundredGrams() * (ingredient.getWeightGrams() / 100);
         }
     }
 
@@ -101,35 +101,35 @@ public class Recipe {
 
     public void setRecipeID(int recipeID) {this.recipeID = recipeID;}
 
-    public int getTotalCalories() {
+    public double getTotalCalories() {
         return totalCalories;
     }
 
-    public void setTotalCalories(int totalCalories) {
+    public void setTotalCalories(double totalCalories) {
         this.totalCalories = totalCalories;
     }
 
-    public int getTotalCarbohydrates() {
+    public double getTotalCarbohydrates() {
         return totalCarbohydrates;
     }
 
-    public void setTotalCarbohydrates(int totalCarbohydrates) {
+    public void setTotalCarbohydrates(double totalCarbohydrates) {
         this.totalCarbohydrates = totalCarbohydrates;
     }
 
-    public int getTotalFat() {
+    public double getTotalFat() {
         return totalFat;
     }
 
-    public void setTotalFat(int totalFat) {
+    public void setTotalFat(double totalFat) {
         this.totalFat = totalFat;
     }
 
-    public int getTotalProtein() {
+    public double getTotalProtein() {
         return totalProtein;
     }
 
-    public void setTotalProtein(int totalProtein) {
+    public void setTotalProtein(double totalProtein) {
         this.totalProtein = totalProtein;
     }
 
@@ -161,13 +161,16 @@ public class Recipe {
     public String toString() {
         return "Recipe{" +
                 "recipeID=" + recipeID +
+                ", title='" + title + '\'' +
                 ", totalCalories=" + totalCalories +
                 ", totalCarbohydrates=" + totalCarbohydrates +
                 ", totalFat=" + totalFat +
                 ", totalProtein=" + totalProtein +
+                ", prepTime='" + prepTime + '\'' +
                 ", timeOfDay='" + timeOfDay + '\'' +
                 ", instructions='" + instructions + '\'' +
                 ", active=" + active +
+                ", pictureURL='" + pictureURL + '\'' +
                 ", ingredientList=" + ingredientList +
                 '}';
     }

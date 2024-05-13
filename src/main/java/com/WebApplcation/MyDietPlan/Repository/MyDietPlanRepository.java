@@ -49,7 +49,7 @@ public class MyDietPlanRepository {
             ps.setDouble(2, ingredient.getProteinPerHundredGrams());
             ps.setDouble(3, ingredient.getFatPerHundredGrams());
             ps.setDouble(4, ingredient.getCarbohydratesPerHundredGrams());
-            ps.setInt(5, ingredient.getCaloriesPerHundredGrams());
+            ps.setDouble(5, ingredient.getCaloriesPerHundredGrams());
             return ps;
         }, keyHolder);
 
@@ -111,10 +111,10 @@ public class MyDietPlanRepository {
             ps.setString(1, recipe.getTimeOfDay());
             ps.setString(2,recipe.getTitle());
             ps.setString(3,recipe.getPrepTime());
-            ps.setInt(4, recipe.getTotalCalories());
-            ps.setInt(5, recipe.getTotalFat());
-            ps.setInt(6, recipe.getTotalProtein());
-            ps.setInt(7,recipe.getTotalCarbohydrates());
+            ps.setDouble(4, recipe.getTotalCalories());
+            ps.setDouble(5, recipe.getTotalFat());
+            ps.setDouble(6, recipe.getTotalProtein());
+            ps.setDouble(7,recipe.getTotalCarbohydrates());
             ps.setBoolean(8,recipe.getActive());
 
             return ps;
@@ -319,10 +319,10 @@ public class MyDietPlanRepository {
             Recipe recipe = new Recipe();
             recipe.setRecipeID(rs.getInt("recipe_id"));
             recipe.setTimeOfDay(rs.getString("time_of_day"));
-            recipe.setTotalCalories(rs.getInt("total_calories"));
-            recipe.setTotalCarbohydrates(rs.getInt("total_carbohydrates"));
-            recipe.setTotalFat(rs.getInt("total_fat"));
-            recipe.setTotalProtein(rs.getInt("total_protein"));
+            recipe.setTotalCalories(rs.getDouble("total_calories"));
+            recipe.setTotalCarbohydrates(rs.getDouble("total_carbohydrates"));
+            recipe.setTotalFat(rs.getDouble("total_fat"));
+            recipe.setTotalProtein(rs.getDouble("total_protein"));
             recipe.setActive(rs.getBoolean("active"));
 
             return recipe;
