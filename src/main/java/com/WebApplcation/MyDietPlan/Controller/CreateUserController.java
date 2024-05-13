@@ -32,16 +32,16 @@ public class CreateUserController {
     }
 
     @PostMapping("/opretBruger")
-    public String createUser(@ModelAttribute User user, RedirectAttributes redirectAttributes){
+    public String createUser(@ModelAttribute User user, Model model){
         try{
             as.createUser(user);
             return "redirect:/";
         } catch (DuplicateKeyException e) {
-            redirectAttributes.addFlashAttribute("inputError", "Email bruges allerede!");
+            model.addAttribute("createUserError", "Email bruges allerede!");
         } catch (SystemErrorException e) {
-            redirectAttributes.addFlashAttribute("systemErrorMessage", "Der er sket en fejl på vores side. Prøv igen senere!");
+            model.addAttribute("createUserError", "Der er sket en fejl på vores side. Prøv igen senere!");
         } catch (InputErrorException e) {
-            redirectAttributes.addFlashAttribute("MissingInputErrorMessage", "Udfyld venligst alle felterne!");
+            model.addAttribute("createUserError", "Udfyld venligst alle felterne korrekt!");
         }
         return "createUser";
     }

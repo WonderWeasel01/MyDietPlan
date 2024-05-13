@@ -28,6 +28,9 @@
                         <div class="Button" id="Step1">
                             <div class="ButtonLabel">Næste</div>
                         </div>
+                        <div th:if="${createUserError}" class="error-message">
+                            <p th:text="${createUserError}"></p>
+                        </div>
                         <script>
                             document.getElementById("Step1").addEventListener("click", function() {
                                 // Add the "Step2" class to the element to make it visible
@@ -49,6 +52,7 @@
                         <div class="Button" id="Step2">
                             <div class="ButtonLabel">Næste</div>
                         </div>
+
                         <script>
                             document.getElementById("Step2").addEventListener("click", function() {
                                 // Add the "Step2" class to the element to make it visible
@@ -68,7 +72,7 @@
                    
                 
                     
-                            <label for="heightLabel" class="text">Højde:</label>
+                            <label for="heightLabel" class="text">Højde (cm):</label>
                             <input type="text" id="heightLabel" th:field="*{height}" class="input"></input>
                         
                             <label for="weightLabel" class="text">Vægt(kg):</label>
@@ -112,7 +116,6 @@
 
                     </div>
                 </div>
-
             </form>
             
 

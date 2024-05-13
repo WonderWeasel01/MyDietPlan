@@ -38,6 +38,9 @@
             <button class="Button" type="submit"> 
                 <div class="ButtonLabel">LOG IN</div>
             </button>
+                <div th:if="${loginError}" class="error-message">
+                    <p th:text="${loginError}"></p>
+                </div>
 
             </form>
             

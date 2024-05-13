@@ -27,8 +27,6 @@ public class AdminPageController {
     private final AdminService as;
     @Autowired
     private final RecipeService rs;
-    @Autowired
-    private final UserRepository ur = new UserRepository(new JdbcTemplate()); // DELETE LATER
 
     public AdminPageController(AdminService adminService, RecipeService recipeService){
         this.as = adminService;
@@ -37,9 +35,6 @@ public class AdminPageController {
 
     @GetMapping("/admin")
     public String adminPageForm(Model model){
-        //Check if the user is logged in with the admin role
-        AuthenticationService.user = ur.getUserByID(6); // FOR TESTING PURPOSE, DELETE WHEN LOGIN IS CREATED
-        System.out.println(AuthenticationService.user); // Delete later, for test
         if(AuthenticationService.user == null ||!Objects.equals(AuthenticationService.user.getRole(), "Admin")){
             return "redirect:/";
         }
@@ -60,8 +55,7 @@ public class AdminPageController {
             return "redirect:/admin";
         } catch (InputErrorException e){
             redirectAttribute.addFlashAttribute("inputErrorMessage", "Udfyld venligst alle felterne korrekt!");
-        }
-        catch (SystemErrorException e){
+        } catch (SystemErrorException e){
             redirectAttribute.addFlashAttribute("errorMessage", "Der er sket en fejl på vores side. Prøv igen senere!");
         }
         return "adminPage";

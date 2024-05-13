@@ -1,5 +1,6 @@
 package com.WebApplcation.MyDietPlan.Controller;
 
+import com.WebApplcation.MyDietPlan.Exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Model.User;
 import com.WebApplcation.MyDietPlan.Service.AuthenticationService;
+
+import java.util.Objects;
 
 
 @Controller
@@ -29,17 +32,27 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String loginUser(@ModelAttribute User user, RedirectAttributes redirectAttributes){
+    public String loginUser(@ModelAttribute User user, Model model) {
         try{
-            if (as.validateUser(user.getEmail(), user.getPassword())) {
-                as.loginUser(user.getEmail());
+            //Check if the user credentials are valid
+            if (!as.validateLogin(user.getEmail(), user.getPassword())) {
+                model.addAttribute("loginError", "Email eller password forkert");
+                return "login";
             }
-            
-            return "redirect:/";
-        } catch (DuplicateKeyException e) {
-        return "login";
+
+            User validatedUser = as.loginUser(user.getEmail());
+            return determineViewDependingOnRole(validatedUser);
+        } catch (EntityNotFoundException e){
+            model.addAttribute("loginError" , "Email eller password forkert");
+            return "login";
+        }
     }
 
-}
 
+    private String determineViewDependingOnRole(User user) {
+        if ("Admin".equals(user.getRole())) {
+            return "redirect:/admin";
+        }
+        return "redirect:/";
+    }
 }
