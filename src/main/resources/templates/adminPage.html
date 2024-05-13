@@ -63,7 +63,10 @@
                         </select>
                         <input type="number" id="ingredientWeight" name="ingredientWeight" min="1" placeholder="Vægt i gram" class="weight-input">
                         <button type="button" onclick="addIngredientToList()">Tilføj Ingrediens</button>
-
+                        <div th:if="${errorMessage} or ${successMessage}" class="message">
+                            <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
+                            <p th:if="${successMessage}" th:text="${successMessage}" class="success-message"></p>
+                        </div>
                         <form id="recipeForm" th:action="@{/admin}" method="post">
                             <ul id="ingredientList"></ul>
                             <button type="submit">Opret Opskrift</button>
