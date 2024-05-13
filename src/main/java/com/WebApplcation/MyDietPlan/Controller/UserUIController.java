@@ -15,6 +15,7 @@ import com.WebApplcation.MyDietPlan.Model.User;
 import com.WebApplcation.MyDietPlan.Service.AuthenticationService;
 import com.WebApplcation.MyDietPlan.Service.WebsiteService;
 
+
 @Controller
 public class UserUIController {
     
@@ -28,6 +29,7 @@ public class UserUIController {
         this.authenticationService = authenticationService;
         this.ws = websiteService;
     }
+
 
     @GetMapping("/")
     public String index() {
@@ -46,6 +48,13 @@ public class UserUIController {
         User user = new User();
         model.addAttribute("user",user);
         return "createUser";
+    }
+
+    @GetMapping("/OpretBettaling")
+    public String OpretBettalingFrom(Model model){
+        User user = new User();
+        model.addAttribute("user",user);
+        return "paymentSite";
     }
 
 
@@ -92,6 +101,17 @@ public class UserUIController {
         return "loggedIn";
 
     }
+
+    @GetMapping("/paymentSite")
+    public String paymentSitePage(Model model){
+        if(!isLoggedIn()){
+            return "redirect:/";
+        }
+        return "paymentSite";
+
+    }
+
+
 
     private String determineViewDependingOnRole(User user) {
         if ("Admin".equals(user.getRole())) {
