@@ -34,10 +34,6 @@ public class WebsiteService {
             System.err.println("Error accessing the database: " + e.getMessage());
             throw new SystemErrorException("Failed to create recipe due to database access issues.");
         }
-        catch (Exception e) {
-            System.err.println("An unexpected error occurred: " + e.getMessage());
-            throw new RuntimeException("Failed to create recipe due to an unexpected error.", e);
-        }
     }
     public boolean isValidRecipe(Recipe recipe){
         return StringUtils.hasText(recipe.getTitle()) && StringUtils.hasText(recipe.getPrepTime()) && StringUtils.hasText(recipe.getTimeOfDay())

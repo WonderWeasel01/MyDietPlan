@@ -291,6 +291,14 @@ html, body {
     background-color: #45a049;
 }
 
+.success-message {
+    color: green;
+}
+
+.error-message {
+    color: red;
+}
+
 
 
 

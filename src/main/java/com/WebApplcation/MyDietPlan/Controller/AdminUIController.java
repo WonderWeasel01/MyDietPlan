@@ -50,17 +50,16 @@ public class AdminUIController {
                 ingredients.add(ingredient);
             }
             recipe.setIngredientList(ingredients);
-            recipe.calculateMacros();
-            System.out.println(recipe);
             ws.createRecipe(recipe);
-            redirectAttributes.addFlashAttribute("successMessage", "Recipe saved successfully!");
+            redirectAttributes.addFlashAttribute("successMessage", "Opskrift gemt!");
             return "redirect:/admin";
         } catch (InputErrorException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Venligst udfyld alle felterne korrekt!");
+            return "redirect:/admin";
         } catch (SystemErrorException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Der er sket en fejl på vores side. Prøv igen senere");
+            return "redirect:/admin";
         }
-        return "redirect:/admin";
     }
 
     @GetMapping("/opretIngrediens")
@@ -82,8 +81,6 @@ public class AdminUIController {
         return "addIngredient";
 
     }
-
-
 
 
     private boolean isAdminLoggedIn(){
