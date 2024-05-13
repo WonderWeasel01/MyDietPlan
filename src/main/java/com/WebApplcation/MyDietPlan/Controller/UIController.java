@@ -55,7 +55,7 @@ public class UIController {
 
     @GetMapping("/admin")
     public String adminPageForm(Model model){
-        if(AuthenticationService.user == null ||!Objects.equals(AuthenticationService.user.getRole(), "Admin")){
+        if(!isAdminLoggedIn()){
             return "redirect:/";
         }
         List<Ingredient> ingredients = ws.getAllIngredients();
@@ -116,11 +116,27 @@ public class UIController {
         return "adminPage";
     }
 
+    @GetMapping("/welcome")
+    public String welcomePage(Model model){
+        if(!isLoggedIn()){
+            return "redirect:/";
+        }
+        return "loggedIn";
+
+    }
+
     private String determineViewDependingOnRole(User user) {
         if ("Admin".equals(user.getRole())) {
             return "redirect:/admin";
         }
-        return "redirect:/";
+        return "redirect:/welcome";
     }
 
+    private boolean isLoggedIn(){
+       return AuthenticationService.user != null;
+    }
+
+    private boolean isAdminLoggedIn(){
+        return AuthenticationService.user != null && Objects.equals(AuthenticationService.user.getRole(), "Admin");
+    }
 }

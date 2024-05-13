@@ -115,12 +115,7 @@ public class MyDietPlanRepository {
         String sql = "SELECT * FROM `Recipe` WHERE recipe_id = ?";
         int rowsAffected = jdbcTemplate.update(sql,recipeID);
 
-        if(rowsAffected < 0) {
-            return true;
-        }
-        else{
-           return false;
-        }
+        return rowsAffected > 0;
     }
 
     /**
@@ -128,10 +123,8 @@ public class MyDietPlanRepository {
      * @return A list of recipes.
      */
     public List<Recipe> getAllRecipe(){
-
         String sql = "SELECT * FROM Recipe";
         return jdbcTemplate.query(sql, recipeRowMapper());
-
     }
 
 
@@ -265,7 +258,6 @@ public class MyDietPlanRepository {
         String sql ="UPDATE `User` SET `user_id`=?, `first_name`=?, `email`=?, `goal`=?, `last_name`=?, `activity_level`=?, `gender`=?, `weight`=?, `height`=?,  `age`=?, `role`=? WHERE id = ?";
         jdbcTemplate.update(sql, user.getUserId(), user.getFirstName(), user.getEmail(), user.getGoal(), user.getLastName(), user.getActivityLevel(), user.getGender(), user.getWeight(), user.getHeight(), user.getAge(), user.getRole(), userId);
         return getUserByID(userId);
-
     }
 
 
