@@ -58,7 +58,7 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 30px;
+    gap: 10px;
     display: inline-flex;
 }
 
