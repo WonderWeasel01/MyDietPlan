@@ -2,7 +2,7 @@ package com.WebApplcation.MyDietPlan;
 
 import com.WebApplcation.MyDietPlan.Model.Ingredient;
 import com.WebApplcation.MyDietPlan.Model.Recipe;
-import com.WebApplcation.MyDietPlan.Repository.RecipeRepository;
+import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 class RecipeTest {
 
 	@InjectMocks
-	private RecipeRepository recipeRepository;
+	private MyDietPlanRepository myDietPlanRepository;
 
 	@Mock
 	private JdbcTemplate jdbcTemplate;
@@ -57,7 +57,7 @@ class RecipeTest {
 		when(keyHolder.getKey()).thenReturn(1);
 
 		// Execute the method
-		Recipe result = recipeRepository.createRecipe(testRecipe);
+		Recipe result = myDietPlanRepository.createRecipe(testRecipe);
 
 		// Assert and verify
 		assertNotNull(result);

@@ -4,7 +4,7 @@ import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Model.Ingredient;
 import com.WebApplcation.MyDietPlan.Model.Recipe;
-import com.WebApplcation.MyDietPlan.Repository.RecipeRepository;
+import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -16,10 +16,10 @@ import java.util.List;
 public class WebsiteService {
 
     @Autowired
-    private RecipeRepository rr;
+    private MyDietPlanRepository repo;
 
-    public WebsiteService(RecipeRepository recipeRepository){
-        this.rr = recipeRepository;
+    public WebsiteService(MyDietPlanRepository myDietPlanRepository){
+        this.repo = myDietPlanRepository;
     }
 
 
@@ -27,7 +27,7 @@ public class WebsiteService {
         try {
             if(recipe != null && isValidRecipe(recipe)) {
                 recipe.calculateMacros();
-                return rr.createRecipe(recipe);
+                return repo.createRecipe(recipe);
             } else throw new InputErrorException("Failed to create recipe due to input issue");
         }
         catch (DataAccessException e) {
@@ -46,7 +46,7 @@ public class WebsiteService {
     }
 
     public List<Ingredient> getAllIngredients(){
-        return rr.getAllIngredients();
+        return repo.getAllIngredients();
     }
 
 /*

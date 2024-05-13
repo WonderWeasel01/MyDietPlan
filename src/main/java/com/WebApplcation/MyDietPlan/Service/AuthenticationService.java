@@ -4,7 +4,7 @@ import com.WebApplcation.MyDietPlan.Exception.EntityNotFoundException;
 import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Model.User;
-import com.WebApplcation.MyDietPlan.Repository.UserRepository;
+import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,10 +19,10 @@ import org.springframework.util.StringUtils;
 public class AuthenticationService {
     public static User user;
     @Autowired
-    public UserRepository ur;
+    public MyDietPlanRepository repo;
 
-    public AuthenticationService(UserRepository userRepository){
-        this.ur = userRepository;
+    public AuthenticationService(MyDietPlanRepository repository){
+        this.repo = repository;
     }
 
 
@@ -42,7 +42,7 @@ public class AuthenticationService {
             String hashedPassword = hashPassword(user.getPassword());
             user.setPassword(hashedPassword);
             user.setRole("User");
-            return ur.createUser(user);
+            return repo.createUser(user);
         } catch(DuplicateKeyException e){
             e.printStackTrace();
             throw new DuplicateKeyException("Email already in use");
@@ -77,7 +77,7 @@ public class AuthenticationService {
 
     public boolean validateLogin(String email, String password) throws EntityNotFoundException {
         try{
-            String hashedPassword = ur.getPasswordByEmail(email);
+            String hashedPassword = repo.getPasswordByEmail(email);
             return BCrypt.checkpw(password, hashedPassword);
         } catch (EmptyResultDataAccessException e){
             e.printStackTrace();
@@ -86,7 +86,7 @@ public class AuthenticationService {
     }
 
     public User loginUser(String email){
-        return user = ur.getUserByEmail(email);
+        return user = repo.getUserByEmail(email);
     }
 
     public void logout(){
