@@ -24,13 +24,20 @@
                     
                         <label for="passwordLabel" class="text">Password:</label>
                         <input type="password" id="passwordLabel" th:field="*{password}" class="input"></input>
-                        
+
+                        <label for="firstNameLabel" class="text">Fornavn:</label>
+                        <input type="text" id="firstNameLabel" th:field="*{firstName}" class="input"></input>
+
+                        <label for="lastNameLabel" class="text">Efternavn:</label>
+                        <input type="text" id="lastNameLabel" th:field="*{lastName}" class="input"></input>
+
                         <div class="Button" id="Step1">
                             <div class="ButtonLabel">Næste</div>
                         </div>
                         <div th:if="${createUserError}" class="error-message">
                             <p th:text="${createUserError}"></p>
                         </div>
+
                         <script>
                             document.getElementById("Step1").addEventListener("click", function() {
                                 // Add the "Step2" class to the element to make it visible
@@ -42,28 +49,12 @@
 
                     </div>
 
+
+
+
+
+
                     <div class="Step2">
-                        <label for="firstNameLabel" class="text">Fornavn:</label>
-                        <input type="text" id="firstNameLabel" th:field="*{firstName}" class="input"></input>
-                    
-                        <label for="lastNameLabel" class="text">Efternavn:</label>
-                        <input type="text" id="lastNameLabel" th:field="*{lastName}" class="input"></input>
-
-                        <div class="Button" id="Step2">
-                            <div class="ButtonLabel">Næste</div>
-                        </div>
-
-                        <script>
-                            document.getElementById("Step2").addEventListener("click", function() {
-                                // Add the "Step2" class to the element to make it visible
-                                document.querySelector(".Step3").style.display = "flex";
-                                document.querySelector(".Step2").style.display = "none";
-                            });
-                        </script>
-
-                    </div>
-
-                    <div class="Step3">
                         <div class="genderDropdown">Køn</div>
                         <select id="genderDropdown" name="genderSelect" th:field="*{gender}">
                             <option value="M">Mand</option>
@@ -81,19 +72,19 @@
                             <label for="ageLabel" class="text">Alder:</label>
                             <input type="text" id="ageLabel" th:field="*{age}" class="input"></input>
 
-                            <div class="Button" id="Step3">
+                            <div class="Button" id="Step2">
                                 <div class="ButtonLabel">Næste</div>
                             </div>
                             <script>
-                                document.getElementById("Step3").addEventListener("click", function() {
+                                document.getElementById("Step2").addEventListener("click", function() {
                                     // Add the "Step2" class to the element to make it visible
-                                    document.querySelector(".Step4").style.display = "flex";
-                                    document.querySelector(".Step3").style.display = "none";
+                                    document.querySelector(".Step3").style.display = "flex";
+                                    document.querySelector(".Step2").style.display = "none";
                                 });
                             </script>
 
                     </div>
-                    <div class="Step4">
+                    <div class="Step3">
                             <label for="activityDropdown"></label>
                             <select id="activityDropdown" name="activitySelect" th:field="*{activityLevel}">
                                 <option value="No exercise">Ingen aktivitet</option>

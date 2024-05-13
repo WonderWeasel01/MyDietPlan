@@ -1,19 +1,19 @@
 * {
-    box-sizing: border-box; /* Include padding and borders in the element's total width and height */
+    box-sizing: border-box;
 }
 
 html, body {
     margin: 0;
     padding: 0;
-    width: 100vw; /* Ensures the body doesn't exceed the width of the viewport */
-    height: 100vh; /* Sets the body to the full height of the viewport */
-    overflow-x: hidden; /* Hide horizontal scrollbar */
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
 }
 
 .Adminrecipepage {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* This will enforce left alignment */
+    align-items: flex-start;
     width: 100vw;
     height: 100vh;
     padding: 10px;
@@ -22,20 +22,20 @@ html, body {
     overflow: hidden;
 }
 .Topframe, .Middleframe, .Rightframe {
-    width: 100%; /* Ensure these frames do not exceed the width of their container */
-    overflow: hidden; /* Hide overflow within these frames */
+    width: 100%;
+    overflow: hidden;
 }
 
 .Topframe {
-    width: 100%; /* Full width to match the container */
-    height: auto; /* Adjust height based on content */
-    min-height: 50px; /* Minimum height to ensure visibility */
+    width: 100%;
+    height: auto;
+    min-height: 50px;
     background: #E9FBEB;
     justify-content: flex-start;
     align-items: center;
     gap: 10px;
     display: flex;
-    flex-shrink: 0; /* Prevents the frame from shrinking */
+    flex-shrink: 0;
 }
 .Logoframe {
     width: 150px;
@@ -75,10 +75,10 @@ html, body {
 
 .Middleframe {
     display: flex;
-    flex: 1; /* Allows this container to grow and fill the space */
+    flex: 1;
     padding: 0;
     margin: 0;
-    overflow-y: auto; /* Allows scrolling within this section only if needed */
+    overflow-y: auto;
 }
 
 .Leftframe {
@@ -200,52 +200,52 @@ html, body {
 .Addingredientsbuttonframe button {
     width: 100%;
     padding: 8px;
-    margin-top: 5px; /* Creates a small space above the select and button */
-    border: 1px solid #ccc; /* Subtle border matching other inputs */
-    font-size: 18px; /* Slightly smaller font size for usability */
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    font-size: 18px;
     font-family: 'Josefin Sans', sans-serif;
     font-style: italic;
     background: white;
     color: black;
 }
 
-/* Style specifically for the button to keep it visually distinct */
+
 .Addingredientsbuttonframe button {
-    background-color: #4CAF50; /* Green background for the button */
-    color: white; /* White text color for readability */
+    background-color: #4CAF50;
+    color: white;
     border: none;
-    cursor: pointer; /* Pointer to indicate it's clickable */
+    cursor: pointer;
 }
 
 .Addingredientsbuttonframe button:hover {
-    background-color: #45a049; /* Slightly darker green on hover */
+    background-color: #45a049;
 }
 
-/* Styling the list of ingredients to match the theme */
+
 #ingredientList {
-    list-style-type: none; /* Removes default bullet points */
-    padding: 0; /* Removes default padding */
-    margin-top: 10px; /* Space between list and button */
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
     width: 100%;
 }
 
 #ingredientList li {
-    background-color: #f3f3f3; /* Light grey background for list items */
-    border: 1px solid #ddd; /* Subtle border for each item */
-    padding: 8px; /* Padding for text inside list items */
-    margin-top: 2px; /* Space between list items */
+    background-color: #f3f3f3;
+    border: 1px solid #ddd;
+    padding: 8px;
+    margin-top: 2px;
     font-family: 'Josefin Sans', sans-serif;
     font-style: italic;
     font-size: 18px;
 }
 
-/* Ensures that all elements in the ingredient frame are aligned nicely */
+
 .Addingredientsbuttonframe {
     display: flex;
     font-family: 'Josefin Sans', sans-serif;
     flex-direction: column;
     align-items: flex-start;
-    width: 100%; /* Ensures it takes the full width of its parent */
+    width: 100%;
     gap: 10px;
 }
 
