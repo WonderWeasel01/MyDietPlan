@@ -83,7 +83,6 @@ html{
 .Middleframe {
     width: 1119px;
     height: 403px;
-    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -116,7 +115,6 @@ html{
 .Mainframe {
     width: 100%;
     height: 946px;
-    padding: 10px;
     background: #E9FBEB;
     display: inline-flex;
     flex-direction: column;

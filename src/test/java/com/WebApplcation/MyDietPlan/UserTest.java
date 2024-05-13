@@ -1,5 +1,6 @@
 package com.WebApplcation.MyDietPlan;
 
+import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,7 +16,7 @@ public class UserTest {
 
 
     @InjectMocks
-    private UserRepository userRepository;
+    private MyDietPlanRepository repo;
     private org.mockito.Mockito Mockito;
 /*
     @Test
