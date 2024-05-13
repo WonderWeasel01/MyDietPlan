@@ -11,6 +11,23 @@ private Date subscriptionEndDate;
 private Boolean subscriptionStatus;
 private double subscriptionPrice;
 
+
+public Subscription() {
+}
+
+public Subscription(int subscriptionID, String subscriptionType, Date subscriptionStartDate, Date subscriptionEndDate, Boolean subscriptionStatus, double subscriptionPrice) {
+    this.subscriptionID = subscriptionID;
+    this.subscriptionType = subscriptionType;
+    this.subscriptionStartDate = subscriptionStartDate;
+    this.subscriptionEndDate = subscriptionEndDate;
+    this.subscriptionStatus = subscriptionStatus;
+    this.subscriptionPrice = subscriptionPrice;
+}
+
+
+
+
+
 public int getSubscriptionID() {
     return subscriptionID;
 }

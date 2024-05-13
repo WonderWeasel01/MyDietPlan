@@ -14,6 +14,7 @@ import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Model.User;
 import com.WebApplcation.MyDietPlan.Service.AuthenticationService;
 import com.WebApplcation.MyDietPlan.Service.WebsiteService;
+import com.WebApplcation.MyDietPlan.Model.Subscription;
 
 
 @Controller
@@ -36,6 +37,12 @@ public class UserUIController {
         return "Index";
     }
 
+    @GetMapping("/paymentSite")
+    public String paymentSite() {
+        return "paymentSite";
+    }
+
+
     @GetMapping("/login")
     public String loginForm(Model model) {
         User user = new User();
@@ -50,12 +57,12 @@ public class UserUIController {
         return "createUser";
     }
 
-    @GetMapping("/OpretBettaling")
-    public String OpretBettalingFrom(Model model){
-        User user = new User();
-        model.addAttribute("user",user);
+    /*@GetMapping("/CreatePayment")
+    public String CreatePaymentForm(Model model){
+        Subscription subscription = new Subscription();
+        model.addAttribute("subscription",subscription);
         return "paymentSite";
-    }
+    }*/
 
 
     @PostMapping("/opretBruger")
@@ -102,6 +109,7 @@ public class UserUIController {
 
     }
 
+    /* 
     @GetMapping("/paymentSite")
     public String paymentSitePage(Model model){
         if(!isLoggedIn()){
@@ -110,7 +118,7 @@ public class UserUIController {
         return "paymentSite";
 
     }
-
+*/
 
 
     private String determineViewDependingOnRole(User user) {
