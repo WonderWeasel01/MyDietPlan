@@ -2,6 +2,30 @@ html{
     background-color: #E9FBEB ;
 }
 
+h2{
+    color : #000000;
+    font-weight: 600;
+    font-size: 32px;
+    font-family: Josefin Sans, sans-serif;
+    font-style: bold;
+}
+
+h3{
+    color : #000000;
+    font-weight: 600;
+    font-size: 24px;
+    font-family: Josefin Sans, sans-serif;
+    font-style: bold;
+}
+
+p{
+    color : #000000;
+    font-weight: 400;
+    font-size: 16px;
+    font-family: Josefin Sans, sans-serif;
+    font-style: normal;
+}
+
 .Forside {
     width: 1280px;
     height: 2082px;
@@ -80,11 +104,15 @@ html{
 
 .Middleframe {
     width: 100%;
-    height: 403px;
+    height: 1080px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 100px;
 }
+
+
+
 .Leftframe {
     padding: 117px 0;
     display: flex;
@@ -122,7 +150,7 @@ html{
 }
 
 .Foodbowl1{
-    height: 300px;
+    height: 450px;
 }
 
 .Yoghurt, .CaesarSalad, .Salmonbowl{
@@ -135,18 +163,35 @@ html{
     font-family: Josefin Sans, sans-serif;
 }
 
+.h2text{
+    padding-top: 100px;
+}
+
+
 
 .Mealshowcase{
+    padding-top: 20px;
     display: flex;
     flex-direction: row;
     align-items: center;
     align-content: center;
-    width: 70%;
+    width: 80%;
     height: 400px;
-    background-color: #ffffff;
+    gap: 20px;
     justify-content: center;
     border-radius: 5px;
 
+}
+
+.Frame2, .Frame3, .Frame4{
+    background-color: #ffffff;
+    width: 300px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    height: 400px;
+    padding: 20px;
 }
 
 .Button {
