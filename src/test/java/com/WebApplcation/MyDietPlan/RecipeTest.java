@@ -61,6 +61,7 @@ class RecipeTest {
 
 		// Assert and verify
 		assertNotNull(result);
+		assertEquals(1,result.getIngredientList().size());
 		assertEquals(1, result.getRecipeID());
 		verify(jdbcTemplate, times(1)).update(any(), any(KeyHolder.class)); // Verifying interaction
 		verify(jdbcTemplate, times(testRecipe.getIngredientList().size())).update(anyString(), eq(1), anyInt()); // Verifying ingredients update

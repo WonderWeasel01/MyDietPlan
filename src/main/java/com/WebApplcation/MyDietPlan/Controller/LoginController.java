@@ -40,6 +40,7 @@ public class LoginController {
                 return "login";
             }
 
+            //Log the user in;
             User validatedUser = as.loginUser(user.getEmail());
             return determineViewDependingOnRole(validatedUser);
         } catch (EntityNotFoundException e){

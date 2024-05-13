@@ -11,6 +11,7 @@ public class Ingredient {
     int caloriesPerHundredGrams;
 
 
+
     public Ingredient() {
 
     }

@@ -97,7 +97,7 @@ public class RecipeRepository {
         if (generatedKey != null) {
             int recipeID = generatedKey.intValue();
             recipe.setRecipeID(recipeID);
-        } else return null;
+        }
 
         //Insert the ingredients into the database as well
         String sql1 = "INSERT INTO `Recipe_has_ingredient`(`recipe_id`, `ingredient_id`) VALUES (?,?)";
