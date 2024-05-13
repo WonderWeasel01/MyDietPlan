@@ -63,6 +63,10 @@ public class WebsiteService {
 
     }
 
+    public Ingredient getIngredientByID(int id){
+        return repo.getIngredientById(id);
+    }
+
     public boolean isValidIngredient(Ingredient ingredient){
         return StringUtils.hasText(ingredient.getName()) && ingredient.getCaloriesPerHundredGrams() >= 0 && ingredient.getProteinPerHundredGrams() >= 0
                 && ingredient.getFatPerHundredGrams() >= 0 && ingredient.getCarbohydratesPerHundredGrams() >= 0;

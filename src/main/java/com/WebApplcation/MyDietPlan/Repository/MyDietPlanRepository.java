@@ -34,6 +34,11 @@ public class MyDietPlanRepository {
     }
 */
 
+    public Ingredient getIngredientById(int id){
+        String sql = "SELECT * FROM `Ingredient` WHERE ingredient_id = ?";
+        return jdbcTemplate.queryForObject(sql,new Object[]{id}, ingredientRowMapper());
+    }
+
     public Ingredient createIngredient(Ingredient ingredient){
         String sql = "INSERT INTO `Ingredient`(`name`, `protein`, `fat`, `carbohydrates`, `calories`) VALUES (?, ?, ?, ?, ?)";
 
@@ -123,9 +128,9 @@ public class MyDietPlanRepository {
         }
 
         //Insert the ingredients into the database as well
-        String sql1 = "INSERT INTO `Recipe_has_ingredient`(`recipe_id`, `ingredient_id`) VALUES (?,?)";
+        String sql1 = "INSERT INTO `Recipe_has_ingredient`(`recipe_id`, `ingredient_id`, `ingredient_weight`) VALUES (?,?,?)";
         for (Ingredient ingredient : recipe.getIngredientList()) {
-            jdbcTemplate.update(sql1, recipe.getRecipeID(), ingredient.getIngredientID());
+            jdbcTemplate.update(sql1, recipe.getRecipeID(), ingredient.getIngredientID(), ingredient.getWeightGrams());
         }
         return recipe;
     }
