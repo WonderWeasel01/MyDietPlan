@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -40,17 +41,26 @@ public class AdminUIController {
     }
 
     @PostMapping("/admin")
-    public String recipePost(@ModelAttribute Recipe recipe, RedirectAttributes redirectAttribute){
+    public String recipePost(@ModelAttribute Recipe recipe, @RequestParam List<Integer> ingredientIds, @RequestParam List<Integer> weights, RedirectAttributes redirectAttributes) {
         try {
+            ArrayList<Ingredient> ingredients = new ArrayList<>();
+            for (int i = 0; i < ingredientIds.size(); i++) {
+                Ingredient ingredient = ws.getIngredientByID(ingredientIds.get(i));
+                ingredient.setWeightGrams(weights.get(i));
+                ingredients.add(ingredient);
+            }
+            recipe.setIngredientList(ingredients);
+            recipe.calculateMacros();
+            System.out.println(recipe);
             ws.createRecipe(recipe);
-            redirectAttribute.addFlashAttribute("succesMessage", "Opskrift gemt succesfuldt!");
+            redirectAttributes.addFlashAttribute("successMessage", "Recipe saved successfully!");
             return "redirect:/admin";
-        } catch (InputErrorException e){
-            redirectAttribute.addFlashAttribute("inputErrorMessage", "Udfyld venligst alle felterne korrekt!");
-        } catch (SystemErrorException e){
-            redirectAttribute.addFlashAttribute("errorMessage", "Der er sket en fejl på vores side. Prøv igen senere!");
+        } catch (InputErrorException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Venligst udfyld alle felterne korrekt!");
+        } catch (SystemErrorException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Der er sket en fejl på vores side. Prøv igen senere");
         }
-        return "adminPage";
+        return "redirect:/admin";
     }
 
     @GetMapping("/opretIngrediens")

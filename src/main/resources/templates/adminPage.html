@@ -53,20 +53,20 @@
                     </div>
                     <div class="Pictureframe">
                         <label for="pictureURL" class="Recipepicturetext">Tilføj et billede til opskriften</label>
-                        <input type="file" id="pictureURL" th:field="*{pictureURL}" accept="image/*">
+                        <input type="text" id="pictureURL" th:field="*{pictureURL}" accept="image/*">
                     </div>
                     <div class="Addingredientsbuttonframe">
-                        <h2>Tilføj ingrediens til opskrift</h2>
                         <select id="ingredientSelect">
                             <option th:each="ingredient : ${ingredients}"
                                     th:value="${ingredient.ingredientID}"
                                     th:text="${ingredient.name}">Ingredient Name</option>
                         </select>
-                        <button type="button" id="addIngredientBtn" onclick="addIngredientToList()">Tilføj ingrediens</button>
-                        <form id="recipeForm">
-                            <ul id="ingredientList">
-                            </ul>
-                            <button type="submit">Submit Recipe</button>
+                        <input type="number" id="ingredientWeight" name="ingredientWeight" min="1" placeholder="Vægt i gram" class="weight-input">
+                        <button type="button" onclick="addIngredientToList()">Tilføj Ingrediens</button>
+
+                        <form id="recipeForm" th:action="@{/admin}" method="post">
+                            <ul id="ingredientList"></ul>
+                            <button type="submit">Opret Opskrift</button>
                         </form>
                     </div>
                 </div>

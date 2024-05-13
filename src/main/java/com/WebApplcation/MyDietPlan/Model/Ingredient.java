@@ -2,13 +2,13 @@ package com.WebApplcation.MyDietPlan.Model;
 
 public class Ingredient {
 
-    int ingredientID;
-    String name;
-    int weightGrams;
-    int proteinPerHundredGrams;
-    int fatPerHundredGrams;
-    int carbohydratesPerHundredGrams;
-    int caloriesPerHundredGrams;
+    private int ingredientID;
+    private String name;
+    private double weightGrams;
+    private double proteinPerHundredGrams;
+    private double fatPerHundredGrams;
+    private double carbohydratesPerHundredGrams;
+    private double caloriesPerHundredGrams;
 
 
 
@@ -41,43 +41,43 @@ public class Ingredient {
         this.name = name;
     }
 
-    public int getCarbohydratesPerHundredGrams() {
+    public double getCarbohydratesPerHundredGrams() {
         return carbohydratesPerHundredGrams;
     }
 
-    public void setCarbohydratesPerHundredGrams(int carbohydratesPerHundredGrams) {
+    public void setCarbohydratesPerHundredGrams(double carbohydratesPerHundredGrams) {
         this.carbohydratesPerHundredGrams = carbohydratesPerHundredGrams;
     }
 
-    public int getFatPerHundredGrams() {
+    public double getFatPerHundredGrams() {
         return fatPerHundredGrams;
     }
 
-    public void setFatPerHundredGrams(int fatPerHundredGrams) {
+    public void setFatPerHundredGrams(double fatPerHundredGrams) {
         this.fatPerHundredGrams = fatPerHundredGrams;
     }
 
-    public int getProteinPerHundredGrams() {
+    public double getProteinPerHundredGrams() {
         return proteinPerHundredGrams;
     }
 
-    public void setProteinPerHundredGrams(int proteinPerHundredGrams) {
+    public void setProteinPerHundredGrams(double proteinPerHundredGrams) {
         this.proteinPerHundredGrams = proteinPerHundredGrams;
     }
 
-    public int getCaloriesPerHundredGrams() {
+    public double getCaloriesPerHundredGrams() {
         return caloriesPerHundredGrams;
     }
 
-    public void setCaloriesPerHundredGrams(int caloriesPerHundredGrams) {
+    public void setCaloriesPerHundredGrams(double caloriesPerHundredGrams) {
         this.caloriesPerHundredGrams = caloriesPerHundredGrams;
     }
 
-    public int getWeightGrams() {
+    public double getWeightGrams() {
         return weightGrams;
     }
 
-    public void setWeightGrams(int weightGrams) {
+    public void setWeightGrams(double weightGrams) {
         this.weightGrams = weightGrams;
     }
 
@@ -86,11 +86,11 @@ public class Ingredient {
         return "Ingredient{" +
                 "ingredientID=" + ingredientID +
                 ", name='" + name + '\'' +
-                ", carbohydratesPerHundredGrams=" + carbohydratesPerHundredGrams +
-                ", fatPerHundredGrams=" + fatPerHundredGrams +
-                ", proteinPerHundredGrams=" + proteinPerHundredGrams +
-                ", caloriesPerHundredGrams=" + caloriesPerHundredGrams +
                 ", weightGrams=" + weightGrams +
+                ", proteinPerHundredGrams=" + proteinPerHundredGrams +
+                ", fatPerHundredGrams=" + fatPerHundredGrams +
+                ", carbohydratesPerHundredGrams=" + carbohydratesPerHundredGrams +
+                ", caloriesPerHundredGrams=" + caloriesPerHundredGrams +
                 '}';
     }
 }
