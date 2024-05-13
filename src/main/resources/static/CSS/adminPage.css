@@ -248,6 +248,48 @@ html, body {
     width: 100%;
     gap: 10px;
 }
+.WeightInputFrame {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+}
+
+.weight-input {
+    width: 50%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    font-size: 18px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-style: italic;
+    background: white;
+    color: black;
+}
+.weight-input:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+.Addingredientsbuttonframe label {
+    color: black;
+    font-size: 18px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-style: italic;
+    font-weight: 400;
+}
+.Addingredientsbuttonframe button {
+    width: auto;
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    align-self: flex-start;
+}
+.Addingredientsbuttonframe button:hover {
+    background-color: #45a049;
+}
 
 
 

@@ -34,34 +34,57 @@ public class MyDietPlanRepository {
     }
 */
 
+    public Ingredient createIngredient(Ingredient ingredient){
+        String sql = "INSERT INTO `Ingredient`(`name`, `protein`, `fat`, `carbohydrates`, `calories`) VALUES (?, ?, ?, ?, ?)";
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, ingredient.getName());
+            ps.setDouble(2, ingredient.getProteinPerHundredGrams());
+            ps.setDouble(3, ingredient.getFatPerHundredGrams());
+            ps.setDouble(4, ingredient.getCarbohydratesPerHundredGrams());
+            ps.setInt(5, ingredient.getCaloriesPerHundredGrams());
+            return ps;
+        }, keyHolder);
+
+        int newId = keyHolder.getKey().intValue();
+
+        ingredient.setIngredientID(newId);
+
+        return ingredient;
+    }
+
     /**
      * Extracts a recipe object from the database and returns it.
      * @param recipeID the id of the recipe that the user wants returned
      * @return The recipe object that matches the given recipeID
      */
     public Recipe getRecipeByID(int recipeID) {
-        String sql = "SELECT * FROM `Recipe` WHERE `recipe_id` = ?";
-        Recipe recipe = jdbcTemplate.queryForObject(sql,new Object[]{recipeID}, recipeRowMapper());
+        String sql = "SELECT Ingredient.*, Recipe_has_ingredient.ingredient_weight " +
+                "FROM Ingredient " +
+                "JOIN Recipe_has_ingredient ON Ingredient.ingredient_id = Recipe_has_ingredient.ingredient_id " +
+                "WHERE Recipe_has_ingredient.recipe_id = ?";
+        Recipe recipe = jdbcTemplate.queryForObject(sql, new Object[]{recipeID}, recipeRowMapper());
 
-        if(recipe == null){
+        if (recipe == null) {
             return null;
         }
 
-        String sqlIngredients = "SELECT * FROM `Ingredient` WHERE `ingredient_id` IN (SELECT `ingredient_id` FROM `Recipe_has_ingredient` WHERE `recipe_id` = ?)";
-        List<Ingredient> ingredients = jdbcTemplate.query(sqlIngredients, new Object[]{recipe.getRecipeID()}, (resultSet, rowNum) -> {
+        List<Ingredient> ingredients = jdbcTemplate.query(sql, new Object[]{recipe.getRecipeID()}, (resultSet, rowNum) -> {
             Ingredient ingredient = new Ingredient();
             ingredient.setIngredientID(resultSet.getInt("ingredient_id"));
             ingredient.setName(resultSet.getString("name"));
-            ingredient.setWeightGrams(resultSet.getInt("weight"));
             ingredient.setProteinPerHundredGrams(resultSet.getInt("protein"));
             ingredient.setFatPerHundredGrams(resultSet.getInt("fat"));
             ingredient.setCarbohydratesPerHundredGrams(resultSet.getInt("carbohydrates"));
             ingredient.setCaloriesPerHundredGrams(resultSet.getInt("calories"));
+            ingredient.setWeightGrams(resultSet.getInt("ingredient_weight")); // Gets the weight from the joined table
             return ingredient;
         });
+
         recipe.setIngredientList((ArrayList<Ingredient>) ingredients);
         return recipe;
-
     }
 
 
@@ -305,7 +328,6 @@ public class MyDietPlanRepository {
             Ingredient ingredient = new Ingredient();
             ingredient.setIngredientID(rs.getInt("ingredient_id"));
             ingredient.setName(rs.getString("name"));
-            ingredient.setWeightGrams(rs.getInt("weight"));
             ingredient.setProteinPerHundredGrams(rs.getInt("protein"));
             ingredient.setFatPerHundredGrams(rs.getInt("fat"));
             ingredient.setCarbohydratesPerHundredGrams(rs.getInt("carbohydrates"));

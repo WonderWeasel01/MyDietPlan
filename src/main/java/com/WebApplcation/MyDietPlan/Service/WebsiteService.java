@@ -49,6 +49,25 @@ public class WebsiteService {
         return repo.getAllIngredients();
     }
 
+    public Ingredient createIngredient(Ingredient ingredient) throws SystemErrorException, InputErrorException {
+        try {
+            if(ingredient != null && isValidIngredient(ingredient)) {
+                return repo.createIngredient(ingredient);
+            } else throw new InputErrorException("Failed to create ingredient due to input issue");
+        }
+        catch (DataAccessException e) {
+            System.err.println("Error accessing the database: " + e.getMessage());
+            throw new SystemErrorException("Failed to create ingredient due to database access issues.");
+        }
+
+
+    }
+
+    public boolean isValidIngredient(Ingredient ingredient){
+        return StringUtils.hasText(ingredient.getName()) && ingredient.getCaloriesPerHundredGrams() >= 0 && ingredient.getProteinPerHundredGrams() >= 0
+                && ingredient.getFatPerHundredGrams() >= 0 && ingredient.getCarbohydratesPerHundredGrams() >= 0;
+    }
+
 /*
     public Recipe getRecipe(int recipeID) {
 

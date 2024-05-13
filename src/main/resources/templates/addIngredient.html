@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Opret ingrediens</title>
+</head>
+<body>
+<h1>Add Ingredient</h1>
+<form th:action="@{/opretIngrediens}" th:object="${ingredient}" method="post">
+    <p>Ingrediens Navn: <input type="text" th:field="*{name}" /></p>
+    <p>Protein (g/100g): <input type="number" th:field="*{proteinPerHundredGrams}" step="1" /></p>
+    <p>Fedt (g/100g): <input type="number" th:field="*{fatPerHundredGrams}" step="1" /></p>
+    <p>Kulhydrater (g/100g): <input type="number" th:field="*{carbohydratesPerHundredGrams}" step="1" /></p>
+    <p>Kalorier (kcal/100g): <input type="number" th:field="*{caloriesPerHundredGrams}" /></p>
+    <p><input type="submit" value="Submit" /></p>
+    <div th:if="${createIngredientSuccess} or ${createIngredientError}" class="message">
+        <p th:if="${createIngredientError}" th:text="${createIngredientError}" class="error-message"></p>
+        <p th:if="${createIngredientSuccess}" th:text="${createIngredientSuccess}" class="success-message"></p>
+    </div>
+
+</form>
+</body>
+</html>
