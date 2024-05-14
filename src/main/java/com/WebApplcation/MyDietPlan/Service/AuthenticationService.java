@@ -14,6 +14,10 @@ import org.springframework.stereotype.Service;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Objects;
+
 
 @Service
 public class AuthenticationService {
@@ -42,6 +46,7 @@ public class AuthenticationService {
             String hashedPassword = hashPassword(user.getPassword());
             user.setPassword(hashedPassword);
             user.setRole("User");
+            user.calculateDailyCalorieExpenditure();
             return repo.createUser(user);
         } catch(DuplicateKeyException e){
             e.printStackTrace();
@@ -92,6 +97,42 @@ public class AuthenticationService {
     public void logout(){
         AuthenticationService.user = null;
     }
+
+    public boolean isAdminLoggedIn(){
+        return AuthenticationService.user != null && Objects.equals(AuthenticationService.user.getRole(), "Admin");
+    }
+
+    public User updateUser(User user){
+        String hashedPassword = hashPassword(user.getPassword());
+        user.setPassword(hashedPassword);
+        return repo.updateUser(user.getUserId(),user);
+    }
+
+
+    public Subscription payingUser(Subscription subscription) {
+        int paidUserId = user.getUserId();
+
+
+        // Set the subscription start date to the current date
+        java.util.Date currentDate = new java.util.Date();
+        java.sql.Date sqlStartDate = new java.sql.Date(currentDate.getTime());
+        subscription.setSubscriptionStartDate(sqlStartDate);
+
+        // Set the subscription end date one week later
+        LocalDate localEndDate = sqlStartDate.toLocalDate().plusWeeks(1);
+        java.sql.Date sqlEndDate = java.sql.Date.valueOf(localEndDate);
+        subscription.setSubscriptionEndDate(sqlEndDate);
+
+        //Set subscription to me active= True
+        subscription.setSubscriptionStatus(true);
+
+        //Set the Price of the membership
+        subscription.setSubscriptionPrice(49.00);
+
+        repo.insertSubscription(subscription,paidUserId);
+        return subscription;
+    }
+
 
 
 /*

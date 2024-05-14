@@ -15,7 +15,7 @@ private double subscriptionPrice;
 public Subscription() {
 }
 
-public Subscription(int subscriptionID, String subscriptionType, Date subscriptionStartDate, Date subscriptionEndDate, Boolean subscriptionStatus, double subscriptionPrice) {
+public Subscription(int subscriptionID, Date subscriptionStartDate, Date subscriptionEndDate, Boolean subscriptionStatus, double subscriptionPrice) {
     this.subscriptionID = subscriptionID;
     this.subscriptionType = subscriptionType;
     this.subscriptionStartDate = subscriptionStartDate;
@@ -66,8 +66,8 @@ public void setSubscriptionPrice(double subscriptionPrice) {
 }
 @Override
 public String toString() {
-    return "Subscription [subscriptionID=" + subscriptionID + ", subscriptionType=" + subscriptionType
-            + ", subscriptionStartDate=" + subscriptionStartDate + ", subscriptionEndDate=" + subscriptionEndDate
+    return "Subscription [subscriptionID=" + subscriptionID + ", subscriptionType=" +
+            ", subscriptionStartDate=" + subscriptionStartDate + ", subscriptionEndDate=" + subscriptionEndDate
             + ", subscriptionStatus=" + subscriptionStatus + ", subscriptionPrice=" + subscriptionPrice + "]";
 }
 

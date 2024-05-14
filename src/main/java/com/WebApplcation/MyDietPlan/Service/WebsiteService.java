@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,18 +23,34 @@ public class WebsiteService {
         this.repo = myDietPlanRepository;
     }
 
+/*
+    public List<Recipe> adjustRecipesForUser(List<Recipe> weeklyDietPlan){
 
-    public Recipe createRecipe(Recipe recipe) throws SystemErrorException, InputErrorException {
-        try {
-            if(recipe != null && isValidRecipe(recipe)) {
-                recipe.calculateMacros();
-                return repo.createRecipe(recipe);
-            } else throw new InputErrorException("Failed to create recipe due to input issue");
+    }
+
+
+ */
+
+    public Recipe createRecipe(Recipe recipe, List<Integer> ingredientIds, List<Integer> weights) throws SystemErrorException, InputErrorException {
+        if(recipe == null) {
+            throw new InputErrorException("Venligst udfyld alle felterne korrekt!");
         }
-        catch (DataAccessException e) {
-            System.err.println("Error accessing the database: " + e.getMessage());
-            throw new SystemErrorException("Failed to create recipe due to database access issues.");
-        }
+            try {
+                ArrayList<Ingredient> ingredients = new ArrayList<>();
+                for (int i = 0; i < ingredientIds.size(); i++) {
+                    Ingredient ingredient = getIngredientByID(ingredientIds.get(i));
+                    ingredient.setWeightGrams(weights.get(i));
+                    ingredients.add(ingredient);
+                }
+                recipe.setIngredientList(ingredients);
+                if (isValidRecipe(recipe)) {
+                    recipe.calculateMacros();
+                    return repo.createRecipe(recipe);
+                } else throw new InputErrorException("Venligst udfyld alle felterne korrekt!");
+            } catch (DataAccessException e) {
+                System.err.println("Error accessing the database: " + e.getMessage());
+                throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
+            }
     }
     public boolean isValidRecipe(Recipe recipe){
         return StringUtils.hasText(recipe.getTitle()) && StringUtils.hasText(recipe.getPrepTime()) && StringUtils.hasText(recipe.getTimeOfDay())
@@ -49,14 +66,12 @@ public class WebsiteService {
         try {
             if(ingredient != null && isValidIngredient(ingredient)) {
                 return repo.createIngredient(ingredient);
-            } else throw new InputErrorException("Failed to create ingredient due to input issue");
+            } else throw new InputErrorException("Udfyld venligst alle felterne korrekt");
         }
         catch (DataAccessException e) {
             System.err.println("Error accessing the database: " + e.getMessage());
-            throw new SystemErrorException("Failed to create ingredient due to database access issues.");
+            throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere!");
         }
-
-
     }
 
     public Ingredient getIngredientByID(int id){

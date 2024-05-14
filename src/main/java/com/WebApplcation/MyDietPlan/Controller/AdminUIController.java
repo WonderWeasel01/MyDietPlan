@@ -9,7 +9,6 @@ import com.WebApplcation.MyDietPlan.Service.WebsiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,24 +17,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 public class AdminUIController {
     @Autowired
-    WebsiteService ws;
+    WebsiteService websiteService;
     @Autowired
-    AuthenticationService as;
+    AuthenticationService authenticationService;
     public AdminUIController(WebsiteService websiteService, AuthenticationService authenticationService){
-        this.ws = websiteService;
-        this.as = authenticationService;
+        this.websiteService = websiteService;
+        this.authenticationService = authenticationService;
     }
     @GetMapping("/admin")
     public String adminPageForm(Model model){
         if(!isAdminLoggedIn()){
             return "redirect:/";
         }
-        List<Ingredient> ingredients = ws.getAllIngredients();
+        List<Ingredient> ingredients = websiteService.getAllIngredients();
         Recipe recipe = new Recipe();
 
         model.addAttribute("ingredients", ingredients);
@@ -45,23 +43,14 @@ public class AdminUIController {
     }
 
     @PostMapping("/admin")
-    public String recipePost(@ModelAttribute Recipe recipe, @RequestParam List<Integer> ingredientIds, @RequestParam List<Integer> weights, RedirectAttributes redirectAttributes) {
+    public String recipePost(@ModelAttribute Recipe recipe, @RequestParam List<Integer> ingredientIds, @RequestParam List<Integer> weights,
+                             RedirectAttributes redirectAttributes) {
         try {
-            ArrayList<Ingredient> ingredients = new ArrayList<>();
-            for (int i = 0; i < ingredientIds.size(); i++) {
-                Ingredient ingredient = ws.getIngredientByID(ingredientIds.get(i));
-                ingredient.setWeightGrams(weights.get(i));
-                ingredients.add(ingredient);
-            }
-            recipe.setIngredientList(ingredients);
-            ws.createRecipe(recipe);
+            websiteService.createRecipe(recipe, ingredientIds, weights);
             redirectAttributes.addFlashAttribute("successMessage", "Opskrift gemt!");
             return "redirect:/admin";
-        } catch (InputErrorException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Venligst udfyld alle felterne korrekt!");
-            return "redirect:/admin";
-        } catch (SystemErrorException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Der er sket en fejl på vores side. Prøv igen senere");
+        } catch (InputErrorException | SystemErrorException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/admin";
         }
     }
@@ -74,27 +63,24 @@ public class AdminUIController {
     @PostMapping("/opretIngrediens")
     public String addIngredientPost(@ModelAttribute Ingredient ingredient, Model model, RedirectAttributes redirectAttributes){
         try{
-            ws.createIngredient(ingredient);
+            websiteService.createIngredient(ingredient);
             redirectAttributes.addFlashAttribute("createIngredientSuccess", "Ingrediens oprettet!");
             return "redirect:/opretIngrediens";
-        } catch (InputErrorException e){
+        } catch (InputErrorException | SystemErrorException e){
             model.addAttribute("createIngredientError", "Udfyld venligst alle felterne korrekt");
-        } catch (SystemErrorException e) {
-            model.addAttribute("createIngredientError", "Der er sket en fejl på vores side. Prøv igen senere!");
         }
-
         return "addIngredient";
 
     }
 
 
     private boolean isAdminLoggedIn(){
-        return AuthenticationService.user != null && Objects.equals(AuthenticationService.user.getRole(), "Admin");
+        return authenticationService.isAdminLoggedIn();
     }
 
     @GetMapping("/logout")
     public String logoutButton(){
-        as.logout();
+        authenticationService.logout();
         return "redirect:/";
     }
 
