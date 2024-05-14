@@ -9,6 +9,7 @@ import com.WebApplcation.MyDietPlan.Service.WebsiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +24,11 @@ import java.util.Objects;
 public class AdminUIController {
     @Autowired
     WebsiteService ws;
-    public AdminUIController(WebsiteService websiteService){
+    @Autowired
+    AuthenticationService as;
+    public AdminUIController(WebsiteService websiteService, AuthenticationService authenticationService){
         this.ws = websiteService;
+        this.as = authenticationService;
     }
     @GetMapping("/admin")
     public String adminPageForm(Model model){
@@ -78,6 +82,7 @@ public class AdminUIController {
         } catch (SystemErrorException e) {
             model.addAttribute("createIngredientError", "Der er sket en fejl på vores side. Prøv igen senere!");
         }
+
         return "addIngredient";
 
     }
@@ -85,6 +90,12 @@ public class AdminUIController {
 
     private boolean isAdminLoggedIn(){
         return AuthenticationService.user != null && Objects.equals(AuthenticationService.user.getRole(), "Admin");
+    }
+
+    @GetMapping("/logout")
+    public String logoutButton(){
+        as.logout();
+        return "redirect:/";
     }
 
 }
