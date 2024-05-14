@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" type="text/css" href="/CSS/LoggedIn.css">
     <title>Welcome Page</title>
+    <script src="https://kit.fontawesome.com/c0582023bf.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="Welcomepage">
@@ -13,7 +14,7 @@
             <img class="Logo" src="Images/PNGS/minkostplan-logo.png" />
             <div class="Welcometext">
                 <div class="Name">Velkommen, Andreas!</div>
-                <div class="Quote">Husk dit spise din frokos idag!</div>
+                <div class="Quote">Husk dit spise din frokost idag!</div>
             </div>
             <div class="Activebutton">
                 <div class="Activetext">MENU</div>
@@ -27,41 +28,43 @@
             <div class="Profiledropdown">
                 <img class="Profileimage" src="https://via.placeholder.com/59x52" />
                 <div class="Name">ANDREAS</div>
-                <div class="Arrow">
-                    <div class="Stroke1"></div>
-                </div>
+                    <i class="fa-solid fa-chevron-down"></i>
             </div>
         </div>
         <div class="Mealbody">
             <div class="Weekplan">
                 <div class="Weektext">Se denne uges plan</div>
                 <div class="Days">
-                    <div class="Mandag">Mandag</div>
-                    <div class="Tirsdag">Tirsdag</div>
-                    <div class="Onsdag">Onsdag</div>
-                    <div class="Torsdag">Torsdag</div>
-                    <div class="Fredag">Fredag</div>
-                    <div class="LRdag">Lørdag</div>
-                    <div class="SNdag">Søndag</div>
+                    <div class="Mandag" id="Mandag" onclick="changeColor('Mandag', this)">Mandag</div>
+                    <div class="Tirsdag" id="Tirsdag" onclick="changeColor('Tirsdag', this)">Tirsdag</div>
+                    <div class="Onsdag" id="Onsdag" onclick="changeColor('Onsdag', this)">Onsdag</div>
+                    <div class="Torsdag" id="Torsdag" onclick="changeColor('Torsdag', this)">Torsdag</div>
+                    <div class="Fredag" id="Fredag" onclick="changeColor('Fredag', this)">Fredag</div>
+                    <div class="LRdag" id="LRdag" onclick="changeColor('LRdag', this)">Lørdag</div>
+                    <div class="SNdag" id="SNdag" onclick="changeColor('SNdag', this)">Søndag</div>
                 </div>
+                
+                
                 <div class="Lines">
-                    <div class="Mondayline">━━━━</div>
+                    <div class="Mondayline active" id="MandagLine">━━━━</div>
                     <div class="Dividerline">━</div>
-                    <div class="Tuesdayline">━━━━</div>
+                    <div class="Tuesdayline" id="TirsdagLine">━━━━</div>
                     <div class="Dividerline">━</div>
-                    <div class="Wendsdayline">━━━━</div>
+                    <div class="Wendsdayline" id="OnsdagLine">━━━━</div>
                     <div class="Dividerline">━</div>
-                    <div class="Tuesdayline">━━━━</div>
+                    <div class="ThursdayLine" id="TorsdagLine">━━━━</div>
                     <div class="Dividerline">━</div>
-                    <div class="Fridayline">━━━━</div>
+                    <div class="Fridayline" id="FredagLine">━━━━</div>
                     <div class="Dividerline">━</div>
-                    <div class="Saturdayline">━━━━</div>
+                    <div class="Saturdayline" id="LRdagLine">━━━━</div>
                     <div class="Dividerline">━</div>
-                    <div class="Sundayline">━━━━</div>
+                    <div class="Sundayline" id="SNdagLine">━━━━</div>
                 </div>
+                
             </div>
             <div class="Mealdivs">
                 <div class="Mealbox">
+                    <div class="MealText">MORGENMAD</div>
                     <img class="Mealimage" src="https://via.placeholder.com/355x139" />
                     <div class="Mealname">BOLLER I KARRY</div>
                     <div class="Mealrow">
@@ -72,6 +75,7 @@
                     </div>
                 </div>
                 <div class="Mealbox">
+                    <div class="Mealname">MIDAGS MAD</div>
                     <img class="Mealimage" src="https://via.placeholder.com/355x139" />
                     <div class="Mealname">BOLLER I KARRY</div>
                     <div class="Mealrow">
@@ -82,6 +86,7 @@
                     </div>
                 </div>
                 <div class="Mealbox">
+                    <div class="Mealname">AFTENS MAD</div>
                     <img class="Mealimage" src="https://via.placeholder.com/355x139" />
                     <div class="Mealname">BOLLER I KARRY</div>
                     <div class="Mealrow">
@@ -95,4 +100,30 @@
         </div>
     </div>
 </body>
+
+<script>
+function changeColor(day, element) {
+    var lineElement = document.getElementById(day + "Line");
+    var allLines = document.querySelectorAll('.Lines > div');
+    var allDays = document.querySelectorAll('.Days > div');
+
+    // Remove any previously added 'active' class from all lines and days
+    allLines.forEach(function(line) {
+        line.classList.remove("active");
+    });
+
+    allDays.forEach(function(dayElement) {
+        dayElement.classList.remove("Selected");
+        dayElement.classList.add("Unselected");
+    });
+
+    // Add the 'active' class to the corresponding line
+    lineElement.classList.add("active");
+    
+    // Toggle the text color of the selected day
+    element.classList.remove("Unselected");
+    element.classList.add("Selected");
+}
+
+</script>
 </html>

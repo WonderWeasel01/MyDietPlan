@@ -165,18 +165,27 @@ body {
     display: flex;
 }
 
-.Mandag,
+.Mandag{
+    color: black;
+    font-size: 42px;
+    font-family: Josefin Sans;
+    font-weight: 600;
+    word-wrap: break-word;
+    cursor: pointer;
+
+}
 .Tirsdag,
 .Onsdag,
 .Torsdag,
 .Fredag,
 .LRdag,
 .SNdag {
-    color: black;
+    color: #636363;
     font-size: 42px;
     font-family: Josefin Sans;
     font-weight: 600;
     word-wrap: break-word;
+    cursor: pointer;
 }
 
 .Lines {
@@ -188,16 +197,10 @@ body {
     display: flex;
 }
 
-.Mondayline{
-    color: #87CC83;
-    font-size: 38px;
-    font-family: Dongle;
-    font-weight: 400;
-    word-wrap: break-word;
-}
-
+.Mondayline,
 .Tuesdayline,
 .Wendsdayline,
+.ThursdayLine,
 .Fridayline,
 .Saturdayline,
 .Sundayline {
@@ -291,4 +294,28 @@ body {
     font-family: Inter;
     font-weight: 400;
     word-wrap: break-word;
+}
+
+
+.MealText{
+    align-self: stretch;
+    text-align: center;
+    color: black;
+    font-size: 24px;
+    font-family: Josefin Sans;
+    font-weight: 600;
+    word-wrap: break-word;
+}
+
+.active{
+    color: #87CC83;
+
+}
+
+.Selected {
+    color: black;
+}
+
+.Unselected {
+    color: #636363;
 }
