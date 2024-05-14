@@ -3,6 +3,7 @@ package com.WebApplcation.MyDietPlan.Service;
 import com.WebApplcation.MyDietPlan.Exception.EntityNotFoundException;
 import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
+import com.WebApplcation.MyDietPlan.Model.Subscription;
 import com.WebApplcation.MyDietPlan.Model.User;
 import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;

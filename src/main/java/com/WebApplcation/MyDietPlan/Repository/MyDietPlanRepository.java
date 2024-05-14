@@ -2,6 +2,7 @@ package com.WebApplcation.MyDietPlan.Repository;
 
 import com.WebApplcation.MyDietPlan.Model.Ingredient;
 import com.WebApplcation.MyDietPlan.Model.Recipe;
+import com.WebApplcation.MyDietPlan.Model.Subscription;
 import com.WebApplcation.MyDietPlan.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -11,9 +12,11 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 @Repository
 public class MyDietPlanRepository {
@@ -274,6 +277,30 @@ public class MyDietPlanRepository {
         String sql = "SELECT password FROM `User` WHERE email = ?";
         return jdbcTemplate.queryForObject(sql,new Object[]{email},  String.class);
     }
+
+    public Subscription insertSubscription(Subscription subscription, int userID) {
+        String sql = "INSERT INTO `Subscription` (`user_id`, `subscriptionStartDate`, `subscriptionEndDate`, `subscriptionStatus`, `subscriptionPrice`) VALUES (?,?,?,?,?);";  //'7', '2024-05-14', '2024-05-21', '1', '49,00'
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, userID);
+            ps.setDate(2, subscription.getSubscriptionStartDate());
+            ps.setDate(3, subscription.getSubscriptionEndDate());
+            ps.setBoolean(4, subscription.getSubscriptionStatus());
+            ps.setDouble(5, subscription.getSubscriptionPrice());
+
+            return ps;
+        }, keyHolder);
+
+        // Retrieve the generated key
+        Number generatedKey = keyHolder.getKey();
+        if (generatedKey != null) {
+            int id = generatedKey.intValue();
+            subscription.setSubscriptionID(id);//
+        }
+        return subscription;
+    }
+
 
     /**
      * Updates settings for a user in the database.

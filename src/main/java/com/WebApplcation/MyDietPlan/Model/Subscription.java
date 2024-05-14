@@ -5,7 +5,6 @@ import java.sql.Date;
 public class Subscription {
 
 private int subscriptionID;
-private String subscriptionType;
 private Date subscriptionStartDate;
 private Date subscriptionEndDate;
 private Boolean subscriptionStatus;
@@ -17,7 +16,6 @@ public Subscription() {
 
 public Subscription(int subscriptionID, Date subscriptionStartDate, Date subscriptionEndDate, Boolean subscriptionStatus, double subscriptionPrice) {
     this.subscriptionID = subscriptionID;
-    this.subscriptionType = subscriptionType;
     this.subscriptionStartDate = subscriptionStartDate;
     this.subscriptionEndDate = subscriptionEndDate;
     this.subscriptionStatus = subscriptionStatus;
@@ -33,12 +31,6 @@ public int getSubscriptionID() {
 }
 public void setSubscriptionID(int subscriptionID) {
     this.subscriptionID = subscriptionID;
-}
-public String getSubscriptionType() {
-    return subscriptionType;
-}
-public void setSubscriptionType(String subscriptionType) {
-    this.subscriptionType = subscriptionType;
 }
 public Date getSubscriptionStartDate() {
     return subscriptionStartDate;
