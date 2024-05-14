@@ -136,17 +136,17 @@ public class AuthenticationService {
 
 
 
+
+
+
+    public boolean deleteUser(int userID) {return repo.deleteUser(userID);}
+
+
 /*
-
-
-    public boolean deleteUser(int userID){
-
-    }
-
     public int calculateAge(int dateOfBirth){
 
     }
- */
 
+*/
 
 }

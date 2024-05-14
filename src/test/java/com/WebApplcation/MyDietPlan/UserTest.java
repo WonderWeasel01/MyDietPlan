@@ -1,6 +1,8 @@
 package com.WebApplcation.MyDietPlan;
 
+import com.WebApplcation.MyDietPlan.Model.User;
 import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,17 +20,17 @@ public class UserTest {
     @InjectMocks
     private MyDietPlanRepository repo;
     private org.mockito.Mockito Mockito;
-/*
+
     @Test
     public void testCreateUser() {
-        UserRepository ur = new UserRepository(jdbcTemplate);
+        MyDietPlanRepository ur = new MyDietPlanRepository(jdbcTemplate);
         User user = new User("Alex", "Wentzel");
     }
 
     /**
      * A unit test to test if our deleteUser method works.
 
-
+/*
     @Test
     public void testDeleteUser() {
         UserRepository userRepository;
@@ -39,20 +41,20 @@ public class UserTest {
 
         Mockito.verify(userRepository).deleteUser(userIdToDelete);
     }
+*/
 
-
-    @Test
+   /* @Test
     public void testUpdateUser() {
         JdbcTemplate jdbcTemplate = mock(JdbcTemplate.class);
-        UserRepository mockedUserRepository = Mockito.mock(UserRepository.class);
+        MyDietPlanRepository mockedMyDietPlanRepository = Mockito.mock(MyDietPlanRepository.class);
 
-        int userId = 123;
+        int userId = 1;
         User updatedUser = new User("Simon", "Hellemose");
 
-        mockedUserRepository.updateUser(userId, updatedUser);
+        mockedMyDietPlanRepository.updateUser(userId, updatedUser);
 
 
-        verify(mockedUserRepository).updateUser(eq(userId), eq(updatedUser));
+        verify(mockedMyDietPlanRepository).updateUser(eq(userId), eq(updatedUser));
 
         verify(jdbcTemplate, never()).update(anyString(), any(Object[].class));
 
@@ -63,11 +65,11 @@ public class UserTest {
 
     public void testGetUserIdAfterUpdate() {
         JdbcTemplate jdbcTemplate = mock(JdbcTemplate.class);
-        UserRepository userRepository = new UserRepository(jdbcTemplate);
+        MyDietPlanRepository myDietPlanRepository = new MyDietPlanRepository(jdbcTemplate);
         int userId = 123;
         User updatedUser = new User("Simon", "Hellemose");
 
-        userRepository.updateUser(userId,  updatedUser);
+        MyDietPlanRepository.updateUser(userId,  updatedUser);
 
         verify(userRepository).getUserByID(userId);
     }

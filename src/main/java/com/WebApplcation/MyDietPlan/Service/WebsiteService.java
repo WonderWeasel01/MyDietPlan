@@ -4,6 +4,7 @@ import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Model.Ingredient;
 import com.WebApplcation.MyDietPlan.Model.Recipe;
+import com.WebApplcation.MyDietPlan.Model.User;
 import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -82,6 +83,8 @@ public class WebsiteService {
         return StringUtils.hasText(ingredient.getName()) && ingredient.getCaloriesPerHundredGrams() >= 0 && ingredient.getProteinPerHundredGrams() >= 0
                 && ingredient.getFatPerHundredGrams() >= 0 && ingredient.getCarbohydratesPerHundredGrams() >= 0;
     }
+
+
 
 /*
     public Recipe getRecipe(int recipeID) {
