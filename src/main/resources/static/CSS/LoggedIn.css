@@ -1,0 +1,288 @@
+/* Global Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif; /* Change font-family as needed */
+}
+
+/* Welcome Page Styles */
+.Welcomepage {
+    width: 1206px;
+    height: 780px;
+    padding: 10px;
+    background: #FAFFFA;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    display: inline-flex;
+}
+
+.Header {
+    align-self: stretch;
+    height: 108px;
+    padding: 10px;
+    border-radius: 20px;
+    overflow: hidden;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    display: inline-flex;
+}
+
+.Logo {
+    height: 87px;
+    padding: 10px;
+}
+
+.Welcometext {
+    padding: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    display: inline-flex;
+}
+
+.Name {
+    color: black;
+    font-size: 32px;
+    font-family: Josefin Sans;
+    font-weight: 600;
+    word-wrap: break-word;
+}
+
+.Quote {
+    color: #6D6D6D;
+    font-size: 16px;
+    font-family: Josefin Sans;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+.Activebutton,
+.Nonselectedbutton {
+    width: 134px;
+    height: 49px;
+    padding: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: flex;
+}
+
+.Activebutton {
+    background: #87CC83;
+}
+
+.Nonselectedbutton {
+    background: #F6F5FA;
+}
+
+.Activetext,
+.Nonselectedtext {
+    color: white;
+    font-size: 24px;
+    font-family: Inter;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+.Profiledropdown {
+    height: 72px;
+    padding: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    display: flex;
+}
+
+.Profileimage {
+    padding: 10px;
+}
+
+.Arrow {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    display: inline-flex;
+}
+
+.Stroke1 {
+    width: 12.83px;
+    height: 4.96px;
+    border: 1.50px black solid;
+}
+
+.Mealbody {
+    align-self: stretch;
+    flex: 1 1 0;
+    padding: 10px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+    display: flex;
+}
+
+.Weekplan {
+    align-self: stretch;
+    height: 186px;
+    padding-left: 120px;
+    padding-right: 120px;
+    padding-top: 46px;
+    padding-bottom: 46px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+    display: flex;
+}
+
+.Weektext {
+    color: black;
+    font-size: 24px;
+    font-family: Josefin Sans;
+    font-weight: 700;
+    word-wrap: break-word;
+}
+
+.Days {
+    align-self: stretch;
+    height: 34px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 51px;
+    display: inline-flex;
+}
+
+.Mandag,
+.Tirsdag,
+.Onsdag,
+.Torsdag,
+.Fredag,
+.LRdag,
+.SNdag {
+    color: black;
+    font-size: 24px;
+    font-family: Josefin Sans;
+    font-weight: 600;
+    word-wrap: break-word;
+}
+
+.Lines {
+    align-self: stretch;
+    height: 16px;
+    padding-bottom: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    display: inline-flex;
+}
+
+.Mondayline,
+.Tuesdayline,
+.Wendsdayline,
+.Fridayline,
+.Saturdayline,
+.Sundayline {
+    color: #636363;
+    font-size: 38px;
+    font-family: Dongle;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+.Dividerline {
+    color: #636363;
+    font-size: 38px;
+    font-family: Dongle;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+.Mealdivs {
+    align-self: stretch;
+    flex: 1 1 0;
+    padding: 10px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+    display: inline-flex;
+}
+
+.Mealbox {
+    flex: 1 1 0;
+    height: 351px;
+    padding: 10px;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+    display: inline-flex;
+}
+
+.Mealimage {
+    align-self: stretch;
+    padding: 10px;
+}
+
+.Mealname {
+    align-self: stretch;
+    text-align: center;
+    color: black;
+    font-size: 24px;
+    font-family: Josefin Sans;
+    font-weight: 600;
+    word-wrap: break-word;
+}
+
+.Mealrow {
+    align-self: stretch;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: inline-flex;
+}
+
+.Caloriestext {
+    text-align: center;
+    color: black;
+    font-size: 24px;
+    font-family: Josefin Sans;
+    font-weight: 600;
+    word-wrap: break-word;
+}
+
+.Mealbutton {
+    width: 119px;
+    height: 34px;
+    padding: 10px;
+    background: #87CC83;
+    border-radius: 5px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: flex;
+}
+
+.Mealbuttontext {
+    color: white;
+    font-size: 15px;
+    font-family: Inter;
+    font-weight: 400;
+    word-wrap: break-word;
+}
