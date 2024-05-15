@@ -11,34 +11,34 @@ function addIngredientToList() {
     }
 
     // Create list item for ingredient
-    const idAndWeightListItem = document.createElement('li');
-    idAndWeightListItem.textContent = `${selectedOption.text} - ${weight} gram`;
+    const listContent = document.createElement('li');
+    listContent.textContent = `${selectedOption.text} - ${weight} gram`;
 
     // Append hidden input for ingredientID
     const inputId = document.createElement('input');
     inputId.type = 'hidden';
     inputId.name = 'ingredientIds';
     inputId.value = selectedOption.value;
-    idAndWeightListItem.appendChild(inputId);
+    listContent.appendChild(inputId);
 
     // Append hidden input for weight
     const inputWeight = document.createElement('input');
     inputWeight.type = 'hidden';
     inputWeight.name = 'weights';
     inputWeight.value = weight;
-    idAndWeightListItem.appendChild(inputWeight);
+    listContent.appendChild(inputWeight);
 
     // Create and append delete button
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Fjern';
     deleteButton.type = 'button';
     deleteButton.onclick = function() {
-        removeIngredientFromList(idAndWeightListItem);
+        removeIngredientFromList(listContent);
     };
-    idAndWeightListItem.appendChild(deleteButton);
+    listContent.appendChild(deleteButton);
 
     // Append the list item to the ingredient list
-    ingredientList.appendChild(idAndWeightListItem);
+    ingredientList.appendChild(listContent);
 }
 
 function removeIngredientFromList(listItem) {

@@ -43,6 +43,11 @@ public class MyDietPlanRepository {
         return jdbcTemplate.queryForObject(sql,new Object[]{id}, ingredientRowMapper());
     }
 
+    public boolean updateRecipeActive(int recipeID, int newActive){
+        String sql = "UPDATE `Recipe` SET `active`= ? where recipe_id = ?";
+        return 0<jdbcTemplate.update(sql,newActive,recipeID);
+    }
+
     public Ingredient createIngredient(Ingredient ingredient){
         String sql = "INSERT INTO `Ingredient`(`name`, `protein`, `fat`, `carbohydrates`, `calories`) VALUES (?, ?, ?, ?, ?)";
 
@@ -98,15 +103,11 @@ public class MyDietPlanRepository {
         String sql = "SELECT * from Recipe WHERE recipe_id = ?";
 
         Recipe recipe = jdbcTemplate.queryForObject(sql, new Object[]{recipeID}, recipeRowMapper());
-
-
         if (recipe != null){
             //Recipe requires an Arraylist
             ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) getRecipeIngredientsByRecipeID(recipeID);
             recipe.setIngredientList(ingredients);
         }
-
-
         return recipe;
     }
 

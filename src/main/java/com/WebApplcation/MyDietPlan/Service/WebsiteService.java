@@ -58,6 +58,13 @@ public class WebsiteService {
         return repo.deleteRecipe(recipeID);
     }
 
+    public boolean updateRecipeActiveStatus(int recipeID) throws SystemErrorException, EntityNotFoundException {
+        if(getRecipeById(recipeID).getActive()){
+            return repo.updateRecipeActive(recipeID,0);
+        } else return repo.updateRecipeActive(recipeID,1);
+
+    }
+
     public boolean updateRecipeIngredients(int recipeID, List<Ingredient> newIngredients) throws SystemErrorException {
         if(repo.deleteIngredientsFromRecipe(recipeID)){
            return repo.insertIngredientsOntoRecipe(recipeID,newIngredients);
@@ -76,6 +83,7 @@ public class WebsiteService {
         recipe.calculateMacros();
         return recipe;
     }
+
     private void validateRecipe(Recipe recipe) throws InputErrorException {
         if (recipe == null || !isValidRecipe(recipe)) {
             throw new InputErrorException("Udfyld venligst felterne korrekt");

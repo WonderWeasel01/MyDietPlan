@@ -107,7 +107,6 @@ public class AdminUIController {
     public String editRecipePost(@ModelAttribute Recipe recipe, @ModelAttribute("recipeIngredients") ArrayList<Ingredient> recipeIngredients,
                                  @RequestParam List<Integer> ingredientIds, @RequestParam List<Integer> weights, RedirectAttributes redirectAttributes){
         try {
-            System.out.println(recipe);
             websiteService.setupRecipeWithIngredients(recipe,ingredientIds,weights);
             websiteService.updateRecipe(recipe);
             redirectAttributes.addFlashAttribute("successMessage", "Opskrift gemt!");
@@ -122,6 +121,20 @@ public class AdminUIController {
         websiteService.deleteRecipe(recipeID);
         return "redirect:/recipeShowcase";
     }
+
+    @GetMapping("/aktiverOpskrift/{recipeID}")
+    public String activateRecipe(@PathVariable int recipeID, RedirectAttributes redirectAttributes){
+        try{
+            if(websiteService.updateRecipeActiveStatus(recipeID)){
+                redirectAttributes.addFlashAttribute("successMessage", "Opskrift status ændret!");
+            }
+        } catch (EntityNotFoundException | SystemErrorException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/recipeShowcase";
+    }
+
+
 
 
 

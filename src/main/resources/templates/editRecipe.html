@@ -44,7 +44,7 @@
             <div class="Recipeheaderframe">
                 <div class="OpretEnOpskriftText">Opret en opskrift!</div>
             </div>
-            <form action="#" th:action="@{/editRecipe}" th:object="${recipe}" method="post">
+            <form action="#" th:action="@{/editRecipe}" th:object="${recipe}" method="post" >
                 <input type="hidden" th:field="*{recipeID}" />
                 <div class="Recipeinputframe">
                     <div class="Recipenameframe">
@@ -83,6 +83,8 @@
                             <ul id="ingredientList">
                                 <li th:each="ingredient : ${recipe.ingredientList}">
                                     <span th:text="${ingredient.name + ' - ' + ingredient.weightGrams + ' grams'}"></span>
+                                    <input type="hidden" th:value="${ingredient.ingredientID}" name ="oldIngredientIds">
+                                    <input type="hidden" th:value="${ingredient.weightGrams}" name ="oldWeights">
                                 </li>
                             </ul>
                         </div>
