@@ -93,7 +93,7 @@ html, body {
     margin: 0;
 }
 
-.Addingredientsframe, .Addnewrecipeframe {
+.Addingredientsframe, .Addnewrecipeframe, .Seerecipesframe {
     width: 370px;
     height: 72px;
     padding-left: 39px;
@@ -106,7 +106,7 @@ html, body {
     display: inline-flex;
 }
 
-.TilfJNyIngrediens, .TilfJNyOpskrift {
+.TilfJNyIngrediens, .TilfJNyOpskrift, .seeRecipes {
     width: 282px;
     height: 32px;
     color: black;
@@ -221,6 +221,18 @@ html, body {
     background-color: #45a049;
 }
 
+.ingredientList {
+    list-style-type: none;
+    width: 100%;
+    background-color: #f3f3f3;
+    border: 1px solid #ddd;
+    padding: 8px;
+    margin-top: 2px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-style: italic;
+    font-size: 18px;
+}
+
 
 #ingredientList {
     list-style-type: none;
@@ -240,7 +252,7 @@ html, body {
 }
 
 
-.Addingredientsbuttonframe {
+.Addingredientsbuttonframe, .seeRecipes{
     display: flex;
     font-family: 'Josefin Sans', sans-serif;
     flex-direction: column;

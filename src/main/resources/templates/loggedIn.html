@@ -13,8 +13,8 @@
         <div class="Header">
             <img class="Logo" src="Images/PNGS/minkostplan-logo.png" />
             <div class="Welcometext">
-                <div class="Name">Velkommen, Andreas!</div>
-                <div class="Quote">Husk dit spise din frokost idag!</div>
+                <div class="Name">Velkommen, <span th:text="${user.firstName}">User</span>!</div>
+                <div class="Quote">Husk at spise din frokost idag!</div>
             </div>
             <div class="Activebutton">
                 <div class="Activetext">MENU</div>
@@ -43,8 +43,8 @@
                     <div class="LRdag" id="LRdag" onclick="changeColor('LRdag', this)">Lørdag</div>
                     <div class="SNdag" id="SNdag" onclick="changeColor('SNdag', this)">Søndag</div>
                 </div>
-                
-                
+
+
                 <div class="Lines">
                     <div class="Mondayline active" id="MandagLine">━━━━</div>
                     <div class="Dividerline">━</div>
@@ -60,7 +60,7 @@
                     <div class="Dividerline">━</div>
                     <div class="Sundayline" id="SNdagLine">━━━━</div>
                 </div>
-                
+
             </div>
             <div class="Mealdivs">
                 <div class="Mealbox">
@@ -119,7 +119,7 @@ function changeColor(day, element) {
 
     // Add the 'active' class to the corresponding line
     lineElement.classList.add("active");
-    
+
     // Toggle the text color of the selected day
     element.classList.remove("Unselected");
     element.classList.add("Selected");

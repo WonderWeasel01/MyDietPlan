@@ -1,5 +1,6 @@
 package com.WebApplcation.MyDietPlan.Service;
 
+import com.WebApplcation.MyDietPlan.Exception.EntityNotFoundException;
 import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Model.Ingredient;
@@ -8,6 +9,7 @@ import com.WebApplcation.MyDietPlan.Model.User;
 import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -32,38 +34,84 @@ public class WebsiteService {
 
  */
 
-    public Recipe createRecipe(Recipe recipe, List<Integer> ingredientIds, List<Integer> weights) throws SystemErrorException, InputErrorException {
-        if(recipe == null) {
-            throw new InputErrorException("Venligst udfyld alle felterne korrekt!");
+    public Recipe createRecipe(Recipe recipe) throws SystemErrorException, InputErrorException {
+        validateRecipe(recipe);
+        try {
+            return repo.createRecipe(recipe);
+        } catch (DataAccessException e) {
+            System.err.println("Error accessing the database: " + e.getMessage());
+            throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
         }
-            try {
-                ArrayList<Ingredient> ingredients = new ArrayList<>();
-                for (int i = 0; i < ingredientIds.size(); i++) {
-                    Ingredient ingredient = getIngredientByID(ingredientIds.get(i));
-                    ingredient.setWeightGrams(weights.get(i));
-                    ingredients.add(ingredient);
-                }
-                recipe.setIngredientList(ingredients);
-                if (isValidRecipe(recipe)) {
-                    recipe.calculateMacros();
-                    return repo.createRecipe(recipe);
-                } else throw new InputErrorException("Venligst udfyld alle felterne korrekt!");
-            } catch (DataAccessException e) {
-                System.err.println("Error accessing the database: " + e.getMessage());
-                throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
-            }
+    }
+    public boolean updateRecipe(Recipe recipe) throws InputErrorException, SystemErrorException {
+        validateRecipe(recipe);
+        try{
+            if(repo.updateRecipe(recipe)){
+                return updateRecipeIngredients(recipe.getRecipeID(), recipe.getIngredientList());
+            } throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
+        } catch (DataAccessException e){
+            System.err.println("Error accessing the database: " + e.getMessage());
+            throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
+        }
+    }
+    public boolean deleteRecipe(int recipeID){
+        return repo.deleteRecipe(recipeID);
+    }
+
+    public boolean updateRecipeIngredients(int recipeID, List<Ingredient> newIngredients) throws SystemErrorException {
+        if(repo.deleteIngredientsFromRecipe(recipeID)){
+           return repo.insertIngredientsOntoRecipe(recipeID,newIngredients);
+        } else throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
+    }
+
+    public Recipe setupRecipeWithIngredients(Recipe recipe, List<Integer> ingredientIds, List<Integer> weights) throws InputErrorException {
+        validateIngredientAndWeightSizes(ingredientIds,weights);
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        for (int i = 0; i < ingredientIds.size(); i++) {
+            Ingredient ingredient = getIngredientByID(ingredientIds.get(i));
+            ingredient.setWeightGrams(weights.get(i));
+            ingredients.add(ingredient);
+        }
+        recipe.setIngredientList(ingredients);
+        recipe.calculateMacros();
+        return recipe;
+    }
+    private void validateRecipe(Recipe recipe) throws InputErrorException {
+        if (recipe == null || !isValidRecipe(recipe)) {
+            throw new InputErrorException("Udfyld venligst felterne korrekt");
+        }
     }
     public boolean isValidRecipe(Recipe recipe){
         return StringUtils.hasText(recipe.getTitle()) && StringUtils.hasText(recipe.getPrepTime()) && StringUtils.hasText(recipe.getTimeOfDay())
                 && StringUtils.hasText(recipe.getInstructions()) && StringUtils.hasText(recipe.getPictureURL()) && recipe.getIngredientList() != null
                 && !recipe.getIngredientList().isEmpty();
     }
+    private void validateIngredientAndWeightSizes(List<Integer> ingredientIds, List<Integer> weights) throws InputErrorException {
+        if (ingredientIds.size() != weights.size()) {
+            throw new InputErrorException("The number of ingredients and weights do not match.");
+        }
+    }
 
-    public List<Ingredient> getAllIngredients(){
+
+
+public List<Ingredient> getAllIngredients(){
         return repo.getAllIngredients();
     }
 
+    public Recipe getRecipeById(int recipeID) throws EntityNotFoundException, SystemErrorException {
+        try{
+            return repo.getRecipeWithIngredientsByRecipeID(recipeID);
+        } catch (EmptyResultDataAccessException e){
+            System.err.println(e.getMessage());
+            throw new EntityNotFoundException("Kunne ikke finde en opskrift med givet id");
+        } catch (DataAccessException e){
+            System.err.println(e.getMessage());
+            throw new SystemErrorException("Der er sket en fejl. Prøv igen senere");
+        }
+    }
+
     public Ingredient createIngredient(Ingredient ingredient) throws SystemErrorException, InputErrorException {
+
         try {
             if(ingredient != null && isValidIngredient(ingredient)) {
                 return repo.createIngredient(ingredient);
@@ -82,6 +130,14 @@ public class WebsiteService {
     public boolean isValidIngredient(Ingredient ingredient){
         return StringUtils.hasText(ingredient.getName()) && ingredient.getCaloriesPerHundredGrams() >= 0 && ingredient.getProteinPerHundredGrams() >= 0
                 && ingredient.getFatPerHundredGrams() >= 0 && ingredient.getCarbohydratesPerHundredGrams() >= 0;
+    }
+
+    public ArrayList<Recipe> getAllRecipes() throws EntityNotFoundException {
+        try{
+            return new ArrayList<>(repo.getAllRecipeWithoutIngredients());
+        } catch (EmptyResultDataAccessException e){
+            throw new EntityNotFoundException("Du har ikke tilføjet nogle opskrifter endnu!");
+        }
     }
 
 

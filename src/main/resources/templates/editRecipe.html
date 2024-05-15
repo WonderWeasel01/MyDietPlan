@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/CSS/adminPage.css">
-    <title>Admin</title>
+    <title>Opdater Opskrift</title>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -36,7 +36,7 @@
             </div>
             <div class="Logoutframe">
                 <a href="/logout" class="link-wrapper">
-                <div class="Logouttext">Logout</div>
+                    <div class="Logouttext">Logout</div>
                 </a>
             </div>
         </div>
@@ -44,7 +44,8 @@
             <div class="Recipeheaderframe">
                 <div class="OpretEnOpskriftText">Opret en opskrift!</div>
             </div>
-            <form action="#" th:action="@{/admin}" th:object="${recipe}" method="post">
+            <form action="#" th:action="@{/editRecipe}" th:object="${recipe}" method="post">
+                <input type="hidden" th:field="*{recipeID}" />
                 <div class="Recipeinputframe">
                     <div class="Recipenameframe">
                         <label for="title" class="OpskriftNavntext">Opskrift navn</label>
@@ -68,7 +69,7 @@
                     </div>
                     <div class="Addingredientsbuttonframe">
                         <select id="ingredientSelect">
-                            <option th:each="ingredient : ${ingredients}"
+                            <option th:each="ingredient : ${allIngredients}"
                                     th:value="${ingredient.ingredientID}"
                                     th:text="${ingredient.name}">Ingredient Name</option>
                         </select>
@@ -78,10 +79,14 @@
                             <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
                             <p th:if="${successMessage}" th:text="${successMessage}" class="success-message"></p>
                         </div>
-                        <form id="recipeForm" th:action="@{/admin}" method="post">
-                            <ul id="ingredientList"></ul>
-                            <button type="submit">Opret Opskrift</button>
-                        </form>
+                        <div class="IngredientListframe">
+                            <ul id="ingredientList">
+                                <li th:each="ingredient : ${recipe.ingredientList}">
+                                    <span th:text="${ingredient.name + ' - ' + ingredient.weightGrams + ' grams'}"></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button type="submit">Opdater opskrift</button>
                     </div>
                 </div>
             </form>

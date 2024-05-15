@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -63,23 +64,64 @@ public class MyDietPlanRepository {
         return ingredient;
     }
 
+    public boolean updateRecipe(Recipe recipe) {
+        String sql = "UPDATE Recipe SET " + "recipe_title = ?, " + "time_of_day = ?, " + "prep_time = ?, " +
+                "total_calories = ?, " + "total_protein = ?, " + "total_fat = ?, " + "total_carbohydrates = ?, " +
+                "active = ?, " + "instructions = ?, " + "pictureURL = ? " + "WHERE recipe_id = ?";
+
+        int rowsAffected = jdbcTemplate.update(sql, recipe.getTitle(), recipe.getTimeOfDay(), recipe.getPrepTime(),
+                recipe.getTotalCalories(), recipe.getTotalProtein(), recipe.getTotalFat(), recipe.getTotalCarbohydrates(),
+                recipe.getActive(), recipe.getInstructions(), recipe.getPictureURL(), recipe.getRecipeID());
+
+        return rowsAffected > 0;
+    }
+
+    public boolean insertIngredientsOntoRecipe(int recipeID, List<Ingredient> ingredients) {
+        String sql = "INSERT INTO `Recipe_has_ingredient`(`recipe_id`, `ingredient_id`, `ingredient_weight`) VALUES (?,?,?)";
+
+        int totalInserted = 0;
+
+        for (Ingredient ingredient : ingredients) {
+            int rowsAffected = jdbcTemplate.update(sql, recipeID, ingredient.getIngredientID(), ingredient.getWeightGrams());
+            totalInserted += rowsAffected;
+        }
+
+        return totalInserted == ingredients.size();
+    }
+
+    public boolean deleteIngredientsFromRecipe(int recipeID){
+        String sql = "DELETE FROM `Recipe_has_ingredient` WHERE recipe_id = ?";
+        return 0 < jdbcTemplate.update(sql,recipeID);
+    }
+
+    public Recipe getRecipeWithIngredientsByRecipeID(int recipeID){
+        String sql = "SELECT * from Recipe WHERE recipe_id = ?";
+
+        Recipe recipe = jdbcTemplate.queryForObject(sql, new Object[]{recipeID}, recipeRowMapper());
+
+
+        if (recipe != null){
+            //Recipe requires an Arraylist
+            ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) getRecipeIngredientsByRecipeID(recipeID);
+            recipe.setIngredientList(ingredients);
+        }
+
+
+        return recipe;
+    }
+
     /**
-     * Extracts a recipe object from the database and returns it.
-     * @param recipeID the id of the recipe that the user wants returned
-     * @return The recipe object that matches the given recipeID
+     * Retrieves the list of ingredients that match a recipeID
+     * @param recipeID the id of the recipe that the user wants the list of ingredients from
+     * @return A list of the ingredients that are attached to the recipe with the given recipeID
      */
-    public Recipe getRecipeByID(int recipeID) {
+    public List<Ingredient> getRecipeIngredientsByRecipeID(int recipeID) {
         String sql = "SELECT Ingredient.*, Recipe_has_ingredient.ingredient_weight " +
                 "FROM Ingredient " +
                 "JOIN Recipe_has_ingredient ON Ingredient.ingredient_id = Recipe_has_ingredient.ingredient_id " +
                 "WHERE Recipe_has_ingredient.recipe_id = ?";
-        Recipe recipe = jdbcTemplate.queryForObject(sql, new Object[]{recipeID}, recipeRowMapper());
 
-        if (recipe == null) {
-            return null;
-        }
-
-        List<Ingredient> ingredients = jdbcTemplate.query(sql, new Object[]{recipe.getRecipeID()}, (resultSet, rowNum) -> {
+        List<Ingredient> ingredients = jdbcTemplate.query(sql, new Object[]{recipeID}, (resultSet, rowNum) -> {
             Ingredient ingredient = new Ingredient();
             ingredient.setIngredientID(resultSet.getInt("ingredient_id"));
             ingredient.setName(resultSet.getString("name"));
@@ -91,8 +133,7 @@ public class MyDietPlanRepository {
             return ingredient;
         });
 
-        recipe.setIngredientList((ArrayList<Ingredient>) ingredients);
-        return recipe;
+        return ingredients;
     }
 
 
@@ -104,8 +145,8 @@ public class MyDietPlanRepository {
      */
 
     public Recipe createRecipe(Recipe recipe){
-        String sql = "INSERT INTO `Recipe`(`time_of_day`,`recipe_title`,`prep_time`, `total_calories`, `total_protein`, `total_fat`, `total_carbohydrates`, `active`) " +
-                "VALUES (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO `Recipe`(`time_of_day`,`recipe_title`,`prep_time`, `total_calories`, `total_protein`, `total_fat`, `total_carbohydrates`, `active`,`instructions`,`pictureURL`) " +
+                "VALUES (?,?,?,?,?,?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         //insert the recipe into the database
@@ -119,6 +160,8 @@ public class MyDietPlanRepository {
             ps.setDouble(6, recipe.getTotalProtein());
             ps.setDouble(7,recipe.getTotalCarbohydrates());
             ps.setBoolean(8,recipe.getActive());
+            ps.setString(9,recipe.getInstructions());
+            ps.setString(10,recipe.getPictureURL());
 
             return ps;
         }, keyHolder);
@@ -143,9 +186,8 @@ public class MyDietPlanRepository {
      * @return if return is 0 or above delete recipe from database
      */
     public boolean deleteRecipe(int recipeID){
-        String sql = "SELECT * FROM `Recipe` WHERE recipe_id = ?";
+        String sql = "DELETE FROM `Recipe` WHERE recipe_id = ?";
         int rowsAffected = jdbcTemplate.update(sql,recipeID);
-
         return rowsAffected > 0;
     }
 
@@ -153,7 +195,7 @@ public class MyDietPlanRepository {
      * The method reads every recipe from the database and returns them as a list.
      * @return A list of recipes.
      */
-    public List<Recipe> getAllRecipe(){
+    public List<Recipe> getAllRecipeWithoutIngredients(){
         String sql = "SELECT * FROM Recipe";
         return jdbcTemplate.query(sql, recipeRowMapper());
     }
@@ -166,7 +208,6 @@ public class MyDietPlanRepository {
      * @return A list of all "Morgen" Recipes
      */
     public List<Recipe> getAllBreakfastRecipes(){
-
         String sql = "SELECT * FROM `Recipe` WHERE time_of_day = ?";
         return jdbcTemplate.query(sql,recipeRowMapper(),"Morgen");
 
@@ -345,13 +386,15 @@ public class MyDietPlanRepository {
         return ((rs, rowNum) -> {
             Recipe recipe = new Recipe();
             recipe.setRecipeID(rs.getInt("recipe_id"));
+            recipe.setTitle(rs.getString("recipe_title"));
             recipe.setTimeOfDay(rs.getString("time_of_day"));
+            recipe.setPrepTime(rs.getString("prep_time"));
             recipe.setTotalCalories(rs.getDouble("total_calories"));
-            recipe.setTotalCarbohydrates(rs.getDouble("total_carbohydrates"));
-            recipe.setTotalFat(rs.getDouble("total_fat"));
             recipe.setTotalProtein(rs.getDouble("total_protein"));
+            recipe.setTotalFat(rs.getDouble("total_fat"));
             recipe.setActive(rs.getBoolean("active"));
-
+            recipe.setInstructions(rs.getString("instructions"));
+            recipe.setPictureURL(rs.getString("pictureURL"));
             return recipe;
         });
     }

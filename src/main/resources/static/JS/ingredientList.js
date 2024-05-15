@@ -4,7 +4,7 @@ function addIngredientToList() {
     const ingredientList = document.getElementById('ingredientList');
     const selectedOption = select.options[select.selectedIndex];
 
-    //Checks if the user has selected an ingredient and weight
+    // Checks if the user has selected an ingredient and weight
     if (!selectedOption.value || weight.trim() === '' || weight.trim() === "0") {
         alert('Vælg en ingrediens eller indtast vægten!');
         return;
@@ -19,7 +19,6 @@ function addIngredientToList() {
     inputId.type = 'hidden';
     inputId.name = 'ingredientIds';
     inputId.value = selectedOption.value;
-    //Saves the hidden values in the list
     idAndWeightListItem.appendChild(inputId);
 
     // Append hidden input for weight
@@ -27,8 +26,26 @@ function addIngredientToList() {
     inputWeight.type = 'hidden';
     inputWeight.name = 'weights';
     inputWeight.value = weight;
-
     idAndWeightListItem.appendChild(inputWeight);
+
+    // Create and append delete button
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Fjern';
+    deleteButton.type = 'button';
+    deleteButton.onclick = function() {
+        removeIngredientFromList(idAndWeightListItem);
+    };
+    idAndWeightListItem.appendChild(deleteButton);
+
+    // Append the list item to the ingredient list
     ingredientList.appendChild(idAndWeightListItem);
 }
+
+function removeIngredientFromList(listItem) {
+    const ingredientList = document.getElementById('ingredientList');
+    ingredientList.removeChild(listItem);
+}
+
+
+
 

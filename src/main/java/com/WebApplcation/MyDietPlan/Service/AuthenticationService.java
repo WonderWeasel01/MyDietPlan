@@ -103,6 +103,10 @@ public class AuthenticationService {
         return AuthenticationService.user != null && Objects.equals(AuthenticationService.user.getRole(), "Admin");
     }
 
+    public boolean isUserLoggedIn(){
+        return AuthenticationService.user != null;
+    }
+
     public User updateUser(User user){
         String hashedPassword = hashPassword(user.getPassword());
         user.setPassword(hashedPassword);

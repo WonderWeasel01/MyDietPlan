@@ -45,6 +45,11 @@ public class UserUIController {
 
     @GetMapping("/login")
     public String loginForm(Model model) {
+        if (authenticationService.isAdminLoggedIn()){
+            return "redirect:/admin";
+        } else if (authenticationService.isUserLoggedIn()) {
+            return "redirect:/welcome";
+        }
         User user = new User();
         model.addAttribute("user", user);
         return "login";
@@ -105,10 +110,15 @@ public class UserUIController {
         if(!isLoggedIn()){
             return "redirect:/";
         }
+        model.addAttribute("user", AuthenticationService.user);
         return "loggedIn";
 
     }
-
+    @GetMapping("/logout")
+    public String logoutButton(){
+        authenticationService.logout();
+        return "redirect:/";
+    }
     /* 
     @GetMapping("/paymentSite")
     public String paymentSitePage(Model model){
@@ -129,7 +139,7 @@ public class UserUIController {
     }
 
     private boolean isLoggedIn(){
-       return AuthenticationService.user != null;
+       return authenticationService.isUserLoggedIn();
     }
 
 
