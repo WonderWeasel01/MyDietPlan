@@ -105,12 +105,13 @@ public class UserUIController {
     }
 
 
-    @GetMapping("/welcome")
+    @GetMapping("/velkommen")
     public String welcomePage(Model model){
         if(!isLoggedIn()){
             return "redirect:/";
         }
         model.addAttribute("user", AuthenticationService.user);
+
         return "loggedIn";
 
     }
@@ -136,7 +137,7 @@ public class UserUIController {
         if ("Admin".equals(user.getRole())) {
             return "redirect:/admin";
         }
-        return "redirect:/welcome";
+        return "redirect:/velkommen";
     }
 
     private boolean isLoggedIn(){

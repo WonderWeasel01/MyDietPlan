@@ -31,7 +31,12 @@
             </div>
             <div class="Seerecipesframe">
                 <a href="/recipeShowcase" class="link-wrapper">
-                    <div class="seeRecipes">Se opskrifter</div>
+                    <div class="seeRecipes">Gamle opskrifter</div>
+                </a>
+            </div>
+            <div class="seeActiveRecipesFrame">
+                <a href="/aktiveOpskrifter" class="link-wrapper">
+                    <div class="seeActiveRecipes">Aktive opskrifter</div>
                 </a>
             </div>
             <div class="Logoutframe">
@@ -54,10 +59,13 @@
                         <label for="prepTime" class="Tilberedningstidtext">Tilberedningstid</label>
                         <input type="text" id="prepTime" th:field="*{prepTime}" class="prep-time-input" placeholder="Tilberedningstid">
                     </div>
-                    <div class="Timeofdayframe">
-                        <label for="timeOfDay" class="Tidspunkttext">Tidspunkt</label>
-                        <input type="text" id="timeOfDay" th:field="*{timeOfDay}" class="time-of-day-input" placeholder="Tidspunkt">
-                    </div>
+                    <label for="timeOfDaySelect" id="timeofDayText" class="Tidspunkt">Tidspunkt
+                    <select id="timeOfDaySelect" name="timeOfDaySelect" th:field="*{timeOfDay}">
+                        <option value="Breakfast">Morgenmad</option>
+                        <option value="Lunch">Middagsmad</option>
+                        <option value="Dinner">Aftensmad</option>
+                    </select>
+                    </label>
                     <div class="Instructionframe">
                         <label for="instructions" class="Instruktioner">Instruktioner</label>
                         <textarea id="instructions" th:field="*{instructions}" class="instructions-input" placeholder="Instruktioner"></textarea>

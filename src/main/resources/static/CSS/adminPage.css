@@ -93,7 +93,7 @@ html, body {
     margin: 0;
 }
 
-.Addingredientsframe, .Addnewrecipeframe, .Seerecipesframe {
+.Addingredientsframe, .Addnewrecipeframe, .Seerecipesframe, .seeActiveRecipesFrame {
     width: 370px;
     height: 72px;
     padding-left: 39px;
@@ -106,7 +106,7 @@ html, body {
     display: inline-flex;
 }
 
-.TilfJNyIngrediens, .TilfJNyOpskrift, .seeRecipes {
+.TilfJNyIngrediens, .TilfJNyOpskrift, .seeRecipes, .seeActiveRecipes{
     width: 282px;
     height: 32px;
     color: black;
@@ -180,7 +180,7 @@ html, body {
     max-height: calc(100vh - 250px);
 }
 
-.Recipenameframe, .Preptimeframe, .Timeofdayframe, .Instructionframe, .Pictureframe, .Addingredientsbuttonframe {
+.Recipenameframe, .Preptimeframe, .timeofDayText, .Instructionframe, .Pictureframe, .Addingredientsbuttonframe {
     justify-content: flex-start;
     display: flex;
     width: 100%;
@@ -188,7 +188,7 @@ html, body {
 }
 
 
-.OpskriftNavntext, .Tilberedningstidtext, .Tidspunkttext, .Instruktioner, .Recipepicturetext, .Addingredientsbuttontext {
+.OpskriftNavntext, .Tilberedningstidtext, .timeofDayText, .Instruktioner, .Recipepicturetext, .Addingredientsbuttontext {
     color: black;
     font-size: 32px;
     font-family: 'Josefin Sans', sans-serif;
@@ -252,7 +252,7 @@ html, body {
 }
 
 
-.Addingredientsbuttonframe, .seeRecipes{
+.Addingredientsbuttonframe, .seeRecipes, .seeActiveRecipes{
     display: flex;
     font-family: 'Josefin Sans', sans-serif;
     flex-direction: column;

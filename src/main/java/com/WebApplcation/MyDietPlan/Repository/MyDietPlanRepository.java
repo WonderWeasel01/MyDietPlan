@@ -205,7 +205,14 @@ public class MyDietPlanRepository {
         String sql = "SELECT * FROM Recipe";
         return jdbcTemplate.query(sql, recipeRowMapper());
     }
-
+    public List<Recipe> getAllActiveRecipeWithoutIngredients(){
+        String sql = "SELECT * FROM Recipe where active = 1";
+        return jdbcTemplate.query(sql, recipeRowMapper());
+    }
+    public List<Recipe> getAllDeactivatedRecipeWithoutIngredients(){
+        String sql = "SELECT * FROM Recipe where active = 0";
+        return jdbcTemplate.query(sql, recipeRowMapper());
+    }
 
 
     /**
@@ -398,6 +405,7 @@ public class MyDietPlanRepository {
             recipe.setTotalCalories(rs.getDouble("total_calories"));
             recipe.setTotalProtein(rs.getDouble("total_protein"));
             recipe.setTotalFat(rs.getDouble("total_fat"));
+            recipe.setTotalCarbohydrates(rs.getDouble("total_carbohydrates"));
             recipe.setActive(rs.getBoolean("active"));
             recipe.setInstructions(rs.getString("instructions"));
             recipe.setPictureURL(rs.getString("pictureURL"));

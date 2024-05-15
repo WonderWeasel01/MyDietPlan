@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>Add Ingredient</h1>
+<button onclick="history.back()" class="back-button">Back</button>
 <form th:action="@{/opretIngrediens}" th:object="${ingredient}" method="post">
     <p>Ingrediens Navn: <input type="text" th:field="*{name}" /></p>
     <p>Protein (g/100g): <input type="number" th:field="*{proteinPerHundredGrams}" step="1" /></p>

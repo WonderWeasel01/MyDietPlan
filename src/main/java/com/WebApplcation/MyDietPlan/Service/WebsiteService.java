@@ -147,6 +147,23 @@ public List<Ingredient> getAllIngredients(){
             throw new EntityNotFoundException("Du har ikke tilføjet nogle opskrifter endnu!");
         }
     }
+    public ArrayList<Recipe> getAllDeactivatedRecipes() throws EntityNotFoundException {
+        try{
+            return new ArrayList<>(repo.getAllDeactivatedRecipeWithoutIngredients());
+        } catch (EmptyResultDataAccessException e){
+            throw new EntityNotFoundException("Du har ikke tilføjet nogle opskrifter endnu!");
+        }
+    }
+
+    public ArrayList<Recipe> getAllActiveRecipes() throws EntityNotFoundException {
+        try {
+            return (ArrayList<Recipe>) repo.getAllActiveRecipeWithoutIngredients();
+        } catch (EmptyResultDataAccessException e) {
+            throw new EntityNotFoundException("Du har ikke tilføjet nogle opskrifter endnu!");
+        }
+    }
+
+
 
     /*public Recipe getRecipeByTimeOfDay(int recipeID) throws EntityNotFoundException, SystemErrorException {
         try{

@@ -5,7 +5,6 @@ import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Model.Ingredient;
 import com.WebApplcation.MyDietPlan.Model.Recipe;
-import com.WebApplcation.MyDietPlan.Model.User;
 import com.WebApplcation.MyDietPlan.Service.AuthenticationService;
 import com.WebApplcation.MyDietPlan.Service.WebsiteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,15 +77,15 @@ public class AdminUIController {
             return "redirect:/";
         }
         try{
-            ArrayList<Recipe> allRecipes = websiteService.getAllRecipes();
+            ArrayList<Recipe> allRecipes = websiteService.getAllDeactivatedRecipes();
             model.addAttribute("recipes", allRecipes);
         } catch (EntityNotFoundException e){
             model.addAttribute("errorMessage", e.getMessage());
         }
-        return "recipeShowcase";
+        return "oldRecipesShowcase";
     }
 
-    @GetMapping("/editRecipe/{recipeID}")
+    @GetMapping("/opdaterOpskrift/{recipeID}")
     public String editRecipe(Model model, @PathVariable int recipeID, RedirectAttributes redirectAttributes){
         try{
             List<Ingredient> allIngredients = websiteService.getAllIngredients();
@@ -103,7 +102,7 @@ public class AdminUIController {
         return "redirect:/recipeShowcase";
     }
 
-    @PostMapping("/editRecipe")
+    @PostMapping("/opdaterOpskrift")
     public String editRecipePost(@ModelAttribute Recipe recipe, @ModelAttribute("recipeIngredients") ArrayList<Ingredient> recipeIngredients,
                                  @RequestParam List<Integer> ingredientIds, @RequestParam List<Integer> weights, RedirectAttributes redirectAttributes){
         try {
@@ -132,6 +131,18 @@ public class AdminUIController {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
         return "redirect:/recipeShowcase";
+    }
+
+    @GetMapping("/aktiveOpskrifter")
+    public String showActiveRecipes(Model model, RedirectAttributes redirectAttributes){
+       try{
+           ArrayList<Recipe> recipes = websiteService.getAllActiveRecipes();
+           model.addAttribute("recipes", recipes);
+           return "activeRecipesShowcase";
+       }catch (EntityNotFoundException e){
+           redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+       }
+       return "redirect:/aktiveOpskrifter";
     }
 
 
