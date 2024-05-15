@@ -148,6 +148,18 @@ public List<Ingredient> getAllIngredients(){
         }
     }
 
+    /*public Recipe getRecipeByTimeOfDay(int recipeID) throws EntityNotFoundException, SystemErrorException {
+        try{
+            return repo.getRecipeWithIngredientsByRecipeID(recipeID);
+        } catch (EmptyResultDataAccessException e){
+            System.err.println(e.getMessage());
+            throw new EntityNotFoundException("Kunne ikke finde en opskrift med givet id");
+        } catch (DataAccessException e){
+            System.err.println(e.getMessage());
+            throw new SystemErrorException("Der er sket en fejl. Prøv igen senere");
+        }
+    }*/
+
 
 
 /*
@@ -169,7 +181,7 @@ public List<Ingredient> getAllIngredients(){
 
 
 
-    public List<Recipe> getAllBreakfastRecipe() {
+    public List<Recipe> getAllBreakfastRecipe(){
 
 
     }

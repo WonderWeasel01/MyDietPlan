@@ -114,6 +114,7 @@ public class UserUIController {
         return "loggedIn";
 
     }
+    
     @GetMapping("/logout")
     public String logoutButton(){
         authenticationService.logout();

@@ -16,6 +16,8 @@
                 <div class="Name">Velkommen, <span th:text="${user.firstName}">User</span>!</div>
                 <div class="Quote">Husk at spise din frokost idag!</div>
             </div>
+
+            <div class="ButtonGroup">
             <div class="Activebutton">
                 <div class="Activetext">MENU</div>
             </div>
@@ -23,12 +25,31 @@
                 <div class="Nonselectedtext">FAVORIT</div>
             </div>
             <div class="Nonselectedbutton">
-                <div class="Nonselectedtext">FAVORIT</div>
+                <div class="Nonselectedtext">ALLE RETTER</div>
             </div>
-            <div class="Profiledropdown">
+            </div>
+            <div class="Profiledropdown profile action" onclick="menuToggle();">
                 <img class="Profileimage" src="https://via.placeholder.com/59x52" />
-                <div class="Name">ANDREAS</div>
+                <div class="Name"><span th:text="${user.firstName}">User</span></div>
                     <i class="fa-solid fa-chevron-down"></i>
+            
+            <div class="menu">
+                <ul>
+                  <li>
+                    <i class="fa-solid fa-user" style="color: #87cc83;"></i><a href="#">Min Profil</a>
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-pen" style="color: #87cc83;"></i><a href="#">Rediger Profil</a>
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-gear" style="color: #87cc83;"></i><a href="#">Indstillinger</a>
+                  </li>
+                  <li th:action="@{/logout}">
+                    <i class="fa-solid fa-arrow-right-from-bracket" style="color: #87cc83;"></i>
+                    <a th:href="@{/logout}">Log ud</a>
+                </li>
+                </ul>
+              </div>
             </div>
         </div>
         <div class="Mealbody">
@@ -75,7 +96,7 @@
                     </div>
                 </div>
                 <div class="Mealbox">
-                    <div class="Mealname">MIDAGS MAD</div>
+                    <div class="Mealname">MIDDAGSMAD</div>
                     <img class="Mealimage" src="https://via.placeholder.com/355x139" />
                     <div class="Mealname">BOLLER I KARRY</div>
                     <div class="Mealrow">
@@ -86,7 +107,7 @@
                     </div>
                 </div>
                 <div class="Mealbox">
-                    <div class="Mealname">AFTENS MAD</div>
+                    <div class="Mealname">AFTENSMAD</div>
                     <img class="Mealimage" src="https://via.placeholder.com/355x139" />
                     <div class="Mealname">BOLLER I KARRY</div>
                     <div class="Mealrow">
@@ -124,6 +145,13 @@ function changeColor(day, element) {
     element.classList.remove("Unselected");
     element.classList.add("Selected");
 }
+
+//DropDown
+function menuToggle() {
+        const toggleMenu = document.querySelector(".menu");
+        toggleMenu.classList.toggle("active");
+      }
+
 
 </script>
 </html>

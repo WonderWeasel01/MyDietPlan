@@ -38,8 +38,10 @@ public class MyDietPlanRepository {
     }
 */
 
-    public Ingredient getIngredientById(int id){
+    @SuppressWarnings("deprecation")
+	public Ingredient getIngredientById(int id){
         String sql = "SELECT * FROM `Ingredient` WHERE ingredient_id = ?";
+    
         return jdbcTemplate.queryForObject(sql,new Object[]{id}, ingredientRowMapper());
     }
 
@@ -100,9 +102,10 @@ public class MyDietPlanRepository {
     }
 
     public Recipe getRecipeWithIngredientsByRecipeID(int recipeID){
-        String sql = "SELECT * from Recipe WHERE recipe_id = ?";
+        String sql = "SELECT * FROM Recipe WHERE recipe_id = ?";
 
-        Recipe recipe = jdbcTemplate.queryForObject(sql, new Object[]{recipeID}, recipeRowMapper());
+        @SuppressWarnings("deprecation")
+		Recipe recipe = jdbcTemplate.queryForObject(sql, new Object[]{recipeID}, recipeRowMapper());
         if (recipe != null){
             //Recipe requires an Arraylist
             ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) getRecipeIngredientsByRecipeID(recipeID);
@@ -110,6 +113,7 @@ public class MyDietPlanRepository {
         }
         return recipe;
     }
+   
 
     /**
      * Retrieves the list of ingredients that match a recipeID
@@ -122,7 +126,8 @@ public class MyDietPlanRepository {
                 "JOIN Recipe_has_ingredient ON Ingredient.ingredient_id = Recipe_has_ingredient.ingredient_id " +
                 "WHERE Recipe_has_ingredient.recipe_id = ?";
 
-        List<Ingredient> ingredients = jdbcTemplate.query(sql, new Object[]{recipeID}, (resultSet, rowNum) -> {
+        @SuppressWarnings("deprecation")
+		List<Ingredient> ingredients = jdbcTemplate.query(sql, new Object[]{recipeID}, (resultSet, rowNum) -> {
             Ingredient ingredient = new Ingredient();
             ingredient.setIngredientID(resultSet.getInt("ingredient_id"));
             ingredient.setName(resultSet.getString("name"));
