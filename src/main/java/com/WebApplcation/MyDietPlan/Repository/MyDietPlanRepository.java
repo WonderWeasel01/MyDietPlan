@@ -72,7 +72,7 @@ public class MyDietPlanRepository {
         return ingredient;
     }
 
-    public boolean updateRecipe(Recipe recipe) {
+    public boolean updateRecipeWithoutIngredients(Recipe recipe) {
         String sql = "UPDATE Recipe SET " + "recipe_title = ?, " + "time_of_day = ?, " + "prep_time = ?, " +
                 "total_calories = ?, " + "total_protein = ?, " + "total_fat = ?, " + "total_carbohydrates = ?, " +
                 "active = ?, " + "instructions = ?, " + "pictureURL = ? " + "WHERE recipe_id = ?";
@@ -152,8 +152,8 @@ public class MyDietPlanRepository {
      */
 
     public Recipe createRecipe(Recipe recipe){
-        String sql = "INSERT INTO `Recipe`(`time_of_day`,`recipe_title`,`prep_time`, `total_calories`, `total_protein`, `total_fat`, `total_carbohydrates`, `active`,`instructions`,`pictureURL`) " +
-                "VALUES (?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO `Recipe`(`time_of_day`,`recipe_title`,`prep_time`, `total_calories`, `total_protein`, `total_fat`, `total_carbohydrates`, `active`,`instructions`,`pictureURL`,`day`) " +
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         //insert the recipe into the database
@@ -169,6 +169,7 @@ public class MyDietPlanRepository {
             ps.setBoolean(8,recipe.getActive());
             ps.setString(9,recipe.getInstructions());
             ps.setString(10,recipe.getPictureURL());
+            ps.setString(11, recipe.getDay());
 
             return ps;
         }, keyHolder);
@@ -376,6 +377,12 @@ public class MyDietPlanRepository {
         String sql ="UPDATE `User` SET `user_id`=?, `first_name`=?, `email`=?, `goal`=?, `last_name`=?, `activity_level`=?, `gender`=?, `weight`=?, `height`=?,  `age`=?, `role`=? WHERE id = ?";
         jdbcTemplate.update(sql, user.getUserId(), user.getFirstName(), user.getEmail(), user.getGoal(), user.getLastName(), user.getActivityLevel(), user.getGender(), user.getWeight(), user.getHeight(), user.getAge(), user.getRole(), userId);
         return getUserByID(userId);
+    }
+
+    public int getActiveRecipeAmount(){
+        String sql ="SELECT COUNT(*) FROM Recipe WHERE Active = 1;";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
+
     }
 
 

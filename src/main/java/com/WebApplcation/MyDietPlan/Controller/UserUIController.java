@@ -128,6 +128,7 @@ public class UserUIController {
         return "loggedIn";
 
     }
+
     
     @GetMapping("/logout")
     public String logoutButton(){
@@ -152,6 +153,8 @@ public class UserUIController {
         }
         return "redirect:/velkommen";
     }
+
+
 
     private boolean isLoggedIn(){
        return authenticationService.isUserLoggedIn();

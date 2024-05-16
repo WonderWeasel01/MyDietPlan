@@ -49,7 +49,7 @@
             <div class="Recipeheaderframe">
                 <div class="OpretEnOpskriftText">Opret en opskrift!</div>
             </div>
-            <form action="#" th:action="@{/admin}" th:object="${recipe}" method="post">
+            <form id="recipeInputForm" action="#" th:action="@{/admin}" th:object="${recipe}" method="post">
                 <div class="Recipeinputframe">
                     <div class="Recipenameframe">
                         <label for="title" class="OpskriftNavntext">Opskrift navn</label>
@@ -66,6 +66,18 @@
                         <option value="Dinner">Aftensmad</option>
                     </select>
                     </label>
+                    <label for="daySelect" id="dayText" class="Tidspunkt">Dag
+                        <select id="daySelect" name="daySelect" th:field="*{day}">
+                            <option value="Monday">Mandag</option>
+                            <option value="Tuesday">Tirsdag</option>
+                            <option value="Wednesday">Onsdag</option>
+                            <option value="Thursday">Torsdag</option>
+                            <option value="Friday">Fredag</option>
+                            <option value="Saturday">Lørdag</option>
+                            <option value="Sunday">Søndag</option>
+
+                        </select>
+                    </label>
                     <div class="Instructionframe">
                         <label for="instructions" class="Instruktioner">Instruktioner</label>
                         <textarea id="instructions" th:field="*{instructions}" class="instructions-input" placeholder="Instruktioner"></textarea>
@@ -74,6 +86,7 @@
                         <label for="pictureURL" class="Recipepicturetext">Tilføj et billede til opskriften</label>
                         <input type="text" id="pictureURL" th:field="*{pictureURL}" accept="image/*">
                     </div>
+
                     <div class="Addingredientsbuttonframe">
                         <select id="ingredientSelect">
                             <option th:each="ingredient : ${ingredients}"

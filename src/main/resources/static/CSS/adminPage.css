@@ -26,6 +26,7 @@ html, body {
     overflow: hidden;
 }
 
+
 .Topframe {
     width: 100%;
     height: auto;
@@ -142,7 +143,8 @@ html, body {
     padding: 10px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
     gap: 10px;
     overflow-y: auto;
 }
@@ -168,36 +170,75 @@ html, body {
     font-weight: 400;
     word-wrap: break-word;
 }
+.recipeInputForm{
+    justify-content: center;
+    align-items: center;
+}
+
 
 .Recipeinputframe {
     width: 100%;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
     gap: 10px;
-    overflow-y: auto;
     max-height: calc(100vh - 250px);
 }
 
-.Recipenameframe, .Preptimeframe, .timeofDayText, .Instructionframe, .Pictureframe, .Addingredientsbuttonframe {
+.Recipeinputframe label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    color: black;
+    font-size: 18px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.Recipeinputframe input,
+.Recipeinputframe select,
+.Recipeinputframe textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    font-size: 18px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-style: italic;
+    background: white;
+    color: black;
+}
+
+.Recipeinputframe input:focus,
+.Recipeinputframe select:focus,
+.Recipeinputframe textarea:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.Recipenameframe, .Preptimeframe, .Instructionframe, .Pictureframe, .Addingredientsbuttonframe {
     justify-content: flex-start;
     display: flex;
     width: 100%;
     padding: 10px 0;
 }
 
-
-.OpskriftNavntext, .Tilberedningstidtext, .timeofDayText, .Instruktioner, .Recipepicturetext, .Addingredientsbuttontext {
-    color: black;
-    font-size: 32px;
-    font-family: 'Josefin Sans', sans-serif;
-    font-style: italic;
-    font-weight: 400;
-    word-wrap: break-word;
+.Addingredientsbuttonframe {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 10px;
 }
+
 .Addingredientsbuttonframe select,
-.Addingredientsbuttonframe button {
+.Addingredientsbuttonframe button,
+.weight-input {
     width: 100%;
     padding: 8px;
     margin-top: 5px;
@@ -208,7 +249,6 @@ html, body {
     background: white;
     color: black;
 }
-
 
 .Addingredientsbuttonframe button {
     background-color: #4CAF50;
@@ -233,7 +273,6 @@ html, body {
     font-size: 18px;
 }
 
-
 #ingredientList {
     list-style-type: none;
     padding: 0;
@@ -251,15 +290,6 @@ html, body {
     font-size: 18px;
 }
 
-
-.Addingredientsbuttonframe, .seeRecipes, .seeActiveRecipes{
-    display: flex;
-    font-family: 'Josefin Sans', sans-serif;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    gap: 10px;
-}
 .WeightInputFrame {
     display: flex;
     width: 100%;
@@ -282,26 +312,6 @@ html, body {
     outline: none;
     border-color: #4CAF50;
 }
-.Addingredientsbuttonframe label {
-    color: black;
-    font-size: 18px;
-    font-family: 'Josefin Sans', sans-serif;
-    font-style: italic;
-    font-weight: 400;
-}
-.Addingredientsbuttonframe button {
-    width: auto;
-    padding: 10px 20px;
-    font-size: 18px;
-    border: none;
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-    align-self: flex-start;
-}
-.Addingredientsbuttonframe button:hover {
-    background-color: #45a049;
-}
 
 .success-message {
     color: green;
@@ -310,7 +320,3 @@ html, body {
 .error-message {
     color: red;
 }
-
-
-
-

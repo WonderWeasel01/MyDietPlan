@@ -42,10 +42,18 @@ public class WebsiteService {
             throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
         }
     }
+
+    /**
+     * Validates a recipe and updates it.
+     * @param recipe the updated recipe.
+     * @return true if update went well
+     * @throws InputErrorException Rethrows if validateRecipe(recipe) fails.
+     * @throws SystemErrorException
+     */
     public boolean updateRecipe(Recipe recipe) throws InputErrorException, SystemErrorException {
         validateRecipe(recipe);
         try{
-            if(repo.updateRecipe(recipe)){
+            if(repo.updateRecipeWithoutIngredients(recipe)){
                 return updateRecipeIngredients(recipe.getRecipeID(), recipe.getIngredientList());
             } throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
         } catch (DataAccessException e){
@@ -53,15 +61,44 @@ public class WebsiteService {
             throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
         }
     }
+
+    /**
+     * Deletes a recipe.
+     * @param recipeID ID of the recipe that is being deleted
+     * @return true if the deletion went well
+     */
     public boolean deleteRecipe(int recipeID){
         return repo.deleteRecipe(recipeID);
     }
 
+    /**
+     * Checks a recipes status and sets it to the opposite.
+     * @param recipeID ID of the recipe that the admin wants to update the status of.
+     * @return True if status change went well.
+     * @throws SystemErrorException If 21 active recipe already exist
+     * @throws EntityNotFoundException If the recipe that is being changed couldn't be found
+     */
     public boolean updateRecipeActiveStatus(int recipeID) throws SystemErrorException, EntityNotFoundException {
-        if(getRecipeById(recipeID).getActive()){
-            return repo.updateRecipeActive(recipeID,0);
-        } else return repo.updateRecipeActive(recipeID,1);
-
+        try {
+            if (getRecipeById(recipeID).getActive()) {
+                return repo.updateRecipeActive(recipeID, 0);
+            } else {
+                if(getActiveRecipeAmount() < 21){
+                    return repo.updateRecipeActive(recipeID, 1);
+                } else throw new SystemErrorException("Der er allerede 21 aktive opskrifter. Deaktiver en eller flere aktive opskrifter for at tilføje flere");
+            }
+        } catch (EmptyResultDataAccessException e){
+            throw new EntityNotFoundException("Der er sket en fejl med opdateringen af opskrift status. Prøv igen senere");
+        }
+    }
+    public int getActiveRecipeAmount() throws SystemErrorException {
+        try{
+            return repo.getActiveRecipeAmount();
+        }catch (NullPointerException | EmptyResultDataAccessException e){
+            return 0;
+        } catch (DataAccessException e){
+            throw new SystemErrorException("Error getting active recipe amount. Trouble accessing database");
+        }
     }
 
     public boolean updateRecipeIngredients(int recipeID, List<Ingredient> newIngredients) throws SystemErrorException {

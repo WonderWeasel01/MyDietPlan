@@ -3,21 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Opret ingrediens</title>
+    <link rel="stylesheet" type="text/css" href="/CSS/addIngredient.css">
 </head>
 <body>
-<h1>Add Ingredient</h1>
-<button onclick="history.back()" class="back-button">Back</button>
-<form th:action="@{/opretIngrediens}" th:object="${ingredient}" method="post">
-    <p>Ingrediens Navn: <input type="text" th:field="*{name}" /></p>
-    <p>Protein (g/100g): <input type="number" th:field="*{proteinPerHundredGrams}" step="1" /></p>
-    <p>Fedt (g/100g): <input type="number" th:field="*{fatPerHundredGrams}" step="1" /></p>
-    <p>Kulhydrater (g/100g): <input type="number" th:field="*{carbohydratesPerHundredGrams}" step="1" /></p>
-    <p>Kalorier (kcal/100g): <input type="number" th:field="*{caloriesPerHundredGrams}" /></p>
-    <p><input type="submit" value="Submit" /></p>
-    <div th:if="${createIngredientSuccess} or ${createIngredientError}" class="message">
-        <p th:if="${createIngredientError}" th:text="${createIngredientError}" class="error-message"></p>
-        <p th:if="${createIngredientSuccess}" th:text="${createIngredientSuccess}" class="success-message"></p>
-    </div>
-</form>
+<div class="container">
+    <h1>Add Ingredient</h1>
+    <button onclick="history.back()" class="back-button">Back</button>
+    <form th:action="@{/opretIngrediens}" th:object="${ingredient}" method="post">
+        <div class="form-group">
+            <label for="name">Ingrediens Navn:</label>
+            <input type="text" id="name" th:field="*{name}" />
+        </div>
+        <div class="form-group">
+            <label for="protein">Protein (g/100g):</label>
+            <input type="number" id="protein" th:field="*{proteinPerHundredGrams}" step="1" />
+        </div>
+        <div class="form-group">
+            <label for="fat">Fedt (g/100g):</label>
+            <input type="number" id="fat" th:field="*{fatPerHundredGrams}" step="1" />
+        </div>
+        <div class="form-group">
+            <label for="carbohydrates">Kulhydrater (g/100g):</label>
+            <input type="number" id="carbohydrates" th:field="*{carbohydratesPerHundredGrams}" step="1" />
+        </div>
+        <div class="form-group">
+            <label for="calories">Kalorier (kcal/100g):</label>
+            <input type="number" id="calories" th:field="*{caloriesPerHundredGrams}" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Submit" class="submit-button" />
+        </div>
+        <div th:if="${createIngredientSuccess} or ${createIngredientError}" class="message">
+            <p th:if="${createIngredientError}" th:text="${createIngredientError}" class="error-message"></p>
+            <p th:if="${createIngredientSuccess}" th:text="${createIngredientSuccess}" class="success-message"></p>
+        </div>
+    </form>
+</div>
 </body>
 </html>

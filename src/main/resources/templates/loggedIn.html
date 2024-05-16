@@ -565,34 +565,50 @@
 </body>
 
 <script>
-function changeColor(day, element) {
-    var lineElement = document.getElementById(day + "Line");
-    var allLines = document.querySelectorAll('.Lines > div');
-    var allDays = document.querySelectorAll('.Days > div');
+    function changeColor(day, element) {
+        var lineElement = document.getElementById(day + "Line");
+        var allLines = document.querySelectorAll('.Lines > div');
+        var allDays = document.querySelectorAll('.Days > div');
 
-    // Remove any previously added 'active' class from all lines and days
-    allLines.forEach(function(line) {
-        line.classList.remove("active");
-    });
+        // Remove any previously added 'active' class from all lines and days
+        allLines.forEach(function (line) {
+            line.classList.remove("active");
+        });
 
-    allDays.forEach(function(dayElement) {
-        dayElement.classList.remove("Selected");
-        dayElement.classList.add("Unselected");
-    });
+        allDays.forEach(function (dayElement) {
+            dayElement.classList.remove("Selected");
+            dayElement.classList.add("Unselected");
+        });
 
-    // Add the 'active' class to the corresponding line
-    lineElement.classList.add("active");
+        // Add the 'active' class to the corresponding line
+        lineElement.classList.add("active");
 
-    // Toggle the text color of the selected day
-    element.classList.remove("Unselected");
-    element.classList.add("Selected");
-}
+        // Toggle the text color of the selected day
+        element.classList.remove("Unselected");
+        element.classList.add("Selected");
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+    let mealButtons = document.querySelectorAll('.Mealbutton');
+
+    mealButtons.forEach(button => {
+    let link = document.createElement('a');
+    link.innerHTML = button.innerHTML;
+    link.href = '#'; //
+    link.className = button.className;
+
+    button.parentNode.replaceChild(link, button);
+});
+});
+
+
 
 //DropDown
 function menuToggle() {
-        const toggleMenu = document.querySelector(".menu");
-        toggleMenu.classList.toggle("active");
-      }
+const toggleMenu = document.querySelector(".menu");
+toggleMenu.classList.toggle("active");
+}
 
 
 </script>
