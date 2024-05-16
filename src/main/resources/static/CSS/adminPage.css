@@ -119,16 +119,7 @@ html, body {
     display: inline-flex;
 }
 
-.Logouttext {
-    width: 122px;
-    height: 47px;
-    color: black;
-    font-size: 32px;
-    font-family: 'Josefin Sans', sans-serif;
-    font-style: italic;
-    font-weight: 400;
-    word-wrap: break-word;
-}
+
 
 
 .Rightframe {
@@ -137,7 +128,6 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     gap: 10px;
     overflow-y: auto;
 }
@@ -169,7 +159,7 @@ html, body {
 }
 
 
-.Recipeinputframe {
+.FormInput {
     width: 100%;
     padding: 20px;
     display: flex;
@@ -180,7 +170,7 @@ html, body {
     max-height: calc(100vh - 250px);
 }
 
-.Recipeinputframe label {
+.FormInput label {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -194,9 +184,9 @@ html, body {
     margin-bottom: 10px;
 }
 
-.Recipeinputframe input,
-.Recipeinputframe select,
-.Recipeinputframe textarea {
+.FormInput input,
+.FormInput select,
+.FormInput textarea {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
@@ -207,9 +197,9 @@ html, body {
     color: black;
 }
 
-.Recipeinputframe input:focus,
-.Recipeinputframe select:focus,
-.Recipeinputframe textarea:focus {
+.FormInput input:focus,
+.FormInput select:focus,
+.FormInput textarea:focus {
     outline: none;
     border-color: #4CAF50;
 }
@@ -329,4 +319,11 @@ a:link, a:visited{
     }
     
 
+  }
+
+  .active{
+    background-color: #87CC83;
+    .LeftFrameText {
+        color: white;
+    }
   }

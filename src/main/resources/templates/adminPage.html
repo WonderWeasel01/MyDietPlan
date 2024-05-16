@@ -19,22 +19,22 @@
     </div>
     <div class="Middleframe">
         <div class="Leftframe">
-            <a href="/opretIngrediens" class="LeftFrameButton">
-                    <i class="fa-solid fa-leaf fa-xl" style="color: #87CC83;"></i>
-                    <div class="LeftFrameText">Tilføj ny ingrediens</div>
-            </a>
-          
-                <a href="/admin" class="LeftFrameButton">
-                    <i class="fa-solid fa-circle-plus fa-xl" style="color: #87CC83;"></i>
+
+                <a href="/admin" class="active LeftFrameButton">
+                    <i class="fa-solid fa-circle-plus fa-xl" style="color: #ffffff;"></i>
                     <div class="LeftFrameText">Tilføj ny opskrift</div>
-          
+                </a>
+
+                <a href="/opretIngrediens" class="LeftFrameButton">
+                        <i class="fa-solid fa-leaf fa-xl" style="color: #87CC83;"></i>
+                        <div class="LeftFrameText">Tilføj ny ingrediens</div>
+                </a>
             
                 <a href="/recipeShowcase" class="LeftFrameButton">
                     <i class="fa-solid fa-trash-can fa-xl" style="color: #87CC83;"></i>
                     <div class="LeftFrameText">Gamle opskrifter</div>
                 </a>
           
-     
                 <a href="/aktiveOpskrifter" class="LeftFrameButton">
                     <i class="fa-solid fa-clock fa-xl" style="color: #87CC83;"></i>
                     <div class="LeftFrameText">Aktive opskrifter</div>
@@ -42,7 +42,7 @@
     
                 <a href="/logout" class="LeftFrameButton">
                     <i class="fa-solid fa-right-from-bracket fa-xl" style="color: #87CC83;"></i>
-                <div class="LeftFrameText">Logout</div>
+                    <div class="LeftFrameText">Logout</div>
                 </a>
         </div>
         <div class="Rightframe">
@@ -50,7 +50,7 @@
                 <div class="OpretEnOpskriftText">Opret en opskrift!</div>
             </div>
             <form id="recipeInputForm" action="#" th:action="@{/admin}" th:object="${recipe}" method="post">
-                <div class="Recipeinputframe">
+                <div class="FormInput">
                     <div class="Recipenameframe">
                         <label for="title" class="OpskriftNavntext">Opskrift navn</label>
                         <input type="text" id="title" th:field="*{title}" class="recipe-input" placeholder="Opskrift navn">
