@@ -3,6 +3,7 @@ package com.WebApplcation.MyDietPlan.Service;
 import com.WebApplcation.MyDietPlan.Exception.EntityNotFoundException;
 import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
+import com.WebApplcation.MyDietPlan.Model.Image;
 import com.WebApplcation.MyDietPlan.Model.Ingredient;
 import com.WebApplcation.MyDietPlan.Model.Recipe;
 import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
@@ -11,7 +12,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,12 +39,23 @@ public class WebsiteService {
     public Recipe createRecipe(Recipe recipe) throws SystemErrorException, InputErrorException {
         validateRecipe(recipe);
         try {
+            System.out.println(recipe);
             return repo.createRecipe(recipe);
         } catch (DataAccessException e) {
+            e.printStackTrace();
             System.err.println("Error accessing the database: " + e.getMessage());
             throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
         }
     }
+
+    public Image convertFileToImage(MultipartFile file) throws IOException {
+        Image image = new Image();
+        image.setImageName(file.getOriginalFilename());
+        image.setImageType(file.getContentType());
+        image.setBlob(file.getBytes());
+        return image;
+    }
+
 
     /**
      * Validates a recipe and updates it.
@@ -127,7 +141,7 @@ public class WebsiteService {
     }
     public boolean isValidRecipe(Recipe recipe){
         return StringUtils.hasText(recipe.getTitle()) && StringUtils.hasText(recipe.getPrepTime()) && StringUtils.hasText(recipe.getTimeOfDay())
-                && StringUtils.hasText(recipe.getInstructions()) && StringUtils.hasText(recipe.getPictureURL()) && recipe.getIngredientList() != null
+                && StringUtils.hasText(recipe.getInstructions()) && recipe.recipeHasImage() && recipe.getIngredientList() != null
                 && !recipe.getIngredientList().isEmpty();
     }
     private void validateIngredientAndWeightSizes(List<Integer> ingredientIds, List<Integer> weights) throws InputErrorException {

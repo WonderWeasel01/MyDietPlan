@@ -81,11 +81,13 @@ public class MyDietPlanRepository {
     public boolean updateRecipeWithoutIngredients(Recipe recipe) {
         String sql = "UPDATE Recipe SET " + "recipe_title = ?, " + "time_of_day = ?, " + "prep_time = ?, " +
                 "total_calories = ?, " + "total_protein = ?, " + "total_fat = ?, " + "total_carbohydrates = ?, " +
-                "active = ?, " + "instructions = ?, " + "pictureURL = ? " + "WHERE recipe_id = ?";
+                "active = ?, " + "instructions = ?, " + "image_id = ? " + "WHERE recipe_id = ?";
 
         int rowsAffected = jdbcTemplate.update(sql, recipe.getTitle(), recipe.getTimeOfDay(), recipe.getPrepTime(),
                 recipe.getTotalCalories(), recipe.getTotalProtein(), recipe.getTotalFat(), recipe.getTotalCarbohydrates(),
-                recipe.getActive(), recipe.getInstructions(), recipe.getPictureURL(), recipe.getRecipeID());
+                recipe.getActive(), recipe.getInstructions(), recipe.getImage().getImageID(), recipe.getRecipeID());
+
+        updateImage(recipe.getImage());
 
         return rowsAffected > 0;
     }
@@ -158,10 +160,13 @@ public class MyDietPlanRepository {
      */
 
     public Recipe createRecipe(Recipe recipe){
-        String sql = "INSERT INTO `Recipe`(`time_of_day`,`recipe_title`,`prep_time`, `total_calories`, `total_protein`, `total_fat`, `total_carbohydrates`, `active`,`instructions`,`pictureURL`,`day`) " +
+        String sql = "INSERT INTO `Recipe`(`time_of_day`,`recipe_title`,`prep_time`, `total_calories`, `total_protein`, `total_fat`, `total_carbohydrates`, `active`,`instructions`,`image_id`,`day`) " +
                 "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
+        if(insertImage(recipe.getImage()) == null){
+            return null;
+        }
         //insert the recipe into the database
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -174,7 +179,7 @@ public class MyDietPlanRepository {
             ps.setDouble(7,recipe.getTotalCarbohydrates());
             ps.setBoolean(8,recipe.getActive());
             ps.setString(9,recipe.getInstructions());
-            ps.setString(10,recipe.getPictureURL());
+            ps.setInt(10,recipe.getImage().getImageID());
             ps.setString(11, recipe.getDay());
 
             return ps;
@@ -185,13 +190,12 @@ public class MyDietPlanRepository {
         if (generatedKey != null) {
             int recipeID = generatedKey.intValue();
             recipe.setRecipeID(recipeID);
-        }
+        } else return null;
 
-        //Insert the ingredients into the database as well
-        String sql1 = "INSERT INTO `Recipe_has_ingredient`(`recipe_id`, `ingredient_id`, `ingredient_weight`) VALUES (?,?,?)";
-        for (Ingredient ingredient : recipe.getIngredientList()) {
-            jdbcTemplate.update(sql1, recipe.getRecipeID(), ingredient.getIngredientID(), ingredient.getWeightGrams());
-        }
+        // Insert the ingredientlist
+        if(insertIngredientsOntoRecipe(recipe.getRecipeID(), recipe.getIngredientList())){
+        } else return null;
+
         return recipe;
     }
 
@@ -421,7 +425,7 @@ public class MyDietPlanRepository {
     }
 
 
-    public Image getImage(Long id) {
+    public Image getImage(int id) {
         String sql = "SELECT * FROM Image inner join Recipe on Image.image_id = Recipe.image_id WHERE Image.image_id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, imageRowMapper());
     }
@@ -480,7 +484,7 @@ public class MyDietPlanRepository {
             recipe.setTotalCarbohydrates(rs.getDouble("total_carbohydrates"));
             recipe.setActive(rs.getBoolean("active"));
             recipe.setInstructions(rs.getString("instructions"));
-            recipe.setPictureURL(rs.getString("pictureURL"));
+            recipe.setImage(getImage(rs.getInt("image_id")));
             recipe.setDay(rs.getString("day"));
             return recipe;
         });
