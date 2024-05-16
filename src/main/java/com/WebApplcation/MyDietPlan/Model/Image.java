@@ -1,5 +1,11 @@
 package com.WebApplcation.MyDietPlan.Model;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+
 public class Image {
     private int imageID;
     private String imageName;
@@ -31,5 +37,14 @@ public class Image {
     public void setBlob(byte[] blob) {
         this.blob = blob;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Image{" +
+                "imageID=" + imageID +
+                ", imageName='" + imageName + '\'' +
+                ", imageType='" + imageType + '\'' +
+                ", blob=" + (blob != null) +
+                '}';
+    }
 }

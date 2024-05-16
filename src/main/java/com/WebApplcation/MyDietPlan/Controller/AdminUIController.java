@@ -3,6 +3,7 @@ package com.WebApplcation.MyDietPlan.Controller;
 import com.WebApplcation.MyDietPlan.Exception.EntityNotFoundException;
 import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
+import com.WebApplcation.MyDietPlan.Model.Image;
 import com.WebApplcation.MyDietPlan.Model.Ingredient;
 import com.WebApplcation.MyDietPlan.Model.Recipe;
 import com.WebApplcation.MyDietPlan.Service.AuthenticationService;
@@ -11,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,17 +44,20 @@ public class AdminUIController {
     }
 
     @PostMapping("/admin")
-    public String recipePost(@ModelAttribute Recipe recipe, @RequestParam List<Integer> ingredientIds, @RequestParam List<Integer> weights,
+    public String recipePost(@ModelAttribute Recipe recipe, @RequestParam List<Integer> ingredientIds, @RequestParam List<Integer> weights, @RequestParam MultipartFile file,
                              RedirectAttributes redirectAttributes) {
         try {
             recipe = websiteService.setupRecipeWithIngredients(recipe, ingredientIds, weights);
+            Image image = websiteService.convertFileToImage(file);
+            recipe.setImage(image);
             websiteService.createRecipe(recipe);
             redirectAttributes.addFlashAttribute("successMessage", "Opskrift gemt!");
-            return "redirect:/admin";
         } catch (InputErrorException | SystemErrorException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/admin";
+        } catch (IOException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Der skete en fejl under forsøget på at gemme billedet");
         }
+        return "redirect:/admin";
     }
 
     @GetMapping("/opretIngrediens")

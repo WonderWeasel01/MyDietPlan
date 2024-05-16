@@ -122,9 +122,6 @@ public class UserUIController {
         } catch (EntityNotFoundException e) {
             model.addAttribute("errorMessage", e.getMessage());
         }
-
-
-
         return "loggedIn";
 
     }

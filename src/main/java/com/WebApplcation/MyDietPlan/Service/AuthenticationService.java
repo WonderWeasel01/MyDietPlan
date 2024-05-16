@@ -106,11 +106,6 @@ public class AuthenticationService {
         return AuthenticationService.user != null;
     }
 
-    public User updateUser(User user){
-        String hashedPassword = hashPassword(user.getPassword());
-        user.setPassword(hashedPassword);
-        return repo.updateUser(user.getUserId(),user);
-    }
 
 
     public Subscription payingUser(Subscription subscription) {

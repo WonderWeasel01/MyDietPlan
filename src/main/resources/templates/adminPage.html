@@ -49,8 +49,8 @@
             <div class="Recipeheaderframe">
                 <div class="OpretEnOpskriftText">Opret en opskrift!</div>
             </div>
-            <form id="recipeInputForm" action="#" th:action="@{/admin}" th:object="${recipe}" method="post">
-                <div class="FormInput">
+            <form id="recipeInputForm" action="#" th:action="@{/admin}" th:object="${recipe}" method="post" enctype="multipart/form-data">
+                <div class="Recipeinputframe">
                     <div class="Recipenameframe">
                         <label for="title" class="OpskriftNavntext">Opskrift navn</label>
                         <input type="text" id="title" th:field="*{title}" class="recipe-input" placeholder="Opskrift navn">
@@ -83,8 +83,8 @@
                         <textarea id="instructions" th:field="*{instructions}" class="instructions-input" placeholder="Instruktioner"></textarea>
                     </div>
                     <div class="Pictureframe">
-                        <label for="pictureURL" class="Recipepicturetext">Tilføj et billede til opskriften</label>
-                        <input type="text" id="pictureURL" th:field="*{pictureURL}" accept="image/*">
+                        <label for="file" class="Recipepicturetext">Tilføj et billede til opskriften</label>
+                        <input type="file" id="file" name="file" accept="image/*">
                     </div>
 
                     <div class="Addingredientsbuttonframe">

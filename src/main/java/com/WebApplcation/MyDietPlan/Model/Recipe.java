@@ -1,6 +1,5 @@
 package com.WebApplcation.MyDietPlan.Model;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Recipe {
@@ -15,21 +14,13 @@ public class Recipe {
     private String timeOfDay;
     private String instructions;
     private Boolean active = false;
-    private String pictureURL;
     private String day;
+    private Image image;
 
     ArrayList<Ingredient> ingredientList;
 
     public Recipe() {
 
-    }
-
-    public String getPictureURL() {
-        return pictureURL;
-    }
-
-    public void setPictureURL(String pictureURL) {
-        this.pictureURL = pictureURL;
     }
 
     public Recipe(String prepTime, String timeOfDay, String instructions, Boolean active, ArrayList<Ingredient> ingredientList) {
@@ -38,6 +29,18 @@ public class Recipe {
         this.instructions = instructions;
         this.ingredientList = ingredientList;
 
+    }
+
+    public boolean recipeHasImage(){
+        return image != null;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     public Recipe(int totalCalories, int totalCarbohydrates, int totalFat, int totalProtein, String prepTime, String timeOfDay, String instructions, Boolean active, ArrayList<Ingredient> ingredientList) {
@@ -91,6 +94,7 @@ public class Recipe {
         }
         return adjustedRecipe;
     }
+
 
     public Recipe adjustRecipeToUser(double dailyCalorieBurn){
         Recipe adjustedRecipe = this;
@@ -203,8 +207,8 @@ public class Recipe {
                 ", timeOfDay='" + timeOfDay + '\'' +
                 ", instructions='" + instructions + '\'' +
                 ", active=" + active +
-                ", pictureURL='" + pictureURL + '\'' +
                 ", day='" + day + '\'' +
+                ", image=" + image +
                 ", ingredientList=" + ingredientList +
                 '}';
     }
