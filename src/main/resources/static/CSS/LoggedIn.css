@@ -279,7 +279,7 @@ body {
 }
 
 .Mealbox {
-    height: 351px;
+    height: 450px;
     padding: 10px;
     background: white;
     border-radius: 15px;
@@ -287,14 +287,20 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    align-items: flex-start;
+    object-position: center;
     gap: 20px;
     display: flex;
+    max-width: 400px;
+    min-width: 400px;
 }
 
 .Mealimage {
-    align-self: stretch;
+    object-fit: cover;
+    text-align: center;
+    width: 300px;
+    height: 200px;
     padding: 10px;
+    border-radius: 15px;
 }
 
 .Mealname {

@@ -92,6 +92,12 @@ public class Recipe {
             adjustedRecipe.totalCarbohydrates += ingredient.getCarbohydratesPerHundredGrams() * (ingredient.getWeightGrams() / 100.0);
             adjustedRecipe.totalCalories += ingredient.getCaloriesPerHundredGrams() * (ingredient.getWeightGrams() / 100.0);
         }
+
+        //Round the total macros to avoid unnecessary decimals
+        adjustedRecipe.totalProtein = Math.round(adjustedRecipe.totalProtein * 100.0) / 100.0;
+        adjustedRecipe.totalFat = Math.round(adjustedRecipe.totalFat * 100.0) / 100.0;
+        adjustedRecipe.totalCarbohydrates = Math.round(adjustedRecipe.totalCarbohydrates * 100.0) / 100.0;
+        adjustedRecipe.totalCalories = Math.round(adjustedRecipe.totalCalories * 100.0) / 100.0;
         return adjustedRecipe;
     }
 

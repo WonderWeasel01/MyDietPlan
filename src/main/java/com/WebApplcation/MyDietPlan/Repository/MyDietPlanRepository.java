@@ -437,7 +437,7 @@ public class MyDietPlanRepository {
             image.setImageID(rs.getInt("image_id"));
             image.setImageName(rs.getString("image_name"));
             image.setImageType(rs.getString("image_type"));
-            image.setBlob(rs.getBytes("image"));
+            image.setBlob(rs.getBytes("image_blob"));
             return image;
         });
     }
