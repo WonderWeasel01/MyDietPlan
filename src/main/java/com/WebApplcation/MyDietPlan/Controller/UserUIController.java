@@ -1,5 +1,6 @@
 package com.WebApplcation.MyDietPlan.Controller;
 
+import com.WebApplcation.MyDietPlan.Model.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,8 @@ import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Model.User;
 import com.WebApplcation.MyDietPlan.Service.AuthenticationService;
 import com.WebApplcation.MyDietPlan.Service.WebsiteService;
-import com.WebApplcation.MyDietPlan.Model.Subscription;
+
+import java.util.ArrayList;
 
 
 @Controller
@@ -23,12 +25,12 @@ public class UserUIController {
     @Autowired
     private AuthenticationService authenticationService;
     @Autowired
-    private final WebsiteService ws;
+    private final WebsiteService websiteService;
 
 
     public UserUIController(AuthenticationService authenticationService, WebsiteService websiteService){
         this.authenticationService = authenticationService;
-        this.ws = websiteService;
+        this.websiteService = websiteService;
     }
 
 
@@ -111,6 +113,17 @@ public class UserUIController {
             return "redirect:/";
         }
         model.addAttribute("user", AuthenticationService.user);
+        try{
+
+            ArrayList<Recipe> weeklyRecipes = websiteService.getAllActiveRecipes();
+            ArrayList<Recipe> adjustedRecipes = websiteService.adjustRecipesToUser(AuthenticationService.user.getDailyCalorieBurn(),weeklyRecipes);
+            model.addAttribute("weeklyRecipes", adjustedRecipes);
+
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+        }
+
+
 
         return "loggedIn";
 

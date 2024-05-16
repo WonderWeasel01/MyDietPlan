@@ -5,7 +5,6 @@ import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Model.Ingredient;
 import com.WebApplcation.MyDietPlan.Model.Recipe;
-import com.WebApplcation.MyDietPlan.Model.User;
 import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -100,9 +99,16 @@ public class WebsiteService {
         }
     }
 
+    public List<Recipe> getActiveRecipesForDay(String day) throws EntityNotFoundException {
+        try{
+            return repo.getActiveRecipeForDay(day);
+        } catch (EmptyResultDataAccessException e){
+            throw new EntityNotFoundException("Kunne ikke finde " + day + "'s" + "opskrifter");
+        }
+    }
 
 
-public List<Ingredient> getAllIngredients(){
+    public List<Ingredient> getAllIngredients(){
         return repo.getAllIngredients();
     }
 
@@ -157,10 +163,22 @@ public List<Ingredient> getAllIngredients(){
 
     public ArrayList<Recipe> getAllActiveRecipes() throws EntityNotFoundException {
         try {
-            return (ArrayList<Recipe>) repo.getAllActiveRecipeWithoutIngredients();
+            return (ArrayList<Recipe>) repo.getAllActiveRecipe();
         } catch (EmptyResultDataAccessException e) {
             throw new EntityNotFoundException("Du har ikke tilføjet nogle opskrifter endnu!");
         }
+    }
+
+    public ArrayList<Recipe> adjustRecipesToUser(double dailyCalorieBurn, ArrayList<Recipe> recipes){
+        ArrayList<Recipe> adjustedRecipes = new ArrayList<>();
+
+
+        for(int i = 0; i<recipes.size(); i++){
+            Recipe recipeToAdjust = recipes.get(i);
+            adjustedRecipes.add(recipeToAdjust.adjustRecipeToUser(dailyCalorieBurn));
+        }
+        System.out.println(adjustedRecipes);
+        return adjustedRecipes;
     }
 
 

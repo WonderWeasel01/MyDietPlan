@@ -19,7 +19,7 @@ public class User {
     ArrayList<Recipe> favoriteRecipes = new ArrayList<>();
     ArrayList<Recipe> weeklyDietPlan = new ArrayList<>();
     private Subscription subscription;
-    private double dailyCalorieExpenditure;
+    private double dailyCalorieBurn;
 
   public User() {
     }
@@ -55,6 +55,14 @@ public class User {
         this.role = role;
     }
 
+    public double getDailyCalorieBurn() {
+        return dailyCalorieBurn;
+    }
+
+    public void setDailyCalorieBurn(double dailyCalorieBurn) {
+        this.dailyCalorieBurn = dailyCalorieBurn;
+    }
+
     public ArrayList<Recipe> getWeeklyDietPlan() {
         return weeklyDietPlan;
     }
@@ -71,7 +79,7 @@ public class User {
         this.subscription = subscription;
     }
 
-    public void calculateDailyCalorieExpenditure() {
+    public void calculateDailyCalorieBurn() {
         double BMR = 0;
         if (this.gender == 'M') {
             BMR = (10 * weight) + (6.25 * height) - (5 * age) + 5;
@@ -80,19 +88,19 @@ public class User {
         }
         switch (activityLevel) {
             case "No exercise":
-                this.dailyCalorieExpenditure = BMR * 1.2;
+                this.dailyCalorieBurn = BMR * 1.2;
                 break;
             case "Light activity":
-                this.dailyCalorieExpenditure = BMR * 1.375;
+                this.dailyCalorieBurn = BMR * 1.375;
                 break;
             case "Average activity":
-                this.dailyCalorieExpenditure = BMR * 1.55;
+                this.dailyCalorieBurn = BMR * 1.55;
                 break;
             case "Intense activity":
-                this.dailyCalorieExpenditure = BMR * 1.725;
+                this.dailyCalorieBurn = BMR * 1.725;
                 break;
             case "Extreme activity":
-                this.dailyCalorieExpenditure = BMR * 1.9;
+                this.dailyCalorieBurn = BMR * 1.9;
                 break;
         }
     }

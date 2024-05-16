@@ -229,6 +229,54 @@ body {
     gap: 10px;
     display: flex;
 }
+.Mealdivs2 {
+    width: 100%;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: none;
+}
+.Mealdivs3 {
+    width: 100%;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: none;
+}
+.Mealdivs4 {
+    width: 100%;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: none;
+}
+.Mealdivs5 {
+    width: 100%;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: none;
+}
+.Mealdivs6 {
+    width: 100%;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: none;
+}
+.Mealdivs7 {
+    width: 100%;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: none;
+}
 
 .Mealbox {
     height: 351px;

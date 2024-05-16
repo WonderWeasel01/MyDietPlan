@@ -38,7 +38,8 @@ class RecipeTest {
 	@BeforeEach
 	public void setUp() {
 		MockitoAnnotations.initMocks(this); // Initializes objects annotated with Mockito annotations
-		testIngredient = new Ingredient("Apple", 25, 0, 0, 52, 150);
+		testIngredient = new Ingredient("Apple", 25, 0, 0, 52, 100);
+		testIngredient = new Ingredient("Chicken", 0, 2, 21, 105, 200);
 		testRecipe = new Recipe(200, 30, 10, 5, "Breakfast", "Chop apples and mix with yogurt", "30 mins", true, new ArrayList<>(Arrays.asList(testIngredient)) );
 
 		// Additional logging to confirm setup success
@@ -67,6 +68,16 @@ class RecipeTest {
 		verify(jdbcTemplate, times(testRecipe.getIngredientList().size())).update(anyString(), eq(1), anyInt()); // Verifying ingredients update
 
 		System.out.println("Test completed successfully with Recipe ID: " + result.getRecipeID());
+	}
+
+	@Test
+	public void testAdjustRecipeToUser(){
+		double calorieGoal = 2000.0;
+		//Delta is used to accept small errors due to long decimals
+		double delta = 0.0001;
+		Recipe adjustedRecipe = testRecipe.adjustRecipeToUser(calorieGoal);
+		assertEquals(calorieGoal/3, testRecipe.adjustRecipeToUser(calorieGoal).getTotalCalories(), delta);
+
 	}
 
 

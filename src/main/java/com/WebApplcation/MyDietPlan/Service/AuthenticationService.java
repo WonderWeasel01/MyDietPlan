@@ -16,7 +16,6 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 
 
@@ -47,7 +46,7 @@ public class AuthenticationService {
             String hashedPassword = hashPassword(user.getPassword());
             user.setPassword(hashedPassword);
             user.setRole("User");
-            user.calculateDailyCalorieExpenditure();
+            user.calculateDailyCalorieBurn();
             return repo.createUser(user);
         } catch(DuplicateKeyException e){
             e.printStackTrace();

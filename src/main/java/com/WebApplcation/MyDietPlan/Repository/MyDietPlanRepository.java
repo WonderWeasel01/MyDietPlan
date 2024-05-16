@@ -8,16 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 @Repository
 public class MyDietPlanRepository {
@@ -37,8 +34,12 @@ public class MyDietPlanRepository {
 
     }
 */
+   public List<Recipe> getActiveRecipeForDay(String day) {
+       String sql = "SELECT * FROM Recipe WHERE Day = ? AND active = 1;";
+       return jdbcTemplate.query(sql, new Object[]{day}, recipeRowMapper());
+   }
 
-    @SuppressWarnings("deprecation")
+
 	public Ingredient getIngredientById(int id){
         String sql = "SELECT * FROM `Ingredient` WHERE ingredient_id = ?";
     
@@ -205,9 +206,16 @@ public class MyDietPlanRepository {
         String sql = "SELECT * FROM Recipe";
         return jdbcTemplate.query(sql, recipeRowMapper());
     }
-    public List<Recipe> getAllActiveRecipeWithoutIngredients(){
+    public List<Recipe> getAllActiveRecipe(){
         String sql = "SELECT * FROM Recipe where active = 1";
-        return jdbcTemplate.query(sql, recipeRowMapper());
+        List<Recipe> recipes = jdbcTemplate.query(sql, recipeRowMapper());
+
+        for (int i = 0; i < recipes.size(); i++) {
+            int recipeID = recipes.get(i).getRecipeID();
+            Recipe detailedRecipe = getRecipeWithIngredientsByRecipeID(recipeID);
+            recipes.set(i, detailedRecipe);
+        }
+        return recipes;
     }
     public List<Recipe> getAllDeactivatedRecipeWithoutIngredients(){
         String sql = "SELECT * FROM Recipe where active = 0";
@@ -260,8 +268,8 @@ public class MyDietPlanRepository {
      * @return The user that was insert into the database, with the auto-generated id attached.
      */
     public User createUser(User user){
-        String sql = "INSERT INTO `User`(`email`, `password`,`first_name`, `last_name`, `gender`, `height`, `weight`, `age`, `activity_level`, `goal`, `role`)" +
-                " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO `User`(`email`, `password`,`first_name`, `last_name`, `gender`, `height`, `weight`, `age`, `activity_level`, `goal`, `role`, `daily_calorie_burn`)" +
+                " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -276,6 +284,7 @@ public class MyDietPlanRepository {
             ps.setString(9, user.getActivityLevel());
             ps.setString(10, user.getGoal());
             ps.setString(11,user.getRole());
+            ps.setDouble(12,user.getDailyCalorieBurn());
             return ps;
         }, keyHolder);
 
@@ -388,6 +397,7 @@ public class MyDietPlanRepository {
             user.setActivityLevel(rs.getString("activity_level"));
             user.setGoal(rs.getString("goal"));
             user.setRole(rs.getString("role"));
+            user.setDailyCalorieBurn(rs.getDouble("daily_calorie_burn"));
             return user;
         });
     }
@@ -409,6 +419,7 @@ public class MyDietPlanRepository {
             recipe.setActive(rs.getBoolean("active"));
             recipe.setInstructions(rs.getString("instructions"));
             recipe.setPictureURL(rs.getString("pictureURL"));
+            recipe.setDay(rs.getString("day"));
             return recipe;
         });
     }

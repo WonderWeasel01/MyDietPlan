@@ -1,5 +1,6 @@
 package com.WebApplcation.MyDietPlan.Model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Recipe {
@@ -15,6 +16,7 @@ public class Recipe {
     private String instructions;
     private Boolean active = false;
     private String pictureURL;
+    private String day;
 
     ArrayList<Ingredient> ingredientList;
 
@@ -63,14 +65,45 @@ public class Recipe {
         this.ingredientList = ingredientList;
     }
 
-    public void calculateMacros(){
-        for(int i = 0; i<ingredientList.size(); i++) {
-            Ingredient ingredient = ingredientList.get(i);
-           this.totalProtein += ingredient.getProteinPerHundredGrams() * (ingredient.getWeightGrams() / 100);
-           this.totalFat += ingredient.getFatPerHundredGrams() * (ingredient.getWeightGrams() / 100) ;
-           this.totalCarbohydrates += ingredient.getCarbohydratesPerHundredGrams() * (ingredient.getWeightGrams() / 100);
-           this.totalCalories += ingredient.getCaloriesPerHundredGrams() * (ingredient.getWeightGrams() / 100);
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    public Recipe calculateMacros(){
+        //Ensure that the result is correct if the method is called more than once.
+        Recipe adjustedRecipe = this;
+        adjustedRecipe.totalCalories = 0;
+        adjustedRecipe.totalProtein = 0;
+        adjustedRecipe.totalFat = 0;
+        adjustedRecipe.totalCarbohydrates = 0;
+
+
+        for(int i = 0; i<adjustedRecipe.ingredientList.size(); i++) {
+            Ingredient ingredient = adjustedRecipe.ingredientList.get(i);
+            adjustedRecipe.totalProtein += ingredient.getProteinPerHundredGrams() * (ingredient.getWeightGrams() / 100.0);
+            adjustedRecipe.totalFat += ingredient.getFatPerHundredGrams() * (ingredient.getWeightGrams() / 100.0) ;
+            adjustedRecipe.totalCarbohydrates += ingredient.getCarbohydratesPerHundredGrams() * (ingredient.getWeightGrams() / 100.0);
+            adjustedRecipe.totalCalories += ingredient.getCaloriesPerHundredGrams() * (ingredient.getWeightGrams() / 100.0);
         }
+        return adjustedRecipe;
+    }
+
+    public Recipe adjustRecipeToUser(double dailyCalorieBurn){
+        Recipe adjustedRecipe = this;
+
+        double recipeCalorieGoal = dailyCalorieBurn/3.0;
+        double multiplier = recipeCalorieGoal/adjustedRecipe.totalCalories;
+
+
+        for(int i = 0; i<adjustedRecipe.ingredientList.size(); i++){
+            adjustedRecipe.ingredientList.get(i).setWeightGrams((adjustedRecipe.ingredientList.get(i).getWeightGrams() * multiplier));
+        }
+        adjustedRecipe.calculateMacros();
+        return adjustedRecipe;
     }
 
     public String getTitle() {
@@ -171,6 +204,7 @@ public class Recipe {
                 ", instructions='" + instructions + '\'' +
                 ", active=" + active +
                 ", pictureURL='" + pictureURL + '\'' +
+                ", day='" + day + '\'' +
                 ", ingredientList=" + ingredientList +
                 '}';
     }
