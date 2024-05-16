@@ -137,6 +137,13 @@ public class AuthenticationService {
         return subscription;
     }
 
+    public User updateUser(int userId, User user) throws InputErrorException {
+        if (user == null || user.getUserId() == 0) {
+            throw new InputErrorException("Udfyld venligst alle felter");
+        }
+        return repo.updateUser(userId, user);
+    }
+
 
 
 
@@ -144,12 +151,13 @@ public class AuthenticationService {
 
     public boolean deleteUser(int userID) {return repo.deleteUser(userID);}
 
-
+    }
 /*
     public int calculateAge(int dateOfBirth){
 
     }
+ */
 
-*/
 
-}
+
+
