@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -214,7 +215,15 @@ public class WebsiteService {
 
     public ArrayList<Recipe> getAllActiveRecipes() throws EntityNotFoundException {
         try {
-            return (ArrayList<Recipe>) repo.getAllActiveRecipe();
+            ArrayList<Recipe> recipes = (ArrayList<Recipe>) repo.getAllActiveRecipe();
+            for (int i = 0; i<recipes.size(); i++){
+                Recipe recipe = recipes.get(i);
+
+                String base64Image = Base64.getEncoder().encodeToString(recipe.getImage().getBlob());
+
+                recipe.getImage().setBase64Image(base64Image);
+            }
+            return recipes;
         } catch (EmptyResultDataAccessException e) {
             throw new EntityNotFoundException("Du har ikke tilføjet nogle opskrifter endnu!");
         }

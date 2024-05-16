@@ -12,6 +12,9 @@ public class Image {
     private String imageType;
     private byte[] blob;
 
+    //This is used to show the image on the website. It is used by thymeleaf to render the image.
+    private String base64Image;
+
     
     public int getImageID() {
         return imageID;
@@ -36,6 +39,14 @@ public class Image {
     }
     public void setBlob(byte[] blob) {
         this.blob = blob;
+    }
+
+    public String getBase64Image() {
+        return base64Image;
+    }
+
+    public void setBase64Image(String base64Image) {
+        this.base64Image = base64Image;
     }
 
     @Override
