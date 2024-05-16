@@ -1,5 +1,6 @@
 package com.WebApplcation.MyDietPlan.Repository;
 
+import com.WebApplcation.MyDietPlan.Model.Image;
 import com.WebApplcation.MyDietPlan.Model.Ingredient;
 import com.WebApplcation.MyDietPlan.Model.Recipe;
 import com.WebApplcation.MyDietPlan.Model.Subscription;
@@ -11,7 +12,12 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Optional;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -384,6 +390,55 @@ public class MyDietPlanRepository {
         return jdbcTemplate.queryForObject(sql, Integer.class);
 
     }
+
+
+
+    public Image insertImage(Image image) {
+        String sql = "INSERT INTO Image(image_name, image_type, image_blob) VALUES (?,?,?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, image.getImageName());
+            ps.setString(2, image.getImageType());
+            ps.setBytes(3, image.getBlob());
+
+            return ps;
+        }, keyHolder);
+
+        // Retrieve the generated key
+        Number generatedKey = keyHolder.getKey();
+        if (generatedKey != null) {
+            int id = generatedKey.intValue();
+            image.setImageID(id);;//
+        }
+        return image;
+    }
+
+    public boolean updateImage(Image image) {
+        String sql = "UPDATE Image SET image_name = ?, image_type = ?, image_blob = ? WHERE image_id = ?";
+        int rowsAffected = jdbcTemplate.update(sql, image.getImageName(), image.getImageType(), image.getBlob(), image.getImageID());
+        return rowsAffected > 0;
+    }
+
+
+    public Image getImage(Long id) {
+        String sql = "SELECT * FROM Image inner join Recipe on Image.image_id = Recipe.image_id WHERE Image.image_id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, imageRowMapper());
+    }
+
+
+     private RowMapper<Image> imageRowMapper(){
+        return ((rs, rowNum) -> {
+            Image image = new Image();
+            image.setImageID(rs.getInt("image_id"));
+            image.setImageName(rs.getString("image_name"));
+            image.setImageType(rs.getString("image_type"));
+            image.setBlob(rs.getBytes("image"));
+            return image;
+        });
+    }
+    
+
 
 
     /**
