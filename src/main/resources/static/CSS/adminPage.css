@@ -23,6 +23,7 @@ html, body {
 }
 .Middleframe, .Rightframe {
     width: 100%;
+    height: auto;
     overflow: hidden;
 }
 
@@ -167,7 +168,7 @@ html, body {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    max-height: calc(100vh - 250px);
+    
 }
 
 .FormInput label {
@@ -204,11 +205,14 @@ html, body {
     border-color: #4CAF50;
 }
 
-.Recipenameframe, .Preptimeframe, .Instructionframe, .Pictureframe, .Addingredientsbuttonframe {
-    justify-content: flex-start;
+.RowFrame{
+    justify-content: center;
     display: flex;
     width: 100%;
     padding: 10px 0;
+    flex-direction: row;
+    gap: 10px;
+    
 }
 
 .Addingredientsbuttonframe {
@@ -327,3 +331,50 @@ a:link, a:visited{
         color: white;
     }
   }
+
+  .DefaultButton{
+    width: 250px;
+    height: 50px;
+    padding: 10px;
+    background: #87CC83;
+    border-radius: 5px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: flex;
+    color: white;
+    font-size: large;
+    font-weight: bold;
+    font-family: 'Josefin Sans', sans-serif;
+    cursor: pointer;
+
+}
+
+
+button {
+    width: 100px;
+    border: none;
+    cursor: pointer;
+    height: 25px;
+    background-color: #87CC83;
+    border-radius: 5px;
+    font-family: 'Josefin Sans', sans-serif;
+   
+
+}
+
+li {
+    gap: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Josefin Sans', sans-serif;
+
+}
+
+h2{
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 24px;
+}

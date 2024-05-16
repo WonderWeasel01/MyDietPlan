@@ -21,13 +21,13 @@
         <div class="Leftframe">
 
 
-                <a href="/admin" class="active LeftFrameButton">
-                    <i class="fa-solid fa-circle-plus fa-xl" style="color: #ffffff;"></i>
+                <a href="/admin" class="LeftFrameButton">
+                    <i class="fa-solid fa-circle-plus fa-xl" style="color: #87CC83;"></i>
                     <div class="LeftFrameText">Tilføj ny opskrift</div>
                 </a>
 
-                <a href="/opretIngrediens" class="LeftFrameButton">
-                        <i class="fa-solid fa-leaf fa-xl" style="color: #87CC83;"></i>
+                <a href="/opretIngrediens" class=" active LeftFrameButton">
+                        <i class="fa-solid fa-leaf fa-xl" style="color: #ffffff;"></i>
                         <div class="LeftFrameText">Tilføj ny ingrediens</div>
                 </a>
             
@@ -52,31 +52,29 @@
             <div class="OpretEnOpskriftText">Tilføj en ingrediens!</div>
             </div>
 
-                <form th:action="@{/opretIngrediens}" th:object="${ingredient}" method="post">
+                <form th:action="@{/opretIngrediens}" action="#" th:object="${ingredient}" method="post">
                     <div class="FormInput">
-                            <div class="form-group">
+                            <div class="RowFrame">
                                 <label for="name">Ingrediens Navn:</label>
                                 <input type="text" id="name" th:field="*{name}" />
                             </div>
-                            <div class="form-group">
+                            <div class="RowFrame">
                                 <label for="protein">Protein (g/100g):</label>
                                 <input type="number" id="protein" th:field="*{proteinPerHundredGrams}" step="1" />
                             </div>
-                            <div class="form-group">
+                            <div class="RowFrame">
                                 <label for="fat">Fedt (g/100g):</label>
                                 <input type="number" id="fat" th:field="*{fatPerHundredGrams}" step="1" />
                             </div>
-                            <div class="form-group">
+                            <div class="RowFrame">
                                 <label for="carbohydrates">Kulhydrater (g/100g):</label>
                                 <input type="number" id="carbohydrates" th:field="*{carbohydratesPerHundredGrams}" step="1" />
                             </div>
-                            <div class="form-group">
+                            <div class="RowFrame">
                                 <label for="calories">Kalorier (kcal/100g):</label>
                                 <input type="number" id="calories" th:field="*{caloriesPerHundredGrams}" />
                             </div>
-                            <div class="form-group">
-                                <input type="submit" value="Submit" class="submit-button" />
-                            </div>
+                                <button type="submit" class="DefaultButton">Tilføj ingrediens</button>
                             <div th:if="${createIngredientSuccess} or ${createIngredientError}" class="message">
                                 <p th:if="${createIngredientError}" th:text="${createIngredientError}" class="error-message"></p>
                                 <p th:if="${createIngredientSuccess}" th:text="${createIngredientSuccess}" class="success-message"></p>

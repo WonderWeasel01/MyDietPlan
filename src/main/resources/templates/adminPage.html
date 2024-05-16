@@ -47,26 +47,29 @@
         </div>
         <div class="Rightframe">
             <div class="Recipeheaderframe">
-                <div class="OpretEnOpskriftText">Opret en opskrift!</div>
+                <h2>OPRET EN NY OPSKRIFT!</h2>
             </div>
             <form id="recipeInputForm" action="#" th:action="@{/admin}" th:object="${recipe}" method="post" enctype="multipart/form-data">
-                <div class="Recipeinputframe">
-                    <div class="Recipenameframe">
+                <div class="FormInput">
+                    <div class="RowFrame">
                         <label for="title" class="OpskriftNavntext">Opskrift navn</label>
                         <input type="text" id="title" th:field="*{title}" class="recipe-input" placeholder="Opskrift navn">
                     </div>
-                    <div class="Preptimeframe">
+                    <div class="RowFrame">
                         <label for="prepTime" class="Tilberedningstidtext">Tilberedningstid</label>
                         <input type="text" id="prepTime" th:field="*{prepTime}" class="prep-time-input" placeholder="Tilberedningstid">
                     </div>
-                    <label for="timeOfDaySelect" id="timeofDayText" class="Tidspunkt">Tidspunkt
-                    <select id="timeOfDaySelect" name="timeOfDaySelect" th:field="*{timeOfDay}">
-                        <option value="Breakfast">Morgenmad</option>
-                        <option value="Lunch">Middagsmad</option>
-                        <option value="Dinner">Aftensmad</option>
-                    </select>
-                    </label>
-                    <label for="daySelect" id="dayText" class="Tidspunkt">Dag
+                    <div class="RowFrame">
+                        <label for="timeOfDaySelect" id="timeofDayText" class="Tidspunkt">Tidspunkt</label>
+                        <select id="timeOfDaySelect" name="timeOfDaySelect" th:field="*{timeOfDay}">
+                            <option value="Breakfast">Morgenmad</option>
+                            <option value="Lunch">Middagsmad</option>
+                            <option value="Dinner">Aftensmad</option>
+                        </select>
+                        
+                    </div>
+                    <div class="RowFrame">
+                    <label for="daySelect" id="dayText" class="Tidspunkt">Dag</label>
                         <select id="daySelect" name="daySelect" th:field="*{day}">
                             <option value="Monday">Mandag</option>
                             <option value="Tuesday">Tirsdag</option>
@@ -77,33 +80,47 @@
                             <option value="Sunday">Søndag</option>
 
                         </select>
-                    </label>
-                    <div class="Instructionframe">
+                    
+                </div>
+                    <div class="RowFrame">
                         <label for="instructions" class="Instruktioner">Instruktioner</label>
                         <textarea id="instructions" th:field="*{instructions}" class="instructions-input" placeholder="Instruktioner"></textarea>
                     </div>
-                    <div class="Pictureframe">
+                    <div class="RowFrame">
                         <label for="file" class="Recipepicturetext">Tilføj et billede til opskriften</label>
                         <input type="file" id="file" name="file" accept="image/*">
                     </div>
 
-                    <div class="Addingredientsbuttonframe">
+                        <h2>TILFØJ INGREDIENS LISTE</h2>
+                    <div class="RowFrame">
+                        <label  class="Ingrediens">Ingredienser</label>
                         <select id="ingredientSelect">
                             <option th:each="ingredient : ${ingredients}"
                                     th:value="${ingredient.ingredientID}"
                                     th:text="${ingredient.name}">Ingredient Name</option>
                         </select>
+                    </div>
+                    <div class="RowFrame">
+                        <label for="ingredientWeight" class="Vægt">Vægt</label>
                         <input type="number" id="ingredientWeight" name="ingredientWeight" min="1" placeholder="Vægt i gram" class="weight-input">
-                        <button type="button" onclick="addIngredientToList()">Tilføj Ingrediens</button>
+                    </div>
+                        
+                            
+                     
                         <div th:if="${errorMessage} or ${successMessage}" class="message">
                             <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
                             <p th:if="${successMessage}" th:text="${successMessage}" class="success-message"></p>
                         </div>
+                        
                         <form id="recipeForm" th:action="@{/admin}" method="post">
                             <ul id="ingredientList"></ul>
-                            <button type="submit">Opret Opskrift</button>
+                           <div class="RowFrame">
+                                <div class="DefaultButton" type="button" onclick="addIngredientToList()">Tilføj Ingrediens</div>
+                        
+                                <button class="DefaultButton" type="submit">Opret Opskrift</button>
+                            </div>
                         </form>
-                    </div>
+                    
                 </div>
             </form>
         </div>
