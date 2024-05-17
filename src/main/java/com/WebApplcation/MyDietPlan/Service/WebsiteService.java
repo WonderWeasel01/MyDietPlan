@@ -142,7 +142,7 @@ public class WebsiteService {
     }
     public boolean isValidRecipe(Recipe recipe){
         return StringUtils.hasText(recipe.getTitle()) && StringUtils.hasText(recipe.getPrepTime()) && StringUtils.hasText(recipe.getTimeOfDay())
-                && StringUtils.hasText(recipe.getInstructions()) && recipe.recipeHasImage() && recipe.getIngredientList() != null
+                && StringUtils.hasText(recipe.getInstructions()) && StringUtils.hasText(recipe.getImage().getImageName()) && StringUtils.hasText(recipe.getImage().getImageType()) && recipe.getIngredientList() != null
                 && !recipe.getIngredientList().isEmpty();
     }
     private void validateIngredientAndWeightSizes(List<Integer> ingredientIds, List<Integer> weights) throws InputErrorException {
@@ -243,51 +243,5 @@ public class WebsiteService {
 
 
 
-    /*public Recipe getRecipeByTimeOfDay(int recipeID) throws EntityNotFoundException, SystemErrorException {
-        try{
-            return repo.getRecipeWithIngredientsByRecipeID(recipeID);
-        } catch (EmptyResultDataAccessException e){
-            System.err.println(e.getMessage());
-            throw new EntityNotFoundException("Kunne ikke finde en opskrift med givet id");
-        } catch (DataAccessException e){
-            System.err.println(e.getMessage());
-            throw new SystemErrorException("Der er sket en fejl. Prøv igen senere");
-        }
-    }*/
-
-
-
-/*
-    public Recipe getRecipe(int recipeID) {
-
-    }
-
-    public Recipe updateRecipe(int recipeID, Recipe newRecipe) {
-
-    }
-
-    public Recipe createRecipe(Recipe recipe) {
-
-    }
-
-    public boolean deleteRecipe(int recipeID){
-
-    }
-
-
-
-    public List<Recipe> getAllBreakfastRecipe(){
-
-
-    }
-
-    public List<Recipe> getAllLunchRecipe(){
-
-    }
-
-    public List<Recipe> getAllDinnerRecipe(){
-
-    }
-*/
 }
 

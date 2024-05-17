@@ -268,7 +268,7 @@ public class MyDietPlanRepository {
     }
 
     public List<Ingredient> getAllIngredients(){
-        String sql = "SELECT * FROM `Ingredient`";
+        String sql = "SELECT * FROM `Ingredient` ORDER BY `Ingredient`.`name` ASC";
         return jdbcTemplate.query(sql,ingredientRowMapper());
     }
 

@@ -1,5 +1,7 @@
 package com.WebApplcation.MyDietPlan.Model;
 
+import org.springframework.util.StringUtils;
+
 import java.util.ArrayList;
 
 public class Recipe {
@@ -31,9 +33,7 @@ public class Recipe {
 
     }
 
-    public boolean recipeHasImage(){
-        return image != null;
-    }
+
 
     public Image getImage() {
         return image;
