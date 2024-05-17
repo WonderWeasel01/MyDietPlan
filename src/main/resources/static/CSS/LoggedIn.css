@@ -180,11 +180,7 @@ body {
 
 }
 .Tirsdag,
-.Onsdag,
-.Torsdag,
-.Fredag,
-.LRdag,
-.SNdag {
+.Onsdag{
     color: #636363;
     font-size: 42px;
     font-family: Josefin Sans;
@@ -204,11 +200,7 @@ body {
 
 .Mondayline,
 .Tuesdayline,
-.Wendsdayline,
-.ThursdayLine,
-.Fridayline,
-.Saturdayline,
-.Sundayline {
+.Wendsdayline {
     color: #636363;
     font-size: 38px;
     font-family: Dongle;
@@ -224,65 +216,29 @@ body {
     word-wrap: break-word;
 }
 
-.Mealdivs {
+.Mealdivs{
     width: 100%;
     padding: 10px;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
     display: flex;
+    flex-wrap: wrap;
+    column-gap: 20px;
 }
-.Mealdivs2 {
+.Mealdivs2, .Mealdivs3 {
     width: 100%;
     padding: 10px;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
     display: none;
-}
-.Mealdivs3 {
-    width: 100%;
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    display: none;
-}
-.Mealdivs4 {
-    width: 100%;
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    display: none;
-}
-.Mealdivs5 {
-    width: 100%;
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    display: none;
-}
-.Mealdivs6 {
-    width: 100%;
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    display: none;
-}
-.Mealdivs7 {
-    width: 100%;
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    display: none;
+    flex-wrap: wrap;
+    column-gap: 20px;
 }
 
 .Mealbox {
-    height: 450px;
+    height: auto;
     background: white;
     border-radius: 15px;
     overflow: hidden;

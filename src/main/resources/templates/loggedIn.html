@@ -57,98 +57,34 @@
         <div class="Mealbody">
             <div class="Weekplan">
                 <div class="Days">
-                    <div class="Mandag" id="Mandag" onclick="changeColor('Mandag', this)">Mandag</div>
+                    <div class="Mandag" id="Breakfast" onclick="changeColor('Breakfast', this)">Morgenmad</div>
                     <script>
-                        document.getElementById("Mandag").addEventListener("click", function() {
+                        document.getElementById("Breakfast").addEventListener("click", function() {
                             // Add the "Step2" class to the element to make it visible
                             document.querySelector(".Mealdivs").style.display = "flex";
                             document.querySelector(".Mealdivs2").style.display = "none";
                             document.querySelector(".Mealdivs3").style.display = "none";
-                            document.querySelector(".Mealdivs4").style.display = "none";
-                            document.querySelector(".Mealdivs5").style.display = "none";
-                            document.querySelector(".Mealdivs6").style.display = "none";
-                            document.querySelector(".Mealdivs7").style.display = "none";
                         });
                     </script>
-                    <div class="Tirsdag" id="Tirsdag" onclick="changeColor('Tirsdag', this)">Tirsdag</div>
+                    <div class="Tirsdag" id="Lunch" onclick="changeColor('Lunch', this)">Frokost</div>
                     <script>
-                        document.getElementById("Tirsdag").addEventListener("click", function() {
+                        document.getElementById("Lunch").addEventListener("click", function() {
                             // Add the "Step2" class to the element to make it visible
                             document.querySelector(".Mealdivs2").style.display = "flex";
                             document.querySelector(".Mealdivs").style.display = "none";
                             document.querySelector(".Mealdivs3").style.display = "none";
-                            document.querySelector(".Mealdivs4").style.display = "none";
-                            document.querySelector(".Mealdivs5").style.display = "none";
-                            document.querySelector(".Mealdivs6").style.display = "none";
-                            document.querySelector(".Mealdivs7").style.display = "none";
                         });
                     </script>
-                    <div class="Onsdag" id="Onsdag" onclick="changeColor('Onsdag', this)">Onsdag</div>
+                    <div class="Onsdag" id="Dinner" onclick="changeColor('Dinner', this)">Aftensmad</div>
                     <script>
-                        document.getElementById("Onsdag").addEventListener("click", function() {
+                        document.getElementById("Dinner").addEventListener("click", function() {
                             // Add the "Step2" class to the element to make it visible
                             document.querySelector(".Mealdivs3").style.display = "flex";
                             document.querySelector(".Mealdivs2").style.display = "none";
                             document.querySelector(".Mealdivs").style.display = "none";
-                            document.querySelector(".Mealdivs4").style.display = "none";
-                            document.querySelector(".Mealdivs5").style.display = "none";
-                            document.querySelector(".Mealdivs6").style.display = "none";
-                            document.querySelector(".Mealdivs7").style.display = "none";
                         });
                     </script>
-                    <div class="Torsdag" id="Torsdag" onclick="changeColor('Torsdag', this)">Torsdag</div>
-                    <script>
-                        document.getElementById("Torsdag").addEventListener("click", function() {
-                            // Add the "Step2" class to the element to make it visible
-                            document.querySelector(".Mealdivs4").style.display = "flex";
-                            document.querySelector(".Mealdivs2").style.display = "none";
-                            document.querySelector(".Mealdivs3").style.display = "none";
-                            document.querySelector(".Mealdivs").style.display = "none";
-                            document.querySelector(".Mealdivs5").style.display = "none";
-                            document.querySelector(".Mealdivs6").style.display = "none";
-                            document.querySelector(".Mealdivs7").style.display = "none";
-                        });
-                    </script>
-                    <div class="Fredag" id="Fredag" onclick="changeColor('Fredag', this)">Fredag</div>
-                    <script>
-                        document.getElementById("Fredag").addEventListener("click", function() {
-                            // Add the "Step2" class to the element to make it visible
-                            document.querySelector(".Mealdivs5").style.display = "flex";
-                            document.querySelector(".Mealdivs2").style.display = "none";
-                            document.querySelector(".Mealdivs3").style.display = "none";
-                            document.querySelector(".Mealdivs4").style.display = "none";
-                            document.querySelector(".Mealdivs").style.display = "none";
-                            document.querySelector(".Mealdivs6").style.display = "none";
-                            document.querySelector(".Mealdivs7").style.display = "none";
-                        });
-                    </script>
-                    <div class="LRdag" id="LRdag" onclick="changeColor('LRdag', this)">Lørdag</div>
-                    <script>
-                        document.getElementById("LRdag").addEventListener("click", function() {
-                            // Add the "Step2" class to the element to make it visible
-                            document.querySelector(".Mealdivs6").style.display = "flex";
-                            document.querySelector(".Mealdivs2").style.display = "none";
-                            document.querySelector(".Mealdivs3").style.display = "none";
-                            document.querySelector(".Mealdivs4").style.display = "none";
-                            document.querySelector(".Mealdivs5").style.display = "none";
-                            document.querySelector(".Mealdivs").style.display = "none";
-                            document.querySelector(".Mealdivs7").style.display = "none";
-                        });
-                    </script>
-                    <div class="SNdag" id="SNdag" onclick="changeColor('SNdag', this)">Søndag</div>
-                    <script>
-                        document.getElementById("SNdag").addEventListener("click", function() {
-                            // Add the "Step2" class to the element to make it visible
-                            document.querySelector(".Mealdivs7").style.display = "flex";
-                            document.querySelector(".Mealdivs2").style.display = "none";
-                            document.querySelector(".Mealdivs3").style.display = "none";
-                            document.querySelector(".Mealdivs4").style.display = "none";
-                            document.querySelector(".Mealdivs5").style.display = "none";
-                            document.querySelector(".Mealdivs6").style.display = "none";
-                            document.querySelector(".Mealdivs").style.display = "none";
-                        });
-                    </script>
-                </div>
+                   </div>
 
 
                 <div class="Lines">
@@ -157,59 +93,14 @@
                     <div class="Tuesdayline" id="TirsdagLine">━━━━</div>
                     <div class="Dividerline">━</div>
                     <div class="Wendsdayline" id="OnsdagLine">━━━━</div>
-                    <div class="Dividerline">━</div>
-                    <div class="ThursdayLine" id="TorsdagLine">━━━━</div>
-                    <div class="Dividerline">━</div>
-                    <div class="Fridayline" id="FredagLine">━━━━</div>
-                    <div class="Dividerline">━</div>
-                    <div class="Saturdayline" id="LRdagLine">━━━━</div>
-                    <div class="Dividerline">━</div>
-                    <div class="Sundayline" id="SNdagLine">━━━━</div>
                 </div>
             </div>
 
 
-            <!-- Monday Section -->
+            <!-- Breakfast Section -->
             <div class="Mealdivs">
-                <!-- Breakfast Section -->
+                <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.timeOfDay == 'Breakfast'}">
                 <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Monday' and recipe.timeOfDay == 'Breakfast'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Middagsmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Monday' and recipe.timeOfDay == 'Lunch'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Aftensmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Monday' and recipe.timeOfDay == 'Dinner'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
                             <span th:text="${recipe.title}">Opskrift titel</span>
@@ -226,47 +117,10 @@
                 </div>
             </div>
 
-            <!-- Tuesday Section -->
+            <!-- Lunch Section -->
             <div class="Mealdivs2">
-                <!-- Morgenmad Section -->
+                <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.timeOfDay == 'Lunch'}">
                 <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Tuesday' and recipe.timeOfDay == 'Breakfast'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Middagsmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Tuesday' and recipe.timeOfDay == 'Lunch'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Aftensmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Tuesday' and recipe.timeOfDay == 'Dinner'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
                             <span th:text="${recipe.title}">Opskrift titel</span>
@@ -283,276 +137,10 @@
                 </div>
             </div>
 
-            <!-- Wednesday Section -->
+            <!-- Dinner Section -->
             <div class="Mealdivs3">
-                <!-- Morgenmad Section -->
+                <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.timeOfDay == 'Dinner'}">
                 <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Wednesday' and recipe.timeOfDay == 'Breakfast'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Middagsmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Wednesday' and recipe.timeOfDay == 'Lunch'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Aftensmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Wednesday' and recipe.timeOfDay == 'Dinner'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Thursday Section -->
-            <div class="Mealdivs4">
-                <!-- Morgenmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Thursday' and recipe.timeOfDay == 'Breakfast'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Middagsmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Thursday' and recipe.timeOfDay == 'Lunch'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Aftensmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Thursday' and recipe.timeOfDay == 'Dinner'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Friday Section -->
-            <div class="Mealdivs5">
-                <!-- Morgenmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Friday' and recipe.timeOfDay == 'Breakfast'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Middagsmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Friday' and recipe.timeOfDay == 'Lunch'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Aftensmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Friday' and recipe.timeOfDay == 'Dinner'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Saturday Section -->
-            <div class="Mealdivs6">
-                <!-- Morgenmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Saturday' and recipe.timeOfDay == 'Breakfast'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Middagsmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Saturday' and recipe.timeOfDay == 'Lunch'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Aftensmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Saturday' and recipe.timeOfDay == 'Dinner'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sunday Section -->
-            <div class="Mealdivs7">
-                <!-- Morgenmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Sunday' and recipe.timeOfDay == 'Breakfast'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Middagsmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Sunday' and recipe.timeOfDay == 'Lunch'}">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-                        <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
-                        </div>
-                        <div class="Mealrow">
-                            <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
-                            </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
-                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Aftensmad Section -->
-                <div class="Mealbox">
-                    <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Sunday' and recipe.timeOfDay == 'Dinner'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
                             <span th:text="${recipe.title}">Opskrift titel</span>
