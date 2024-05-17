@@ -63,7 +63,6 @@ public class AdminUIController {
             redirectAttributes.addFlashAttribute("errorMessage", "Der skete en fejl under forsøget på at gemme billedet");
         }
         return "adminPage";
-
     }
 
     @GetMapping("/opretIngrediens")

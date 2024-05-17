@@ -52,26 +52,16 @@ public class UserUIController {
     @GetMapping("/seOpskrift/{recipeID}")
     public String showRecipe(Model model, @PathVariable int recipeID, RedirectAttributes redirectAttributes){
         try{
-            Recipe recipe = websiteService.getRecipeById(recipeID);
+            Recipe recipe = websiteService.getAdjustedRecipeById(recipeID);
             model.addAttribute("recipe", recipe);
             System.out.println(StringUtils.hasText(recipe.getImage().getBase64Image()));
             return "showRecipe";
-        } catch (SystemErrorException | EntityNotFoundException e) {
+        } catch (SystemErrorException e) {
             redirectAttributes.addAttribute("errorMessage", e.getMessage());
         }
         return "redirect:/velkommen";
     }
-    @GetMapping("/login")
-    public String loginForm(Model model) {
-        if (authenticationService.isAdminLoggedIn()){
-            return "redirect:/admin";
-        } else if (authenticationService.isUserLoggedIn()) {
-            return "redirect:/welcome";
-        }
-        User user = new User();
-        model.addAttribute("user", user);
-        return "login";
-    }
+
 
     @GetMapping("/opretBruger")
     public String createUserForm(Model model){
@@ -93,31 +83,30 @@ public class UserUIController {
         try{
             authenticationService.createUser(user);
             return "redirect:/";
-        } catch (DuplicateKeyException e) {
-            model.addAttribute("createUserError", "Email bruges allerede!");
-        } catch (SystemErrorException e) {
-            model.addAttribute("createUserError", "Der er sket en fejl på vores side. Prøv igen senere!");
-        } catch (InputErrorException e) {
-            model.addAttribute("createUserError", "Udfyld venligst alle felterne korrekt!");
+        } catch (SystemErrorException | InputErrorException e) {
+            model.addAttribute("createUserError", e.getMessage());
         }
         return "createUser";
     }
 
+    @GetMapping("/login")
+    public String loginForm(Model model) {
+        //Grants instant access if the user is already logged in
+        if (authenticationService.isAdminLoggedIn()){
+            return "redirect:/admin";
+        } else if (authenticationService.isUserLoggedIn()) {
+            return "redirect:/welcome";
+        }
+        return "login";
+    }
 
     @PostMapping("/login")
-    public String loginUser(@ModelAttribute User user, Model model) {
+    public String loginUser(@RequestParam String email, @RequestParam String password, Model model) {
         try{
-            //Check if the user credentials are valid
-            if (!authenticationService.validateLogin(user.getEmail(), user.getPassword())) {
-                model.addAttribute("loginError", "Email eller password forkert");
-                return "login";
-            }
-
-            //Log the user in;
-            User validatedUser = authenticationService.loginUser(user.getEmail());
+            User validatedUser = authenticationService.loginUser(email, password);
             return determineViewDependingOnRole(validatedUser);
-        } catch (EntityNotFoundException e){
-            model.addAttribute("loginError" , "Email eller password forkert");
+        } catch (InputErrorException e){
+            model.addAttribute("loginError" , e.getMessage());
             return "login";
         }
     }
@@ -128,18 +117,18 @@ public class UserUIController {
         if(!isLoggedIn()){
             return "redirect:/";
         }
-        model.addAttribute("user", AuthenticationService.user);
+        User user = authenticationService.getUser();
+        model.addAttribute("user", user);
         try{
 
             ArrayList<Recipe> weeklyRecipes = websiteService.getAllActiveRecipes();
-            ArrayList<Recipe> adjustedRecipes = websiteService.adjustRecipesToUser(AuthenticationService.user.getDailyCalorieBurn(),weeklyRecipes);
+            ArrayList<Recipe> adjustedRecipes = websiteService.adjustRecipesToUser(user.getDailyCalorieGoal(),weeklyRecipes);
             model.addAttribute("weeklyRecipes", adjustedRecipes);
 
         } catch (EntityNotFoundException e) {
             model.addAttribute("errorMessage", e.getMessage());
         }
         return "loggedIn";
-
     }
 
 
@@ -151,7 +140,7 @@ public class UserUIController {
 
     @GetMapping("/opdaterBruger/{userID}")
     public String editUser(@PathVariable int userID, Model model) {
-        User user = authenticationService.getUserByID(userID);
+        User user = websiteService.getUserByID(userID);
         model.addAttribute("user", user);
         return "editUser";
     }
@@ -159,7 +148,7 @@ public class UserUIController {
     @PostMapping("/opdaterBruger")
     public String updateUser(@ModelAttribute User updatedUser, Model model) {
         try {
-            User updatedUserInfo = authenticationService.updateUser(updatedUser.getUserId(), updatedUser);
+            User updatedUserInfo = websiteService.updateUser(updatedUser.getUserId(), updatedUser);
             model.addAttribute("user", updatedUserInfo);
             return "redirect:/";
         } catch (InputErrorException e) {

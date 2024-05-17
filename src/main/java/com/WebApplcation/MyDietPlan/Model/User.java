@@ -17,7 +17,7 @@ public class User {
     private String goal;
     private String role;
     ArrayList<Recipe> favoriteRecipes = new ArrayList<>();
-    ArrayList<Recipe> weeklyDietPlan = new ArrayList<>();
+    ArrayList<Recipe> adjustedRecipes = new ArrayList<>();
     private Subscription subscription;
     private double dailyCalorieBurn;
     private double dailyCalorieGoal;
@@ -64,12 +64,12 @@ public class User {
         this.dailyCalorieBurn = dailyCalorieBurn;
     }
 
-    public ArrayList<Recipe> getWeeklyDietPlan() {
-        return weeklyDietPlan;
+    public ArrayList<Recipe> getAdjustedRecipes() {
+        return adjustedRecipes;
     }
 
-    public void setWeeklyDietPlan(ArrayList<Recipe> weeklyDietPlan) {
-        this.weeklyDietPlan = weeklyDietPlan;
+    public void setAdjustedRecipes(ArrayList<Recipe> adjustedRecipes) {
+        this.adjustedRecipes = adjustedRecipes;
     }
 
     public Subscription getSubscription() {

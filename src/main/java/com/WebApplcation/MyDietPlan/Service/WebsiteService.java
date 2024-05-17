@@ -6,6 +6,7 @@ import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Model.Image;
 import com.WebApplcation.MyDietPlan.Model.Ingredient;
 import com.WebApplcation.MyDietPlan.Model.Recipe;
+import com.WebApplcation.MyDietPlan.Model.User;
 import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -24,6 +25,8 @@ public class WebsiteService {
 
     @Autowired
     private MyDietPlanRepository repo;
+    @Autowired
+    private AuthenticationService authenticationService;
 
     public WebsiteService(MyDietPlanRepository myDietPlanRepository){
         this.repo = myDietPlanRepository;
@@ -180,6 +183,15 @@ public class WebsiteService {
         }
     }
 
+    public Recipe getAdjustedRecipeById(int recipeID) throws SystemErrorException {
+        ArrayList<Recipe> recipes = authenticationService.getUser().getAdjustedRecipes();
+        for(int i = 0; i<recipes.size(); i++){
+            if(recipes.get(i).getRecipeID() == recipeID){
+                return recipes.get(i);
+            }
+        } throw new SystemErrorException("Der er sket en fejl. Prøv igen senere");
+    }
+
     public Ingredient createIngredient(Ingredient ingredient) throws SystemErrorException, InputErrorException {
 
         try {
@@ -233,17 +245,44 @@ public class WebsiteService {
         }
     }
 
-    public ArrayList<Recipe> adjustRecipesToUser(double dailyCalorieBurn, ArrayList<Recipe> recipes){
+    /**
+     * Adjusts the macros of the weekly recipes and sets the logged-in user.adjustRecipes to the newly adjusted recipes.
+     * @param dailyCalorieGoal The users dailyCalorieBurn
+     * @param weeklyRecipes The list of recipes that has been chosen for this week's diet plan.
+     * @return The
+     */
+    public ArrayList<Recipe> adjustRecipesToUser(double dailyCalorieGoal, ArrayList<Recipe> weeklyRecipes){
         ArrayList<Recipe> adjustedRecipes = new ArrayList<>();
 
-
-        for(int i = 0; i<recipes.size(); i++){
-            Recipe recipeToAdjust = recipes.get(i);
-            adjustedRecipes.add(recipeToAdjust.adjustRecipeToUser(dailyCalorieBurn));
+        for(int i = 0; i<weeklyRecipes.size(); i++){
+            Recipe recipeToAdjust = weeklyRecipes.get(i);
+            adjustedRecipes.add(recipeToAdjust.adjustRecipeToUser(dailyCalorieGoal));
         }
-        System.out.println(adjustedRecipes);
+        AuthenticationService.user.setAdjustedRecipes(adjustedRecipes);
         return adjustedRecipes;
     }
+
+    public User getUserByID (int userId) {
+        return repo.getUserByID(userId);
+    }
+
+    /**
+     * Updates the profile of the user with the specified user ID.
+     * @param userId is the ID of the user who is updating his/her profile.
+     * @param user the user object containing the updated profile information.
+     * @return returns the updated user object
+     * @throws InputErrorException if the user object is null or if the user ID within the user object is 0.
+     */
+    public User updateUser(int userId, User user) throws InputErrorException {
+        if (user == null || user.getUserId() == 0) {
+            throw new InputErrorException("Udfyld venligst alle felter");
+        }
+        return repo.updateUser(userId, user);
+    }
+
+
+
+
 
 
 

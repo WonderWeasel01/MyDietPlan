@@ -18,18 +18,16 @@
         </div>
         <div class="Rightbox">
             <img class="Logo" src="Images/PNGS/minkostplan-logo.png" />
-            <form class="outer" action="#" th:action="@{/login}" th:object="${user}" method="post" >
+            <form action="/login" method="post">
                 <div class="Form">
-
-                
-                <div class="classinput">
-                    <label for="email" class="text">E-Mail:</label>
-                    <input type="text"  th:field="*{email}" id="email" class="input"></input>
-                </div>
-                <div class="classinput">
-                    <label for="password" class="text">Kodeord:</label>
-                    <input type="password"  th:field="*{password}" id="password" class="input"></input>
-                </div>
+                    <div class="classinput">
+                        <label for="email" class="text">E-Mail:</label>
+                        <input type="text" name="email" id="email" class="input">
+                    </div>
+                    <div class="classinput">
+                        <label for="password" class="text">Kodeord:</label>
+                        <input type="password" name="password" id="password" class="input">
+                    </div>
                 <div class="emailUsedError" role="alert">
                     <span ></span>
                 </div>

@@ -41,7 +41,6 @@ public class AuthenticationService {
         if(user == null || !isValidUser(user)){
             throw new InputErrorException("Missing inputs");
         }
-
         try{
             String hashedPassword = hashPassword(user.getPassword());
             user.setPassword(hashedPassword);
@@ -50,14 +49,21 @@ public class AuthenticationService {
             return repo.createUser(user);
         } catch(DuplicateKeyException e){
             e.printStackTrace();
-            throw new DuplicateKeyException("Email already in use");
+            throw new InputErrorException("Email bruges allerede");
         } catch (DataIntegrityViolationException e){
             e.printStackTrace();
-            throw new InputErrorException("Failed to create user due to missing input");
+            throw new InputErrorException("Venligst udfyld alle felterne korrekt");
         } catch (DataAccessException e){
             e.printStackTrace();
-            throw new SystemErrorException("Failed to create user due to a database issue");
+            throw new SystemErrorException("Der skete en fejl under opretning af brugeren. Prøv igen senere");
         }
+    }
+
+    public User getUser(){
+        return user;
+    }
+    public void setUser(User user){
+        AuthenticationService.user = user;
     }
 
     /**
@@ -80,18 +86,28 @@ public class AuthenticationService {
         return BCrypt.hashpw(password,BCrypt.gensalt());
     }
 
-    public boolean validateLogin(String email, String password) throws EntityNotFoundException {
+    public void validateLogin(String email, String password) throws InputErrorException {
         try{
             String hashedPassword = repo.getPasswordByEmail(email);
-            return BCrypt.checkpw(password, hashedPassword);
+            validatePassword(password, hashedPassword);
         } catch (EmptyResultDataAccessException e){
             e.printStackTrace();
-            throw new EntityNotFoundException("Failed to find user with given email");
+            throw new InputErrorException("Email eller password forkert");
         }
     }
 
-    public User loginUser(String email){
-        return user = repo.getUserByEmail(email);
+    public void validatePassword(String password, String hashedPassword) throws InputErrorException {
+        if(!BCrypt.checkpw(password, hashedPassword)){
+            throw new InputErrorException("Email eller password forkert");
+        }
+    }
+
+    public User loginUser(String email, String password) throws InputErrorException {
+        validateLogin(email, password);
+        User user = repo.getUserByEmail(email);
+        setUser(user);
+        System.out.println(user);
+        return user;
     }
 
     public void logout(){
@@ -132,23 +148,9 @@ public class AuthenticationService {
         return subscription;
     }
 
-    /**
-     * Updates the profile of the user with the specified user ID.
-     * @param userId is the ID of the user who is updating his/her profile.
-     * @param user the user object containing the updated profile information.
-     * @return returns the updated user object
-     * @throws InputErrorException if the user object is null or if the user ID within the user object is 0.
-     */
-    public User updateUser(int userId, User user) throws InputErrorException {
-        if (user == null || user.getUserId() == 0) {
-            throw new InputErrorException("Udfyld venligst alle felter");
-        }
-        return repo.updateUser(userId, user);
-    }
 
-    public User getUserByID (int userId) {
-        return repo.getUserByID(userId);
-    }
+
+
 
 
 

@@ -43,7 +43,10 @@ public class Recipe {
         this.image = image;
     }
 
-    public Recipe(int totalCalories, int totalCarbohydrates, int totalFat, int totalProtein, String prepTime, String timeOfDay, String instructions, Boolean active, ArrayList<Ingredient> ingredientList) {
+
+    public Recipe(int recipeID, String title, double totalCalories, double totalCarbohydrates, double totalFat, double totalProtein, String prepTime, String timeOfDay, String instructions, Boolean active, ArrayList<Ingredient> ingredientList) {
+        this.recipeID = recipeID;
+        this.title = title;
         this.totalCalories = totalCalories;
         this.totalCarbohydrates = totalCarbohydrates;
         this.totalFat = totalFat;
@@ -55,8 +58,9 @@ public class Recipe {
         this.ingredientList = ingredientList;
     }
 
-    public Recipe(int recipeID, int totalCalories, int totalCarbohydrates, int totalFat, int totalProtein, String prepTime, String timeOfDay, String instructions, Boolean active, ArrayList<Ingredient> ingredientList) {
+    public Recipe(int recipeID, String title, double totalCalories, double totalCarbohydrates, double totalFat, double totalProtein, String prepTime, String timeOfDay, String instructions, Boolean active, String day, Image image, ArrayList<Ingredient> ingredientList) {
         this.recipeID = recipeID;
+        this.title = title;
         this.totalCalories = totalCalories;
         this.totalCarbohydrates = totalCarbohydrates;
         this.totalFat = totalFat;
@@ -65,6 +69,8 @@ public class Recipe {
         this.timeOfDay = timeOfDay;
         this.instructions = instructions;
         this.active = active;
+        this.day = day;
+        this.image = image;
         this.ingredientList = ingredientList;
     }
 
