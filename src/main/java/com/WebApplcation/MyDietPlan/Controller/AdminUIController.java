@@ -52,12 +52,14 @@ public class AdminUIController {
             recipe.setImage(image);
             websiteService.createRecipe(recipe);
             redirectAttributes.addFlashAttribute("successMessage", "Opskrift gemt!");
+            return "redirect:/admin";
         } catch (InputErrorException | SystemErrorException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         } catch (IOException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Der skete en fejl under forsøget på at gemme billedet");
         }
-        return "redirect:/admin";
+        return "adminPage";
+
     }
 
     @GetMapping("/opretIngrediens")

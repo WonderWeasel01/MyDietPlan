@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe Page</title>
+  <link rel="stylesheet" type="text/css" href="/CSS/showRecipe.css">
+  
+</head>
+<body>
+  <div class="MacbookAir1">
+    <div class="Leftbox">
+        <img class="Image" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
+      
+        <ul id="Ingredientbox">
+            <li th:each="ingredient : ${recipe.ingredientList}">
+                <span th:text="${ingredient.name + ' - ' + ingredient.weightGrams + ' grams'}"></span>
+            </li>
+        </ul>
+    
+    </div>
+    <div class="Righbox">
+      <div class="Recipename"><span th:text="${recipe.title}">Time of Day</span></div>
+      <div class="Buttonbox">
+        <div class="Defaultbutton">
+          <div class="Timeofdaytext"><span th:text="${recipe.timeOfDay}">Calories</span></div>
+        </div>
+        <div class="Buttonstroke">
+          <div class="Favorite">FAVORIT RET</div>
+        </div>
+      </div>
+      <div class="Title">Nærings indhold pr. servering</div>
+      <div class="Neutritionrow">
+        <div class="Neutritionbox">
+          <div class="Numberbox">
+            <div class="Numbertext"><span th:text="${recipe.totalCalories}">Carbs</span></div>
+          </div>
+          <div class="Labeltext">KALORIER</div>
+        </div>
+        <div class="Neutritionbox">
+          <div class="Numberbox">
+            <div class="Numbertext"><span th:text="${recipe.totalProtein}">Carbs</span></div>
+          </div>
+          <div class="Labeltext">PROTEIN</div>
+        </div>
+        <div class="Neutritionbox">
+          <div class="Numberbox">
+            <div class="Numbertext"><span th:text="${recipe.totalFat}">Carbs</span></div>
+          </div>
+          <div class="Labeltext">FEDT</div>
+        </div>
+        <div class="Neutritionbox">
+          <div class="Numberbox">
+            <div class="Numbertext"><span th:text="${recipe.totalCarbohydrates}">Carbs</span></div>
+          </div>
+          <div class="Labeltext">KULHYDRATER</div>
+        </div>
+      </div>
+      <div class="Tilte">Instruktioner</div>
+      <div><span th:text="${recipe.instructions}">Time of Day</span></div>
+    </div>
+  </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div><label>Tilberedningstid: </label><span th:text="${recipe.prepTime}">Protein</span></div>

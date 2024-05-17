@@ -51,10 +51,11 @@
                 </ul>
               </div>
             </div>
+
+
         </div>
         <div class="Mealbody">
             <div class="Weekplan">
-                <div class="Weektext">Se denne uges plan</div>
                 <div class="Days">
                     <div class="Mandag" id="Mandag" onclick="changeColor('Mandag', this)">Mandag</div>
                     <script>
@@ -181,9 +182,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -199,9 +200,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -217,9 +218,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -238,9 +239,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -256,9 +257,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -274,9 +275,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -295,9 +296,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -313,9 +314,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -331,9 +332,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -352,9 +353,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -370,9 +371,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -388,9 +389,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -409,9 +410,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -427,9 +428,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -445,9 +446,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -467,9 +468,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -485,9 +486,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -503,9 +504,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -524,9 +525,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -542,9 +543,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -560,9 +561,9 @@
                             <div class="Caloriestext">
                                 <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
                             </div>
-                            <div class="Mealbutton">
-                                <div class="Mealbuttontext">SE OPSKRIFT</div>
-                            </div>
+                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -595,19 +596,6 @@
         element.classList.add("Selected");
     }
 
-
-    document.addEventListener('DOMContentLoaded', function() {
-    let mealButtons = document.querySelectorAll('.Mealbutton');
-
-    mealButtons.forEach(button => {
-    let link = document.createElement('a');
-    link.innerHTML = button.innerHTML;
-    link.href = '#'; //
-    link.className = button.className;
-
-    button.parentNode.replaceChild(link, button);
-});
-});
 
 
 

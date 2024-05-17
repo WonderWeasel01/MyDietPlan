@@ -20,6 +20,7 @@ public class User {
     ArrayList<Recipe> weeklyDietPlan = new ArrayList<>();
     private Subscription subscription;
     private double dailyCalorieBurn;
+    private double dailyCalorieGoal;
 
   public User() {
     }
@@ -105,6 +106,37 @@ public class User {
         }
     }
 
+    public void calculateDailyCalorieGoal(String goal, double dailyCalorieBurn){
+      double calorieGoal = 0;
+      switch(goal) {
+          case ("Loose weight"):
+              calorieGoal = dailyCalorieBurn - 500;
+              break;
+          case ("Maintain weight"):
+              calorieGoal = dailyCalorieBurn;
+              break;
+          case ("Increase weight"):
+              calorieGoal = dailyCalorieBurn + 500;
+              break;
+          case("Build muscle"):
+              calorieGoal = dailyCalorieBurn + 300;
+              break;
+      }
+      this.dailyCalorieGoal = calorieGoal;
+    }
+
+    public void setupDailyCalorieGoal(){
+      calculateDailyCalorieBurn();
+      calculateDailyCalorieGoal(this.goal,this.dailyCalorieBurn);
+    }
+
+    public double getDailyCalorieGoal() {
+        return dailyCalorieGoal;
+    }
+
+    public void setDailyCalorieGoal(double dailyCalorieGoal) {
+        this.dailyCalorieGoal = dailyCalorieGoal;
+    }
 
     public String getPassword() {
         return password;
