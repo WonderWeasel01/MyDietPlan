@@ -212,6 +212,8 @@ html, body {
     padding: 10px 0;
     flex-direction: row;
     gap: 10px;
+    text-align:center;
+    vertical-align:middle;                                                              2 Sec skulle pis
     
 }
 
@@ -351,6 +353,33 @@ a:link, a:visited{
 
 }
 
+.DefaultButton2{
+    width: 350px;
+    height: 37px;
+    
+    background: #87CC83;
+    border-radius: 5px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+   margin-top: 5px;
+    display: flex;
+    color: white;
+    font-size: large;
+    font-weight: bold;
+    font-family: 'Josefin Sans', sans-serif;
+    cursor: pointer;
+    flex: 0 0 25%;
+
+}
+
+.weight-input {
+    flex: 0 0 25%;
+}
+.Vægt{
+    flex: 0 0 50%;
+}
+
 
 button {
     width: 100px;
@@ -378,3 +407,45 @@ h2{
     font-family: 'Josefin Sans', sans-serif;
     font-size: 24px;
 }
+
+
+/*sticky button*/
+.sticky-button {
+    position: fixed;
+    right: 100px !important;
+    bottom: 60px;
+    width: 200px !important;
+    height: 25px !important;
+    z-index: 99999;
+  }
+
+
+  .recipe-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 5px 0;
+    font-family: 'Josefin Sans', sans-serif;
+    font-style: italic;
+    font-size: 18px;
+  }
+ 
+
+  .EditRecipeInfo, .DeleteRecipe ,.ActivateRecipe{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #87CC83;
+    color: white;
+    border-radius: 5px;
+    margin: 5px 0;
+    font-family: 'Josefin Sans', sans-serif;
+    font-style: italic;
+    font-size: 18px;
+  }
