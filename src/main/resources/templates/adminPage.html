@@ -57,7 +57,7 @@
                     </div>
                     <div class="RowFrame">
                         <label for="prepTime" class="Tilberedningstidtext">Tilberedningstid</label>
-                        <input type="text" id="prepTime" th:field="*{prepTime}" class="prep-time-input" placeholder="Tilberedningstid">
+                        <input type="text" id="prepTime" th:field="*{prepTime}" class="prep-time-input" placeholder="xx min">
                     </div>
                     <div class="RowFrame">
                         <label for="timeOfDaySelect" id="timeofDayText" class="Tidspunkt">Tidspunkt</label>
@@ -102,6 +102,7 @@
                     <div class="RowFrame">
                         <label for="ingredientWeight" class="Vægt">Vægt</label>
                         <input type="number" id="ingredientWeight" name="ingredientWeight" min="1" placeholder="Vægt i gram" class="weight-input">
+                        <div class="DefaultButton2" type="button" onclick="addIngredientToList()">Tilføj Ingrediens</div>
                     </div>
                         
                             
@@ -114,17 +115,22 @@
                         <form id="recipeForm" th:action="@{/admin}" method="post">
                             <ul id="ingredientList"></ul>
                            <div class="RowFrame">
-                                <div class="DefaultButton" type="button" onclick="addIngredientToList()">Tilføj Ingrediens</div>
+                                
                         
-                                <button class="DefaultButton" type="submit">Opret Opskrift</button>
+
                             </div>
                         </form>
                     
                 </div>
             </form>
+            <div class="sticky-button">
+                <button class="DefaultButton" type="submit">Opret Opskrift</button>
+            </div>
+            
         </div>
     </div>
 </div>
+
 <script src="/JS/ingredientList.js" defer></script>
 </body>
 </html>
