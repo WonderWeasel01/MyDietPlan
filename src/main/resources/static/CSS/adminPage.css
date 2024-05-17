@@ -216,7 +216,7 @@ html, body {
     flex-direction: row;
     gap: 10px;
     text-align:center;
-    vertical-align:middle;                                                              2 Sec skulle pis
+    vertical-align:middle;
     
 }
 
@@ -452,3 +452,23 @@ h2{
     font-style: italic;
     font-size: 18px;
   }
+
+.error-message{
+    color: red;
+    font-size: 16px;
+    font-family: "Josefin Sans", sans-serif;
+    border: 1px solid red;
+    padding: 5px;
+    margin: 10px 0;
+    background-color: #ffdddd;
+}
+
+.success-message{
+    color: green;
+    font-size: 16px;
+    font-family: "Josefin Sans", sans-serif;
+    border: 1px solid green;
+    padding: 5px;
+    margin: 10px 0;
+    background-color: #ddffdd;
+}

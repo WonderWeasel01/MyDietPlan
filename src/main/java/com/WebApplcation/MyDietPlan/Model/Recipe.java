@@ -1,7 +1,5 @@
 package com.WebApplcation.MyDietPlan.Model;
 
-import org.springframework.util.StringUtils;
-
 import java.util.ArrayList;
 
 public class Recipe {
@@ -82,7 +80,7 @@ public class Recipe {
         this.day = day;
     }
 
-    public Recipe calculateMacros(){
+    public void calculateAndSetMacros(){
         //Ensure that the result is correct if the method is called more than once.
         Recipe adjustedRecipe = this;
         adjustedRecipe.totalCalories = 0;
@@ -104,7 +102,7 @@ public class Recipe {
         adjustedRecipe.totalFat = Math.round(adjustedRecipe.totalFat * 100.0) / 100.0;
         adjustedRecipe.totalCarbohydrates = Math.round(adjustedRecipe.totalCarbohydrates * 100.0) / 100.0;
         adjustedRecipe.totalCalories = Math.round(adjustedRecipe.totalCalories * 100.0) / 100.0;
-        return adjustedRecipe;
+
     }
 
 
@@ -124,9 +122,9 @@ public class Recipe {
         double multiplier = recipeCalorieGoal/adjustedRecipe.totalCalories;
 
         for(int i = 0; i<adjustedRecipe.ingredientList.size(); i++){
-            adjustedRecipe.ingredientList.get(i).setWeightGrams((adjustedRecipe.ingredientList.get(i).getWeightGrams() * multiplier));
+            adjustedRecipe.ingredientList.get(i).setWeightGrams((Math.round(adjustedRecipe.ingredientList.get(i).getWeightGrams() * multiplier)));
         }
-        adjustedRecipe.calculateMacros();
+        adjustedRecipe.calculateAndSetMacros();
         return adjustedRecipe;
     }
 

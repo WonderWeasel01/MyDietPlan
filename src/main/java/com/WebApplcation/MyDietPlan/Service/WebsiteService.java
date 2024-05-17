@@ -52,12 +52,22 @@ public class WebsiteService {
         }
     }
 
-    public Image convertFileToImage(MultipartFile file) throws IOException {
+    private Image convertFileToImage(MultipartFile file) throws IOException {
         Image image = new Image();
         image.setImageName(file.getOriginalFilename());
         image.setImageType(file.getContentType());
         image.setBlob(file.getBytes());
         return image;
+    }
+
+    public void setupRecipeWithImage(Recipe recipe, MultipartFile imageFile) throws SystemErrorException {
+        try{
+            Image image = convertFileToImage(imageFile);
+            recipe.setImage(image);
+        }catch (IOException e){
+            e.printStackTrace();
+            throw new SystemErrorException("Der skete en fejl under forsøget på at gemme billedet");
+        }
     }
 
 
@@ -84,8 +94,17 @@ public class WebsiteService {
      * @param recipeID ID of the recipe that is being deleted
      * @return true if the deletion went well
      */
-    public boolean deleteRecipe(int recipeID){
-        return repo.deleteRecipe(recipeID);
+    public boolean deleteRecipe(int recipeID) throws SystemErrorException {
+        try{
+            return repo.deleteRecipe(recipeID);
+        } catch (EmptyResultDataAccessException e){
+            e.printStackTrace();
+            throw new SystemErrorException("Der er sket en fejl. Prøv igen senere");
+        } catch (DataAccessException e){
+            e.printStackTrace();
+            throw new SystemErrorException("Der er sket en fejl. Prøv igen senere");
+        }
+
     }
 
     /**
@@ -124,7 +143,7 @@ public class WebsiteService {
         } else throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
     }
 
-    public Recipe setupRecipeWithIngredients(Recipe recipe, List<Integer> ingredientIds, List<Integer> weights) throws InputErrorException {
+    public void setupRecipeWithIngredients(Recipe recipe, List<Integer> ingredientIds, List<Integer> weights) throws InputErrorException {
         validateIngredientAndWeightSizes(ingredientIds,weights);
         ArrayList<Ingredient> ingredients = new ArrayList<>();
         for (int i = 0; i < ingredientIds.size(); i++) {
@@ -133,8 +152,7 @@ public class WebsiteService {
             ingredients.add(ingredient);
         }
         recipe.setIngredientList(ingredients);
-        recipe.calculateMacros();
-        return recipe;
+        recipe.calculateAndSetMacros();
     }
 
     private void validateRecipe(Recipe recipe) throws InputErrorException {
@@ -168,17 +186,12 @@ public class WebsiteService {
 
     public Recipe getRecipeById(int recipeID) throws EntityNotFoundException, SystemErrorException {
         try{
-            Recipe recipe = repo.getRecipeWithIngredientsByRecipeID(recipeID);
-
-            String base64Image = Base64.getEncoder().encodeToString(recipe.getImage().getBlob());
-            recipe.getImage().setBase64Image(base64Image);
-
-            return recipe;
+            return repo.getRecipeWithIngredientsByRecipeID(recipeID);
         } catch (EmptyResultDataAccessException e){
-            System.err.println(e.getMessage());
+            e.printStackTrace();
             throw new EntityNotFoundException("Kunne ikke finde en opskrift med givet id");
         } catch (DataAccessException e){
-            System.err.println(e.getMessage());
+            e.printStackTrace();
             throw new SystemErrorException("Der er sket en fejl. Prøv igen senere");
         }
     }
@@ -193,7 +206,6 @@ public class WebsiteService {
     }
 
     public Ingredient createIngredient(Ingredient ingredient) throws SystemErrorException, InputErrorException {
-
         try {
             if(ingredient != null && isValidIngredient(ingredient)) {
                 return repo.createIngredient(ingredient);

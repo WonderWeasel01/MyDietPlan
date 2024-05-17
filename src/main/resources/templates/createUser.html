@@ -61,13 +61,13 @@
                 
                     
                             <label for="heightLabel" class="text">Højde (cm):</label>
-                            <input type="text" id="heightLabel" th:field="*{height}" class="input"></input>
+                            <input type="number" id="heightLabel" th:field="*{height}" step="1" class="input"></input>
                         
                             <label for="weightLabel" class="text">Vægt(kg):</label>
-                            <input type="text" id="weightLabel" th:field="*{weight}" class="input"></input>
+                            <input type="number" id="weightLabel" th:field="*{weight}" step="1" class="input"></input>
                         
                             <label for="ageLabel" class="text">Alder:</label>
-                            <input type="text" id="ageLabel" th:field="*{age}" class="input"></input>
+                            <input type="number" id="ageLabel" th:field="*{age}" step="1" class="input"></input>
 
                             <div class="Button" id="Step2">
                                 <div class="ButtonLabel">Næste</div>

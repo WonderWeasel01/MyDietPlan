@@ -31,32 +31,41 @@ public class AuthenticationService {
 
 
     /**
-     *
+     * Sets up all the necessary information that a user needs and saves the user in the database.
      * @param user A user with information to put in the database
      * @return Returns the user with an auto generated id attached.
      * @throws SystemErrorException If the system cant connect to database, sql errors etc.
      * @throws InputErrorException If the given user is missing important information or is trying to use an already existing email.
      */
-    public User createUser(User user) throws SystemErrorException, InputErrorException, DuplicateKeyException {
-        if(user == null || !isValidUser(user)){
-            throw new InputErrorException("Missing inputs");
+    public User createUser(User user) throws SystemErrorException, InputErrorException {
+        if(!isValidUser(user)){
+            throw new InputErrorException("Venligst udfyld alle felterne korrekt");
         }
-        try{
-            String hashedPassword = hashPassword(user.getPassword());
-            user.setPassword(hashedPassword);
-            user.setRole("User");
-            user.setupDailyCalorieGoal();
+        hashAndSetPassword(user);
+        System.out.println(user);
+        user.setRole("User");
+        user.setupDailyCalorieGoal();
+        return saveUser(user);
+    }
+
+    private User saveUser(User user) throws SystemErrorException, InputErrorException, DuplicateKeyException {
+        try {
             return repo.createUser(user);
-        } catch(DuplicateKeyException e){
+        } catch (DuplicateKeyException e) {
             e.printStackTrace();
             throw new InputErrorException("Email bruges allerede");
-        } catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             throw new InputErrorException("Venligst udfyld alle felterne korrekt");
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             e.printStackTrace();
             throw new SystemErrorException("Der skete en fejl under opretning af brugeren. Prøv igen senere");
         }
+    }
+
+    public void hashAndSetPassword(User user){
+        String hashedPassword = hashPassword(user.getPassword());
+        user.setPassword(hashedPassword);
     }
 
     public User getUser(){
@@ -72,7 +81,7 @@ public class AuthenticationService {
      * @return True if user is valid, false if not.
      */
     public boolean isValidUser(User user){
-        return StringUtils.hasText(user.getEmail()) && StringUtils.hasText(user.getPassword()) && StringUtils.hasText(user.getFirstName())
+        return user != null && StringUtils.hasText(user.getEmail()) && StringUtils.hasText(user.getPassword()) && StringUtils.hasText(user.getFirstName())
                 && StringUtils.hasText(user.getLastName()) &&  StringUtils.hasText(user.getGoal()) && StringUtils.hasText(user.getActivityLevel())
                 && user.getHeight() > 0 && user.getAge() > 0 && user.getWeight() > 0;
     }

@@ -6,6 +6,8 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,7 +81,7 @@ public class UserUIController {
 
 
     @PostMapping("/opretBruger")
-    public String createUser(@ModelAttribute User user, Model model){
+    public String createUser( @ModelAttribute User user, Model model){
         try{
             authenticationService.createUser(user);
             return "redirect:/";
@@ -95,7 +97,7 @@ public class UserUIController {
         if (authenticationService.isAdminLoggedIn()){
             return "redirect:/admin";
         } else if (authenticationService.isUserLoggedIn()) {
-            return "redirect:/welcome";
+            return "redirect:/velkommen";
         }
         return "login";
     }
@@ -140,6 +142,9 @@ public class UserUIController {
 
     @GetMapping("/opdaterBruger/{userID}")
     public String editUser(@PathVariable int userID, Model model) {
+        if(!isLoggedIn()){
+            return "redirect:/";
+        }
         User user = websiteService.getUserByID(userID);
         model.addAttribute("user", user);
         return "editUser";

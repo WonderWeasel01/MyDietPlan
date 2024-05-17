@@ -3,14 +3,12 @@ package com.WebApplcation.MyDietPlan.Controller;
 import com.WebApplcation.MyDietPlan.Exception.EntityNotFoundException;
 import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
-import com.WebApplcation.MyDietPlan.Model.Image;
 import com.WebApplcation.MyDietPlan.Model.Ingredient;
 import com.WebApplcation.MyDietPlan.Model.Recipe;
 import com.WebApplcation.MyDietPlan.Service.AuthenticationService;
 import com.WebApplcation.MyDietPlan.Service.WebsiteService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,22 +48,22 @@ public class AdminUIController {
     public String recipePost(@ModelAttribute Recipe recipe, @RequestParam List<Integer> ingredientIds, @RequestParam List<Integer> weights, @RequestParam MultipartFile file,
                              RedirectAttributes redirectAttributes) {
         try {
-            recipe = websiteService.setupRecipeWithIngredients(recipe, ingredientIds, weights);
-            Image image = websiteService.convertFileToImage(file);
-            recipe.setImage(image);
+            websiteService.setupRecipeWithIngredients(recipe, ingredientIds, weights);
+            websiteService.setupRecipeWithImage(recipe,file);
             websiteService.createRecipe(recipe);
             redirectAttributes.addFlashAttribute("successMessage", "Opskrift gemt!");
             return "redirect:/admin";
         } catch (InputErrorException | SystemErrorException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-        } catch (IOException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Der skete en fejl under forsøget på at gemme billedet");
         }
-        return "adminPage";
+        return "redirect:/admin";
     }
 
     @GetMapping("/opretIngrediens")
     public String addIngredientForm(Model model){
+        if(!isAdminLoggedIn()){
+            return "redirect:/";
+        }
         model.addAttribute("ingredient", new Ingredient());
         return "addIngredient";
     }
@@ -98,11 +95,14 @@ public class AdminUIController {
 
     @GetMapping("/opdaterOpskrift/{recipeID}")
     public String editRecipe(Model model, @PathVariable int recipeID, RedirectAttributes redirectAttributes){
+        if(!isAdminLoggedIn()){
+            return "redirect:/";
+        }
         try{
             List<Ingredient> allIngredients = websiteService.getAllIngredients();
             Recipe recipe = websiteService.getRecipeById(recipeID);
 
-            // Convert ingredients list to JSON
+            // ObjectMapper can convert java objects into JSON or vice versa
             ObjectMapper objectMapper = new ObjectMapper();
             String ingredientsJson = objectMapper.writeValueAsString(recipe.getIngredientList());
 
@@ -124,32 +124,55 @@ public class AdminUIController {
     @PostMapping("/opdaterOpskrift")
     public String editRecipePost(@ModelAttribute("ingredientListJson") String ingredientListJson, @ModelAttribute Recipe recipe, RedirectAttributes redirectAttributes){
         try {
-
+            // ObjectMapper can convert java objects into JSON or vice versa
             ObjectMapper objectMapper = new ObjectMapper();
+
+            //Convert the JSON string into a List<Ingredient>. TypeReference is used to give information to the objectmapper about what
+            // type it needs to convert the JSON into.
             List<Ingredient> ingredients = objectMapper.readValue(ingredientListJson, new TypeReference<>() {
             });
 
+            //Convert to arraylist and add it to the recipe that is being updated.
             ArrayList<Ingredient> ingredients1 = (ArrayList<Ingredient>) ingredients;
             recipe.setIngredientList(ingredients1);
-            recipe.calculateMacros();
+
+            //Calculate the new total macros for the recipe.
+            recipe.calculateAndSetMacros();
+
+            //Update the recipe.
             websiteService.updateRecipe(recipe);
             redirectAttributes.addFlashAttribute("successMessage", "Opskrift gemt!");
             return "redirect:/recipeShowcase";
+
         } catch (InputErrorException | SystemErrorException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/recipeShowcase";
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("errorMessage", "Der er sket en fejl. Prøv igen senere");
+            return "redirect:/recipeShowcase";
         }
     }
     @GetMapping("/sletOpskrift/{recipeID}")
-    public String deleteRecipe(@PathVariable int recipeID){
-        websiteService.deleteRecipe(recipeID);
+    public String deleteRecipe(@PathVariable int recipeID, RedirectAttributes redirectAttributes){
+        if(!isAdminLoggedIn()){
+            return "redirect:/";
+        }
+        try{
+            websiteService.deleteRecipe(recipeID);
+            redirectAttributes.addFlashAttribute("successMessage", "Opskrift slettet!");
+        } catch (SystemErrorException e){
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
         return "redirect:/recipeShowcase";
+
     }
 
     @GetMapping("/aktiverOpskrift/{recipeID}")
     public String activateRecipe(@PathVariable int recipeID, RedirectAttributes redirectAttributes){
+        if(!isAdminLoggedIn()){
+            return "redirect:/";
+        }
         try{
             if(websiteService.updateRecipeActiveStatus(recipeID)){
                 redirectAttributes.addFlashAttribute("successMessage", "Opskrift status ændret!");
@@ -162,6 +185,9 @@ public class AdminUIController {
 
     @GetMapping("/aktiveOpskrifter")
     public String showActiveRecipes(Model model, RedirectAttributes redirectAttributes){
+        if(!isAdminLoggedIn()){
+            return "redirect:/";
+        }
        try{
            ArrayList<Recipe> recipes = websiteService.getAllActiveRecipes();
            model.addAttribute("recipes", recipes);

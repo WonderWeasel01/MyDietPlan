@@ -19,8 +19,6 @@
     </div>
     <div class="Middleframe">
         <div class="Leftframe">
-
-
                 <a href="/admin" class="LeftFrameButton">
                     <i class="fa-solid fa-circle-plus fa-xl" style="color: #87CC83;"></i>
                     <div class="LeftFrameText">Tilføj ny opskrift</div>
@@ -56,23 +54,23 @@
                     <div class="FormInput">
                             <div class="RowFrame">
                                 <label for="name">Ingrediens Navn:</label>
-                                <input type="text" id="name" th:field="*{name}" />
+                                <input type="text" id="name" th:field="*{name}" required/>
                             </div>
                             <div class="RowFrame">
                                 <label for="protein">Protein (g/100g):</label>
-                                <input type="number" id="protein" th:field="*{proteinPerHundredGrams}" step="0.1" />
+                                <input type="number" id="protein" th:field="*{proteinPerHundredGrams}" step="0.5" required />
                             </div>
                             <div class="RowFrame">
                                 <label for="fat">Fedt (g/100g):</label>
-                                <input type="number" id="fat" th:field="*{fatPerHundredGrams}" step="0.1" />
+                                <input type="number" id="fat" th:field="*{fatPerHundredGrams}" step="0.5" required />
                             </div>
                             <div class="RowFrame">
                                 <label for="carbohydrates">Kulhydrater (g/100g):</label>
-                                <input type="number" id="carbohydrates" th:field="*{carbohydratesPerHundredGrams}" step="0.1" />
+                                <input type="number" id="carbohydrates" th:field="*{carbohydratesPerHundredGrams}" step="0.5" required />
                             </div>
                             <div class="RowFrame">
                                 <label for="calories">Kalorier (kcal/100g):</label>
-                                <input type="number" id="calories" th:field="*{caloriesPerHundredGrams}" step="0.1" />
+                                <input type="number" id="calories" th:field="*{caloriesPerHundredGrams}" step="0.5" required />
                             </div>
                                 <button type="submit" class="DefaultButton">Tilføj ingrediens</button>
                             <div th:if="${createIngredientSuccess} or ${createIngredientError}" class="message">
@@ -81,9 +79,7 @@
                             </div>
                         </div>
                 </form>
-                  
-        
-       
+        </div>
     </div>
 </div>
 <script src="/JS/ingredientList.js" defer></script>

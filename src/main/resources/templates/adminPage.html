@@ -104,9 +104,6 @@
                         <input type="number" id="ingredientWeight" name="ingredientWeight" min="1" placeholder="Vægt i gram" class="weight-input">
                         <button class="DefaultButton2" type="button" onclick="addIngredientToList()">Tilføj Ingrediens</button>
                     </div>
-                        
-                            
-                     
                         <div th:if="${errorMessage} or ${successMessage}" class="message">
                             <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
                             <p th:if="${successMessage}" th:text="${successMessage}" class="success-message"></p>

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 @Repository
 public class MyDietPlanRepository {
@@ -107,12 +108,17 @@ public class MyDietPlanRepository {
     public Recipe getRecipeWithIngredientsByRecipeID(int recipeID){
         String sql = "SELECT * FROM Recipe WHERE recipe_id = ?";
 
-        @SuppressWarnings("deprecation")
 		Recipe recipe = jdbcTemplate.queryForObject(sql, new Object[]{recipeID}, recipeRowMapper());
         if (recipe != null){
-            //Recipe requires an Arraylist
+            //Recipe ingredientlist requires an Arraylist
             ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) getRecipeIngredientsByRecipeID(recipeID);
+            //Set the ingredientlist
             recipe.setIngredientList(ingredients);
+
+            //The recipe.imageID has been recieved in previous query. Retrieve the rest of the recipe's image with that imageID.
+            Image image = getImageByImageID(recipe.getImage().getImageID());
+            recipe.setImage(image);
+
         }
         return recipe;
     }
@@ -420,9 +426,14 @@ public class MyDietPlanRepository {
     }
 
 
-    public Image getImage(int id) {
-        String sql = "SELECT * FROM Image inner join Recipe on Image.image_id = Recipe.image_id WHERE Image.image_id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, imageRowMapper());
+    public Image getImageByImageID(int imageID) {
+        String sql = "SELECT Image.image_id, Image.image_name, Image.image_type, Image.image_blob FROM Image " +
+                "INNER JOIN Recipe ON Image.image_id = Recipe.image_id WHERE Image.image_id = ?";
+        Image image = jdbcTemplate.queryForObject(sql, new Object[]{imageID}, imageRowMapper());
+
+        String base64Image = Base64.getEncoder().encodeToString(image.getBlob());
+        image.setBase64Image(base64Image);
+        return image;
     }
 
 
@@ -480,7 +491,7 @@ public class MyDietPlanRepository {
             recipe.setTotalCarbohydrates(rs.getDouble("total_carbohydrates"));
             recipe.setActive(rs.getBoolean("active"));
             recipe.setInstructions(rs.getString("instructions"));
-            recipe.setImage(getImage(rs.getInt("image_id")));
+            recipe.setImage(getImageByImageID(rs.getInt("image_id")));
             recipe.setDay(rs.getString("day"));
             return recipe;
         });

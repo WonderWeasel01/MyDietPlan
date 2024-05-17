@@ -23,6 +23,16 @@ body {
     display: inline-flex;
   }
 
+.error-message{
+  color: red;
+  font-size: 16px;
+  font-family: "Josefin Sans", sans-serif;
+  border: 1px solid red;
+  padding: 5px;
+  margin: 10px 0;
+  background-color: #ffdddd;
+}
+
   .Righbox {
     width: 70%;
     align-self: stretch;
@@ -249,3 +259,13 @@ body {
   li {
     display: block;
   }
+
+.success-message{
+  color: green;
+  font-size: 16px;
+  font-family: "Josefin Sans", sans-serif;
+  border: 1px solid green;
+  padding: 5px;
+  margin: 10px 0;
+  background-color: #ddffdd;
+}

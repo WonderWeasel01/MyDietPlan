@@ -80,8 +80,9 @@ public class User {
         this.subscription = subscription;
     }
 
-    public void calculateDailyCalorieBurn() {
+    public double calculateDailyCalorieBurn() {
         double BMR = 0;
+        double dailyCalorieBurn = 0;
         if (this.gender == 'M') {
             BMR = (10 * weight) + (6.25 * height) - (5 * age) + 5;
         } else if (this.gender == 'F') {
@@ -89,24 +90,25 @@ public class User {
         }
         switch (activityLevel) {
             case "No exercise":
-                this.dailyCalorieBurn = BMR * 1.2;
+                dailyCalorieBurn = BMR * 1.2;
                 break;
             case "Light activity":
-                this.dailyCalorieBurn = BMR * 1.375;
+                dailyCalorieBurn = BMR * 1.375;
                 break;
             case "Average activity":
-                this.dailyCalorieBurn = BMR * 1.55;
+                dailyCalorieBurn = BMR * 1.55;
                 break;
             case "Intense activity":
-                this.dailyCalorieBurn = BMR * 1.725;
+                dailyCalorieBurn = BMR * 1.725;
                 break;
             case "Extreme activity":
-                this.dailyCalorieBurn = BMR * 1.9;
+                dailyCalorieBurn = BMR * 1.9;
                 break;
         }
+        return dailyCalorieBurn;
     }
 
-    public void calculateDailyCalorieGoal(String goal, double dailyCalorieBurn){
+    public double calculateDailyCalorieGoal(String goal, double dailyCalorieBurn){
       double calorieGoal = 0;
       switch(goal) {
           case ("Loose weight"):
@@ -122,12 +124,12 @@ public class User {
               calorieGoal = dailyCalorieBurn + 300;
               break;
       }
-      this.dailyCalorieGoal = calorieGoal;
+      return calorieGoal;
     }
 
     public void setupDailyCalorieGoal(){
-      calculateDailyCalorieBurn();
-      calculateDailyCalorieGoal(this.goal,this.dailyCalorieBurn);
+      this.dailyCalorieBurn = calculateDailyCalorieBurn();
+      this.dailyCalorieGoal = calculateDailyCalorieGoal(this.goal,this.dailyCalorieBurn);
     }
 
     public double getDailyCalorieGoal() {
