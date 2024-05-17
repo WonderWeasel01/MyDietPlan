@@ -174,8 +174,8 @@ public class MyDietPlanRepository {
             ps.setString(2,recipe.getTitle());
             ps.setString(3,recipe.getPrepTime());
             ps.setDouble(4, recipe.getTotalCalories());
-            ps.setDouble(5, recipe.getTotalFat());
-            ps.setDouble(6, recipe.getTotalProtein());
+            ps.setDouble(5, recipe.getTotalProtein());
+            ps.setDouble(6, recipe.getTotalFat());
             ps.setDouble(7,recipe.getTotalCarbohydrates());
             ps.setBoolean(8,recipe.getActive());
             ps.setString(9,recipe.getInstructions());
