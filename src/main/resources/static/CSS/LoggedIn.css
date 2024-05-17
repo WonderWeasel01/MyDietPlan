@@ -280,15 +280,14 @@ body {
 
 .Mealbox {
     height: 450px;
-    padding: 10px;
     background: white;
     border-radius: 15px;
     overflow: hidden;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    gap: 10px;
     align-items: center;
     object-position: center;
-    gap: 20px;
     display: flex;
     max-width: 400px;
     min-width: 400px;
@@ -297,9 +296,8 @@ body {
 .Mealimage {
     object-fit: cover;
     text-align: center;
-    width: 300px;
+    width: 420px;
     height: 200px;
-    padding: 10px;
     border-radius: 15px;
 }
 
@@ -320,6 +318,15 @@ body {
     align-items: center;
     gap: 10px;
     display: inline-flex;
+}
+
+.MealCol {
+    height: 100%;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    display: flex;
 }
 
 .Caloriestext {
