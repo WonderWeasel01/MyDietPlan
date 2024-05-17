@@ -465,6 +465,7 @@ public class MyDietPlanRepository {
             user.setGoal(rs.getString("goal"));
             user.setRole(rs.getString("role"));
             user.setDailyCalorieBurn(rs.getDouble("daily_calorie_burn"));
+            user.setDailyCalorieGoal(rs.getDouble("daily_calorie_goal"));
             return user;
         });
     }

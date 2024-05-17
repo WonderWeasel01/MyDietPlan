@@ -39,7 +39,8 @@
                     <i class="fa-solid fa-user" style="color: #87cc83;"></i><a href="#">Min Profil</a>
                   </li>
                   <li>
-                    <i class="fa-solid fa-pen" style="color: #87cc83;"></i><a href="/opdaterBruger{userId}">Rediger Profil</a>
+                    <i class="fa-solid fa-pen" style="color: #87cc83;"></i>
+                      <a th:href="@{/opdaterBruger/{userID}(userID=${user.userId})}">Rediger Profil</a>
                   </li>
                   <li>
                     <i class="fa-solid fa-gear" style="color: #87cc83;"></i><a href="#">Indstillinger</a>

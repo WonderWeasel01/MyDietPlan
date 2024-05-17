@@ -149,9 +149,9 @@ public class UserUIController {
         return "redirect:/";
     }
 
-    @GetMapping("/opdaterBruger{userId}")
-    public String editUser(@RequestParam("userId") int userId, Model model) {
-        User user = authenticationService.getUserByID(userId);
+    @GetMapping("/opdaterBruger/{userID}")
+    public String editUser(@PathVariable int userID, Model model) {
+        User user = authenticationService.getUserByID(userID);
         model.addAttribute("user", user);
         return "editUser";
     }
