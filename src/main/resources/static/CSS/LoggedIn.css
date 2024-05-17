@@ -327,6 +327,9 @@ body {
     align-items: center;
     gap: 10px;
     display: flex;
+    flex-direction: row;
+
+
 }
 
 .Caloriestext {
@@ -336,10 +339,11 @@ body {
     font-family: Josefin Sans;
     font-weight: 600;
     word-wrap: break-word;
+    width: 100%;
 }
 
 .Mealbutton {
-    width: 119px;
+    width: 80%;
     height: 34px;
     padding: 10px;
     background: #87CC83;
