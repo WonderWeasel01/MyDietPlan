@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/CSS/adminPage.css">
+    <title>Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/c0582023bf.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
+<div><label>Time of Day: </label><span th:text="${recipe.title}">Time of Day</span></div>
+<div><label>Calories: </label><span th:text="${recipe.timeOfDay}">Calories</span></div>
+<div><label>Protein: </label><span th:text="${recipe.prepTime}">Protein</span></div>
+<div><label>Fat: </label><span th:text="${recipe.totalCalories}">Fat</span></div>
+<div><label>Carbs: </label><span th:text="${recipe.totalProtein}">Carbs</span></div>
+<div><label>Active: </label><span th:text="${recipe.totalFat}">Active</span></div>
+<div><label>Prep Time: </label><span th:text="${recipe.totalCarbohydrates}">Prep Time</span></div>
+<div><label>Time of Day: </label><span th:text="${recipe.instructions}">Time of Day</span></div>
+<ul id="ingredientList">
+    <li th:each="ingredient : ${recipe.ingredientList}">
+        <span th:text="${ingredient.name + ' - ' + ingredient.weightGrams + ' grams'}"></span>
+    </li>
+</ul>
+<li> </li>
+</body>
+</html>

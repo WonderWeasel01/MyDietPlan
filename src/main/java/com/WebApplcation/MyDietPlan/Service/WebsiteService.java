@@ -166,7 +166,12 @@ public class WebsiteService {
 
     public Recipe getRecipeById(int recipeID) throws EntityNotFoundException, SystemErrorException {
         try{
-            return repo.getRecipeWithIngredientsByRecipeID(recipeID);
+            Recipe recipe = repo.getRecipeWithIngredientsByRecipeID(recipeID);
+
+            String base64Image = Base64.getEncoder().encodeToString(recipe.getImage().getBlob());
+            recipe.getImage().setBase64Image(base64Image);
+
+            return recipe;
         } catch (EmptyResultDataAccessException e){
             System.err.println(e.getMessage());
             throw new EntityNotFoundException("Kunne ikke finde en opskrift med givet id");
