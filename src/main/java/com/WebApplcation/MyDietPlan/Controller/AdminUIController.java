@@ -8,6 +8,10 @@ import com.WebApplcation.MyDietPlan.Model.Ingredient;
 import com.WebApplcation.MyDietPlan.Model.Recipe;
 import com.WebApplcation.MyDietPlan.Service.AuthenticationService;
 import com.WebApplcation.MyDietPlan.Service.WebsiteService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -99,6 +103,12 @@ public class AdminUIController {
             List<Ingredient> allIngredients = websiteService.getAllIngredients();
             Recipe recipe = websiteService.getRecipeById(recipeID);
 
+            // Convert ingredients list to JSON
+            ObjectMapper objectMapper = new ObjectMapper();
+            String ingredientsJson = objectMapper.writeValueAsString(recipe.getIngredientList());
+
+            model.addAttribute("ingredientsJson", ingredientsJson);
+
             model.addAttribute("recipe", recipe);
             model.addAttribute("allIngredients", allIngredients);
 
@@ -106,21 +116,31 @@ public class AdminUIController {
             return "editRecipe";
         } catch(EntityNotFoundException | SystemErrorException e){
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
         return "redirect:/recipeShowcase";
     }
 
     @PostMapping("/opdaterOpskrift")
-    public String editRecipePost(@ModelAttribute Recipe recipe, @ModelAttribute("recipeIngredients") ArrayList<Ingredient> recipeIngredients,
-                                 @RequestParam List<Integer> ingredientIds, @RequestParam List<Integer> weights, RedirectAttributes redirectAttributes){
+    public String editRecipePost(@ModelAttribute("ingredientListJson") String ingredientListJson, @ModelAttribute Recipe recipe, RedirectAttributes redirectAttributes){
         try {
-            websiteService.setupRecipeWithIngredients(recipe,ingredientIds,weights);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<Ingredient> ingredients = objectMapper.readValue(ingredientListJson, new TypeReference<>() {
+            });
+
+            ArrayList<Ingredient> ingredients1 = (ArrayList<Ingredient>) ingredients;
+            recipe.setIngredientList(ingredients1);
+            recipe.calculateMacros();
             websiteService.updateRecipe(recipe);
             redirectAttributes.addFlashAttribute("successMessage", "Opskrift gemt!");
             return "redirect:/recipeShowcase";
         } catch (InputErrorException | SystemErrorException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/recipeShowcase";
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
     @GetMapping("/sletOpskrift/{recipeID}")
