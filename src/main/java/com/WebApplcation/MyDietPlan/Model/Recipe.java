@@ -102,12 +102,20 @@ public class Recipe {
     }
 
 
-    public Recipe adjustRecipeToUser(double dailyCalorieBurn){
+    public Recipe adjustRecipeToUser(double dailyCalorieGoal){
         Recipe adjustedRecipe = this;
 
-        double recipeCalorieGoal = dailyCalorieBurn/3.0;
-        double multiplier = recipeCalorieGoal/adjustedRecipe.totalCalories;
+        double recipeCalorieGoal = dailyCalorieGoal;
+        switch (this.timeOfDay){
+            case("Breakfast"):
+                recipeCalorieGoal = dailyCalorieGoal * 0.4;
+                break;
+            case("Lunch"), ("Dinner"):
+                recipeCalorieGoal = dailyCalorieGoal * 0.3;
+                break;
+        }
 
+        double multiplier = recipeCalorieGoal/adjustedRecipe.totalCalories;
 
         for(int i = 0; i<adjustedRecipe.ingredientList.size(); i++){
             adjustedRecipe.ingredientList.get(i).setWeightGrams((adjustedRecipe.ingredientList.get(i).getWeightGrams() * multiplier));

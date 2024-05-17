@@ -10,14 +10,14 @@
 </head>
 <body>
 <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-<div><label>Time of Day: </label><span th:text="${recipe.title}">Time of Day</span></div>
-<div><label>Calories: </label><span th:text="${recipe.timeOfDay}">Calories</span></div>
-<div><label>Protein: </label><span th:text="${recipe.prepTime}">Protein</span></div>
-<div><label>Fat: </label><span th:text="${recipe.totalCalories}">Fat</span></div>
-<div><label>Carbs: </label><span th:text="${recipe.totalProtein}">Carbs</span></div>
-<div><label>Active: </label><span th:text="${recipe.totalFat}">Active</span></div>
-<div><label>Prep Time: </label><span th:text="${recipe.totalCarbohydrates}">Prep Time</span></div>
-<div><label>Time of Day: </label><span th:text="${recipe.instructions}">Time of Day</span></div>
+<div><label>Titel: </label><span th:text="${recipe.title}">Time of Day</span></div>
+<div><label>Tidspunkt: </label><span th:text="${recipe.timeOfDay}">Calories</span></div>
+<div><label>Tilberedningstid: </label><span th:text="${recipe.prepTime}">Protein</span></div>
+<div><label>Totale kalorier: </label><span th:text="${recipe.totalCalories}">Fat</span></div>
+<div><label>Total protein: </label><span th:text="${recipe.totalProtein}">Carbs</span></div>
+<div><label>Total fedt: </label><span th:text="${recipe.totalFat}">Active</span></div>
+<div><label>Totale kulhydrater: </label><span th:text="${recipe.totalCarbohydrates}">Prep Time</span></div>
+<div><label>Instruktioner: </label><span th:text="${recipe.instructions}">Time of Day</span></div>
 <ul id="ingredientList">
     <li th:each="ingredient : ${recipe.ingredientList}">
         <span th:text="${ingredient.name + ' - ' + ingredient.weightGrams + ' grams'}"></span>

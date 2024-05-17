@@ -279,8 +279,8 @@ public class MyDietPlanRepository {
      * @return The user that was insert into the database, with the auto-generated id attached.
      */
     public User createUser(User user){
-        String sql = "INSERT INTO `User`(`email`, `password`,`first_name`, `last_name`, `gender`, `height`, `weight`, `age`, `activity_level`, `goal`, `role`, `daily_calorie_burn`)" +
-                " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO `User`(`email`, `password`,`first_name`, `last_name`, `gender`, `height`, `weight`, `age`, `activity_level`, `goal`, `role`, `daily_calorie_burn`, `daily_calorie_goal`)" +
+                " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -296,6 +296,7 @@ public class MyDietPlanRepository {
             ps.setString(10, user.getGoal());
             ps.setString(11,user.getRole());
             ps.setDouble(12,user.getDailyCalorieBurn());
+            ps.setDouble(13,user.getDailyCalorieGoal());
             return ps;
         }, keyHolder);
 

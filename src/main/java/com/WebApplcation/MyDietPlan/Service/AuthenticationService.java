@@ -46,7 +46,7 @@ public class AuthenticationService {
             String hashedPassword = hashPassword(user.getPassword());
             user.setPassword(hashedPassword);
             user.setRole("User");
-            user.calculateDailyCalorieBurn();
+            user.setupDailyCalorieGoal();
             return repo.createUser(user);
         } catch(DuplicateKeyException e){
             e.printStackTrace();
