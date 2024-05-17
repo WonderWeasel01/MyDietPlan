@@ -307,8 +307,11 @@ body {
     color: black;
     font-size: 24px;
     font-family: Josefin Sans;
-    font-weight: 600;
+    font-weight: bold;
     word-wrap: break-word;
+    padding-top: 50px;
+    padding-bottom: 50px;
+
 }
 
 .Mealrow {
@@ -317,7 +320,9 @@ body {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    display: inline-flex;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .MealCol {
@@ -337,7 +342,7 @@ body {
     color: black;
     font-size: 24px;
     font-family: Josefin Sans;
-    font-weight: 600;
+    font-weight:lighter;
     word-wrap: break-word;
     width: 100%;
 }
@@ -514,4 +519,15 @@ body {
     color: #555;
     gap: 20px;
   }
+
+
+  div {
+    font-family: Josefin Sans;
+  }
+
+  span {
+    font-family: Josefin Sans;
+  }
+
+
   

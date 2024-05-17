@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/CSS/LoggedIn.css">
     <title>Welcome Page</title>
     <script src="https://kit.fontawesome.com/c0582023bf.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="Welcomepage">
@@ -171,7 +172,6 @@
             <div class="Mealdivs">
                 <!-- Breakfast Section -->
                 <div class="Mealbox">
-                    <div class="MealText">MORGENMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Monday' and recipe.timeOfDay == 'Breakfast'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -190,7 +190,6 @@
 
                 <!-- Middagsmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">MIDDAGSMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Monday' and recipe.timeOfDay == 'Lunch'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -209,7 +208,6 @@
 
                 <!-- Aftensmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">AFTENSMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Monday' and recipe.timeOfDay == 'Dinner'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -231,7 +229,6 @@
             <div class="Mealdivs2">
                 <!-- Morgenmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">MORGENMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Tuesday' and recipe.timeOfDay == 'Breakfast'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -250,7 +247,6 @@
 
                 <!-- Middagsmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">MIDDAGSMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Tuesday' and recipe.timeOfDay == 'Lunch'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -269,7 +265,6 @@
 
                 <!-- Aftensmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">AFTENSMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Tuesday' and recipe.timeOfDay == 'Dinner'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -291,7 +286,6 @@
             <div class="Mealdivs3">
                 <!-- Morgenmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">MORGENMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Wednesday' and recipe.timeOfDay == 'Breakfast'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -310,7 +304,6 @@
 
                 <!-- Middagsmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">MIDDAGSMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Wednesday' and recipe.timeOfDay == 'Lunch'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -329,7 +322,6 @@
 
                 <!-- Aftensmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">AFTENSMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Wednesday' and recipe.timeOfDay == 'Dinner'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -351,7 +343,6 @@
             <div class="Mealdivs4">
                 <!-- Morgenmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">MORGENMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Thursday' and recipe.timeOfDay == 'Breakfast'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -370,7 +361,6 @@
 
                 <!-- Middagsmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">MIDDAGSMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Thursday' and recipe.timeOfDay == 'Lunch'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -389,7 +379,6 @@
 
                 <!-- Aftensmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">AFTENSMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Thursday' and recipe.timeOfDay == 'Dinner'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -411,7 +400,6 @@
             <div class="Mealdivs5">
                 <!-- Morgenmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">MORGENMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Friday' and recipe.timeOfDay == 'Breakfast'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -430,7 +418,6 @@
 
                 <!-- Middagsmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">MIDDAGSMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Friday' and recipe.timeOfDay == 'Lunch'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -449,7 +436,6 @@
 
                 <!-- Aftensmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">AFTENSMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Friday' and recipe.timeOfDay == 'Dinner'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -472,7 +458,6 @@
             <div class="Mealdivs6">
                 <!-- Morgenmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">MORGENMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Saturday' and recipe.timeOfDay == 'Breakfast'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -491,7 +476,6 @@
 
                 <!-- Middagsmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">MIDDAGSMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Saturday' and recipe.timeOfDay == 'Lunch'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -510,7 +494,6 @@
 
                 <!-- Aftensmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">AFTENSMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Saturday' and recipe.timeOfDay == 'Dinner'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -532,7 +515,6 @@
             <div class="Mealdivs7">
                 <!-- Morgenmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">MORGENMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Sunday' and recipe.timeOfDay == 'Breakfast'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -551,7 +533,6 @@
 
                 <!-- Middagsmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">MIDDAGSMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Sunday' and recipe.timeOfDay == 'Lunch'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
@@ -570,7 +551,6 @@
 
                 <!-- Aftensmad Section -->
                 <div class="Mealbox">
-                    <div class="MealText">AFTENSMAD</div>
                     <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.day == 'Sunday' and recipe.timeOfDay == 'Dinner'}">
                         <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
                         <div class="Mealname">
