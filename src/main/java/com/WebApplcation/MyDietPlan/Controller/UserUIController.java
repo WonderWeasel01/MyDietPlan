@@ -15,13 +15,14 @@ import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Model.User;
 import com.WebApplcation.MyDietPlan.Service.AuthenticationService;
 import com.WebApplcation.MyDietPlan.Service.WebsiteService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 
 
 @Controller
 public class UserUIController {
-    
+
     @Autowired
     private AuthenticationService authenticationService;
     @Autowired
@@ -126,11 +127,18 @@ public class UserUIController {
 
     }
 
-    
+
     @GetMapping("/logout")
     public String logoutButton(){
         authenticationService.logout();
         return "redirect:/";
+    }
+
+    @GetMapping("/opdaterBruger{userId}")
+    public String editUser(@RequestParam("userId") int userId, Model model) {
+        User user = authenticationService.getUserByID(userId);
+        model.addAttribute("user", user);
+        return "editUser";
     }
     /* 
     @GetMapping("/paymentSite")

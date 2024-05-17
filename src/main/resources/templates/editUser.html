@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="#" th:action="@{/OpdaterBruger}" th:object="${user}" method="post">
+    <input type="hidden" th:field="*{userId}" class="Input">
+
+    <div class="userFirstName">Nyt Fornavn:</div>
+    <input type="text" id="userFirstName" th:value="firstName" th:field="*{firstName}" class="Input"></input>
+    <div class="userLastName">Nyt Efternavn:</div>
+    <input type="text" id="userLastName" th:value="lastName" th:field="*{lastName}" class="Input"></input>
+    <div class="email">Ny email:</div>
+    <input type="text" id="email" th:value="email" th:field="*{email}" class="Input"></input>
+    <div class="password">Nyt password:</div>
+    <input type="password" id="password" th:field="*{password}" class="Input"></input>
+    </select>
+    <label for="goalDropdown"> </label>
+    <select id="goalDropdown" name="activitySelect" th:field="*{goal}">
+        <option value="Build muscle">Opbyg muskler</option>
+        <option value="Loose weight">Tab vægt</option>
+        <option value="Increase weight">Øg din vægt</option>
+        <option value="Maintain weight">Hold vægten</option>
+    </select>
+
+    <div class="updateButton">
+        <button type="submit">Opdater information</button>
+    </div>
+</form>
+
+</body>
+</html>

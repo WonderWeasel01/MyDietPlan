@@ -132,12 +132,24 @@ public class AuthenticationService {
         return subscription;
     }
 
+    /**
+     * Updates the profile of the user with the specified user ID.
+     * @param userId is the ID of the user who is updating his/her profile.
+     * @param user the user object containing the updated profile information.
+     * @return returns the updated user object
+     * @throws InputErrorException if the user object is null or if the user ID within the user object is 0.
+     */
     public User updateUser(int userId, User user) throws InputErrorException {
         if (user == null || user.getUserId() == 0) {
             throw new InputErrorException("Udfyld venligst alle felter");
         }
         return repo.updateUser(userId, user);
     }
+
+    public User getUserByID (int userId) {
+        return repo.getUserByID(userId);
+    }
+
 
 
 
