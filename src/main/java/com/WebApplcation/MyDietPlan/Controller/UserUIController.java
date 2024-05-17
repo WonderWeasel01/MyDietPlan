@@ -155,6 +155,21 @@ public class UserUIController {
         model.addAttribute("user", user);
         return "editUser";
     }
+
+    @PostMapping("/opdaterBruger")
+    public String updateUser(@ModelAttribute User updatedUser, Model model) {
+        try {
+            User updatedUserInfo = authenticationService.updateUser(updatedUser.getUserId(), updatedUser);
+            model.addAttribute("user", updatedUserInfo);
+            return "redirect:/";
+        } catch (InputErrorException e) {
+            model.addAttribute("Udfyld venligst alle felter", e.getMessage());
+            return "editUser"; // Return to the edit page to display the error
+        }
+    }
+
+
+
     /*
     @GetMapping("/paymentSite")
     public String paymentSitePage(Model model){

@@ -5,18 +5,25 @@
     <title>Title</title>
 </head>
 <body>
-<form action="#" th:action="@{/opdaterBruger}" th:object="${user}" method="post">
+<form
+        action="#" th:action="@{/opdaterBruger}" th:object="${user}" method="post">
     <input type="hidden" th:field="*{userId}" class="Input">
 
     <div class="userFirstName">Nyt Fornavn:</div>
-    <input type="text" id="userFirstName" th:value="firstName" th:field="*{firstName}" class="Input"></input>
+    <input type="text" id="userFirstName" th:value="firstName" th:field="*{firstName}" class="Input">
     <div class="userLastName">Nyt Efternavn:</div>
-    <input type="text" id="userLastName" th:value="lastName" th:field="*{lastName}" class="Input"></input>
+    <input type="text" id="userLastName" th:value="lastName" th:field="*{lastName}" class="Input">
     <div class="email">Ny email:</div>
-    <input type="text" id="email" th:value="email" th:field="*{email}" class="Input"></input>
+    <input type="text" id="email" th:value="email" th:field="*{email}" class="Input">
     <div class="password">Nyt password:</div>
-    <input type="password" id="password" th:field="*{password}" class="Input"></input>
-    </select>
+    <input type="password" id="password" th:field="*{password}" class="Input">
+    <input type="text" id="height" th:value="height" th:field="*{height}" class="Input">
+    <div class="height">Ny Højde:</div>
+    <input type="text" id="weight" th:value="weight" th:field="*{weight}" class="Input">
+    <div class="weight">Ny Vægt:</div>
+    <input type="text" id="age" th:value="age" th:field="*{age}" class="Input">
+    <div class="age">Ny Alder:</div>
+    <div class="userGoal">Nyt Mål:</div>
     <label for="goalDropdown"> </label>
     <select id="goalDropdown" name="activitySelect" th:field="*{goal}">
         <option value="Build muscle">Opbyg muskler</option>
@@ -24,6 +31,15 @@
         <option value="Increase weight">Øg din vægt</option>
         <option value="Maintain weight">Hold vægten</option>
     </select>
+    <div class="userActivityLevel">Nyt Aktivitetsniveau:</div>
+    <label for="activityDropdown"></label>
+        <select id="activityDropdown" name="activitySelect" th:field="*{activityLevel}">
+            <option value="No exercise">Ingen aktivitet</option>
+            <option value="Light activity">Let aktivitet</option>
+            <option value="Average activity">Middel aktivitet</option>
+            <option value="Intense activity">Intens aktivitet</option>
+            <option value="Extreme activity">Ekstrem aktivitet</option>
+        </select>
 
     <div class="updateButton">
         <button type="submit">Opdater information</button>
