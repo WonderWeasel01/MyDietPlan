@@ -44,8 +44,18 @@
             <div class="Recipeheaderframe">
                 <div class="OpretEnOpskriftText">Opdater opskrift!</div>
             </div>
-            <form action="#" th:action="@{/opdaterOpskrift}" th:object="${recipe}" method="post" >
+
+
+
+            <form action="#" th:action="@{/opdaterOpskrift}" th:object="${recipe}" method="post">
                 <input type="hidden" th:field="*{recipeID}" />
+                <input type="hidden" th:field="*{active}" />
+                <input type="hidden" th:field="*{day}" />
+                <input type="hidden" th:field="*{image.imageID}" />
+
+                <!-- Hidden field for ingredientsJson (not bound to recipe) -->
+                <input type="hidden" name="ingredientListJson" th:value="${ingredientsJson}" />
+
                 <div class="Recipeinputframe">
                     <div class="Recipenameframe">
                         <label for="title" class="OpskriftNavntext">Opskrift navn</label>
@@ -63,32 +73,10 @@
                         <label for="instructions" class="Instruktioner">Instruktioner</label>
                         <textarea id="instructions" th:field="*{instructions}" class="instructions-input" placeholder="Instruktioner"></textarea>
                     </div>
-                    <div class="Pictureframe">
-                        <label for="pictureURL" class="Recipepicturetext">Tilføj et billede til opskriften</label>
-                        <input type="text" id="pictureURL"  accept="image/*">
-                    </div>
-                    <div class="Addingredientsbuttonframe">
-                        <select id="ingredientSelect">
-                            <option th:each="ingredient : ${allIngredients}"
-                                    th:value="${ingredient.ingredientID}"
-                                    th:text="${ingredient.name}">Ingredient Name</option>
-                        </select>
-                        <input type="number" id="ingredientWeight" name="ingredientWeight" min="1" placeholder="Vægt i gram" class="weight-input">
-                        <button type="button" onclick="addIngredientToList()">Tilføj Ingrediens</button>
-                        <div th:if="${errorMessage} or ${successMessage}" class="message">
-                            <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
-                            <p th:if="${successMessage}" th:text="${successMessage}" class="success-message"></p>
-                        </div>
-                        <div class="IngredientListframe">
-                            <ul id="ingredientList">
-                                <li th:each="ingredient : ${recipe.ingredientList}">
-                                    <span th:text="${ingredient.name + ' - ' + ingredient.weightGrams + ' grams'}"></span>
-                                    <input type="hidden" th:value="${ingredient.ingredientID}" name ="oldIngredientIds">
-                                    <input type="hidden" th:value="${ingredient.weightGrams}" name ="oldWeights">
-                                </li>
-                            </ul>
-                        </div>
-                        <button type="submit">Opdater opskrift</button>
+                    <button type="submit">Opdater opskrift</button>
+                    <div th:if="${errorMessage} or ${successMessage}" class="message">
+                        <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
+                        <p th:if="${successMessage}" th:text="${successMessage}" class="success-message"></p>
                     </div>
                 </div>
             </form>

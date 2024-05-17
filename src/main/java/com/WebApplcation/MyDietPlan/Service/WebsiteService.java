@@ -66,7 +66,6 @@ public class WebsiteService {
      * @throws SystemErrorException
      */
     public boolean updateRecipe(Recipe recipe) throws InputErrorException, SystemErrorException {
-        validateRecipe(recipe);
         try{
             if(repo.updateRecipeWithoutIngredients(recipe)){
                 return updateRecipeIngredients(recipe.getRecipeID(), recipe.getIngredientList());
@@ -96,10 +95,10 @@ public class WebsiteService {
     public boolean updateRecipeActiveStatus(int recipeID) throws SystemErrorException, EntityNotFoundException {
         try {
             if (getRecipeById(recipeID).getActive()) {
-                return repo.updateRecipeActive(recipeID, 0);
+                return repo.updateRecipeActiveStatus(recipeID, 0);
             } else {
                 if(getActiveRecipeAmount() < 21){
-                    return repo.updateRecipeActive(recipeID, 1);
+                    return repo.updateRecipeActiveStatus(recipeID, 1);
                 } else throw new SystemErrorException("Der er allerede 21 aktive opskrifter. Deaktiver en eller flere aktive opskrifter for at tilføje flere");
             }
         } catch (EmptyResultDataAccessException e){

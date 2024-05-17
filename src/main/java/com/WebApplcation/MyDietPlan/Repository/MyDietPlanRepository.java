@@ -12,12 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Optional;
-import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -52,7 +47,7 @@ public class MyDietPlanRepository {
         return jdbcTemplate.queryForObject(sql,new Object[]{id}, ingredientRowMapper());
     }
 
-    public boolean updateRecipeActive(int recipeID, int newActive){
+    public boolean updateRecipeActiveStatus(int recipeID, int newActive){
         String sql = "UPDATE `Recipe` SET `active`= ? where recipe_id = ?";
         return 0<jdbcTemplate.update(sql,newActive,recipeID);
     }
@@ -80,14 +75,13 @@ public class MyDietPlanRepository {
 
     public boolean updateRecipeWithoutIngredients(Recipe recipe) {
         String sql = "UPDATE Recipe SET " + "recipe_title = ?, " + "time_of_day = ?, " + "prep_time = ?, " +
-                "total_calories = ?, " + "total_protein = ?, " + "total_fat = ?, " + "total_carbohydrates = ?, " +
-                "active = ?, " + "instructions = ?, " + "image_id = ? " + "WHERE recipe_id = ?";
+                "total_calories = ?, " + "total_protein = ?, " + "total_fat = ?, " + "total_carbohydrates = ?, "
+                + "instructions = ? "  + "WHERE recipe_id = ?";
 
         int rowsAffected = jdbcTemplate.update(sql, recipe.getTitle(), recipe.getTimeOfDay(), recipe.getPrepTime(),
                 recipe.getTotalCalories(), recipe.getTotalProtein(), recipe.getTotalFat(), recipe.getTotalCarbohydrates(),
-                recipe.getActive(), recipe.getInstructions(), recipe.getImage().getImageID(), recipe.getRecipeID());
+                recipe.getInstructions(), recipe.getRecipeID());
 
-        updateImage(recipe.getImage());
 
         return rowsAffected > 0;
     }
