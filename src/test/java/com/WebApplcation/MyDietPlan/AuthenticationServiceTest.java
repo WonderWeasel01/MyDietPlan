@@ -23,7 +23,7 @@ public class AuthenticationServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        AuthenticationService.user = mockUser;
+        as.setSession(mockUser);
     }
 
     @Test
@@ -32,6 +32,6 @@ public class AuthenticationServiceTest {
         as.logout();
 
         // Assert: Check if the user is set to null
-        assertNull(AuthenticationService.user, "The user should be null after logout.");
+        assertNull(as.getUser(), "The user should be null after logout.");
     }
 }

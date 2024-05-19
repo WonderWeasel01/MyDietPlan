@@ -2,12 +2,9 @@ package com.WebApplcation.MyDietPlan.Controller;
 
 import com.WebApplcation.MyDietPlan.Model.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,7 +53,6 @@ public class UserUIController {
         try{
             Recipe recipe = websiteService.getAdjustedRecipeById(recipeID);
             model.addAttribute("recipe", recipe);
-            System.out.println(StringUtils.hasText(recipe.getImage().getBase64Image()));
             return "showRecipe";
         } catch (SystemErrorException e) {
             redirectAttributes.addAttribute("errorMessage", e.getMessage());
@@ -122,7 +118,6 @@ public class UserUIController {
         User user = authenticationService.getUser();
         model.addAttribute("user", user);
         try{
-
             ArrayList<Recipe> weeklyRecipes = websiteService.getAllActiveRecipes();
             ArrayList<Recipe> adjustedRecipes = websiteService.adjustRecipesToUser(user.getDailyCalorieGoal(),weeklyRecipes);
             model.addAttribute("weeklyRecipes", adjustedRecipes);

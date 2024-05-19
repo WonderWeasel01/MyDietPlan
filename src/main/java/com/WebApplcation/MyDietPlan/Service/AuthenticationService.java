@@ -1,11 +1,11 @@
 package com.WebApplcation.MyDietPlan.Service;
 
-import com.WebApplcation.MyDietPlan.Exception.EntityNotFoundException;
 import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Model.Subscription;
 import com.WebApplcation.MyDietPlan.Model.User;
 import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,7 +21,8 @@ import java.util.Objects;
 
 @Service
 public class AuthenticationService {
-    public static User user;
+    @Autowired
+    private HttpSession session;
     @Autowired
     public MyDietPlanRepository repo;
 
@@ -69,10 +70,10 @@ public class AuthenticationService {
     }
 
     public User getUser(){
-        return user;
+        return (User) session.getAttribute("user");
     }
-    public void setUser(User user){
-        AuthenticationService.user = user;
+    public void setSession(User user){
+        session.setAttribute("user",user);
     }
 
     /**
@@ -114,25 +115,28 @@ public class AuthenticationService {
     public User loginUser(String email, String password) throws InputErrorException {
         validateLogin(email, password);
         User user = repo.getUserByEmail(email);
-        setUser(user);
-        return user;
+        setSession(user);
+        return getUser();
     }
 
     public void logout(){
-        AuthenticationService.user = null;
+        session.invalidate();
     }
 
     public boolean isAdminLoggedIn(){
-        return AuthenticationService.user != null && Objects.equals(AuthenticationService.user.getRole(), "Admin");
+        User user = getUser();
+        return user != null && Objects.equals(user.getRole(), "Admin");
     }
 
     public boolean isUserLoggedIn(){
-        return AuthenticationService.user != null;
+        User user = getUser();
+        return user != null;
     }
 
 
 
     public Subscription payingUser(Subscription subscription) {
+        User user = getUser();
         int paidUserId = user.getUserId();
 
 
@@ -156,24 +160,12 @@ public class AuthenticationService {
         return subscription;
     }
 
-
-
-
-
-
-
-
-
-
-
-    public boolean deleteUser(int userID) {return repo.deleteUser(userID);}
-
+    public boolean deleteUser(int userID) {
+        return repo.deleteUser(userID);
     }
-/*
-    public int calculateAge(int dateOfBirth){
 
-    }
- */
+
+}
 
 
 

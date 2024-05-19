@@ -271,7 +271,7 @@ public class WebsiteService {
             Recipe recipeToAdjust = weeklyRecipes.get(i);
             adjustedRecipes.add(recipeToAdjust.adjustRecipeToUser(dailyCalorieGoal));
         }
-        AuthenticationService.user.setAdjustedRecipes(adjustedRecipes);
+        authenticationService.getUser().setAdjustedRecipes(adjustedRecipes);
         return adjustedRecipes;
     }
 
@@ -295,7 +295,7 @@ public class WebsiteService {
             //Attempt to update the user in the database
             User updatedUser = repo.updateUser(user);
             //Update the logged-in user with the updated information
-            authenticationService.setUser(updatedUser);
+            authenticationService.setSession(updatedUser);
 
             return updatedUser;
         } catch (EmptyResultDataAccessException e){
