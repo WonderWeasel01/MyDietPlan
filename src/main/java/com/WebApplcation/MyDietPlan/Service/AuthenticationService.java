@@ -115,7 +115,6 @@ public class AuthenticationService {
         validateLogin(email, password);
         User user = repo.getUserByEmail(email);
         setUser(user);
-        System.out.println(user);
         return user;
     }
 

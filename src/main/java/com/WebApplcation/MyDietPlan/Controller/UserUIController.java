@@ -153,11 +153,11 @@ public class UserUIController {
     @PostMapping("/opdaterBruger")
     public String updateUser(@ModelAttribute User updatedUser, Model model) {
         try {
-            User updatedUserInfo = websiteService.updateUser(updatedUser.getUserId(), updatedUser);
-            model.addAttribute("user", updatedUserInfo);
-            return "redirect:/";
-        } catch (InputErrorException e) {
-            model.addAttribute("Udfyld venligst alle felter", e.getMessage());
+            websiteService.updateUser(updatedUser);
+            return "redirect:/velkommen";
+        } catch (InputErrorException | SystemErrorException e) {
+            e.printStackTrace();
+            model.addAttribute("errorMessage", e.getMessage());
             return "editUser"; // Return to the edit page to display the error
         }
     }

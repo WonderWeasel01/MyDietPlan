@@ -10,6 +10,7 @@ import com.WebApplcation.MyDietPlan.Model.User;
 import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -280,16 +281,30 @@ public class WebsiteService {
 
     /**
      * Updates the profile of the user with the specified user ID.
-     * @param userId is the ID of the user who is updating his/her profile.
      * @param user the user object containing the updated profile information.
      * @return returns the updated user object
      * @throws InputErrorException if the user object is null or if the user ID within the user object is 0.
      */
-    public User updateUser(int userId, User user) throws InputErrorException {
-        if (user == null || user.getUserId() == 0) {
+    public User updateUser(User user) throws InputErrorException, SystemErrorException {
+        if(!authenticationService.isValidUser(user)){
             throw new InputErrorException("Udfyld venligst alle felter");
         }
-        return repo.updateUser(userId, user);
+        try{
+            authenticationService.hashAndSetPassword(user);
+            user.setupDailyCalorieGoal();
+            //Attempt to update the user in the database
+            User updatedUser = repo.updateUser(user);
+            //Update the logged-in user with the updated information
+            authenticationService.setUser(updatedUser);
+
+            return updatedUser;
+        } catch (EmptyResultDataAccessException e){
+            e.printStackTrace();
+            throw new SystemErrorException("Kunne ikke finde brugeren i databasen. Prøv igen senere");
+        } catch (DuplicateKeyException e){
+            throw new InputErrorException("Email bruges allerede");
+        }
+
     }
 
 

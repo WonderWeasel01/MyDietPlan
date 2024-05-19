@@ -379,15 +379,14 @@ public class MyDietPlanRepository {
 
     /**
      * Updates settings for a user in the database.
-     * @param userId The id of an existing user.
      * @param user An existing user in the database.
      * @return User that was just updated in the database.
      */
 
-    public User updateUser(int userId, User user){
-        String sql ="UPDATE `User` SET `first_name`=?, `email`=?, `goal`=?, `last_name`=?, `activity_level`=?, `weight`=?, `height`=?,  `age`=?, WHERE id = ?";
-        jdbcTemplate.update(sql, user.getFirstName(), user.getEmail(), user.getGoal(), user.getLastName(), user.getActivityLevel(), user.getWeight(), user.getHeight(), user.getAge(), userId);
-        return getUserByID(userId);
+    public User updateUser(User user){
+        String sql ="UPDATE `User` SET `first_name`= ?,`last_name`= ?, `email`= ?, `password`= ?, `goal`= ?, `last_name`= ?, `activity_level`= ?, `weight`= ?, `height`= ?,  `age`= ?, `daily_calorie_burn`= ?, `daily_calorie_goal`= ? WHERE user_id = ?";
+        jdbcTemplate.update(sql, user.getFirstName(),user.getLastName(), user.getEmail(), user.getPassword(), user.getGoal(), user.getLastName(), user.getActivityLevel(), user.getWeight(), user.getHeight(), user.getAge(), user.getDailyCalorieBurn(), user.getDailyCalorieGoal(), user.getUserId());
+        return getUserByID(user.getUserId());
     }
 
     public int getActiveRecipeAmount(){
