@@ -21,12 +21,12 @@ import java.util.Objects;
 
 @Service
 public class AuthenticationService {
-    @Autowired
-    private HttpSession session;
-    @Autowired
+    private final HttpSession session;
     public MyDietPlanRepository repo;
 
-    public AuthenticationService(MyDietPlanRepository repository){
+    @Autowired
+    public AuthenticationService(HttpSession session, MyDietPlanRepository repository){
+        this.session = session;
         this.repo = repository;
     }
 

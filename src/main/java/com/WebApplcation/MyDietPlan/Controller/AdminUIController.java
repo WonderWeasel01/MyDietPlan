@@ -22,10 +22,9 @@ import java.util.List;
 
 @Controller
 public class AdminUIController {
-    @Autowired
     WebsiteService websiteService;
-    @Autowired
     AuthenticationService authenticationService;
+    @Autowired
     public AdminUIController(WebsiteService websiteService, AuthenticationService authenticationService){
         this.websiteService = websiteService;
         this.authenticationService = authenticationService;

@@ -24,22 +24,14 @@ import java.util.List;
 @Service
 public class WebsiteService {
 
-    @Autowired
-    private MyDietPlanRepository repo;
-    @Autowired
-    private AuthenticationService authenticationService;
+    private final MyDietPlanRepository repo;
+    private final AuthenticationService authenticationService;
 
-    public WebsiteService(MyDietPlanRepository myDietPlanRepository){
+    @Autowired
+    public WebsiteService(AuthenticationService authenticationService, MyDietPlanRepository myDietPlanRepository){
+        this.authenticationService = authenticationService;
         this.repo = myDietPlanRepository;
     }
-
-/*
-    public List<Recipe> adjustRecipesForUser(List<Recipe> weeklyDietPlan){
-
-    }
-
-
- */
 
     public Recipe createRecipe(Recipe recipe) throws SystemErrorException, InputErrorException {
         validateRecipe(recipe);
@@ -171,16 +163,6 @@ public class WebsiteService {
             throw new InputErrorException("The number of ingredients and weights do not match.");
         }
     }
-
-    public List<Recipe> getActiveRecipesForDay(String day) throws EntityNotFoundException {
-        try{
-            return repo.getActiveRecipeForDay(day);
-        } catch (EmptyResultDataAccessException e){
-            throw new EntityNotFoundException("Kunne ikke finde " + day + "'s" + "opskrifter");
-        }
-    }
-
-
     public List<Ingredient> getAllIngredients(){
         return repo.getAllIngredients();
     }

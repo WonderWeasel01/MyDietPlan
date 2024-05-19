@@ -24,13 +24,10 @@ import java.util.ArrayList;
 
 @Controller
 public class UserUIController {
-    
-    @Autowired
-    private AuthenticationService authenticationService;
-    @Autowired
+    private final AuthenticationService authenticationService;
     private final WebsiteService websiteService;
 
-
+    @Autowired
     public UserUIController(AuthenticationService authenticationService, WebsiteService websiteService){
         this.authenticationService = authenticationService;
         this.websiteService = websiteService;

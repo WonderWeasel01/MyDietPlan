@@ -21,9 +21,9 @@ import java.util.List;
 @Repository
 public class MyDietPlanRepository {
 
-    @Autowired
     private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public MyDietPlanRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
