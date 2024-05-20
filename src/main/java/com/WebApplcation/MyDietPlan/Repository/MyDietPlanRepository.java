@@ -354,7 +354,8 @@ public class MyDietPlanRepository {
     }
 
     public Subscription insertSubscription(Subscription subscription, int userID) {
-        String sql = "INSERT INTO `Subscription` (`user_id`, `subscriptionStartDate`, `subscriptionEndDate`, `subscriptionStatus`, `subscriptionPrice`) VALUES (?,?,?,?,?);";  //'7', '2024-05-14', '2024-05-21', '1', '49,00'
+        String sql = "INSERT INTO `Subscription` (`user_id`, `subscriptionStartDate`, `subscriptionEndDate`, `subscriptionStatus`, `subscriptionPrice`) VALUES (?,?,?,?,?);"; 
+        
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

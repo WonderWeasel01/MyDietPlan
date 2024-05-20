@@ -1,6 +1,8 @@
 package com.WebApplcation.MyDietPlan.Controller;
 
 import com.WebApplcation.MyDietPlan.Model.Recipe;
+import com.WebApplcation.MyDietPlan.Model.Subscription;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @Controller
@@ -44,6 +48,16 @@ public class UserUIController {
         return "paymentSite";
     }
 
+    @GetMapping("/notLoggedIn")
+    public String notLoggedIn() {
+        return "notLoggedIn";
+    }
+
+    @GetMapping("/loggedIn")
+    public String loggedIn() {
+        return "loggedIn"; // This should correspond to a Thymeleaf template
+    }
+
 
     @GetMapping("/seOpskrift/{recipeID}")
     public String showRecipe(Model model, @PathVariable int recipeID, RedirectAttributes redirectAttributes){
@@ -65,12 +79,12 @@ public class UserUIController {
         return "createUser";
     }
 
-    /*@GetMapping("/CreatePayment")
+    @GetMapping("/CreatePayment")
     public String CreatePaymentForm(Model model){
         Subscription subscription = new Subscription();
         model.addAttribute("subscription",subscription);
         return "paymentSite";
-    }*/
+    }
 
 
     @PostMapping("/opretBruger")
@@ -107,6 +121,19 @@ public class UserUIController {
     }
 
 
+    @PostMapping("/payingUser")
+    public String handlePayingUser() {
+        Subscription subscription = new Subscription();
+        
+    
+        authenticationService.payingUser(subscription);
+        return "loggedIn";
+    }
+
+
+    
+
+
     @GetMapping("/velkommen")
     public String welcomePage(Model model){
         if(!isLoggedIn()){
@@ -124,6 +151,10 @@ public class UserUIController {
         }
         return "loggedIn";
     }
+
+
+
+
 
 
     @GetMapping("/logout")

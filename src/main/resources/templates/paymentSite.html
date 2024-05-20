@@ -41,13 +41,12 @@
                     <input class="Input" type="text" placeholder="***">  
                 </div>
             </div>
-
-            <div class="Button">
-                <a href="/LoggedIn" class="KomIgang">BETAL</a>
+        </form>
+            <form th:action="@{/payingUser}" method="post">
+                <button type="submit" class="KomIgang">BETAL</button>
                 <i class="fa-solid fa-chevron-right" style="color: #ffffff;"></i>
-            </div>
-        </div>
-    </form>
+            </form>
+
 </div>
 </body>
 </html>

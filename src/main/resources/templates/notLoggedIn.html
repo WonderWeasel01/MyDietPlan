@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,17 +9,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
+
+    <div class="background">
+        <div class="nomemberbox">
+            <img src="images/Svgs/Warning.svg" alt="">
+            <div class="nomembertext">Du er ikke medlem!</div>
+            <div class="nomemberp">Det ser ud til, at den bruger, du er logget ind med, ikke har et aktivt medlemskab.</div>
+            <a th:href="@{paymentSite}">
+                <div class="nomemberbutton">
+                    <div class="nomemberlabel">KØB MEDLEMSSKAB</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+
+
+
+
+
     <div class="Welcomepage">
         <div class="Header">
             <img class="Logo" src="Images/PNGS/minkostplan-logo.png" />
             <div class="Welcometext">
-                <div class="Name">Velkommen, <span th:text="${user.firstName}">User</span>!</div>
+                <div class="Name">Velkommen, <span >User</span>!</div>
                 <div class="Quote">Husk at spise din frokost idag!</div>
             </div>
 
             <div class="Profiledropdown profile action" onclick="menuToggle();">
                 <img class="Profileimage" src="https://via.placeholder.com/59x52" />
-                <div class="Name"><span th:text="${user.firstName}">User</span></div>
+                <div class="Name"><span>User</span></div>
                     <i class="fa-solid fa-chevron-down"></i>
             
             <div class="menu">
@@ -29,14 +48,14 @@
                   </li>
                   <li>
                     <i class="fa-solid fa-pen" style="color: #87cc83;"></i>
-                      <a th:href="@{/opdaterBruger/{userID}(userID=${user.userId})}">Rediger Profil</a>
+                      <a >Rediger Profil</a>
                   </li>
                   <li>
                     <i class="fa-solid fa-gear" style="color: #87cc83;"></i><a href="#">Indstillinger</a>
                   </li>
-                  <li th:action="@{/logout}">
+                  <li>
                     <i class="fa-solid fa-arrow-right-from-bracket" style="color: #87cc83;"></i>
-                    <a th:href="@{/logout}">Log ud</a>
+                    <a>Log ud</a>
                 </li>
                 </ul>
               </div>
@@ -87,37 +106,65 @@
 
             <!-- Breakfast Section -->
             <div class="Mealdivs">
-                <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.timeOfDay == 'Breakfast'}">
+              
                 <div class="Mealbox">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
+                        <img class="Mealimage" src="Images/PNGS/kenta-kikuchi-yAwKsxCHins-unsplash.jpg"/>
                         <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
+                            <span>Jordbær yoghurt</span>
                         </div>
                         <div class="Mealrow">
                             <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
+                                <span>200</span> Kalorier
                             </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                            <a class="Mealbutton">
                                 <div  class="Mealbuttontext">SE OPSKRIFT</div>
                             </a>
                         </div>
                     </div>
-                </div>
+                    <div class="Mealbox">
+                        <img class="Mealimage" src="Images/PNGS/kenta-kikuchi-yAwKsxCHins-unsplash.jpg"/>
+                        <div class="Mealname">
+                            <span>Jordbær yoghurt</span>
+                        </div>
+                        <div class="Mealrow">
+                            <div class="Caloriestext">
+                                <span>200</span> Kalorier
+                            </div>
+                            <a class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="Mealbox">
+                        <img class="Mealimage" src="Images/PNGS/kenta-kikuchi-yAwKsxCHins-unsplash.jpg"/>
+                        <div class="Mealname">
+                            <span>Jordbær yoghurt</span>
+                        </div>
+                        <div class="Mealrow">
+                            <div class="Caloriestext">
+                                <span>200</span> Kalorier
+                            </div>
+                            <a class="Mealbutton">
+                                <div  class="Mealbuttontext">SE OPSKRIFT</div>
+                            </a>
+                        </div>
+                    </div>
+
             </div>
 
             <!-- Lunch Section -->
             <div class="Mealdivs2">
-                <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.timeOfDay == 'Lunch'}">
+                <div>
                 <div class="Mealbox">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
+                        <img class="Mealimage">
                         <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
+                            <span>Opskrift titel</span>
                         </div>
                         <div class="Mealrow">
                             <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
+                                <span>Opskrift titel</span> Kalorier
                             </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                            <a class="Mealbutton">
                                 <div  class="Mealbuttontext">SE OPSKRIFT</div>
                             </a>
                         </div>
@@ -127,17 +174,17 @@
 
             <!-- Dinner Section -->
             <div class="Mealdivs3">
-                <div th:each="recipe : ${weeklyRecipes}" th:if="${recipe.timeOfDay == 'Dinner'}">
+                <div>
                 <div class="Mealbox">
-                        <img class="Mealimage" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
+                        <img class="Mealimage" />
                         <div class="Mealname">
-                            <span th:text="${recipe.title}">Opskrift titel</span>
+                            <span>Opskrift titel</span>
                         </div>
                         <div class="Mealrow">
                             <div class="Caloriestext">
-                                <span th:text="${recipe.totalCalories}">Opskrift titel</span> Kalorier
+                                <span>Opskrift titel</span> Kalorier
                             </div>
-                            <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}" class="Mealbutton">
+                            <a class="Mealbutton">
                                 <div  class="Mealbuttontext">SE OPSKRIFT</div>
                             </a>
                         </div>
@@ -148,39 +195,4 @@
     </div>
 </body>
 
-<script>
-    function changeColor(day, element) {
-        var lineElement = document.getElementById(day + "Line");
-        var allLines = document.querySelectorAll('.Lines > div');
-        var allDays = document.querySelectorAll('.Days > div');
-
-        // Remove any previously added 'active' class from all lines and days
-        allLines.forEach(function (line) {
-            line.classList.remove("active");
-        });
-
-        allDays.forEach(function (dayElement) {
-            dayElement.classList.remove("Selected");
-            dayElement.classList.add("Unselected");
-        });
-
-        // Add the 'active' class to the corresponding line
-        lineElement.classList.add("active");
-
-        // Toggle the text color of the selected day
-        element.classList.remove("Unselected");
-        element.classList.add("Selected");
-    }
-
-
-
-
-//DropDown
-function menuToggle() {
-const toggleMenu = document.querySelector(".menu");
-toggleMenu.classList.toggle("active");
-}
-
-
-</script>
 </html>
