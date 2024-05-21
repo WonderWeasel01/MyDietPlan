@@ -82,26 +82,24 @@ public class Recipe {
 
     public void calculateAndSetMacros(){
         //Ensure that the result is correct if the method is called more than once.
-        Recipe adjustedRecipe = this;
-        adjustedRecipe.totalCalories = 0;
-        adjustedRecipe.totalProtein = 0;
-        adjustedRecipe.totalFat = 0;
-        adjustedRecipe.totalCarbohydrates = 0;
+        this.totalCalories = 0;
+        this.totalProtein = 0;
+        this.totalFat = 0;
+        this.totalCarbohydrates = 0;
 
-
-        for(int i = 0; i<adjustedRecipe.ingredientList.size(); i++) {
-            Ingredient ingredient = adjustedRecipe.ingredientList.get(i);
-            adjustedRecipe.totalProtein += ingredient.getProteinPerHundredGrams() * (ingredient.getWeightGrams() / 100.0);
-            adjustedRecipe.totalFat += ingredient.getFatPerHundredGrams() * (ingredient.getWeightGrams() / 100.0) ;
-            adjustedRecipe.totalCarbohydrates += ingredient.getCarbohydratesPerHundredGrams() * (ingredient.getWeightGrams() / 100.0);
-            adjustedRecipe.totalCalories += ingredient.getCaloriesPerHundredGrams() * (ingredient.getWeightGrams() / 100.0);
+        for(int i = 0; i<this.ingredientList.size(); i++) {
+            Ingredient ingredient = this.ingredientList.get(i);
+            this.totalProtein += ingredient.getProteinPerHundredGrams() * (ingredient.getWeightGrams() / 100.0);
+            this.totalFat += ingredient.getFatPerHundredGrams() * (ingredient.getWeightGrams() / 100.0) ;
+            this.totalCarbohydrates += ingredient.getCarbohydratesPerHundredGrams() * (ingredient.getWeightGrams() / 100.0);
+            this.totalCalories += ingredient.getCaloriesPerHundredGrams() * (ingredient.getWeightGrams() / 100.0);
         }
 
         //Round the total macros to avoid unnecessary decimals
-        adjustedRecipe.totalProtein = Math.round(adjustedRecipe.totalProtein * 100.0) / 100.0;
-        adjustedRecipe.totalFat = Math.round(adjustedRecipe.totalFat * 100.0) / 100.0;
-        adjustedRecipe.totalCarbohydrates = Math.round(adjustedRecipe.totalCarbohydrates * 100.0) / 100.0;
-        adjustedRecipe.totalCalories = Math.round(adjustedRecipe.totalCalories * 100.0) / 100.0;
+        this.totalProtein = Math.round(this.totalProtein * 100.0) / 100.0;
+        this.totalFat = Math.round(this.totalFat * 100.0) / 100.0;
+        this.totalCarbohydrates = Math.round(this.totalCarbohydrates * 100.0) / 100.0;
+        this.totalCalories = Math.round(this.totalCalories * 100.0) / 100.0;
 
     }
 
