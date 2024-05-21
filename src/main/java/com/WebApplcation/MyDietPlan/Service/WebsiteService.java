@@ -97,7 +97,6 @@ public class WebsiteService {
             e.printStackTrace();
             throw new SystemErrorException("Der er sket en fejl. Prøv igen senere");
         }
-
     }
 
     /**
@@ -195,7 +194,7 @@ public class WebsiteService {
             } else throw new InputErrorException("Udfyld venligst alle felterne korrekt");
         }
         catch (DataAccessException e) {
-            System.err.println("Error accessing the database: " + e.getMessage());
+            e.printStackTrace();
             throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere!");
         }
     }
