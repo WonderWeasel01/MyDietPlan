@@ -79,14 +79,6 @@ public class UserUIController {
         return "createUser";
     }
 
-    @GetMapping("/CreatePayment")
-    public String CreatePaymentForm(Model model){
-        Subscription subscription = new Subscription();
-        model.addAttribute("subscription",subscription);
-        return "paymentSite";
-    }
-
-
     @PostMapping("/opretBruger")
     public String createUser( @ModelAttribute User user, Model model){
         try{
@@ -97,6 +89,16 @@ public class UserUIController {
         }
         return "createUser";
     }
+
+    @GetMapping("/CreatePayment")
+    public String CreatePaymentForm(Model model){
+        Subscription subscription = new Subscription();
+        model.addAttribute("subscription",subscription);
+        return "paymentSite";
+    }
+
+
+
 
     @GetMapping("/login")
     public String loginForm(Model model) {

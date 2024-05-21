@@ -187,9 +187,9 @@ margin: 0;
     margin-top: 20px;
 }
 
-.Step1{
+.Step3{
     gap: 10px;
-    display: flex;
+    display: none;
     flex-direction: column;
     margin-bottom: 20px;
  
@@ -202,9 +202,9 @@ margin: 0;
     margin-bottom: 20px;
 }
 
-.Step3{
+.Step1{
     gap: 10px;
-    display: none;
+    display: flex;
     flex-direction: column;
     margin-bottom: 20px;
 }

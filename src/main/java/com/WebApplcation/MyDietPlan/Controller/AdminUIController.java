@@ -22,8 +22,8 @@ import java.util.List;
 
 @Controller
 public class AdminUIController {
-    WebsiteService websiteService;
-    AuthenticationService authenticationService;
+    private final WebsiteService websiteService;
+    private final AuthenticationService authenticationService;
     @Autowired
     public AdminUIController(WebsiteService websiteService, AuthenticationService authenticationService){
         this.websiteService = websiteService;
