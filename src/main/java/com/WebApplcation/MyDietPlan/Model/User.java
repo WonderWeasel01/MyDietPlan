@@ -93,16 +93,16 @@ public class User {
                 dailyCalorieBurn = BMR * 1.2;
                 break;
             case "Light activity":
-                dailyCalorieBurn = BMR * 1.375;
+                dailyCalorieBurn = BMR * 1.5;
                 break;
             case "Average activity":
-                dailyCalorieBurn = BMR * 1.55;
+                dailyCalorieBurn = BMR * 1.7;
                 break;
             case "Intense activity":
-                dailyCalorieBurn = BMR * 1.725;
+                dailyCalorieBurn = BMR * 1.9;
                 break;
             case "Extreme activity":
-                dailyCalorieBurn = BMR * 1.9;
+                dailyCalorieBurn = BMR * 2.4;
                 break;
         }
         return dailyCalorieBurn;

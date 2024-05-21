@@ -6,10 +6,10 @@ public class Recipe {
 
     private int recipeID;
     private String title;
-    private double totalCalories = 0;
-    private double totalCarbohydrates = 0;
-    private double totalFat = 0;
-    private double totalProtein = 0;
+    private double totalCalories;
+    private double totalCarbohydrates;
+    private double totalFat;
+    private double totalProtein;
     private String prepTime;
     private String timeOfDay;
     private String instructions;
@@ -17,7 +17,7 @@ public class Recipe {
     private String day;
     private Image image;
 
-    ArrayList<Ingredient> ingredientList;
+    private ArrayList<Ingredient> ingredientList;
 
     public Recipe() {
 
