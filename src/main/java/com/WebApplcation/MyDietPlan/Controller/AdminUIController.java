@@ -73,7 +73,7 @@ public class AdminUIController {
             redirectAttributes.addFlashAttribute("createIngredientSuccess", "Ingrediens oprettet!");
             return "redirect:/opretIngrediens";
         } catch (InputErrorException | SystemErrorException e){
-            model.addAttribute("createIngredientError", "Udfyld venligst alle felterne korrekt");
+            model.addAttribute("createIngredientError", e.getMessage());
         }
         return "addIngredient";
     }
