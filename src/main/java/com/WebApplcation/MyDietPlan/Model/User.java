@@ -89,22 +89,25 @@ public class User {
             BMR = (10 * weight) + (6.25 * height) - (5 * age) - 161;
         }
         switch (activityLevel) {
-            case "No exercise":
+            case "Ingen eller meget lidt aktiv":
                 dailyCalorieBurn = BMR * 1.2;
                 break;
-            case "Light activity":
-                dailyCalorieBurn = BMR * 1.375;
+            case "1-2 gange aktivitet om ugen":
+                dailyCalorieBurn = BMR * 1.5;
                 break;
-            case "Average activity":
-                dailyCalorieBurn = BMR * 1.55;
+            case "3-5 gange aktivitet om ugen":
+                dailyCalorieBurn = BMR * 1.7;
                 break;
-            case "Intense activity":
-                dailyCalorieBurn = BMR * 1.725;
-                break;
-            case "Extreme activity":
+            case "6-7 gange aktivitet om ugen":
                 dailyCalorieBurn = BMR * 1.9;
                 break;
+            case "1-2 gange aktivitet om dagen":
+                dailyCalorieBurn = BMR * 2.4;
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown activity level: " + activityLevel);
         }
+    
         return dailyCalorieBurn;
     }
 
