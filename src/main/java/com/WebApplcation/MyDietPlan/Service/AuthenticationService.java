@@ -43,7 +43,6 @@ public class AuthenticationService {
             throw new InputErrorException("Venligst udfyld alle felterne korrekt");
         }
         hashAndSetPassword(user);
-        System.out.println(user);
         user.setRole("User");
         user.setupDailyCalorieGoal();
         return saveUser(user);
