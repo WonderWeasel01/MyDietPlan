@@ -104,9 +104,6 @@ public class User {
             case "Extreme activity":
                 dailyCalorieBurn = BMR * 1.9;
                 break;
-            case "Super Extreme activity":
-                dailyCalorieBurn = BMR * 2.4;
-                break;
         }
         return dailyCalorieBurn;
     }
