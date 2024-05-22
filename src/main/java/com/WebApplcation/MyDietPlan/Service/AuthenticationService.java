@@ -135,10 +135,13 @@ public class AuthenticationService {
     public boolean isPayingUser(){
         if (isUserLoggedIn()){
             User user = getUser();
-            return user.getSubscription().getSubscriptionStatus() == true;
+            if (repo.isActiveMember(user.getUserId())) {  
+                return true;
+            }
         }
         return false;
     }
+    
 
     public Subscription payingUser(Subscription subscription) {
         User user = getUser();

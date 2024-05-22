@@ -102,16 +102,22 @@ public class UserUIController {
 
     @GetMapping("/login")
     public String loginForm(Model model) {
-        //Grants instant access if the user is already logged in
+        // Grants instant access if the user is already logged in
         if (authenticationService.isAdminLoggedIn()){
+            System.out.println("User is admin");
             return "redirect:/admin";
-        } else if (authenticationService.isPayingUser()) {
+        } else if (authenticationService.isPayingUser()){
+            System.out.println("User is paying user");
             return "redirect:/velkommen";
-        
         }
-      
+            else if (authenticationService.isUserLoggedIn()){
+                System.out.println("User is logged in");
+                return "redirect:/notLoggedIn";
+                    }
         return "login";
     }
+    
+
 
     @PostMapping("/login")
     public String loginUser(@RequestParam String email, @RequestParam String password, Model model) {
@@ -207,7 +213,11 @@ public class UserUIController {
         if ("Admin".equals(user.getRole())) {
             return "redirect:/admin";
         }
-        return "redirect:/velkommen";
+        else if (authenticationService.isPayingUser()){
+            System.out.println("User is paying user");
+            return "redirect:/velkommen";
+    }
+        return "redirect:/notLoggedIn";
     }
 
 

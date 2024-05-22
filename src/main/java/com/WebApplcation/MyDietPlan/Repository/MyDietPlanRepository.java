@@ -394,11 +394,12 @@ public class MyDietPlanRepository {
     }
 
 
-    public int getActiveMemberShip(){
-        String sql ="SELECT COUNT(*) FROM Recipe WHERE Active = 1;";
-        return jdbcTemplate.queryForObject(sql, Integer.class);
-
+    public boolean isActiveMember(int userId){
+        String sql = "SELECT COUNT(*) FROM Subscription WHERE user_id = ? AND subscriptionStatus = 1;";
+        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{userId}, Integer.class);
+        return count != null && count > 0;
     }
+    
 
 
 
