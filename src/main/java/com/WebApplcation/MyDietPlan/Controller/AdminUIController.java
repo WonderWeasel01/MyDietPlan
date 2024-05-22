@@ -136,7 +136,7 @@ public class AdminUIController {
             recipe.setIngredientList(ingredients1);
 
             //Calculate the new total macros for the recipe.
-            recipe.calculateAndSetMacros();
+            websiteService.calculateAndSetMacros(recipe);
 
             //Update the recipe.
             websiteService.updateRecipe(recipe);

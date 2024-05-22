@@ -53,11 +53,6 @@ public class UserUIController {
         return "notLoggedIn";
     }
 
-    @GetMapping("/loggedIn")
-    public String loggedIn() {
-        return "loggedIn"; // This should correspond to a Thymeleaf template
-    }
-
 
     @GetMapping("/seOpskrift/{recipeID}")
     public String showRecipe(Model model, @PathVariable int recipeID, RedirectAttributes redirectAttributes){
@@ -98,22 +93,14 @@ public class UserUIController {
     }
 
 
-
-
     @GetMapping("/login")
     public String loginForm(Model model) {
         // Grants instant access if the user is already logged in
         if (authenticationService.isAdminLoggedIn()){
-            System.out.println("User is admin");
             return "redirect:/admin";
         } else if (authenticationService.isPayingUser()){
-            System.out.println("User is paying user");
             return "redirect:/velkommen";
         }
-            else if (authenticationService.isUserLoggedIn()){
-                System.out.println("User is logged in");
-                return "redirect:/notLoggedIn";
-                    }
         return "login";
     }
     
@@ -134,8 +121,6 @@ public class UserUIController {
     @PostMapping("/payingUser")
     public String handlePayingUser() {
         Subscription subscription = new Subscription();
-        
-    
         authenticationService.payingUser(subscription);
         return "loggedIn";
     }

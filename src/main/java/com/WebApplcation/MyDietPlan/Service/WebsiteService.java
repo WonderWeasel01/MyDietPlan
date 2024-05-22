@@ -144,7 +144,50 @@ public class WebsiteService {
             ingredients.add(ingredient);
         }
         recipe.setIngredientList(ingredients);
-        recipe.calculateAndSetMacros();
+        calculateAndSetMacros(recipe);
+    }
+
+    public void calculateAndSetMacros(Recipe recipe){
+        //Ensure that the result is correct if the method is called more than once.
+        recipe.setTotalCalories(0);
+        recipe.setTotalProtein(0);
+        recipe.setTotalFat(0);
+        recipe.setTotalCarbohydrates(0);
+
+        for(int i = 0; i<recipe.getIngredientList().size(); i++) {
+            Ingredient ingredient = recipe.getIngredientList().get(i);
+            recipe.setTotalProtein(recipe.getTotalProtein() + (ingredient.getProteinPerHundredGrams() * ingredient.getWeightGrams() / 100.0));
+            recipe.setTotalFat(recipe.getTotalFat() + (ingredient.getFatPerHundredGrams() * ingredient.getWeightGrams() / 100.0));
+            recipe.setTotalCarbohydrates(recipe.getTotalCarbohydrates() + (ingredient.getCarbohydratesPerHundredGrams() * ingredient.getWeightGrams() / 100.0));
+            recipe.setTotalCalories(recipe.getTotalCalories() + (ingredient.getCaloriesPerHundredGrams() * ingredient.getWeightGrams() / 100.0));
+        }
+
+        //Round the total macros to avoid unnecessary decimals
+        recipe.setTotalProtein(Math.round(recipe.getTotalProtein() * 100 / 100));
+        recipe.setTotalFat(Math.round(recipe.getTotalFat() * 100 / 100));
+        recipe.setTotalCarbohydrates(Math.round(recipe.getTotalCarbohydrates() * 100 / 100));
+        recipe.setTotalCalories(Math.round(recipe.getTotalCalories() * 100 / 100));
+    }
+
+
+    public Recipe adjustRecipeToUser(Recipe recipe , double dailyCalorieGoal){
+        double recipeCalorieGoal = dailyCalorieGoal;
+        switch (recipe.getTimeOfDay()){
+            case("Breakfast"):
+                recipeCalorieGoal = dailyCalorieGoal * 0.4;
+                break;
+            case("Lunch"), ("Dinner"):
+                recipeCalorieGoal = dailyCalorieGoal * 0.3;
+                break;
+        }
+
+        double multiplier = recipeCalorieGoal/recipe.getTotalCalories();
+
+        for(int i = 0; i<recipe.getIngredientList().size(); i++){
+            recipe.getIngredientList().get(i).setWeightGrams((Math.round(recipe.getIngredientList().get(i).getWeightGrams() * multiplier)));
+        }
+        calculateAndSetMacros(recipe);
+        return recipe;
     }
 
     private void validateRecipe(Recipe recipe) throws InputErrorException {
@@ -250,7 +293,7 @@ public class WebsiteService {
 
         for(int i = 0; i<weeklyRecipes.size(); i++){
             Recipe recipeToAdjust = weeklyRecipes.get(i);
-            adjustedRecipes.add(recipeToAdjust.adjustRecipeToUser(dailyCalorieGoal));
+            adjustedRecipes.add(adjustRecipeToUser(recipeToAdjust,dailyCalorieGoal));
         }
         authenticationService.getUser().setAdjustedRecipes(adjustedRecipes);
         return adjustedRecipes;

@@ -80,50 +80,7 @@ public class Recipe {
         this.day = day;
     }
 
-    public void calculateAndSetMacros(){
-        //Ensure that the result is correct if the method is called more than once.
-        this.totalCalories = 0;
-        this.totalProtein = 0;
-        this.totalFat = 0;
-        this.totalCarbohydrates = 0;
 
-        for(int i = 0; i<this.ingredientList.size(); i++) {
-            Ingredient ingredient = this.ingredientList.get(i);
-            this.totalProtein += ingredient.getProteinPerHundredGrams() * (ingredient.getWeightGrams() / 100.0);
-            this.totalFat += ingredient.getFatPerHundredGrams() * (ingredient.getWeightGrams() / 100.0) ;
-            this.totalCarbohydrates += ingredient.getCarbohydratesPerHundredGrams() * (ingredient.getWeightGrams() / 100.0);
-            this.totalCalories += ingredient.getCaloriesPerHundredGrams() * (ingredient.getWeightGrams() / 100.0);
-        }
-
-        //Round the total macros to avoid unnecessary decimals
-        this.totalProtein = Math.round(this.totalProtein * 100.0) / 100.0;
-        this.totalFat = Math.round(this.totalFat * 100.0) / 100.0;
-        this.totalCarbohydrates = Math.round(this.totalCarbohydrates * 100.0) / 100.0;
-        this.totalCalories = Math.round(this.totalCalories * 100.0) / 100.0;
-    }
-
-
-    public Recipe adjustRecipeToUser(double dailyCalorieGoal){
-        Recipe adjustedRecipe = this;
-
-        double recipeCalorieGoal = dailyCalorieGoal;
-        switch (this.timeOfDay){
-            case("Breakfast"):
-                recipeCalorieGoal = dailyCalorieGoal * 0.4;
-                break;
-            case("Lunch"), ("Dinner"):
-                recipeCalorieGoal = dailyCalorieGoal * 0.3;
-                break;
-        }
-
-        double multiplier = recipeCalorieGoal/adjustedRecipe.totalCalories;
-
-        for(int i = 0; i<adjustedRecipe.ingredientList.size(); i++){
-            adjustedRecipe.ingredientList.get(i).setWeightGrams((Math.round(adjustedRecipe.ingredientList.get(i).getWeightGrams() * multiplier)));
-        }
-        adjustedRecipe.calculateAndSetMacros();
-        return adjustedRecipe;
-    }
 
     public String getTitle() {
         return title;

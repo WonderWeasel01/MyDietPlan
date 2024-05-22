@@ -134,12 +134,8 @@ public class AuthenticationService {
 
     public boolean isPayingUser(){
         if (isUserLoggedIn()){
-            User user = getUser();
-            if (repo.isActiveMember(user.getUserId())) {  
-                return true;
-            }
-        }
-        return false;
+            return repo.isActiveMember(getUser().getUserId());
+        } return false;
     }
     
 
