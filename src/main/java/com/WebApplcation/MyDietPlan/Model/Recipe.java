@@ -100,7 +100,6 @@ public class Recipe {
         this.totalFat = Math.round(this.totalFat * 100.0) / 100.0;
         this.totalCarbohydrates = Math.round(this.totalCarbohydrates * 100.0) / 100.0;
         this.totalCalories = Math.round(this.totalCalories * 100.0) / 100.0;
-
     }
 
 
