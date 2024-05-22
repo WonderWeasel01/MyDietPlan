@@ -105,9 +105,11 @@ public class UserUIController {
         //Grants instant access if the user is already logged in
         if (authenticationService.isAdminLoggedIn()){
             return "redirect:/admin";
-        } else if (authenticationService.isUserLoggedIn()) {
+        } else if (authenticationService.isPayingUser()) {
             return "redirect:/velkommen";
+        
         }
+      
         return "login";
     }
 

@@ -132,7 +132,13 @@ public class AuthenticationService {
         return user != null;
     }
 
-
+    public boolean isPayingUser(){
+        if (isUserLoggedIn()){
+            User user = getUser();
+            return user.getSubscription().getSubscriptionStatus() == true;
+        }
+        return false;
+    }
 
     public Subscription payingUser(Subscription subscription) {
         User user = getUser();

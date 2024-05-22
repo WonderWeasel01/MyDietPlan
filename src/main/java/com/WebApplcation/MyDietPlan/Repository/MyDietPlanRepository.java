@@ -394,6 +394,13 @@ public class MyDietPlanRepository {
     }
 
 
+    public int getActiveMemberShip(){
+        String sql ="SELECT COUNT(*) FROM Recipe WHERE Active = 1;";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
+
+    }
+
+
 
     public Image insertImage(Image image) {
         String sql = "INSERT INTO Image(image_name, image_type, image_blob) VALUES (?,?,?)";
