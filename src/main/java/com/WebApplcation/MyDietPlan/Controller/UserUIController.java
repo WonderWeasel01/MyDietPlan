@@ -48,7 +48,7 @@ public class UserUIController {
         return "paymentSite";
     }
 
-    @GetMapping("/notLoggedIn")
+    @GetMapping("/ingenAbonnement")
     public String notLoggedIn() {
         return "notLoggedIn";
     }
@@ -80,28 +80,27 @@ public class UserUIController {
             authenticationService.createUser(user);
             return "redirect:/";
         } catch (SystemErrorException | InputErrorException e) {
-            model.addAttribute("createUserError", e.getMessage());
+            model.addAttribute("errorMessage", e.getMessage());
         }
-        return "createUser";
+        return "redirect:/createUser";
     }
 
     @GetMapping("/CreatePayment")
     public String CreatePaymentForm(Model model){
-        Subscription subscription = new Subscription();
-        model.addAttribute("subscription",subscription);
         return "paymentSite";
     }
 
 
     @GetMapping("/login")
-    public String loginForm(Model model) {
+    public String loginForm() {
         // Grants instant access if the user is already logged in
         if (authenticationService.isAdminLoggedIn()){
             return "redirect:/admin";
-        } else if (authenticationService.isPayingUser()){
-            return "redirect:/velkommen";
-        }
-        return "login";
+        } else if (authenticationService.isUserLoggedIn()){
+            if(authenticationService.isPayingUser()){
+                return "redirect:/velkommen";
+            } else return "redirect:/ingenAbonnement";
+        } return "login";
     }
     
 
@@ -122,7 +121,7 @@ public class UserUIController {
     public String handlePayingUser() {
         Subscription subscription = new Subscription();
         authenticationService.payingUser(subscription);
-        return "loggedIn";
+        return "redirect:/velkommen";
     }
 
 
@@ -198,11 +197,10 @@ public class UserUIController {
         if ("Admin".equals(user.getRole())) {
             return "redirect:/admin";
         }
-        else if (authenticationService.isPayingUser()){
-            System.out.println("User is paying user");
+        if(authenticationService.isPayingUser()){
             return "redirect:/velkommen";
-    }
-        return "redirect:/notLoggedIn";
+        }
+        return "redirect:/ingenAbonnement";
     }
 
 

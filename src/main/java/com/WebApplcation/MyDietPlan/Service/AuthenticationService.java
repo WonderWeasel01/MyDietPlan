@@ -133,9 +133,7 @@ public class AuthenticationService {
     }
 
     public boolean isPayingUser(){
-        if (isUserLoggedIn()){
-            return repo.isActiveMember(getUser().getUserId());
-        } return false;
+        return repo.isActiveMember(getUser().getUserId());
     }
     
 
@@ -150,7 +148,7 @@ public class AuthenticationService {
         subscription.setSubscriptionStartDate(sqlStartDate);
 
         // Set the subscription end date one week later
-        LocalDate localEndDate = sqlStartDate.toLocalDate().plusWeeks(1);
+        LocalDate localEndDate = sqlStartDate.toLocalDate().plusWeeks(4);
         java.sql.Date sqlEndDate = java.sql.Date.valueOf(localEndDate);
         subscription.setSubscriptionEndDate(sqlEndDate);
 

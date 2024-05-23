@@ -43,6 +43,9 @@
                                     document.querySelector(".Step1").style.display = "none";
                                 });
                             </script>
+                        <div th:if="${errorMessage}" class="error-message">
+                            <p th:text="${errorMessage}"></p>
+                        </div>
                     </div>
                     <div class="Step2">
                             <label for="activityDropdown"></label>
@@ -88,10 +91,6 @@
                         <button type="submit" class="Button">
                             <div class="ButtonLabel">OPRET KONTO</div>
                         </button>
-
-                        <div th:if="${createUserError}" class="error-message">
-                            <p th:text="${createUserError}"></p>
-                        </div>
                     </div>
                 </div>
             </form>
