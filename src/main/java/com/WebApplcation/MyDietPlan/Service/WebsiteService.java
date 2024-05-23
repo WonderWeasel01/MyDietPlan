@@ -146,6 +146,9 @@ public class WebsiteService {
         recipe.setIngredientList(ingredients);
         calculateAndSetMacros(recipe);
     }
+    private double roundToTwoDecimals(double value) {
+        return Math.round(value * 100.0) / 100.0;
+    }
 
     public void calculateAndSetMacros(Recipe recipe){
         //Ensure that the result is correct if the method is called more than once.
@@ -156,22 +159,30 @@ public class WebsiteService {
 
         for(int i = 0; i<recipe.getIngredientList().size(); i++) {
             Ingredient ingredient = recipe.getIngredientList().get(i);
-            recipe.setTotalProtein(recipe.getTotalProtein() + (ingredient.getProteinPerHundredGrams() * ingredient.getWeightGrams() / 100.0));
-            recipe.setTotalFat(recipe.getTotalFat() + (ingredient.getFatPerHundredGrams() * ingredient.getWeightGrams() / 100.0));
-            recipe.setTotalCarbohydrates(recipe.getTotalCarbohydrates() + (ingredient.getCarbohydratesPerHundredGrams() * ingredient.getWeightGrams() / 100.0));
-            recipe.setTotalCalories(recipe.getTotalCalories() + (ingredient.getCaloriesPerHundredGrams() * ingredient.getWeightGrams() / 100.0));
+
+            recipe.setTotalProtein(recipe.getTotalProtein() +
+                    (ingredient.getProteinPerHundredGrams() * ingredient.getWeightGrams() / 100.0));
+
+            recipe.setTotalFat(recipe.getTotalFat() +
+                    (ingredient.getFatPerHundredGrams() * ingredient.getWeightGrams() / 100.0));
+
+            recipe.setTotalCarbohydrates(recipe.getTotalCarbohydrates() +
+                    (ingredient.getCarbohydratesPerHundredGrams() * ingredient.getWeightGrams() / 100.0));
+
+            recipe.setTotalCalories(recipe.getTotalCalories() +
+                    (ingredient.getCaloriesPerHundredGrams() * ingredient.getWeightGrams() / 100.0));
         }
 
         //Round the total macros to avoid unnecessary decimals
-        recipe.setTotalProtein(Math.round(recipe.getTotalProtein() * 100 / 100));
-        recipe.setTotalFat(Math.round(recipe.getTotalFat() * 100 / 100));
-        recipe.setTotalCarbohydrates(Math.round(recipe.getTotalCarbohydrates() * 100 / 100));
-        recipe.setTotalCalories(Math.round(recipe.getTotalCalories() * 100 / 100));
+        recipe.setTotalProtein(roundToTwoDecimals(recipe.getTotalProtein()));
+        recipe.setTotalFat(roundToTwoDecimals(recipe.getTotalFat()));
+        recipe.setTotalCarbohydrates(roundToTwoDecimals(recipe.getTotalCarbohydrates()));
+        recipe.setTotalCalories(roundToTwoDecimals(recipe.getTotalCalories()));
     }
 
 
     public Recipe adjustRecipeToUser(Recipe recipe , double dailyCalorieGoal){
-        double recipeCalorieGoal = dailyCalorieGoal;
+        double recipeCalorieGoal = 0;
         switch (recipe.getTimeOfDay()){
             case("Breakfast"):
                 recipeCalorieGoal = dailyCalorieGoal * 0.4;
