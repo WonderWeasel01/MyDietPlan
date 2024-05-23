@@ -337,6 +337,7 @@ public class WebsiteService {
             e.printStackTrace();
             throw new SystemErrorException("Kunne ikke finde brugeren i databasen. Prøv igen senere");
         } catch (DuplicateKeyException e){
+            e.printStackTrace();
             throw new InputErrorException("Email bruges allerede");
         }
 

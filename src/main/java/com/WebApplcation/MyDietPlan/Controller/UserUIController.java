@@ -96,11 +96,19 @@ public class UserUIController {
         // Grants instant access if the user is already logged in
         if (authenticationService.isAdminLoggedIn()){
             return "redirect:/admin";
-        } else if (authenticationService.isUserLoggedIn()){
-            if(authenticationService.isPayingUser()){
-                return "redirect:/velkommen";
-            } else return "redirect:/ingenAbonnement";
-        } return "login";
+        }
+
+        if(authenticationService.isUserLoggedIn()){
+            return handleUserLogin();
+        }
+
+        return "login";
+    }
+
+    private String handleUserLogin(){
+        if (authenticationService.isPayingUser()) {
+            return "redirect:/velkommen";
+        } else return "redirect:/ingenAbonnement";
     }
     
 
@@ -125,9 +133,6 @@ public class UserUIController {
     }
 
 
-    
-
-
     @GetMapping("/velkommen")
     public String welcomePage(Model model){
         if(!isLoggedIn()){
@@ -145,9 +150,6 @@ public class UserUIController {
         }
         return "loggedIn";
     }
-
-
-
 
 
 
@@ -173,7 +175,6 @@ public class UserUIController {
             websiteService.updateUser(updatedUser);
             return "redirect:/velkommen";
         } catch (InputErrorException | SystemErrorException e) {
-            e.printStackTrace();
             model.addAttribute("errorMessage", e.getMessage());
             return "editUser"; // Return to the edit page to display the error
         }
