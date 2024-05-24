@@ -79,7 +79,7 @@ public class UserUIController {
         } catch (SystemErrorException | InputErrorException e) {
             model.addAttribute("errorMessage", e.getMessage());
         }
-        return "redirect:/createUser";
+        return "redirect:/opretBruger";
     }
 
     @GetMapping("/CreatePayment")
