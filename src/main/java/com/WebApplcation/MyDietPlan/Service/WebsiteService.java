@@ -3,10 +3,10 @@ package com.WebApplcation.MyDietPlan.Service;
 import com.WebApplcation.MyDietPlan.Exception.EntityNotFoundException;
 import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
-import com.WebApplcation.MyDietPlan.Model.Image;
-import com.WebApplcation.MyDietPlan.Model.Ingredient;
-import com.WebApplcation.MyDietPlan.Model.Recipe;
-import com.WebApplcation.MyDietPlan.Model.User;
+import com.WebApplcation.MyDietPlan.Entity.Image;
+import com.WebApplcation.MyDietPlan.Entity.Ingredient;
+import com.WebApplcation.MyDietPlan.Entity.Recipe;
+import com.WebApplcation.MyDietPlan.Entity.User;
 import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -299,7 +299,7 @@ public class WebsiteService {
      * @param weeklyRecipes The list of recipes that has been chosen for this week's diet plan.
      * @return The
      */
-    public ArrayList<Recipe> adjustRecipesToUser(double dailyCalorieGoal, ArrayList<Recipe> weeklyRecipes){
+    public ArrayList<Recipe> adjustAndSetRecipesToLoggedInUser(double dailyCalorieGoal, ArrayList<Recipe> weeklyRecipes){
         ArrayList<Recipe> adjustedRecipes = new ArrayList<>();
 
         for(int i = 0; i<weeklyRecipes.size(); i++){

@@ -1,14 +1,12 @@
 package com.WebApplcation.MyDietPlan;
 
-import com.WebApplcation.MyDietPlan.Model.User;
+import com.WebApplcation.MyDietPlan.Entity.User;
 import com.WebApplcation.MyDietPlan.Service.AuthenticationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 

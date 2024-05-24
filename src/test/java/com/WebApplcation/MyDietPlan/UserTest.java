@@ -1,6 +1,6 @@
 package com.WebApplcation.MyDietPlan;
 
-import com.WebApplcation.MyDietPlan.Model.User;
+import com.WebApplcation.MyDietPlan.Entity.User;
 import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 

@@ -1,10 +1,4 @@
-package com.WebApplcation.MyDietPlan.Model;
-
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
+package com.WebApplcation.MyDietPlan.Entity;
 
 public class Image {
     private int imageID;

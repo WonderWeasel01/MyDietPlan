@@ -1,10 +1,10 @@
 package com.WebApplcation.MyDietPlan.Repository;
 
-import com.WebApplcation.MyDietPlan.Model.Image;
-import com.WebApplcation.MyDietPlan.Model.Ingredient;
-import com.WebApplcation.MyDietPlan.Model.Recipe;
-import com.WebApplcation.MyDietPlan.Model.Subscription;
-import com.WebApplcation.MyDietPlan.Model.User;
+import com.WebApplcation.MyDietPlan.Entity.Image;
+import com.WebApplcation.MyDietPlan.Entity.Ingredient;
+import com.WebApplcation.MyDietPlan.Entity.Recipe;
+import com.WebApplcation.MyDietPlan.Entity.Subscription;
+import com.WebApplcation.MyDietPlan.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;

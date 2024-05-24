@@ -1,4 +1,4 @@
-package com.WebApplcation.MyDietPlan.Model;
+package com.WebApplcation.MyDietPlan.Entity;
 
 public class Ingredient {
 
@@ -16,13 +16,13 @@ public class Ingredient {
 
     }
 
-    public Ingredient(String name, int carbohydratesPerHundredGrams, int fatPerHundredGrams, int proteinPerHundredGrams, int caloriesPerHundredGrams, int weightGrams) {
+    public Ingredient(String name, double weightGrams, double proteinPerHundredGrams, double fatPerHundredGrams, double carbohydratesPerHundredGrams, double caloriesPerHundredGrams) {
         this.name = name;
-        this.carbohydratesPerHundredGrams = carbohydratesPerHundredGrams;
-        this.fatPerHundredGrams = fatPerHundredGrams;
-        this.proteinPerHundredGrams = proteinPerHundredGrams;
-        this.caloriesPerHundredGrams = caloriesPerHundredGrams;
         this.weightGrams = weightGrams;
+        this.proteinPerHundredGrams = proteinPerHundredGrams;
+        this.fatPerHundredGrams = fatPerHundredGrams;
+        this.carbohydratesPerHundredGrams = carbohydratesPerHundredGrams;
+        this.caloriesPerHundredGrams = caloriesPerHundredGrams;
     }
 
     public int getIngredientID() {

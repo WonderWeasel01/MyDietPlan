@@ -1,4 +1,4 @@
-package com.WebApplcation.MyDietPlan.Model;
+package com.WebApplcation.MyDietPlan.Entity;
 
 import java.sql.Date;
 
