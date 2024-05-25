@@ -382,7 +382,7 @@ public class MyDietPlanRepository {
      */
 
     public User updateUser(User user){
-        String sql ="UPDATE `User` SET `first_name`= ?,`last_name`= ?, `email`= ?, `password`= ?, `goal`= ?, `last_name`= ?, `activity_level`= ?, `weight`= ?, `height`= ?,  `age`= ?, `daily_calorie_burn`= ?, `daily_calorie_goal`= ? WHERE user_id = ?";
+        String sql ="UPDATE `User` SET `first_name`= ?,`last_name`= ?, `email`= ?, `password`= ?, `goal`= ?, `activity_level`= ?, `weight`= ?, `height`= ?,  `age`= ?, `daily_calorie_burn`= ?, `daily_calorie_goal`= ? WHERE user_id = ?";
         jdbcTemplate.update(sql, user.getFirstName(),user.getLastName(), user.getEmail(), user.getPassword(), user.getGoal(), user.getLastName(), user.getActivityLevel(), user.getWeight(), user.getHeight(), user.getAge(), user.getDailyCalorieBurn(), user.getDailyCalorieGoal(), user.getUserId());
         return getUserByID(user.getUserId());
     }
