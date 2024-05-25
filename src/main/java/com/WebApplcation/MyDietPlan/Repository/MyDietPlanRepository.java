@@ -497,7 +497,6 @@ public class MyDietPlanRepository {
             recipe.setActive(rs.getBoolean("active"));
             recipe.setInstructions(rs.getString("instructions"));
             recipe.setImage(getImageByImageID(rs.getInt("image_id")));
-            recipe.setDay(rs.getString("day"));
             return recipe;
         });
     }

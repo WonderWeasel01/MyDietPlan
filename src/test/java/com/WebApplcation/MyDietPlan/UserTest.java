@@ -22,15 +22,17 @@ import static org.mockito.Mockito.*;
 
 
 
-@SpringBootTest
-@AutoConfigureMockMvc
+
 public class UserTest {
 
     @Mock
     private JdbcTemplate jdbcTemplate;
-
     @Mock
     private MyDietPlanRepository repo;
+    @Mock
+    private AuthenticationService authenticationService;
+    @InjectMocks
+    private WebsiteService websiteService;
 
 
     @BeforeEach
@@ -38,12 +40,6 @@ public class UserTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @InjectMocks
-    private AuthenticationService authenticationService;
-
-    @InjectMocks
-    private WebsiteService websiteService;
-    private org.mockito.Mockito Mockito;
 
     @Test
     public void testCreateUser() {
@@ -107,10 +103,10 @@ public class UserTest {
         // Mock behavior of repository
         when(repo.updateUser(user)).thenReturn(user);
 
-
+        System.out.println(user);
         // Act
         User updatedUser = websiteService.updateUser(user);
-        System.out.println(updatedUser);
+
 
         // Assert
         assertNotNull(updatedUser);

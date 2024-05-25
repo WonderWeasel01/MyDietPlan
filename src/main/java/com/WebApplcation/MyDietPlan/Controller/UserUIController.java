@@ -137,7 +137,7 @@ public class UserUIController {
         }
         User user = authenticationService.getUser();
         try{
-            ArrayList<Recipe> weeklyRecipes = websiteService.getAllActiveRecipes();
+            ArrayList<Recipe> weeklyRecipes = websiteService.getAllActiveRecipesWithBase64Image();
             ArrayList<Recipe> adjustedRecipes = websiteService.adjustAndSetRecipesToLoggedInUser(user.getDailyCalorieGoal(),weeklyRecipes);
             model.addAttribute("weeklyRecipes", adjustedRecipes);
             model.addAttribute("user", user);
