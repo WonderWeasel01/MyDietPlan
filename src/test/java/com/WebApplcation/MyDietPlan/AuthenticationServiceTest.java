@@ -1,7 +1,7 @@
 package com.WebApplcation.MyDietPlan;
 
 import com.WebApplcation.MyDietPlan.Entity.User;
-import com.WebApplcation.MyDietPlan.Service.AuthenticationService;
+import com.WebApplcation.MyDietPlan.UseCase.AuthenticationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

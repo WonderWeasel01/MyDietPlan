@@ -1,4 +1,4 @@
-package com.WebApplcation.MyDietPlan.Service;
+package com.WebApplcation.MyDietPlan.UseCase;
 
 import com.WebApplcation.MyDietPlan.Exception.EntityNotFoundException;
 import com.WebApplcation.MyDietPlan.Exception.InputErrorException;

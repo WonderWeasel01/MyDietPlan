@@ -1,17 +1,15 @@
 package com.WebApplcation.MyDietPlan;
 import com.WebApplcation.MyDietPlan.Entity.Ingredient;
 import com.WebApplcation.MyDietPlan.Entity.Recipe;
-import com.WebApplcation.MyDietPlan.Entity.User;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
-import com.WebApplcation.MyDietPlan.Service.AuthenticationService;
-import com.WebApplcation.MyDietPlan.Service.WebsiteService;
+import com.WebApplcation.MyDietPlan.UseCase.AuthenticationService;
+import com.WebApplcation.MyDietPlan.UseCase.WebsiteService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.util.ArrayList;
