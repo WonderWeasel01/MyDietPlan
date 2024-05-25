@@ -12,6 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -29,6 +31,10 @@ public class UserTest {
     private MyDietPlanRepository repo;
     @Mock
     private AuthenticationService authenticationService;
+    @Mock
+    private DuplicateKeyException duplicateKeyException;
+    @Mock
+    private InputErrorException inputErrorException;
     @InjectMocks
     private WebsiteService websiteService;
 
@@ -77,7 +83,6 @@ public class UserTest {
     @Test
     public void testUpdateUser_ValidUser() throws InputErrorException, SystemErrorException {
 
-        // Arrange
         User user = new User("username", "password");
         user.setFirstName("FirstName");
         user.setLastName("LastName");
@@ -102,19 +107,48 @@ public class UserTest {
         when(repo.updateUser(user)).thenReturn(user);
 
         System.out.println(user);
-        // Act
+
         User updatedUser = websiteService.updateUser(user);
 
-
-        // Assert
         assertNotNull(updatedUser);
         assertEquals(user, updatedUser);
         verify(authenticationService).hashAndSetPassword(user);
-        verify(user).setupDailyCalorieGoal();
         verify(authenticationService).setSession(updatedUser);
 
     }
+    @Test
+    public void testUpdateUser_InvalidUser() {
+        // Arrange
+        User user = new User();
 
+        // Mock behavior of authentication service
+        when(authenticationService.isValidUser(user)).thenReturn(false);
+        System.out.println(user);
+
+        // Act & Assert
+        assertThrows(InputErrorException.class, () -> websiteService.updateUser(user));
+        verify(authenticationService).isValidUser(user);
+        verifyNoInteractions(repo);
+    }
+
+    @Test
+    public void testUpdateUser_DuplicateKeyError() {
+        // Arrange
+        User user = new User("username", "password");
+        user.setEmail("test@example.com");
+
+        // Mock behavior of authentication service
+        when(authenticationService.isValidUser(user)).thenReturn(true);
+
+        // Mock behavior of repository throwing an exception
+        when(repo.updateUser(user)).thenThrow(new DuplicateKeyException("Duplicate entry"));
+
+        // Act & Assert
+        assertThrows(InputErrorException.class, () -> websiteService.updateUser(user));
+        verify(authenticationService).isValidUser(user);
+        verify(repo).updateUser(user);
+        verifyNoMoreInteractions(authenticationService);
+    }
 
 
 
