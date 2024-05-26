@@ -135,11 +135,11 @@ public class UserUIController {
         if(!isLoggedIn()){
             return "redirect:/";
         }
-        User user = authenticationService.getUser();
         try{
-            ArrayList<Recipe> weeklyRecipes = websiteService.getAllActiveRecipesWithBase64Image();
-            ArrayList<Recipe> adjustedRecipes = websiteService.adjustAndSetRecipesToLoggedInUser(user.getDailyCalorieGoal(),weeklyRecipes);
+            ArrayList<Recipe> adjustedRecipes = websiteService.adjustAndSetRecipesToLoggedInUser();
             model.addAttribute("weeklyRecipes", adjustedRecipes);
+
+            User user = authenticationService.getUser();
             model.addAttribute("user", user);
         } catch (EntityNotFoundException e) {
             model.addAttribute("errorMessage", e.getMessage());
@@ -176,18 +176,10 @@ public class UserUIController {
         }
     }
 
-
-
-    /*
-    @GetMapping("/paymentSite")
-    public String paymentSitePage(Model model){
-        if(!isLoggedIn()){
-            return "redirect:/";
-        }
-        return "paymentSite";
-
+    @GetMapping("/minProfil")
+    public String showUserProfile(){
+        return "userProfile";
     }
-*/
 
 
     private String determineViewDependingOnRole(User user) {

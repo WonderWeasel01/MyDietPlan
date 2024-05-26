@@ -302,18 +302,15 @@ public class WebsiteService {
         }
     }
 
-    /**
-     * Adjusts the macros of the weekly recipes and sets the logged-in user.adjustRecipes to the newly adjusted recipes.
-     * @param dailyCalorieGoal The users dailyCalorieBurn
-     * @param weeklyRecipes The list of recipes that has been chosen for this week's diet plan.
-     * @return The
-     */
-    public ArrayList<Recipe> adjustAndSetRecipesToLoggedInUser(double dailyCalorieGoal, ArrayList<Recipe> weeklyRecipes){
+
+    public ArrayList<Recipe> adjustAndSetRecipesToLoggedInUser() throws EntityNotFoundException {
         ArrayList<Recipe> adjustedRecipes = new ArrayList<>();
+        User loggedInUser = authenticationService.getUser();
+        ArrayList<Recipe> weeklyRecipes = getAllActiveRecipesWithBase64Image();
 
         for(int i = 0; i<weeklyRecipes.size(); i++){
             Recipe recipeToAdjust = weeklyRecipes.get(i);
-            adjustedRecipes.add(adjustRecipeToUser(recipeToAdjust,dailyCalorieGoal));
+            adjustedRecipes.add(adjustRecipeToUser(recipeToAdjust,loggedInUser.getDailyCalorieGoal()));
         }
         authenticationService.getUser().setAdjustedRecipes(adjustedRecipes);
         return adjustedRecipes;
