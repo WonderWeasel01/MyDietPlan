@@ -232,7 +232,7 @@ public class WebsiteService {
         }
     }
 
-    public Recipe getAdjustedRecipeById(int recipeID) throws SystemErrorException {
+    public Recipe getUsersAdjustedRecipeById(int recipeID) throws SystemErrorException {
         ArrayList<Recipe> recipes = authenticationService.getUser().getAdjustedRecipes();
         for(int i = 0; i<recipes.size(); i++){
             if(recipes.get(i).getRecipeID() == recipeID){
@@ -277,20 +277,14 @@ public class WebsiteService {
         }
     }
 
-    public ArrayList<Recipe> getAllActiveRecipesWithBase64Image() throws EntityNotFoundException {
-        try {
-            ArrayList<Recipe> recipes = (ArrayList<Recipe>) repo.getAllActiveRecipe();
+    public void setBase64Image(Recipe recipe){
+        String base64Image = Base64.getEncoder().encodeToString(recipe.getImage().getBlob());
+        recipe.getImage().setBase64Image(base64Image);
+    }
 
-            for (int i = 0; i<recipes.size(); i++){
-                Recipe recipe = recipes.get(i);
-                //Converts the byte array into a String that is readable by
-                String base64Image = Base64.getEncoder().encodeToString(recipe.getImage().getBlob());
-
-                recipe.getImage().setBase64Image(base64Image);
-            }
-            return recipes;
-        } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException("Du har ikke tilføjet nogle opskrifter endnu!");
+    public void setBase64Image(ArrayList<Recipe> recipes){
+        for(int i = 0; i<recipes.size(); i++){
+            setBase64Image(recipes.get(i));
         }
     }
 
@@ -303,16 +297,27 @@ public class WebsiteService {
     }
 
 
-    public ArrayList<Recipe> adjustAndSetRecipesToLoggedInUser() throws EntityNotFoundException {
+    public ArrayList<Recipe> adjustAndSetWeeklyRecipesToLoggedInUser() throws EntityNotFoundException {
         User loggedInUser = authenticationService.getUser();
-        ArrayList<Recipe> weeklyRecipes = getAllActiveRecipesWithBase64Image();
+        //Fetch the weekly recipes
+        ArrayList<Recipe> weeklyRecipes = getAllActiveRecipes();
+
+        //Adjust them to the logged-in user
+        ArrayList<Recipe> adjustedRecipes = adjustRecipesToUser(loggedInUser.getDailyCalorieGoal(),weeklyRecipes);
+
+        //Set the adjustedRecipes on the user.
+        loggedInUser.setAdjustedRecipes(adjustedRecipes);
+
+        return adjustedRecipes;
+    }
+
+    public ArrayList<Recipe> adjustRecipesToUser(double dailyCalorieGoal, ArrayList<Recipe> weeklyRecipes){
         ArrayList<Recipe> adjustedRecipes = new ArrayList<>();
 
-        for(int i = 0; i<weeklyRecipes.size(); i++){
-            Recipe recipeToAdjust = weeklyRecipes.get(i);
-            adjustedRecipes.add(adjustRecipeToUser(recipeToAdjust,loggedInUser.getDailyCalorieGoal()));
+        for (Recipe recipe : weeklyRecipes) {
+            adjustedRecipes.add(adjustRecipeToUser(recipe, dailyCalorieGoal));
         }
-        loggedInUser.setAdjustedRecipes(adjustedRecipes);
+
         return adjustedRecipes;
     }
 

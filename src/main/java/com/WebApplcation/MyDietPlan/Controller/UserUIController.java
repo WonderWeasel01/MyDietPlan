@@ -1,7 +1,6 @@
 package com.WebApplcation.MyDietPlan.Controller;
 
 import com.WebApplcation.MyDietPlan.Entity.Recipe;
-import com.WebApplcation.MyDietPlan.Entity.Subscription;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,7 +53,7 @@ public class UserUIController {
     @GetMapping("/seOpskrift/{recipeID}")
     public String showRecipe(Model model, @PathVariable int recipeID, RedirectAttributes redirectAttributes){
         try{
-            Recipe recipe = websiteService.getAdjustedRecipeById(recipeID);
+            Recipe recipe = websiteService.getUsersAdjustedRecipeById(recipeID);
             model.addAttribute("recipe", recipe);
             return "showRecipe";
         } catch (SystemErrorException e) {
@@ -135,7 +134,8 @@ public class UserUIController {
             return "redirect:/";
         }
         try{
-            ArrayList<Recipe> adjustedRecipes = websiteService.adjustAndSetRecipesToLoggedInUser();
+            ArrayList<Recipe> adjustedRecipes = websiteService.adjustAndSetWeeklyRecipesToLoggedInUser();
+            websiteService.setBase64Image(adjustedRecipes);
             model.addAttribute("weeklyRecipes", adjustedRecipes);
 
             User user = authenticationService.getUser();

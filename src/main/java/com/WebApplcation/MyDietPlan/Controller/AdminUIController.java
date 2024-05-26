@@ -189,6 +189,7 @@ public class AdminUIController {
         }
        try{
            ArrayList<Recipe> recipes = websiteService.getAllActiveRecipes();
+           websiteService.setBase64Image(recipes);
            model.addAttribute("recipes", recipes);
            return "activeRecipesShowcase";
        }catch (EntityNotFoundException e){
