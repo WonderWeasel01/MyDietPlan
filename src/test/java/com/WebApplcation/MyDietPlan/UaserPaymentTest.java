@@ -10,7 +10,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
-import com.WebApplcation.MyDietPlan.Service.AuthenticationService;
 
 
 
