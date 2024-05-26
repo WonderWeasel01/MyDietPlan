@@ -1,4 +1,4 @@
-package com.WebApplcation.MyDietPlan.Service;
+package com.WebApplcation.MyDietPlan.UseCase;
 
 import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
@@ -82,7 +82,7 @@ public class AuthenticationService {
      */
     public boolean isValidUser(User user){
         return user != null && StringUtils.hasText(user.getEmail()) && StringUtils.hasText(user.getPassword()) && StringUtils.hasText(user.getFirstName())
-                && StringUtils.hasText(user.getLastName()) &&  StringUtils.hasText(user.getGoal()) && StringUtils.hasText(user.getActivityLevel())
+                && StringUtils.hasText(user.getLastName()) &&  StringUtils.hasText(user.getGoal()) && StringUtils.hasText(user.getActivityLevel()) && StringUtils.hasText(String.valueOf(user.getGender()))
                 && user.getHeight() > 0 && user.getAge() > 0 && user.getWeight() > 0;
     }
 

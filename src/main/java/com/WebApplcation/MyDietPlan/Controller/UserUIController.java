@@ -15,8 +15,8 @@ import com.WebApplcation.MyDietPlan.Exception.EntityNotFoundException;
 import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Entity.User;
-import com.WebApplcation.MyDietPlan.Service.AuthenticationService;
-import com.WebApplcation.MyDietPlan.Service.WebsiteService;
+import com.WebApplcation.MyDietPlan.UseCase.AuthenticationService;
+import com.WebApplcation.MyDietPlan.UseCase.WebsiteService;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -137,7 +137,7 @@ public class UserUIController {
         }
         User user = authenticationService.getUser();
         try{
-            ArrayList<Recipe> weeklyRecipes = websiteService.getAllActiveRecipes();
+            ArrayList<Recipe> weeklyRecipes = websiteService.getAllActiveRecipesWithBase64Image();
             ArrayList<Recipe> adjustedRecipes = websiteService.adjustAndSetRecipesToLoggedInUser(user.getDailyCalorieGoal(),weeklyRecipes);
             model.addAttribute("weeklyRecipes", adjustedRecipes);
             model.addAttribute("user", user);

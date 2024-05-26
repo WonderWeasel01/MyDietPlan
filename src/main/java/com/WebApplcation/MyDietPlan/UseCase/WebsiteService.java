@@ -1,4 +1,4 @@
-package com.WebApplcation.MyDietPlan.Service;
+package com.WebApplcation.MyDietPlan.UseCase;
 
 import com.WebApplcation.MyDietPlan.Exception.EntityNotFoundException;
 import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
@@ -277,17 +277,26 @@ public class WebsiteService {
         }
     }
 
-    public ArrayList<Recipe> getAllActiveRecipes() throws EntityNotFoundException {
+    public ArrayList<Recipe> getAllActiveRecipesWithBase64Image() throws EntityNotFoundException {
         try {
             ArrayList<Recipe> recipes = (ArrayList<Recipe>) repo.getAllActiveRecipe();
             for (int i = 0; i<recipes.size(); i++){
                 Recipe recipe = recipes.get(i);
 
+                //Converts the byte array into a String that is readable by
                 String base64Image = Base64.getEncoder().encodeToString(recipe.getImage().getBlob());
 
                 recipe.getImage().setBase64Image(base64Image);
             }
             return recipes;
+        } catch (EmptyResultDataAccessException e) {
+            throw new EntityNotFoundException("Du har ikke tilføjet nogle opskrifter endnu!");
+        }
+    }
+
+    public ArrayList<Recipe> getAllActiveRecipes() throws EntityNotFoundException {
+        try {
+            return (ArrayList<Recipe>) repo.getAllActiveRecipe();
         } catch (EmptyResultDataAccessException e) {
             throw new EntityNotFoundException("Du har ikke tilføjet nogle opskrifter endnu!");
         }

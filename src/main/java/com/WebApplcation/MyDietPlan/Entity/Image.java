@@ -9,7 +9,6 @@ public class Image {
     //This is used to show the image on the website. It is used by thymeleaf to render the image.
     private String base64Image;
 
-    
     public int getImageID() {
         return imageID;
     }
