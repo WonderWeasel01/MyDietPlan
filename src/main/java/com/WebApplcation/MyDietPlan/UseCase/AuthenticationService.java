@@ -137,12 +137,19 @@ public class AuthenticationService {
     }
     
 
-    public Subscription payingUser(Subscription subscription) {
+    public Subscription payingUser() {
         User user = getUser();
         int paidUserId = user.getUserId();
-
+        Subscription subscription = setupSubscription();
 
         // Set the subscription start date to the current date
+        repo.insertSubscription(subscription,paidUserId);
+        return subscription;
+    }
+
+    public Subscription setupSubscription(){
+        Subscription subscription = new Subscription();
+
         java.util.Date currentDate = new java.util.Date();
         java.sql.Date sqlStartDate = new java.sql.Date(currentDate.getTime());
         subscription.setSubscriptionStartDate(sqlStartDate);
@@ -157,10 +164,9 @@ public class AuthenticationService {
 
         //Set the Price of the membership
         subscription.setSubscriptionPrice(49.00);
-
-        repo.insertSubscription(subscription,paidUserId);
         return subscription;
     }
+
 
     public boolean deleteUser(int userID) {
         return repo.deleteUser(userID);

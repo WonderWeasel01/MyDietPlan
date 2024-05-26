@@ -124,8 +124,7 @@ public class UserUIController {
 
     @PostMapping("/payingUser")
     public String handlePayingUser() {
-        Subscription subscription = new Subscription();
-        authenticationService.payingUser(subscription);
+        authenticationService.payingUser();
         return "redirect:/velkommen";
     }
 
