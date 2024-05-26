@@ -248,17 +248,22 @@ public class User {
     public String toString() {
         return "User{" +
                 "userId=" + userId +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
                 ", gender=" + gender +
                 ", height=" + height +
                 ", weight=" + weight +
                 ", age=" + age +
-                ", role='" + role + '\'' +
                 ", activityLevel='" + activityLevel + '\'' +
                 ", goal='" + goal + '\'' +
+                ", role='" + role + '\'' +
                 ", favoriteRecipes=" + favoriteRecipes +
+                ", adjustedRecipes=" + adjustedRecipes +
+                ", subscription=" + subscription +
+                ", dailyCalorieBurn=" + dailyCalorieBurn +
+                ", dailyCalorieGoal=" + dailyCalorieGoal +
                 '}';
     }
 }

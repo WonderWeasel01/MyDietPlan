@@ -280,9 +280,9 @@ public class WebsiteService {
     public ArrayList<Recipe> getAllActiveRecipesWithBase64Image() throws EntityNotFoundException {
         try {
             ArrayList<Recipe> recipes = (ArrayList<Recipe>) repo.getAllActiveRecipe();
+
             for (int i = 0; i<recipes.size(); i++){
                 Recipe recipe = recipes.get(i);
-
                 //Converts the byte array into a String that is readable by
                 String base64Image = Base64.getEncoder().encodeToString(recipe.getImage().getBlob());
 
@@ -304,15 +304,15 @@ public class WebsiteService {
 
 
     public ArrayList<Recipe> adjustAndSetRecipesToLoggedInUser() throws EntityNotFoundException {
-        ArrayList<Recipe> adjustedRecipes = new ArrayList<>();
         User loggedInUser = authenticationService.getUser();
         ArrayList<Recipe> weeklyRecipes = getAllActiveRecipesWithBase64Image();
+        ArrayList<Recipe> adjustedRecipes = new ArrayList<>();
 
         for(int i = 0; i<weeklyRecipes.size(); i++){
             Recipe recipeToAdjust = weeklyRecipes.get(i);
             adjustedRecipes.add(adjustRecipeToUser(recipeToAdjust,loggedInUser.getDailyCalorieGoal()));
         }
-        authenticationService.getUser().setAdjustedRecipes(adjustedRecipes);
+        loggedInUser.setAdjustedRecipes(adjustedRecipes);
         return adjustedRecipes;
     }
 

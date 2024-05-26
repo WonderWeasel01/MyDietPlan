@@ -14,7 +14,6 @@ public class Recipe {
     private String timeOfDay;
     private String instructions;
     private Boolean active = false;
-    private String day;
     private Image image;
 
     private ArrayList<Ingredient> ingredientList;
@@ -67,18 +66,10 @@ public class Recipe {
         this.timeOfDay = timeOfDay;
         this.instructions = instructions;
         this.active = active;
-        this.day = day;
         this.image = image;
         this.ingredientList = ingredientList;
     }
 
-    public String getDay() {
-        return day;
-    }
-
-    public void setDay(String day) {
-        this.day = day;
-    }
 
 
 
@@ -179,7 +170,6 @@ public class Recipe {
                 ", timeOfDay='" + timeOfDay + '\'' +
                 ", instructions='" + instructions + '\'' +
                 ", active=" + active +
-                ", day='" + day + '\'' +
                 ", image=" + image +
                 ", ingredientList=" + ingredientList +
                 '}';

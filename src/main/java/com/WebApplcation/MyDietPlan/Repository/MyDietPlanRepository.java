@@ -132,7 +132,6 @@ public class MyDietPlanRepository {
                 "JOIN Recipe_has_ingredient ON Ingredient.ingredient_id = Recipe_has_ingredient.ingredient_id " +
                 "WHERE Recipe_has_ingredient.recipe_id = ?";
 
-        @SuppressWarnings("deprecation")
 		List<Ingredient> ingredients = jdbcTemplate.query(sql, new Object[]{recipeID}, (resultSet, rowNum) -> {
             Ingredient ingredient = new Ingredient();
             ingredient.setIngredientID(resultSet.getInt("ingredient_id"));
@@ -177,7 +176,6 @@ public class MyDietPlanRepository {
             ps.setBoolean(8,recipe.getActive());
             ps.setString(9,recipe.getInstructions());
             ps.setInt(10,recipe.getImage().getImageID());
-            ps.setString(11, recipe.getDay());
 
             return ps;
         }, keyHolder);
@@ -220,11 +218,14 @@ public class MyDietPlanRepository {
 
         for (int i = 0; i < recipes.size(); i++) {
             int recipeID = recipes.get(i).getRecipeID();
-            Recipe detailedRecipe = getRecipeWithIngredientsByRecipeID(recipeID);
-            recipes.set(i, detailedRecipe);
+            ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) getRecipeIngredientsByRecipeID(recipeID);
+            recipes.get(i).setIngredientList(ingredients);
         }
+
         return recipes;
     }
+
+
     public List<Recipe> getAllDeactivatedRecipeWithoutIngredients(){
         String sql = "SELECT * FROM Recipe where active = 0";
         return jdbcTemplate.query(sql, recipeRowMapper());
