@@ -24,20 +24,20 @@ import java.util.List;
 @Service
 public class WebsiteService {
 
-    private final MyDietPlanRepository repo;
+    private final MyDietPlanRepository repository;
     private final AuthenticationService authenticationService;
 
     @Autowired
     public WebsiteService(AuthenticationService authenticationService, MyDietPlanRepository myDietPlanRepository){
         this.authenticationService = authenticationService;
-        this.repo = myDietPlanRepository;
+        this.repository = myDietPlanRepository;
     }
 
     public Recipe createRecipe(Recipe recipe) throws SystemErrorException, InputErrorException {
         validateRecipe(recipe);
         try {
             System.out.println(recipe);
-            return repo.createRecipe(recipe);
+            return repository.createRecipe(recipe);
         } catch (DataAccessException e) {
             e.printStackTrace();
             System.err.println("Error accessing the database: " + e.getMessage());
@@ -73,7 +73,7 @@ public class WebsiteService {
      */
     public boolean updateRecipe(Recipe recipe) throws InputErrorException, SystemErrorException {
         try{
-            if(repo.updateRecipeWithoutIngredients(recipe)){
+            if(repository.updateRecipeWithoutIngredients(recipe)){
                 return updateRecipeIngredients(recipe.getRecipeID(), recipe.getIngredientList());
             } throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
         } catch (DataAccessException e){
@@ -89,7 +89,7 @@ public class WebsiteService {
      */
     public boolean deleteRecipe(int recipeID) throws SystemErrorException {
         try{
-            return repo.deleteRecipe(recipeID);
+            return repository.deleteRecipe(recipeID);
         } catch (EmptyResultDataAccessException e){
             e.printStackTrace();
             throw new SystemErrorException("Der er sket en fejl. Prøv igen senere");
@@ -109,10 +109,10 @@ public class WebsiteService {
     public boolean updateRecipeActiveStatus(int recipeID) throws SystemErrorException, EntityNotFoundException {
         try {
             if (getRecipeById(recipeID).getActive()) {
-                return repo.updateRecipeActiveStatus(recipeID, 0);
+                return repository.updateRecipeActiveStatus(recipeID, 0);
             } else {
                 if(getActiveRecipeAmount() < 21){
-                    return repo.updateRecipeActiveStatus(recipeID, 1);
+                    return repository.updateRecipeActiveStatus(recipeID, 1);
                 } else throw new SystemErrorException("Der er allerede 21 aktive opskrifter. Deaktiver en eller flere aktive opskrifter for at tilføje flere");
             }
         } catch (EmptyResultDataAccessException e){
@@ -121,7 +121,7 @@ public class WebsiteService {
     }
     public int getActiveRecipeAmount() throws SystemErrorException {
         try{
-            return repo.getActiveRecipeAmount();
+            return repository.getActiveRecipeAmount();
         }catch (NullPointerException | EmptyResultDataAccessException e){
             return 0;
         } catch (DataAccessException e){
@@ -130,8 +130,8 @@ public class WebsiteService {
     }
 
     public boolean updateRecipeIngredients(int recipeID, List<Ingredient> newIngredients) throws SystemErrorException {
-        if(repo.deleteIngredientsFromRecipe(recipeID)){
-           return repo.insertIngredientsOntoRecipe(recipeID,newIngredients);
+        if(repository.deleteIngredientsFromRecipe(recipeID)){
+           return repository.insertIngredientsOntoRecipe(recipeID,newIngredients);
         } else throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
     }
 
@@ -217,12 +217,12 @@ public class WebsiteService {
         }
     }
     public List<Ingredient> getAllIngredients(){
-        return repo.getAllIngredients();
+        return repository.getAllIngredients();
     }
 
     public Recipe getRecipeById(int recipeID) throws EntityNotFoundException, SystemErrorException {
         try{
-            return repo.getRecipeWithIngredientsByRecipeID(recipeID);
+            return repository.getRecipeWithIngredientsByRecipeID(recipeID);
         } catch (EmptyResultDataAccessException e){
             e.printStackTrace();
             throw new EntityNotFoundException("Kunne ikke finde en opskrift med givet id");
@@ -244,7 +244,7 @@ public class WebsiteService {
     public Ingredient createIngredient(Ingredient ingredient) throws SystemErrorException, InputErrorException {
         try {
             if(ingredient != null && isValidIngredient(ingredient)) {
-                return repo.createIngredient(ingredient);
+                return repository.createIngredient(ingredient);
             } else throw new InputErrorException("Udfyld venligst alle felterne korrekt");
         }
         catch (DataAccessException e) {
@@ -254,7 +254,7 @@ public class WebsiteService {
     }
 
     public Ingredient getIngredientByID(int id){
-        return repo.getIngredientById(id);
+        return repository.getIngredientById(id);
     }
 
     public boolean isValidIngredient(Ingredient ingredient){
@@ -264,14 +264,14 @@ public class WebsiteService {
 
     public ArrayList<Recipe> getAllRecipes() throws EntityNotFoundException {
         try{
-            return new ArrayList<>(repo.getAllRecipeWithoutIngredients());
+            return new ArrayList<>(repository.getAllRecipeWithoutIngredients());
         } catch (EmptyResultDataAccessException e){
             throw new EntityNotFoundException("Du har ikke tilføjet nogle opskrifter endnu!");
         }
     }
     public ArrayList<Recipe> getAllDeactivatedRecipes() throws EntityNotFoundException {
         try{
-            return new ArrayList<>(repo.getAllDeactivatedRecipeWithoutIngredients());
+            return new ArrayList<>(repository.getAllDeactivatedRecipeWithoutIngredients());
         } catch (EmptyResultDataAccessException e){
             throw new EntityNotFoundException("Du har ikke tilføjet nogle opskrifter endnu!");
         }
@@ -290,7 +290,7 @@ public class WebsiteService {
 
     public ArrayList<Recipe> getAllActiveRecipes() throws EntityNotFoundException {
         try {
-            return (ArrayList<Recipe>) repo.getAllActiveRecipe();
+            return (ArrayList<Recipe>) repository.getAllActiveRecipe();
         } catch (EmptyResultDataAccessException e) {
             throw new EntityNotFoundException("Du har ikke tilføjet nogle opskrifter endnu!");
         }
@@ -322,7 +322,7 @@ public class WebsiteService {
     }
 
     public User getUserByID (int userId) {
-        return repo.getUserByID(userId);
+        return repository.getUserByID(userId);
     }
 
     /**
@@ -339,7 +339,7 @@ public class WebsiteService {
             authenticationService.hashAndSetPassword(user);
             user.setupDailyCalorieGoal();
             //Attempt to update the user in the database
-            User updatedUser = repo.updateUser(user);
+            User updatedUser = repository.updateUser(user);
             //Update the logged-in user with the updated information
             authenticationService.setSession(updatedUser);
 
