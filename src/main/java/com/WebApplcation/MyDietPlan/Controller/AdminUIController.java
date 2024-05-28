@@ -44,15 +44,17 @@ public class AdminUIController {
     }
 
     @PostMapping("/admin")
-    public String recipePost(@ModelAttribute Recipe recipe, @RequestParam List<Integer> ingredientIds, @RequestParam List<Integer> weights, @RequestParam MultipartFile file,
+    public String recipePost(@ModelAttribute Recipe recipe,
+                             @RequestParam List<Integer> ingredientIds,
+                             @RequestParam List<Integer> weights,
+                             @RequestParam MultipartFile file,
                              RedirectAttributes redirectAttributes) {
         try {
             websiteService.setupRecipeWithIngredients(recipe, ingredientIds, weights);
             websiteService.setupRecipeWithImage(recipe,file);
             websiteService.createRecipe(recipe);
             redirectAttributes.addFlashAttribute("successMessage", "Opskrift gemt!");
-            return "redirect:/admin";
-        } catch (InputErrorException | SystemErrorException e) {
+        } catch (InputErrorException | SystemErrorException | EntityNotFoundException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
         return "redirect:/admin";
@@ -106,7 +108,6 @@ public class AdminUIController {
             String ingredientsJson = objectMapper.writeValueAsString(recipe.getIngredientList());
 
             model.addAttribute("ingredientsJson", ingredientsJson);
-
             model.addAttribute("recipe", recipe);
             model.addAttribute("allIngredients", allIngredients);
 

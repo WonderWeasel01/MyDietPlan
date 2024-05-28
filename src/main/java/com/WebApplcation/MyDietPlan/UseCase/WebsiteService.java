@@ -36,11 +36,9 @@ public class WebsiteService {
     public Recipe createRecipe(Recipe recipe) throws SystemErrorException, InputErrorException {
         validateRecipe(recipe);
         try {
-            System.out.println(recipe);
             return repository.createRecipe(recipe);
         } catch (DataAccessException e) {
             e.printStackTrace();
-            System.err.println("Error accessing the database: " + e.getMessage());
             throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
         }
     }
@@ -135,7 +133,7 @@ public class WebsiteService {
         } else throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
     }
 
-    public void setupRecipeWithIngredients(Recipe recipe, List<Integer> ingredientIds, List<Integer> weights) throws InputErrorException {
+    public void setupRecipeWithIngredients(Recipe recipe, List<Integer> ingredientIds, List<Integer> weights) throws InputErrorException, EntityNotFoundException {
         validateIngredientAndWeightSizes(ingredientIds,weights);
         ArrayList<Ingredient> ingredients = new ArrayList<>();
         for (int i = 0; i < ingredientIds.size(); i++) {
@@ -242,23 +240,32 @@ public class WebsiteService {
     }
 
     public Ingredient createIngredient(Ingredient ingredient) throws SystemErrorException, InputErrorException {
-        try {
-            if(ingredient != null && isValidIngredient(ingredient)) {
-                return repository.createIngredient(ingredient);
-            } else throw new InputErrorException("Udfyld venligst alle felterne korrekt");
+        if(!isValidIngredient(ingredient)) {
+            throw new InputErrorException("Udfyld venligst alle felterne korrekt");
         }
-        catch (DataAccessException e) {
+
+        try {
+            return repository.createIngredient(ingredient);
+        } catch (DataAccessException e) {
             e.printStackTrace();
             throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere!");
         }
     }
 
-    public Ingredient getIngredientByID(int id){
-        return repository.getIngredientById(id);
+    public Ingredient getIngredientByID(int id) throws EntityNotFoundException {
+        try{
+            return repository.getIngredientById(id);
+        } catch (EmptyResultDataAccessException e){
+            throw new EntityNotFoundException("Kan ikke finde ingrediens");
+        }
+
     }
 
     public boolean isValidIngredient(Ingredient ingredient){
-        return StringUtils.hasText(ingredient.getName()) && ingredient.getCaloriesPerHundredGrams() >= 0 && ingredient.getProteinPerHundredGrams() >= 0
+        return (ingredient != null)
+                && StringUtils.hasText(ingredient.getName())
+                && ingredient.getCaloriesPerHundredGrams() >= 0
+                && ingredient.getProteinPerHundredGrams() >= 0
                 && ingredient.getFatPerHundredGrams() >= 0 && ingredient.getCarbohydratesPerHundredGrams() >= 0;
     }
 
