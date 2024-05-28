@@ -156,8 +156,8 @@ public class MyDietPlanRepository {
      */
 
     public Recipe createRecipe(Recipe recipe){
-        String sql = "INSERT INTO `Recipe`(`time_of_day`,`recipe_title`,`prep_time`, `total_calories`, `total_protein`, `total_fat`, `total_carbohydrates`, `active`,`instructions`,`image_id`,`day`) " +
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO `Recipe`(`time_of_day`,`recipe_title`,`prep_time`, `total_calories`, `total_protein`, `total_fat`, `total_carbohydrates`, `active`,`instructions`,`image_id`) " +
+                "VALUES (?,?,?,?,?,?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         if(insertImage(recipe.getImage()) == null){

@@ -158,17 +158,21 @@ public class WebsiteService {
         for(int i = 0; i<recipe.getIngredientList().size(); i++) {
             Ingredient ingredient = recipe.getIngredientList().get(i);
 
-            recipe.setTotalProtein(recipe.getTotalProtein() +
-                    (ingredient.getProteinPerHundredGrams() * ingredient.getWeightGrams() / 100.0));
+            recipe.setTotalProtein(recipe.getTotalProtein()
+            +(ingredient.getProteinPerHundredGrams()
+            * ingredient.getWeightGrams() / 100.0));
 
-            recipe.setTotalFat(recipe.getTotalFat() +
-                    (ingredient.getFatPerHundredGrams() * ingredient.getWeightGrams() / 100.0));
+            recipe.setTotalFat(recipe.getTotalFat()
+            + (ingredient.getFatPerHundredGrams()
+            * ingredient.getWeightGrams() / 100.0));
 
-            recipe.setTotalCarbohydrates(recipe.getTotalCarbohydrates() +
-                    (ingredient.getCarbohydratesPerHundredGrams() * ingredient.getWeightGrams() / 100.0));
+            recipe.setTotalCarbohydrates(recipe.getTotalCarbohydrates()
+            + (ingredient.getCarbohydratesPerHundredGrams()
+            * ingredient.getWeightGrams() / 100.0));
 
-            recipe.setTotalCalories(recipe.getTotalCalories() +
-                    (ingredient.getCaloriesPerHundredGrams() * ingredient.getWeightGrams() / 100.0));
+            recipe.setTotalCalories(recipe.getTotalCalories()
+            + (ingredient.getCaloriesPerHundredGrams()
+            * ingredient.getWeightGrams() / 100.0));
         }
 
         //Round the total macros to avoid unnecessary decimals
