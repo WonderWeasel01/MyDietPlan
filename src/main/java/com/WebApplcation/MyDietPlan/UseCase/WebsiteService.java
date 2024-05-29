@@ -33,6 +33,13 @@ public class WebsiteService {
         this.repository = myDietPlanRepository;
     }
 
+    /**
+     * Validates a recipe and tries to insert the Recipe into the Database if it is a valid Recipe
+     * @param recipe The recipe being insert into the Database
+     * @return The Recipe with newly attached recipeID.
+     * @throws SystemErrorException If an error happens while inserting into database.
+     * @throws InputErrorException Rethrows InputErrorsExceptions from validateRecipe.
+     */
     public Recipe createRecipe(Recipe recipe) throws SystemErrorException, InputErrorException {
         validateRecipe(recipe);
         try {
@@ -43,6 +50,12 @@ public class WebsiteService {
         }
     }
 
+    /**
+     * Converts a MultipartFile to an Image entity object
+     * @param file A MultiPartFile with at least filename, type and bytes attached.
+     * @return An image created from the MultipartFile
+     * @throws IOException if an error happens while reading the file.
+     */
     private Image convertFileToImage(MultipartFile file) throws IOException {
         Image image = new Image();
         image.setImageName(file.getOriginalFilename());
@@ -51,6 +64,12 @@ public class WebsiteService {
         return image;
     }
 
+    /**
+     * Converts a file to an image and attaches it on the Recipe attribute 'Image'
+     * @param recipe The recipe that is being setup with the image.
+     * @param imageFile A MultiPartFile with at least filename, type and bytes attached.
+     * @throws SystemErrorException If an IOException is caught while converting the file to an Image.
+     */
     public void setupRecipeWithImage(Recipe recipe, MultipartFile imageFile) throws SystemErrorException {
         try{
             Image image = convertFileToImage(imageFile);
@@ -117,6 +136,12 @@ public class WebsiteService {
             throw new EntityNotFoundException("Der er sket en fejl med opdateringen af opskrift status. Prøv igen senere");
         }
     }
+
+    /**
+     * Fetches all recipes from the Database where active = true.
+     * @return an Integer with the value of counted recipe from.
+     * @throws SystemErrorException If there's an error while accessing the database.
+     */
     public int getActiveRecipeAmount() throws SystemErrorException {
         try{
             return repository.getActiveRecipeAmount();
@@ -127,6 +152,13 @@ public class WebsiteService {
         }
     }
 
+    /**
+     * Deletes an ingredientlist from a recipe in the database and inserts a new one.
+     * @param recipeID ID of the recipe being updated
+     * @param newIngredients The new ingredients being attached to the recipe.
+     * @return True if update was successful, False if not.
+     * @throws SystemErrorException If there was an error while deleting the original ingredientlist
+     */
     public boolean updateRecipeIngredients(int recipeID, List<Ingredient> newIngredients) throws SystemErrorException {
         if(repository.deleteIngredientsFromRecipe(recipeID)){
            return repository.insertIngredientsOntoRecipe(recipeID,newIngredients);

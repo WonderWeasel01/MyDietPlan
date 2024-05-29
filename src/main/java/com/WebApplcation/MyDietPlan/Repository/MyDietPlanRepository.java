@@ -29,16 +29,6 @@ public class MyDietPlanRepository {
     }
 
 
-   /* public Recipe updateRecipe(int recipe){
-
-    }
-*/
-   public List<Recipe> getActiveRecipeForDay(String day) {
-       String sql = "SELECT * FROM Recipe WHERE Day = ? AND active = 1;";
-       return jdbcTemplate.query(sql, new Object[]{day}, recipeRowMapper());
-   }
-
-
 	public Ingredient getIngredientById(int id){
         String sql = "SELECT * FROM `Ingredient` WHERE ingredient_id = ?";
     
@@ -315,7 +305,7 @@ public class MyDietPlanRepository {
 
     public boolean deleteUser(int userID){
         String sql = "DELETE FROM `User` WHERE user_id = ?";
-        int rowsAffected = jdbcTemplate.update(sql);
+        int rowsAffected = jdbcTemplate.update(sql, userID);
 
         //Returns true if deletion was successful
         return rowsAffected > 0;

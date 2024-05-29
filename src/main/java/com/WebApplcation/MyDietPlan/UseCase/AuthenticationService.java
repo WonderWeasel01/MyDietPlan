@@ -137,6 +137,7 @@ public class AuthenticationService {
     }
     
 
+
     public Subscription payingUser() {
         User user = getUser();
         int paidUserId = user.getUserId();
