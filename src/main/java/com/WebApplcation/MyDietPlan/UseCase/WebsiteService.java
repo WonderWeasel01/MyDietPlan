@@ -165,6 +165,15 @@ public class WebsiteService {
         } else throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
     }
 
+
+    /**
+     * Sets up the recipe with ingredients.
+     * @param recipe The recipe being set up.
+     * @param ingredientIds List of ingredient IDs.
+     * @param weights List of ingredient weights.
+     * @throws InputErrorException If ingredient and weight sizes do not match.
+     * @throws EntityNotFoundException If an ingredient is not found.
+     */
     public void setupRecipeWithIngredients(Recipe recipe, List<Integer> ingredientIds, List<Integer> weights) throws InputErrorException, EntityNotFoundException {
         validateIngredientAndWeightSizes(ingredientIds,weights);
         ArrayList<Ingredient> ingredients = new ArrayList<>();
@@ -176,12 +185,21 @@ public class WebsiteService {
         recipe.setIngredientList(ingredients);
         calculateAndSetMacros(recipe);
     }
+
+    /**
+     * Rounds a value to two decimal places.
+     * @param value The value to be rounded.
+     * @return The rounded value.
+     */
     private double roundToTwoDecimals(double value) {
         return Math.round(value * 100.0) / 100.0;
     }
 
+    /**
+     * Calculates and sets macros for a recipe.
+     * @param recipe The recipe being set up.
+     */
     public void calculateAndSetMacros(Recipe recipe){
-        //Ensure that the result is correct if the method is called more than once.
         recipe.setTotalCalories(0);
         recipe.setTotalProtein(0);
         recipe.setTotalFat(0);
@@ -206,15 +224,19 @@ public class WebsiteService {
             + (ingredient.getCaloriesPerHundredGrams()
             * ingredient.getWeightGrams() / 100.0));
         }
-
-        //Round the total macros to avoid unnecessary decimals
         recipe.setTotalProtein(roundToTwoDecimals(recipe.getTotalProtein()));
         recipe.setTotalFat(roundToTwoDecimals(recipe.getTotalFat()));
         recipe.setTotalCarbohydrates(roundToTwoDecimals(recipe.getTotalCarbohydrates()));
         recipe.setTotalCalories(roundToTwoDecimals(recipe.getTotalCalories()));
     }
 
-
+    /**
+     * Adjusts the given recipe to match the user's daily calorie goal.
+     * 
+     * @param recipe The recipe to be adjusted.
+     * @param dailyCalorieGoal The user's daily calorie goal.
+     * @return The adjusted recipe.
+     */
     public Recipe adjustRecipeToUser(Recipe recipe , double dailyCalorieGoal){
         double recipeCalorieGoal = 0;
         switch (recipe.getTimeOfDay()){
@@ -235,25 +257,63 @@ public class WebsiteService {
         return recipe;
     }
 
+    /**
+     * Validates the given recipe.
+     * 
+     * @param recipe The recipe to be validated.
+     * @throws InputErrorException if the recipe is invalid.
+     */
     private void validateRecipe(Recipe recipe) throws InputErrorException {
         if (recipe == null || !isValidRecipe(recipe)) {
             throw new InputErrorException("Udfyld venligst felterne korrekt");
         }
     }
+
+    /**
+     * Checks if a recipe is valid by ensuring that all required fields are filled.
+     * Required fields include:
+     * - Title
+     * - Prep time
+     * - Time of day
+     * - Instructions
+     * - Image name and type
+     * - Non-empty ingredient list
+     *
+     * @param recipe The recipe to validate.
+     * @return true if the recipe is valid, false otherwise.
+     */
     public boolean isValidRecipe(Recipe recipe){
         return StringUtils.hasText(recipe.getTitle()) && StringUtils.hasText(recipe.getPrepTime()) && StringUtils.hasText(recipe.getTimeOfDay())
                 && StringUtils.hasText(recipe.getInstructions()) && StringUtils.hasText(recipe.getImage().getImageName()) && StringUtils.hasText(recipe.getImage().getImageType()) && recipe.getIngredientList() != null
                 && !recipe.getIngredientList().isEmpty();
     }
+
+    /**
+     * Checks if an ingredient list and weight list match in size.
+     * @param ingredientIds List of ingredient IDs
+     * @param weights List of weights.
+     * @throws InputErrorException If sizes do not match.
+     */
     private void validateIngredientAndWeightSizes(List<Integer> ingredientIds, List<Integer> weights) throws InputErrorException {
         if (ingredientIds.size() != weights.size()) {
             throw new InputErrorException("The number of ingredients and weights do not match.");
         }
     }
+
+    /**
+     * Fetches all ingredients from the database.
+     * @return A list of all ingredients.
+     */
     public List<Ingredient> getAllIngredients(){
         return repository.getAllIngredients();
     }
 
+    /**
+     * Fetches a recipe from an ID
+     * @param recipeID The recipe being fetched.
+     * @return The recipe being fetched from the database.
+     * @throws EntityNotFoundException If the recipe was not found.
+     */
     public Recipe getRecipeById(int recipeID) throws EntityNotFoundException, SystemErrorException {
         try{
             return repository.getRecipeWithIngredientsByRecipeID(recipeID);
@@ -266,6 +326,12 @@ public class WebsiteService {
         }
     }
 
+    /**
+     * Fetches a recipe from an ID
+     * @param recipeID The recipe being fetched.
+     * @return The recipe being fetched from the database.
+     * @throws EntityNotFoundException If the recipe was not found.
+     */
     public Recipe getUsersAdjustedRecipeById(int recipeID) throws SystemErrorException {
         ArrayList<Recipe> recipes = authenticationService.getUser().getAdjustedRecipes();
         for(int i = 0; i<recipes.size(); i++){
@@ -275,6 +341,13 @@ public class WebsiteService {
         } throw new SystemErrorException("Der er sket en fejl. Prøv igen senere");
     }
 
+    /**
+     * Creates an ingredient in the database.
+     * @param ingredient The ingredient to be created.
+     * @return The created ingredient.
+     * @throws SystemErrorException If an error occurs while creating the ingredient.
+     * @throws InputErrorException If the ingredient is invalid.
+     */
     public Ingredient createIngredient(Ingredient ingredient) throws SystemErrorException, InputErrorException {
         if(!isValidIngredient(ingredient)) {
             throw new InputErrorException("Udfyld venligst alle felterne korrekt");
@@ -288,6 +361,12 @@ public class WebsiteService {
         }
     }
 
+    /**
+     * Fetches an ingredient from an ID
+     * @param ingredientID The ingredient being fetched.
+     * @return The ingredient being fetched from the database.
+     * @throws EntityNotFoundException If the ingredient was not found.
+     */
     public Ingredient getIngredientByID(int id) throws EntityNotFoundException {
         try{
             return repository.getIngredientById(id);
@@ -297,6 +376,18 @@ public class WebsiteService {
 
     }
 
+    /**
+     * Checks if an ingredient is valid by ensuring that all required fields are filled.
+     * Required fields include:
+     * - Name
+     * - Calories per 100 grams
+     * - Protein per 100 grams
+     * - Fat per 100 grams
+     * - Carbohydrates per 100 grams
+     *
+     * @param ingredient The ingredient to validate.
+     * @return true if the ingredient is valid, false otherwise.
+     */
     public boolean isValidIngredient(Ingredient ingredient){
         return (ingredient != null)
                 && StringUtils.hasText(ingredient.getName())
@@ -305,6 +396,11 @@ public class WebsiteService {
                 && ingredient.getFatPerHundredGrams() >= 0 && ingredient.getCarbohydratesPerHundredGrams() >= 0;
     }
 
+    /**
+     * Fetches all recipes from the database.
+     * @return A list of all recipes.
+     * @throws EntityNotFoundException If no recipes were found.
+     */
     public ArrayList<Recipe> getAllRecipes() throws EntityNotFoundException {
         try{
             return new ArrayList<>(repository.getAllRecipeWithoutIngredients());
@@ -312,6 +408,12 @@ public class WebsiteService {
             throw new EntityNotFoundException("Du har ikke tilføjet nogle opskrifter endnu!");
         }
     }
+
+    /**
+     * Fetches all deactivated recipes from the database.
+     * @return A list of all deactivated recipes.
+     * @throws EntityNotFoundException If no deactivated recipes were found.
+     */
     public ArrayList<Recipe> getAllDeactivatedRecipes() throws EntityNotFoundException {
         try{
             return new ArrayList<>(repository.getAllDeactivatedRecipeWithoutIngredients());
@@ -320,17 +422,32 @@ public class WebsiteService {
         }
     }
 
+    /**
+     * Fetches all recipes from the database with ingredients.
+     * @return A list of all recipes with ingredients.
+     * @throws EntityNotFoundException If no recipes were found.
+     */
     public void setBase64Image(Recipe recipe){
         String base64Image = Base64.getEncoder().encodeToString(recipe.getImage().getBlob());
         recipe.getImage().setBase64Image(base64Image);
     }
 
+    /**
+     * Sets Base64-encoded images for a list of recipes.
+     * 
+     * @param recipes The list of recipes to set Base64-encoded images for.
+     */
     public void setBase64Image(ArrayList<Recipe> recipes){
         for(int i = 0; i<recipes.size(); i++){
             setBase64Image(recipes.get(i));
         }
     }
 
+    /**
+     * Fetches all active recipes from the database.
+     * @return A list of all active recipes.
+     * @throws EntityNotFoundException If no active recipes were found.
+     */
     public ArrayList<Recipe> getAllActiveRecipes() throws EntityNotFoundException {
         try {
             return (ArrayList<Recipe>) repository.getAllActiveRecipe();
@@ -339,7 +456,11 @@ public class WebsiteService {
         }
     }
 
-
+    /**
+     * Fetches all recipes from the database with ingredients.
+     * @return A list of all recipes with ingredients.
+     * @throws EntityNotFoundException If no recipes were found.
+     */
     public ArrayList<Recipe> adjustAndSetWeeklyRecipesToLoggedInUser() throws EntityNotFoundException {
         User loggedInUser = authenticationService.getUser();
         //Fetch the weekly recipes
@@ -354,6 +475,13 @@ public class WebsiteService {
         return adjustedRecipes;
     }
 
+    /**
+     * Adjusts the given recipes to match the user's daily calorie goal.
+     * 
+     * @param dailyCalorieGoal The user's daily calorie goal.
+     * @param weeklyRecipes The recipes to be adjusted.
+     * @return The adjusted recipes.
+     */
     public ArrayList<Recipe> adjustRecipesToUser(double dailyCalorieGoal, ArrayList<Recipe> weeklyRecipes){
         ArrayList<Recipe> adjustedRecipes = new ArrayList<>();
 
@@ -364,6 +492,11 @@ public class WebsiteService {
         return adjustedRecipes;
     }
 
+    /**
+     * Fetches a user from the database by ID.
+     * @param userId The ID of the user being fetched.
+     * @return The user being fetched.
+     */
     public User getUserByID (int userId) {
         return repository.getUserByID(userId);
     }
