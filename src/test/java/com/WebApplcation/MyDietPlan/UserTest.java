@@ -32,11 +32,12 @@ public class UserTest {
     @Mock
     private AuthenticationService authenticationService;
     @Mock
-    private DuplicateKeyException duplicateKeyException;
-    @Mock
     private InputErrorException inputErrorException;
     @InjectMocks
     private WebsiteService websiteService;
+
+    @Mock
+    private DuplicateKeyException duplicateKeyException;
 
 
     @BeforeEach
