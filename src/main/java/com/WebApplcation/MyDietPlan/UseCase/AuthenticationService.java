@@ -24,6 +24,11 @@ public class AuthenticationService {
     private final HttpSession session;
     public MyDietPlanRepository repo;
 
+    /**
+     * Constructs an AuthenticationService object.
+     * @param session The HttpSession object used for session management.
+     * @param repository the MyDiedPlanRepository object used fir accessing data from the repository.
+     */
     @Autowired
     public AuthenticationService(HttpSession session, MyDietPlanRepository repository){
         this.session = session;
@@ -48,6 +53,14 @@ public class AuthenticationService {
         return saveUser(user);
     }
 
+    /**
+     * Saves a user in the database.
+     * @param user Save a user object.
+     * @return The saved user object
+     * @throws SystemErrorException If the system can't connect to the database, sql errors etc.
+     * @throws InputErrorException If the given user is missing important information or is trying to use an already existing email.
+     * @throws DuplicateKeyException If the user has the same id as an already existing user.
+     */
     private User saveUser(User user) throws SystemErrorException, InputErrorException, DuplicateKeyException {
         try {
             return repo.createUser(user);
@@ -63,14 +76,27 @@ public class AuthenticationService {
         }
     }
 
+    /**
+     * Hashes the users password and sets it in the user object.
+     * @param user The User object whose password needs to be hashed.
+     */
     public void hashAndSetPassword(User user){
         String hashedPassword = hashPassword(user.getPassword());
         user.setPassword(hashedPassword);
     }
 
+    /**
+     * Retrieves the User object stored in the session.
+     * @return The user object stored in the session. If none is found returns null.
+     */
     public User getUser(){
         return (User) session.getAttribute("user");
     }
+
+    /**
+     * Sets the User object in a session.
+     * @param user The User object to be set in the session.
+     */
     public void setSession(User user){
         session.setAttribute("user",user);
     }
@@ -95,6 +121,12 @@ public class AuthenticationService {
         return BCrypt.hashpw(password,BCrypt.gensalt());
     }
 
+    /**
+     *Validates the login credentials of a user.
+     * @param email The email of the user trying to log in.
+     * @param password The password of the user attempting to log in.
+     * @throws InputErrorException If the given user is missing important information or is trying to use an already existing email.
+     */
     public void validateLogin(String email, String password) throws InputErrorException {
         try{
             String hashedPassword = repo.getPasswordByEmail(email);
@@ -105,12 +137,25 @@ public class AuthenticationService {
         }
     }
 
+    /**
+     * Validates the provided password against the stored hashed password.
+     * @param password The password provided by the user.
+     * @param hashedPassword The hashed password stored in the database
+     * @throws InputErrorException If the given user is missing important information or is trying to use an already existing email.
+     */
     public void validatePassword(String password, String hashedPassword) throws InputErrorException {
         if(!BCrypt.checkpw(password, hashedPassword)){
             throw new InputErrorException("Email eller password forkert");
         }
     }
 
+    /**
+     * Logs in a user with the provided email and password.
+     * @param email The email of the user trying to log in.
+     * @param password The password of the user trying to log in.
+     * @return The User object of the logged-in user.
+     * @throws InputErrorException If the given user is missing important information or is trying to use an already existing email.
+     */
     public User loginUser(String email, String password) throws InputErrorException {
         validateLogin(email, password);
         User user = repo.getUserByEmail(email);
@@ -118,26 +163,44 @@ public class AuthenticationService {
         return getUser();
     }
 
+    /**
+     * Logs out the current user by invalidating the current session.
+     */
     public void logout(){
         session.invalidate();
     }
 
+    /**
+     * Checks if the user that is logged in has the Admin role attached.
+     * @return True if the user is an admin, false if not.
+     */
     public boolean isAdminLoggedIn(){
         User user = getUser();
         return user != null && Objects.equals(user.getRole(), "Admin");
     }
 
+    /**
+     * Checks if the user is logged in.
+     * @return True if the user is logged in, false if not.
+     */
     public boolean isUserLoggedIn(){
         User user = getUser();
         return user != null;
     }
 
+    /**
+     * Checks if the user is a paying user.
+     * @return True if the user is a paying user, false if not.
+     */
     public boolean isPayingUser(){
         return repo.isActiveMember(getUser().getUserId());
     }
-    
 
 
+    /**
+     * Sets up a subscription for the user.
+     * @return The created Subscription object.
+     */
     public Subscription payingUser() {
         User user = getUser();
         int paidUserId = user.getUserId();
@@ -148,6 +211,10 @@ public class AuthenticationService {
         return subscription;
     }
 
+    /**
+     * Sets up a new subscription.
+     * @return The configured Subscription object.
+     */
     public Subscription setupSubscription(){
         Subscription subscription = new Subscription();
 
@@ -168,7 +235,11 @@ public class AuthenticationService {
         return subscription;
     }
 
-
+    /**
+     * Deletes a user by their user ID.
+     * @param userID The userID of the user to be deleted.
+     * @return True if the user was successfully deleted, false if not.
+     */
     public boolean deleteUser(int userID) {
         return repo.deleteUser(userID);
     }
