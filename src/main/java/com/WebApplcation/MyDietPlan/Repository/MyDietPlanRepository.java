@@ -471,9 +471,7 @@ public class MyDietPlanRepository {
         });
     }
 
-    /**
-     * @return A RowMapper for mapping ResultSet rows in DataBase
-     */
+
     private RowMapper<Recipe> recipeRowMapper(){
         return ((rs, rowNum) -> {
             Recipe recipe = new Recipe();

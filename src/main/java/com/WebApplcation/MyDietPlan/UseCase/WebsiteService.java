@@ -363,7 +363,7 @@ public class WebsiteService {
 
     /**
      * Fetches an ingredient from an ID
-     * @param ingredientID The ingredient being fetched.
+     * @param id The ingredient being fetched.
      * @return The ingredient being fetched from the database.
      * @throws EntityNotFoundException If the ingredient was not found.
      */
