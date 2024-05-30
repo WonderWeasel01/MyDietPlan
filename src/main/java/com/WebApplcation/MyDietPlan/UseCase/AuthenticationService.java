@@ -1,5 +1,6 @@
 package com.WebApplcation.MyDietPlan.UseCase;
 
+import com.WebApplcation.MyDietPlan.Exception.EntityNotFoundException;
 import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Entity.Subscription;
@@ -188,13 +189,33 @@ public class AuthenticationService {
         return user != null;
     }
 
-    /**
+   /**
      * Checks if the user is a paying user.
      * @return True if the user is a paying user, false if not.
      */
-    public boolean isPayingUser(){
-        return repo.isActiveMember(getUser().getUserId());
+    public boolean isPayingUser()  {
+        LocalDate currentDate = LocalDate.now();
+        try{
+            LocalDate subEndDate = repo.getSubscription(getUser().getUserId()).getSubscriptionEndDate().toLocalDate();
+            return currentDate.isBefore(subEndDate);
+        } catch (EmptyResultDataAccessException e){
+            System.out.println("Intet abonnement fundet");
+            return false;
+        }
     }
+
+    public void cancelUserSubscription(int userID) throws EntityNotFoundException, SystemErrorException {
+        try{
+            repo.cancelSubscription(userID);
+        } catch (EmptyResultDataAccessException e){
+            e.printStackTrace();
+            throw new EntityNotFoundException("Kunne ikke finde et aktivt abonnement");
+        } catch (DataAccessException e){
+            e.printStackTrace();
+            throw new SystemErrorException("Kunne ikke oprette forbindelse til databasen");
+        }
+    }
+
 
 
     /**
@@ -223,17 +244,19 @@ public class AuthenticationService {
         subscription.setSubscriptionStartDate(sqlStartDate);
 
         // Set the subscription end date one week later
-        LocalDate localEndDate = sqlStartDate.toLocalDate().plusWeeks(4);
+        LocalDate localEndDate = sqlStartDate.toLocalDate().plusWeeks(1);
         java.sql.Date sqlEndDate = java.sql.Date.valueOf(localEndDate);
         subscription.setSubscriptionEndDate(sqlEndDate);
 
         //Set subscription to me active= True
-        subscription.setSubscriptionStatus(true);
+        subscription.setActiveSubscription(true);
 
         //Set the Price of the membership
         subscription.setSubscriptionPrice(49.00);
         return subscription;
     }
+
+
 
     /**
      * Deletes a user by their user ID.

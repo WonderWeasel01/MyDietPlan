@@ -30,8 +30,8 @@ public class UaserPaymentTest {
     @Test
     public void testIsActiveMember_whenUserIsActive() {
         int userId = 1;
-        String sql = "SELECT COUNT(*) FROM Subscription WHERE user_id = ? AND subscriptionStatus = 1;";
-        when(jdbcTemplate.queryForObject(sql, new Object[]{userId}, Integer.class)).thenReturn(1);
+        String sql = "SELECT subscriptionStatus FROM Subscription WHERE user_id = ?";
+        when(jdbcTemplate.queryForObject(sql, new Object[]{userId}, Boolean.class)).thenReturn(true);
 
         boolean isActive = Repo.isActiveMember(userId);
 
@@ -41,8 +41,8 @@ public class UaserPaymentTest {
     @Test
     public void testIsActiveMember_whenUserIsNotActive() {
         int userId = 2;
-        String sql = "SELECT COUNT(*) FROM Subscription WHERE user_id = ? AND subscriptionStatus = 1;";
-        when(jdbcTemplate.queryForObject(sql, new Object[]{userId}, Integer.class)).thenReturn(0);
+        String sql = "SELECT subscriptionStatus FROM Subscription WHERE user_id = ?";
+        when(jdbcTemplate.queryForObject(sql, new Object[]{userId}, Boolean.class)).thenReturn(false);
 
         boolean isActive = Repo.isActiveMember(userId);
 
@@ -52,8 +52,8 @@ public class UaserPaymentTest {
     @Test
     public void testIsActiveMember_whenQueryReturnsNull() {
         int userId = 3;
-        String sql = "SELECT COUNT(*) FROM Subscription WHERE user_id = ? AND subscriptionStatus = 1;";
-        when(jdbcTemplate.queryForObject(sql, new Object[]{userId}, Integer.class)).thenReturn(null);
+        String sql = "SELECT subscriptionStatus FROM Subscription WHERE user_id = ?";
+        when(jdbcTemplate.queryForObject(sql, new Object[]{userId}, Boolean.class)).thenReturn(null);
 
         boolean isActive = Repo.isActiveMember(userId);
 

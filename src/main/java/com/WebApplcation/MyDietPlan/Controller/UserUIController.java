@@ -46,7 +46,7 @@ public class UserUIController {
 
     @GetMapping("/ingenAbonnement")
     public String notLoggedIn() {
-        return "notLoggedIn";
+        return "noSubscription";
     }
 
 
@@ -109,6 +109,8 @@ public class UserUIController {
     
 
 
+
+
     @PostMapping("/login")
     public String loginUser(@RequestParam String email, @RequestParam String password, Model model) {
         try{
@@ -130,7 +132,7 @@ public class UserUIController {
 
     @GetMapping("/velkommen")
     public String welcomePage(Model model){
-        if(!isLoggedIn()){
+        if(!isLoggedInAndHasSub()){
             return "redirect:/";
         }
         try{
@@ -156,7 +158,7 @@ public class UserUIController {
 
     @GetMapping("/opdaterBruger/{userID}")
     public String editUser(@PathVariable int userID, Model model) {
-        if(!isLoggedIn()){
+        if(!isLoggedInAndHasSub()){
             return "redirect:/";
         }
         User user = websiteService.getUserByID(userID);
@@ -166,6 +168,10 @@ public class UserUIController {
 
     @PostMapping("/opdaterBruger")
     public String updateUser(@ModelAttribute User updatedUser, Model model) {
+        if(!isLoggedInAndHasSub()){
+            return "redirect:/";
+        }
+
         try {
             websiteService.updateUser(updatedUser);
             return "redirect:/velkommen";
@@ -177,8 +183,29 @@ public class UserUIController {
 
     @GetMapping("/minProfil")
     public String showUserProfile(){
+        if(!isLoggedInAndHasSub()){
+            return "redirect:/";
+        }
         return "userProfile";
     }
+
+
+   @GetMapping("/afmeldAbonnement/{userID}")
+    public String cancelSubscription(@PathVariable int userID, RedirectAttributes redirectAttributes){
+       if(!isLoggedInAndHasSub()){
+           return "redirect:/";
+       }
+       try{
+           authenticationService.cancelUserSubscription(userID);
+           redirectAttributes.addFlashAttribute("successMessage","Abonnement afmeldt");
+       } catch (EntityNotFoundException | SystemErrorException e){
+           redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+       }
+       return "redirect:/opdaterBruger/" + userID;
+    }
+
+
+
 
 
     private String determineViewDependingOnRole(User user) {
@@ -191,10 +218,8 @@ public class UserUIController {
         return "redirect:/ingenAbonnement";
     }
 
-
-
-    private boolean isLoggedIn(){
-       return authenticationService.isUserLoggedIn();
+    private boolean isLoggedInAndHasSub(){
+       return authenticationService.isUserLoggedIn() && authenticationService.isPayingUser();
     }
 
 

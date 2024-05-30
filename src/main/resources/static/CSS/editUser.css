@@ -1,0 +1,21 @@
+.Background {
+    width: 1280px;
+    height: 832px;
+    background: #EFF9F0;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: inline-flex;
+}
+
+.Left {
+    flex: 1 1 0;
+    align-self: stretch;
+    padding: 10px;
+    background: white;
+}
+
+.Right {
+    align-self: stretch;
+    padding: 10px;
+}

@@ -40,11 +40,16 @@
             <option value="Intense activity">Intens aktivitet</option>
             <option value="Extreme activity">Ekstrem aktivitet</option>
         </select>
-
     <div class="updateButton">
         <button type="submit">Opdater information</button>
     </div>
 </form>
-
+<div class="cancelSubs">
+    <a th:href="@{/afmeldAbonnement/{userID}(userID = ${user.userId})}" onclick='confirm("Er du sikker på at du vil afmelde dit abonnement?")' >Afmeld abonnement </a>
+</div>
+<div th:if="${errorMessage} or ${successMessage}" class="message">
+    <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
+    <p th:if="${successMessage}" th:text="${successMessage}" class="success-message"></p>
+</div>
 </body>
 </html>

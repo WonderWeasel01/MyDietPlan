@@ -350,7 +350,7 @@ public class MyDietPlanRepository {
             ps.setInt(1, userID);
             ps.setDate(2, subscription.getSubscriptionStartDate());
             ps.setDate(3, subscription.getSubscriptionEndDate());
-            ps.setBoolean(4, subscription.getSubscriptionStatus());
+            ps.setBoolean(4, subscription.getActiveSubscription());
             ps.setDouble(5, subscription.getSubscriptionPrice());
 
             return ps;
@@ -374,7 +374,7 @@ public class MyDietPlanRepository {
 
     public User updateUser(User user){
         String sql ="UPDATE `User` SET `first_name`= ?,`last_name`= ?, `email`= ?, `password`= ?, `goal`= ?, `activity_level`= ?, `weight`= ?, `height`= ?,  `age`= ?, `daily_calorie_burn`= ?, `daily_calorie_goal`= ? WHERE user_id = ?";
-        jdbcTemplate.update(sql, user.getFirstName(),user.getLastName(), user.getEmail(), user.getPassword(), user.getGoal(), user.getLastName(), user.getActivityLevel(), user.getWeight(), user.getHeight(), user.getAge(), user.getDailyCalorieBurn(), user.getDailyCalorieGoal(), user.getUserId());
+        jdbcTemplate.update(sql, user.getFirstName(),user.getLastName(), user.getEmail(), user.getPassword(), user.getGoal(), user.getActivityLevel(), user.getWeight(), user.getHeight(), user.getAge(), user.getDailyCalorieBurn(), user.getDailyCalorieGoal(), user.getUserId());
         return getUserByID(user.getUserId());
     }
 
@@ -385,12 +385,28 @@ public class MyDietPlanRepository {
     }
 
 
-    public boolean isActiveMember(int userId){
-        String sql = "SELECT COUNT(*) FROM Subscription WHERE user_id = ? AND subscriptionStatus = 1;";
-        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{userId}, Integer.class);
-        return count != null && count > 0;
+    public Subscription getSubscription(int userId){
+        String sql = "SELECT * FROM Subscription WHERE user_id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{userId}, subscriptionRowMapper());
     }
-    
+
+    public boolean isActiveMember(int userID){
+        String sql = "SELECT subscriptionStatus FROM Subscription WHERE user_id = ?";
+        Boolean status = jdbcTemplate.queryForObject(sql, new Object[]{userID}, Boolean.class);
+        if (status == null){
+            return false;
+        }
+
+        return status;
+    }
+
+    public boolean cancelSubscription(int userID){
+        String sql = "UPDATE Subscription SET subscriptionStatus = ? Where user_id = ?";
+        return 0 < jdbcTemplate.update(sql,0,userID);
+    }
+
+
+
 
 
 
@@ -501,6 +517,20 @@ public class MyDietPlanRepository {
             return ingredient;
         });
     }
+
+   private RowMapper<Subscription> subscriptionRowMapper(){
+        return ((rs, rowNum) -> {
+            Subscription subscription = new Subscription();
+            subscription.setSubscriptionID(rs.getInt("subscriptionID"));
+            subscription.setUserID(rs.getInt("user_id"));
+            subscription.setSubscriptionStartDate(rs.getDate("subscriptionStartDate"));
+            subscription.setSubscriptionEndDate(rs.getDate("subscriptionEndDate"));
+            subscription.setActiveSubscription(rs.getBoolean("subscriptionStatus"));
+            subscription.setSubscriptionPrice(rs.getDouble("subscriptionPrice"));
+            return subscription;
+        });
+    }
+
 
 
 }

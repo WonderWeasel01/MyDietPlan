@@ -12,7 +12,7 @@
   <div class="MacbookAir1">
     <div class="Leftbox">
         <img class="Image" th:src="'data:' + ${recipe.image.imageType} + ';base64,' + ${recipe.image.base64Image}" alt="Meal Image" />
-      <h2>INGRADIENS LISTE</h2>
+      <h2>INGREDIENS LISTE</h2>
         <div class="IngredientCol" id="Ingredientbox">
             <li  th:each="ingredient : ${recipe.ingredientList}">
                 <div class="Ingredientbutton" th:text="${ingredient.name + ' - ' + ingredient.weightGrams + ' grams'}"></div>
