@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.util.StringUtils;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -203,6 +204,17 @@ public class AuthenticationService {
             return false;
         }
     }
+
+    public boolean renewSub(int userID) throws SystemErrorException {
+        Date date = Date.valueOf(LocalDate.now().plusWeeks(1));
+        try{
+            return repo.updateSubscriptionEndDate(date, userID);
+        }catch (EmptyResultDataAccessException e){
+            throw new SystemErrorException("Kunne ikke finde abonnement i databasen");
+        }
+    }
+
+
 
     public void cancelUserSubscription(int userID) throws EntityNotFoundException, SystemErrorException {
         try{

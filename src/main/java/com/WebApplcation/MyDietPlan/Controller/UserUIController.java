@@ -106,10 +106,6 @@ public class UserUIController {
             return "redirect:/velkommen";
         } else return "redirect:/ingenAbonnement";
     }
-    
-
-
-
 
     @PostMapping("/login")
     public String loginUser(@RequestParam String email, @RequestParam String password, Model model) {

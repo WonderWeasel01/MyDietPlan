@@ -13,6 +13,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -333,7 +334,6 @@ public class MyDietPlanRepository {
     public User getUserByEmail(String email) {
         String sql ="SELECT * FROM `User` WHERE email = ?";
         return jdbcTemplate.queryForObject(sql,userRowMapper(),email);
-
     }
 
     public String getPasswordByEmail(String email){
@@ -388,6 +388,11 @@ public class MyDietPlanRepository {
     public Subscription getSubscription(int userId){
         String sql = "SELECT * FROM Subscription WHERE user_id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{userId}, subscriptionRowMapper());
+    }
+
+    public boolean updateSubscriptionEndDate(Date date, int userID){
+        String sql = "UPDATE Subscription SET subscriptionEndDate = ? WHERE user_id = ?";
+        return 0 < jdbcTemplate.update(sql,date,userID);
     }
 
     public boolean isActiveMember(int userID){
