@@ -14,7 +14,7 @@
         </div>
 
         <div class="Left2">
-            <a class="Button" th:href="@{/afmeldAbonnement/{userID}(userID = ${user.userId})}" onclick='confirm("Er du sikker på at du vil afmelde dit abonnement?")' >
+            <a class="Button" th:href="@{/afmeldAbonnement/{userID}(userID = ${user.userId})}" onclick='return confirm("Er du sikker på at du vil afmelde dit abonnement?")' >
                 <div > Afmeld abonnement </div>
             </a>
             <div th:if="${errorMessage} or ${successMessage}" class="message">
