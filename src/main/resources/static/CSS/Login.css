@@ -133,6 +133,7 @@ margin: 0;
     align-items: center;
     gap: 10px;
     display: inline-flex;
+    cursor: pointer;
 }
 
 .ButtonLabel {
