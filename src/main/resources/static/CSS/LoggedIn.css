@@ -2,7 +2,6 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif; /* Change font-family as needed */
     width: 100%;
     background: #EFF9F0;
 }
@@ -47,7 +46,6 @@ body {
 .Name {
     color: black;
     font-size: 24px;
-    font-family: Josefin Sans;
     font-weight: 600;
     word-wrap: break-word;
 }
@@ -55,7 +53,6 @@ body {
 .Quote {
     color: #6D6D6D;
     font-size: 16px;
-    font-family: Josefin Sans;
     font-weight: 400;
     word-wrap: break-word;
 }
@@ -86,7 +83,6 @@ body {
 .Nonselectedtext {
     color: white;
     font-size: 18px;
-    font-family: Inter;
     font-weight: 400;
     word-wrap: break-word;
 }
@@ -99,6 +95,7 @@ body {
     gap: 10px;
     display: flex;
     cursor: pointer;
+    margin-right: 50px;
 }
 
 .Profileimage {
@@ -132,6 +129,7 @@ body {
     align-items: center;
     gap: 10px;
     display: flex;
+    margin-top: 150px;
 }
 
 .Weekplan {
@@ -149,7 +147,6 @@ body {
 .Weektext {
     color: black;
     font-size: 24px;
-    font-family: Josefin Sans;
     font-weight: 700;
     word-wrap: break-word;
     text-align: left;
@@ -173,7 +170,6 @@ body {
 .Mandag{
     color: black;
     font-size: 42px;
-    font-family: Josefin Sans;
     font-weight: 600;
     word-wrap: break-word;
     cursor: pointer;
@@ -183,7 +179,6 @@ body {
 .Onsdag{
     color: #636363;
     font-size: 42px;
-    font-family: Josefin Sans;
     font-weight: 600;
     word-wrap: break-word;
     cursor: pointer;
@@ -265,7 +260,6 @@ body {
     text-align: center;
     color: black;
     font-size: 24px;
-    font-family: Josefin Sans;
     font-weight: bold;
     word-wrap: break-word;
     padding-top: 50px;
@@ -300,31 +294,9 @@ body {
     text-align: center;
     color: black;
     font-size: 24px;
-    font-family: Josefin Sans;
     font-weight:lighter;
     word-wrap: break-word;
     width: 100%;
-}
-
-.Mealbutton {
-    width: 80%;
-    height: 34px;
-    padding: 10px;
-    background: #87CC83;
-    border-radius: 5px;
-    overflow: hidden;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    display: flex;
-}
-
-.Mealbuttontext {
-    color: white;
-    font-size: 15px;
-    font-family: Inter;
-    font-weight: 400;
-    word-wrap: break-word;
 }
 
 
@@ -333,7 +305,6 @@ body {
     text-align: center;
     color: black;
     font-size: 24px;
-    font-family: Josefin Sans;
     font-weight: 600;
     word-wrap: break-word;
 }
@@ -469,9 +440,6 @@ body {
     color: #87cc83;
   }
 
-  a:hover {
-    color: #87cc83 !important;
- }
   
   a:link, a:visited{
     text-decoration: none;
@@ -480,18 +448,10 @@ body {
   }
 
 
-  div {
-    font-family: Josefin Sans;
-  }
-
-  span {
-    font-family: Josefin Sans;
-  }
 
 .error-message{
     color: red;
     font-size: 16px;
-    font-family: "Josefin Sans", sans-serif;
     border: 1px solid red;
     padding: 5px;
     margin: 10px 0;
@@ -500,7 +460,6 @@ body {
 .success-message{
     color: green;
     font-size: 16px;
-    font-family: "Josefin Sans", sans-serif;
     border: 1px solid green;
     padding: 5px;
     margin: 10px 0;
