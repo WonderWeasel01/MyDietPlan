@@ -20,6 +20,18 @@ html{
     display: flex;
     color: white;
 }
+.ButtonStroke{
+    width: 200px;
+    height: 60px;
+    border-radius: 5px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: flex;
+    border: 2px #79D779 solid;
+}
+
 .ButtonText {
     font-size: 23px;
     font-weight: 400;
@@ -100,7 +112,6 @@ a:link, a:visited{
     display: flex;
     justify-content:flex-end;
     align-items: center;
-    margin-right: 60px;
 }
 
 /*UserDropDown*/

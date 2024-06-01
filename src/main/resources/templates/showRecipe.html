@@ -5,15 +5,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recipe Page</title>
+  <link rel="icon" href="Images/PNGS/minkostplan-logo-white.png" type="image/icon type">
   <link rel="stylesheet" type="text/css" href="/CSS/showRecipe.css">
   <link rel="stylesheet" type="text/css" href="/CSS/default.css">
+  <script src="https://kit.fontawesome.com/c0582023bf.js" crossorigin="anonymous"></script>
+  <Script>
+      import { FaArrowDown } from "react-icons/fa6";
+  </Script>
   
 </head>
+
 <body>
   <div class="Navbar green">
     <div class="Header">
         <a href="/">
-            <img class="Logo" src="Images/PNGS/minkostplan-logo-white.png" />
+          <img class="Logo" th:src="@{/Images/PNGS/minkostplan-logo-white.png}" alt="Logo" />
         </a>
         <ul class="headerLinks">
             <li>
@@ -67,11 +73,11 @@
     <div class="Righbox">
       <div class="Recipename"><span th:text="${recipe.title}">Time of Day</span></div>
       <div class="Buttonbox">
-        <div class="Defaultbutton">
-          <div class="Timeofdaytext"><span th:text="${recipe.timeOfDay}">Calories</span></div>
+        <div class="Button green">
+          <div class="ButtonText"><span th:text="${recipe.timeOfDay}">Calories</span></div>
         </div>
-        <div class="Buttonstroke">
-          <div class="Favorite">FAVORIT RET</div>
+        <div class="ButtonStroke">
+          <div class="ButtonText">FAVORIT RET</div>
         </div>
       </div>
       <div class="Title">Nærings indhold pr. servering</div>
@@ -106,18 +112,14 @@
     </div>
   </div>
 </body>
+
+<script>
+  //DropDown
+function menuToggle() {
+const toggleMenu = document.querySelector(".menu");
+toggleMenu.classList.toggle("active");
+}
+
+
+</script>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div><label>Tilberedningstid: </label><span th:text="${recipe.prepTime}">Protein</span></div>

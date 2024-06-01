@@ -26,6 +26,7 @@ body {
     justify-content: flex-start;
     align-items: center;;
     display: flex;
+    flex-direction: row;
     
 }
 
@@ -89,6 +90,7 @@ body {
 
 .Profiledropdown {
     height: 72px;
+    width: 200px;
     padding: 10px;
     justify-content: flex-start;
     align-items: center;
@@ -96,6 +98,7 @@ body {
     display: flex;
     cursor: pointer;
     margin-right: 50px;
+
 }
 
 .Profileimage {
@@ -344,6 +347,8 @@ body {
     border-radius: 50%;
     overflow: hidden;
     cursor: pointer;
+    
+
   }
   
   .action .profile img {
