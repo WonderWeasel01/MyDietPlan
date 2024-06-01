@@ -350,7 +350,7 @@ public class MyDietPlanRepository {
             ps.setInt(1, userID);
             ps.setDate(2, subscription.getSubscriptionStartDate());
             ps.setDate(3, subscription.getSubscriptionEndDate());
-            ps.setBoolean(4, subscription.getActiveSubscription());
+            ps.setBoolean(4, subscription.isActiveSubscription());
             ps.setDouble(5, subscription.getSubscriptionPrice());
 
             return ps;
@@ -385,14 +385,14 @@ public class MyDietPlanRepository {
     }
 
 
-    public Subscription getSubscription(int userId){
+    public Subscription getSubscriptionByUserID(int userId){
         String sql = "SELECT * FROM Subscription WHERE user_id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{userId}, subscriptionRowMapper());
     }
 
-    public boolean updateSubscriptionEndDate(Date date, int userID){
-        String sql = "UPDATE Subscription SET subscriptionEndDate = ? WHERE user_id = ?";
-        return 0 < jdbcTemplate.update(sql,date,userID);
+    public boolean updateSubscription(Subscription subscription){
+        String sql = "UPDATE Subscription SET `subscriptionStartDate`= ? ,`subscriptionEndDate`= ?,`subscriptionStatus`= ?,`subscriptionPrice`= ? WHERE user_id = ?";
+        return 0 < jdbcTemplate.update(sql,subscription.getSubscriptionStartDate(),subscription.getSubscriptionEndDate(),subscription.isActiveSubscription(), subscription.getSubscriptionPrice(), subscription.getUserID());
     }
 
     public boolean isActiveMember(int userID){

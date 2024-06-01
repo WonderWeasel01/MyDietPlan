@@ -467,7 +467,7 @@ public class WebsiteService {
         ArrayList<Recipe> weeklyRecipes = getAllActiveRecipes();
 
         //Adjust them to the logged-in user
-        ArrayList<Recipe> adjustedRecipes = adjustRecipesToUser(loggedInUser.getDailyCalorieGoal(),weeklyRecipes);
+        ArrayList<Recipe> adjustedRecipes = adjustRecipesToUser(weeklyRecipes);
 
         //Set the adjustedRecipes on the user.
         loggedInUser.setAdjustedRecipes(adjustedRecipes);
@@ -477,16 +477,16 @@ public class WebsiteService {
 
     /**
      * Adjusts the given recipes to match the user's daily calorie goal.
-     * 
-     * @param dailyCalorieGoal The user's daily calorie goal.
+     *
      * @param weeklyRecipes The recipes to be adjusted.
      * @return The adjusted recipes.
      */
-    public ArrayList<Recipe> adjustRecipesToUser(double dailyCalorieGoal, ArrayList<Recipe> weeklyRecipes){
+    public ArrayList<Recipe> adjustRecipesToUser(ArrayList<Recipe> weeklyRecipes){
         ArrayList<Recipe> adjustedRecipes = new ArrayList<>();
+        User user = authenticationService.getUser();
 
         for (Recipe recipe : weeklyRecipes) {
-            adjustedRecipes.add(adjustRecipeToUser(recipe, dailyCalorieGoal));
+            adjustedRecipes.add(adjustRecipeToUser(recipe, user.getDailyCalorieGoal()));
         }
 
         return adjustedRecipes;
