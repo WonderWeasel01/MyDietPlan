@@ -3,8 +3,7 @@ function addIngredientToList() {
     const weight = document.getElementById('ingredientWeight').value;
     const ingredientList = document.getElementById('ingredientList');
     const selectedOption = select.options[select.selectedIndex];
-    const ingredientIds = [];
-    const weights = [];
+
     // Checks if the user has selected an ingredient and weight
     if (!selectedOption.value || weight.trim() === '' || weight.trim() === "0") {
         alert('Vælg en ingrediens eller indtast vægten!');
@@ -13,7 +12,7 @@ function addIngredientToList() {
 
     // Create list item for ingredient
     const listContent = document.createElement('li');
-    listContent.textContent = `${selectedOption.text} - ${weight} gram`;
+    listContent.textContent = `${selectedOption.text}`;
 
     // Append hidden input for ingredientID
     const inputId = document.createElement('input');
@@ -24,7 +23,7 @@ function addIngredientToList() {
 
     // Append hidden input for weight
     const inputWeight = document.createElement('input');
-    inputWeight.type = 'hidden';
+    inputWeight.type = 'number';
     inputWeight.name = 'weights';
     inputWeight.value = weight;
     listContent.appendChild(inputWeight);

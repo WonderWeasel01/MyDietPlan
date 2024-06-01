@@ -120,9 +120,7 @@ public class AdminUIController {
         try {
             // ObjectMapper can convert java objects into JSON or vice versa
 
-            for(Integer weight : ingredientIds){
-                System.out.println(weight);
-            }
+
             websiteService.setupRecipeWithIngredients(recipe,ingredientIds, weights);
 
             //Update the recipe.
