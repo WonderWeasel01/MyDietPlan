@@ -66,8 +66,7 @@ a:link, a:visited{
     width: 100%;
     top: 0;
     left: 0;
-    position: fixed;
-    background-color: #ddffdd79;
+    position: fixed;    
     z-index: 3;
 }
 .headerLinks{
@@ -86,10 +85,7 @@ a:link, a:visited{
     list-style-type: none;
     transition: transform 2s;
 }
-ul li:hover {
-   color: #E9FBEB !important;
-    transform: scale(1.2);
-}
+
 .Header {
     width: 100%;
     height: 90px;

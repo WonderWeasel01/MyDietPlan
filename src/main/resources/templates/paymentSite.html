@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment</title>
     <link rel="stylesheet" type="text/css" href="/CSS/PaymentSite.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/default.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
     </style>
@@ -12,6 +13,50 @@
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400&display=swap" rel="stylesheet">
 <body>
+    <div class="Navbar green">
+        <div class="Header">
+            <a href="/">
+                <img class="Logo" src="Images/PNGS/minkostplan-logo-white.png" />
+            </a>
+            <ul class="headerLinks">
+                <li>
+                    <a href="/velkommen ">Kostplan</a>
+                </li>
+                <li>
+                    <a href="/omOs">Om os</a>
+                </li>
+                <li>
+                    <a href="/kontakt">Kontakt</a>
+                </li>   
+            </ul>
+        </div>
+    
+        <div class="Header2">
+            <div class="Profiledropdown profile action" onclick="menuToggle();">
+                <img class="Profileimage" src="https://via.placeholder.com/59x52" />
+                <div class="Name"><span style="color: white;" th:text="${user.firstName}">User</span></div>
+                <i class="fa-solid fa-sort-down" style="color: #ffffff;"></i>
+            
+            <div class="menu">
+                <ul>
+                  <li>
+                    <i class="fa-solid fa-user" style="color: #87cc83;"></i><a href="/minProfil">Min Profil</a>
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-pen" style="color: #87cc83;"></i>
+                      <a th:href="@{/opdaterBruger/{userID}(userID=${user.userId})}">Rediger Profil</a>
+                  </li>
+                  <li th:action="@{/logout}">
+                    <i class="fa-solid fa-arrow-right-from-bracket" style="color: #87cc83;"></i>
+                    <a th:href="@{/logout}">Log ud</a>
+                </li>
+                </ul>
+              </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="PaymentBox"> 
     <form class="Form" >
         <div class="classinput">
