@@ -68,6 +68,7 @@ public class AdminUIController {
         model.addAttribute("ingredient", new Ingredient());
         return "addIngredient";
     }
+
     @PostMapping("/opretIngrediens")
     public String addIngredientPost(@ModelAttribute Ingredient ingredient, Model model, RedirectAttributes redirectAttributes){
         try{
@@ -103,11 +104,6 @@ public class AdminUIController {
             List<Ingredient> allIngredients = websiteService.getAllIngredients();
             Recipe recipe = websiteService.getRecipeById(recipeID);
 
-            // ObjectMapper can convert java objects into JSON or vice versa
-            ObjectMapper objectMapper = new ObjectMapper();
-            String ingredientsJson = objectMapper.writeValueAsString(recipe.getIngredientList());
-
-            model.addAttribute("ingredientsJson", ingredientsJson);
             model.addAttribute("recipe", recipe);
             model.addAttribute("allIngredients", allIngredients);
 
@@ -115,41 +111,27 @@ public class AdminUIController {
             return "editRecipe";
         } catch(EntityNotFoundException | SystemErrorException e){
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
         }
         return "redirect:/recipeShowcase";
     }
 
     @PostMapping("/opdaterOpskrift")
-    public String editRecipePost(@ModelAttribute("ingredientListJson") String ingredientListJson, @ModelAttribute Recipe recipe, RedirectAttributes redirectAttributes){
+    public String editRecipePost(@RequestParam List<Integer> ingredientIds, @RequestParam List<Integer> weights, @ModelAttribute Recipe recipe, RedirectAttributes redirectAttributes){
         try {
             // ObjectMapper can convert java objects into JSON or vice versa
-            ObjectMapper objectMapper = new ObjectMapper();
 
-            //Convert the JSON string into a List<Ingredient>. TypeReference is used to give information to the objectmapper about what
-            // type it needs to convert the JSON into.
-            List<Ingredient> ingredients = objectMapper.readValue(ingredientListJson, new TypeReference<>() {
-            });
-
-            //Convert to arraylist and add it to the recipe that is being updated.
-            ArrayList<Ingredient> ingredients1 = (ArrayList<Ingredient>) ingredients;
-            recipe.setIngredientList(ingredients1);
-
-            //Calculate the new total macros for the recipe.
-            websiteService.calculateAndSetMacros(recipe);
+            for(Integer weight : ingredientIds){
+                System.out.println(weight);
+            }
+            websiteService.setupRecipeWithIngredients(recipe,ingredientIds, weights);
 
             //Update the recipe.
             websiteService.updateRecipe(recipe);
             redirectAttributes.addFlashAttribute("successMessage", "Opskrift gemt!");
             return "redirect:/recipeShowcase";
 
-        } catch (InputErrorException | SystemErrorException e) {
+        } catch (InputErrorException | EntityNotFoundException | SystemErrorException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/recipeShowcase";
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("errorMessage", "Der er sket en fejl. Prøv igen senere");
             return "redirect:/recipeShowcase";
         }
     }

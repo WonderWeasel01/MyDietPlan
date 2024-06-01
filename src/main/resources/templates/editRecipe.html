@@ -8,86 +8,70 @@
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="Adminrecipepage">
-    <div class="Topframe">
-        <div class="Logoframe">
-            <img class="Logo" src="Images/PNGS/minkostplan-logo.png" />
+<form action="#" th:action="@{/opdaterOpskrift}" th:object="${recipe}" method="post">
+    <input type="hidden" th:field="*{recipeID}" />
+    <input type="hidden" th:field="*{active}" />
+    <input type="hidden" th:field="*{image.imageID}" />
+
+    <!-- Opskrift informationer -->
+    <div class="Recipeinputframe">
+        <div class="Recipenameframe">
+            <label for="title" class="OpskriftNavntext">Opskrift navn</label>
+            <input type="text" id="title" th:field="*{title}" class="recipe-input" placeholder="Opskrift navn">
         </div>
-        <div class="Header">
-            <div class="AdminSide">Admin side</div>
+        <div class="Preptimeframe">
+            <label for="prepTime" class="Tilberedningstidtext">Tilberedningstid</label>
+            <input type="text" id="prepTime" th:field="*{prepTime}" class="prep-time-input" placeholder="Tilberedningstid">
         </div>
-    </div>
-    <div class="Middleframe">
-        <div class="Leftframe">
-            <div class="Addingredientsframe">
-                <a href="/opretIngrediens" class="link-wrapper">
-                    <div class="TilfJNyIngrediens">Tilføj ny ingrediens</div>
-                </a>
-            </div>
-            <div class="Addnewrecipeframe">
-                <a href="/admin" class="link-wrapper">
-                    <div class="TilfJNyOpskrift">Tilføj ny opskrift</div>
-                </a>
-            </div>
-            <div class="Seerecipesframe">
-                <a href="/recipeShowcase" class="link-wrapper">
-                    <div class="seeRecipes">Se opskrifter</div>
-                </a>
-            </div>
-            <div class="Logoutframe">
-                <a href="/logout" class="link-wrapper">
-                    <div class="Logouttext">Logout</div>
-                </a>
+        <div class="Timeofdayframe">
+            <label for="timeOfDay" class="Tidspunkttext">Tidspunkt</label>
+            <input type="text" id="timeOfDay" th:field="*{timeOfDay}" class="time-of-day-input" placeholder="Tidspunkt">
+        </div>
+        <div class="Instructionframe">
+            <label for="instructions" class="Instruktioner">Instruktioner</label>
+            <textarea id="instructions" th:field="*{instructions}" class="instructions-input" placeholder="Instruktioner"></textarea>
+        </div>
+
+        <!-- Ingrediens liste -->
+
+        <ul class="ingredientList" id="ingredientList">
+            <li th:each="ingredient : ${recipe.ingredientList}">
+               <span th:text="${ingredient.name + ' - ' + ingredient.weightGrams + ' grams'}"></span>
+                <input type="hidden" th:value="${ingredient.ingredientID}" name="ingredientIds" />
+                <input type="number" th:value="${ingredient.weightGrams}" name="weights" />
+                <button type="button" onclick="removeIngredientFromList(this.parentElement)">Fjern</button>
+            </li>
+        </ul>
+
+        <!-- Ingrediens liste select -->
+        <h2>OPDATER INGREDIENS LISTE</h2>
+        <div class="RowFrame">
+            <label  class="Ingrediens">Ingredienser</label>
+            <select id="ingredientSelect">
+                <option th:each="ingredient : ${allIngredients}"
+                        th:value="${ingredient.ingredientID}"
+                        th:text="${ingredient.name}"></option>
+            </select>
+        </div>
+        <!-- Ingrediens vægt input -->
+        <label for="ingredientWeight" class="Vægt">Vægt</label>
+        <input type="number" id="ingredientWeight" name="ingredientWeight" min="1" placeholder="Vægt i gram" class="weight-input">
+        <button class="DefaultButton2" type="button" onclick="addIngredientToList()">Tilføj Ingrediens</button>
+
+    <!-- Opdater opskrift knap -->
+        <div class="RowFrame">
+            <div class="sticky-button">
+                <button class="DefaultButton" type="submit">Opdater Opskrift</button>
             </div>
         </div>
-        <div class="Rightframe">
-            <div class="Recipeheaderframe">
-                <div class="OpretEnOpskriftText">Opdater opskrift!</div>
-            </div>
 
-
-
-            <form action="#" th:action="@{/opdaterOpskrift}" th:object="${recipe}" method="post">
-                <input type="hidden" th:field="*{recipeID}" />
-                <input type="hidden" th:field="*{active}" />
-                <input type="hidden" th:field="*{image.imageID}" />
-
-                <!-- Hidden field for ingredientsJson (not bound to recipe) -->
-                <input type="hidden" name="ingredientListJson" th:value="${ingredientsJson}" />
-
-                <div class="Recipeinputframe">
-                    <div class="Recipenameframe">
-                        <label for="title" class="OpskriftNavntext">Opskrift navn</label>
-                        <input type="text" id="title" th:field="*{title}" class="recipe-input" placeholder="Opskrift navn">
-                    </div>
-                    <div class="Preptimeframe">
-                        <label for="prepTime" class="Tilberedningstidtext">Tilberedningstid</label>
-                        <input type="text" id="prepTime" th:field="*{prepTime}" class="prep-time-input" placeholder="Tilberedningstid">
-                    </div>
-                    <div class="Timeofdayframe">
-                        <label for="timeOfDay" class="Tidspunkttext">Tidspunkt</label>
-                        <input type="text" id="timeOfDay" th:field="*{timeOfDay}" class="time-of-day-input" placeholder="Tidspunkt">
-                    </div>
-                    <div class="Instructionframe">
-                        <label for="instructions" class="Instruktioner">Instruktioner</label>
-                        <textarea id="instructions" th:field="*{instructions}" class="instructions-input" placeholder="Instruktioner"></textarea>
-                    </div>
-                    <div class="ingredientList">
-                    <li  th:each="ingredient : ${recipe.ingredientList}">
-                    <div class="Ingredientbutton" th:text="${ingredient.name + ' - ' + ingredient.weightGrams + ' grams'}"></div>
-                </li>
-                     </div>
-
-                    <button type="submit">Opdater opskrift</button>
-                    <div th:if="${errorMessage} or ${successMessage}" class="message">
-                        <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
-                        <p th:if="${successMessage}" th:text="${successMessage}" class="success-message"></p>
-                    </div>
-                </>
-            </form>
+        <!-- Beskeder -->
+        <div th:if="${errorMessage} or ${successMessage}" class="message">
+            <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
+            <p th:if="${successMessage}" th:text="${successMessage}" class="success-message"></p>
         </div>
     </div>
-</div>
-<script src="/JS/ingredientList.js" defer></script>
+</form>
+<script src="/JS/updateRecipeIngredients.js" defer></script>
 </body>
 </html>
