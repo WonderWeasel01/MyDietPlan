@@ -1,0 +1,95 @@
+html{
+    background-color: #E9FBEB ;
+    padding: 0;
+    font-family: Josefin Sans, sans-serif;
+}
+
+
+
+/*Default Button*/
+.Button {
+    width: 200px;
+    height: 60px;
+    border-radius: 5px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: flex;
+    color: white;
+}
+.ButtonText {
+    font-size: 32px;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+.Button a:link, .Button a:visited{
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+}
+a:link, a:visited{
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+}
+
+
+/*Color Scheme*/
+.green{
+    background-color: #87CC83;
+}
+
+
+/*Header*/
+.Logo {
+    width: 79px;
+    height: 82px;
+}
+.Navbar{
+    display: flex;
+    padding: 20px;
+    z-index: 2;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    background-color: #ddffdd79;
+    z-index: 3;
+}
+.headerLinks{
+    height: 100%;
+    width: 100%;
+    color: #fff;
+    letter-spacing: 1px;
+    font-weight: 400;
+    font-size: 23px;
+    text-transform: uppercase;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    text-decoration: none;
+    gap: 40px;
+    list-style-type: none;
+    transition: transform 2s;
+}
+ul li:hover {
+   color: #E9FBEB !important;
+    transform: scale(1.2);
+}
+.Header {
+    width: 100%;
+    height: 90px;
+    display: flex;
+    justify-content:flex-start;
+    align-items: center;
+    gap: 20px;
+}
+.Header2 {
+    width: 100%;
+    height: 90px;
+    display: flex;
+    justify-content:flex-end;
+    align-items: center;
+    margin-right: 60px;
+}
