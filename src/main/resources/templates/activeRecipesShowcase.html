@@ -53,7 +53,6 @@
             <div class="Recipeheaderframe">
                 <h2>Aktive opskrifter</h2>
             </div>
-            <button onclick="history.back()" class="back-button">Back</button>
             <ul>
                 <li th:each="recipe : ${recipes}" class="recipe-item">
                     <div><span th:text="${recipe.title}">Name</span></div>

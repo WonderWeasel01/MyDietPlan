@@ -55,6 +55,7 @@ public class UserUIController {
         try{
             Recipe recipe = websiteService.getUsersAdjustedRecipeById(recipeID);
             model.addAttribute("recipe", recipe);
+            model.addAttribute("user", authenticationService.getUser());
             return "showRecipe";
         } catch (SystemErrorException e) {
             redirectAttributes.addAttribute("errorMessage", e.getMessage());
