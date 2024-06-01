@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/CSS/Index.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/default.css">
     <title>Forside</title>
     <script src="https://kit.fontawesome.com/c0582023bf.js" crossorigin="anonymous"></script>
     <Script>
@@ -11,63 +12,83 @@
     </Script>
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400&display=swap" rel="stylesheet">
-<div class="Navbar">
-    <div class="Header">
-        <img class="Logo" src="Images/PNGS/minkostplan-logo.png" />
-        <div class="MinProfil"></div>
-        <div class="Homeframe">
-            <div class="Hometext">Home</div>
-        </div>
-        <div class="Mealplan">
-            <div class="Mealplantext">Om os</div>
-        </div>
-    </div>
 
-    <div class="Header2">
-        <a class="Button" href="/login">
-            <i class="fa-solid fa-plate-wheat" style="color: #ffffff;"></i>
-            <div  class="KomIgang">LOGIN</div>
-    </a>
-    </div>
-</div>
 <body>
-    <div class="Mainframe">
-        <div class="Middleframe">
-            <div class="Leftframe">
-                <div class="SundeMadretterAlleUgensDage">Sunde madretter alle ugens dage!<br/><br/></div>
-                <div class="FDinHeltEgenSkrDdersyetKostplanForKun49krOmUgenFDeFRste30DageHeltGratis">Få din helt egen skræddersyet kostplan for kun 49kr om ugen! Få de første 30 dage helt gratis!</div>
-                <a href="/opretBruger" class="Button">
-                    <div class="KomIgang">KOM I GANG</div>
-                    <i class="fa-solid fa-chevron-right" style="color: #ffffff;"></i>
-                </a>
-            </div>
-            <img class="Foodbowl1" src="Images/PNGS/foodbowl.png" />
+    <div class="Navbar">
+        <div class="Header">
+            <a href="/">
+                <img class="Logo" src="Images/PNGS/minkostplan-logo-white.png" />
+            </a>
+            <ul class="headerLinks">
+                <li>
+                    <a href="/velkommen ">Kostplan</a>
+                </li>
+                <li>
+                    <a href="/omOs">Om os</a>
+                </li>
+                <li>
+                    <a href="/kontakt">Kontakt</a>
+                </li>   
+            </ul>
         </div>
     
-        <i class="fa-solid fa-arrow-down fa-2xl"></i>
+        <div class="Header2">
+            <a class="Button green" href="/login">
+                <i class="fa-solid fa-plate-wheat" style="color: #ffffff;"></i>
+                <div  class="ButtonText">LOGIN</div>
+        </a>
+        </div>
+    </div>
+    <section class="VideoBackground">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="column">
+                    <h1 class="forsideH1">MINKOSTPLAN</h1>
+                    <div class="headerPText"> Få ugentlige kostplaner, skræddersyet til dine mål i de første dage til 0 kr,
+                        helt uden binding. Herefter kun <span style="text-decoration: underline;">49 kr. om ugen.</span></div>
+                    
+                    <a href="/opretBruger" class="Button green" style="margin-left: 20px;">
+                        <div class="ButtonText">KOM I GANG</div>
+                        <i class="fa-solid fa-chevron-right" style="color: #ffffff;"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="background">
+                <div class="videoWrapper">
+                    <video class="data" autoplay="autoplay" muted="muted" playsinline loop="loop">
+                        <source src="Images/Videos/Food.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="backgroundOverlay"></div>
+        </div>
+    </section>
+    <section class="Preview">
 
         <div class="h2text">
             <h2>21 SKRÆDDERSYET RETTER TIL DIG HVER UGE</h2>
         </div>
         <div class="Mealshowcase">
 
-            <div class="Frame3">
+            <div class="Frame">
                 <img class="Yoghurt" src="Images/PNGS/vicky-ng-yIh0i6TYGrs-unsplash-removebg-preview (1).png" />
                 <h2 class="YoghurtText">Yoghurt frugtskål</h2>
                 <p>Start din dag med en lækker yoghurt-frugtskål, fyldt med friske, farverige frugter og cremet yoghurt - en sund, smagfuld nydelse!</p>
 
             </div>
-            <div class="Frame4">
+            <div class="Frame">
                 <img class="CaesarSalad" src="Images/PNGS/caesar salad.png" />
                 <h2 class="CaesarSaladText">Caesar salad</h2>
                 <p>Nyd en klassisk Caesar-salat med sprød romaine, cremet dressing og knasende croutons - en tidløs favorit, der aldrig skuffer!</p>
             </div>
-            <div class="Frame2">
+            <div class="Frame">
                 <img class="Salmonbowl" src="Images/PNGS/ella-olsson-KPDbRyFOTnE-unsplash-removebg-preview.png" />
                 <h2 class="salmonText">Laks</h2>
                 <p>Nyd en klassisk Caesar-salat med sprød romaine, cremet dressing og knasende croutons - en tidløs favorit, der aldrig skuffer!</p>
             </div>
         </div>
-    </div>
+    </section>
+
+
 </body>
 </html>
