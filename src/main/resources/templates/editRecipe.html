@@ -50,7 +50,6 @@
             <form action="#" th:action="@{/opdaterOpskrift}" th:object="${recipe}" method="post">
                 <input type="hidden" th:field="*{recipeID}" />
                 <input type="hidden" th:field="*{active}" />
-                <input type="hidden" th:field="*{day}" />
                 <input type="hidden" th:field="*{image.imageID}" />
 
                 <!-- Hidden field for ingredientsJson (not bound to recipe) -->
@@ -73,12 +72,18 @@
                         <label for="instructions" class="Instruktioner">Instruktioner</label>
                         <textarea id="instructions" th:field="*{instructions}" class="instructions-input" placeholder="Instruktioner"></textarea>
                     </div>
+                    <div class="ingredientList">
+                    <li  th:each="ingredient : ${recipe.ingredientList}">
+                    <div class="Ingredientbutton" th:text="${ingredient.name + ' - ' + ingredient.weightGrams + ' grams'}"></div>
+                </li>
+                     </div>
+
                     <button type="submit">Opdater opskrift</button>
                     <div th:if="${errorMessage} or ${successMessage}" class="message">
                         <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
                         <p th:if="${successMessage}" th:text="${successMessage}" class="success-message"></p>
                     </div>
-                </div>
+                </>
             </form>
         </div>
     </div>
