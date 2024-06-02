@@ -96,7 +96,6 @@ public class UserUIController {
         if (authenticationService.isAdminLoggedIn()){
             return "redirect:/admin";
         }
-
         try{
             if(authenticationService.isUserLoggedIn()){
                 return handleUserLogin();
@@ -198,6 +197,10 @@ public class UserUIController {
 
     @GetMapping("/minProfil")
     public String showUserProfile(Model model){
+<<<<<<< HEAD
+        model.addAttribute("user", authenticationService.getUser());
+=======
+>>>>>>> 411da20141b26f3b97d9a66e766f77583b00579b
         if(!isLoggedInAndHasSub()){
             return "redirect:/";
         }
@@ -227,11 +230,7 @@ public class UserUIController {
     private String determineViewDependingOnRole(User user) throws SystemErrorException, EntityNotFoundException {
         if ("Admin".equals(user.getRole())) {
             return "redirect:/admin";
-        }
-        if(authenticationService.isPayingUser()){
-            return "redirect:/velkommen";
-        }
-        return "redirect:/ingenAbonnement";
+        } else return "redirect:/velkommen";
     }
 
     private boolean isLoggedInAndHasSub() {

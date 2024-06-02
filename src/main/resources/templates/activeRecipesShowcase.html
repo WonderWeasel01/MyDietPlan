@@ -14,41 +14,10 @@
 </head>
 <body>
 <div class="Adminrecipepage">
-    <div class="Topframe">
-        <div class="Logoframe">
-            <img class="Logo" src="Images/PNGS/minkostplan-logo.png" />
-        </div>
-            <div class="AdminSide">ADMIN SIDE</div>
-        
-    </div>
+
+    <div th:include="adminLayout :: header2"></div>
+
     <div class="Middleframe">
-        <div class="Leftframe">
-
-                <a href="/admin" class="LeftFrameButton">
-                    <i class="fa-solid fa-circle-plus fa-xl" style="color: #87CC83;"></i>
-                    <div class="LeftFrameText">Tilføj ny opskrift</div>
-                </a>
-
-                <a href="/opretIngrediens" class="LeftFrameButton">
-                        <i class="fa-solid fa-leaf fa-xl" style="color: #87CC83;"></i>
-                        <div class="LeftFrameText">Tilføj ny ingrediens</div>
-                </a>
-            
-                <a href="/recipeShowcase" class="LeftFrameButton">
-                    <i class="fa-solid fa-trash-can fa-xl" style="color: #87CC83;"></i>
-                    <div class="LeftFrameText">Gamle opskrifter</div>
-                </a>
-          
-                <a href="/aktiveOpskrifter" class=" active LeftFrameButton">
-                    <i class="fa-solid fa-clock fa-xl" style="color: #ffffff;"></i>
-                    <div class="LeftFrameText">Aktive opskrifter</div>
-                </a>
-    
-                <a href="/logout" class="LeftFrameButton">
-                    <i class="fa-solid fa-right-from-bracket fa-xl" style="color: #87CC83;"></i>
-                    <div class="LeftFrameText">Logout</div>
-                </a>
-        </div>
         <div class="Rightframe">
             <div class="Recipeheaderframe">
                 <h2>Aktive opskrifter</h2>

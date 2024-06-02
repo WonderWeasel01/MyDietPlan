@@ -322,8 +322,14 @@ public class MyDietPlanRepository {
      */
 
     public User getUserByID(int id) throws EmptyResultDataAccessException{
-        String sql ="SELECT * FROM `User` WHERE user_id = ?";
-        return jdbcTemplate.queryForObject(sql,userRowMapper(),id);
+        String sql = "SELECT * FROM `User` INNER JOIN Subscription on User.user_id = Subscription.user_id where User.user_id = ?;";
+
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+            User user = userRowMapper().mapRow(rs, rowNum);
+            Subscription subscription = subscriptionRowMapper().mapRow(rs, rowNum);
+            user.setSubscription(subscription);
+            return user;
+        }, id);
     }
 
 
@@ -334,8 +340,14 @@ public class MyDietPlanRepository {
      * @throws EmptyResultDataAccessException Throws an exception whenever you are searching for an email that doesn't exist.
      */
     public User getUserByEmail(String email) {
-        String sql ="SELECT * FROM `User` WHERE email = ?";
-        return jdbcTemplate.queryForObject(sql,userRowMapper(),email);
+        String sql = "SELECT * FROM `User` INNER JOIN Subscription on User.user_id = Subscription.user_id where User.email = ?;";
+
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+            User user = userRowMapper().mapRow(rs, rowNum);
+            Subscription subscription = subscriptionRowMapper().mapRow(rs, rowNum);
+            user.setSubscription(subscription);
+            return user;
+        }, email);
     }
 
     public String getPasswordByEmail(String email){

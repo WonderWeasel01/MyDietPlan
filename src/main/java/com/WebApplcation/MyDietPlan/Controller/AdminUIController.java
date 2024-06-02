@@ -33,10 +33,11 @@ public class AdminUIController {
         this.authenticationService = authenticationService;
     }
     @GetMapping("/admin")
-    public String adminPageForm(Model model){
+    public String adminPageForm(Model model){  
         if(!isAdminLoggedIn()){
             return "redirect:/";
         }
+        model.addAttribute("user", authenticationService.getUser());
         List<Ingredient> ingredients = websiteService.getAllIngredients();
         Recipe recipe = new Recipe();
 
@@ -65,6 +66,7 @@ public class AdminUIController {
 
     @GetMapping("/opretIngrediens")
     public String addIngredientForm(Model model){
+        model.addAttribute("user", authenticationService.getUser());
         if(!isAdminLoggedIn()){
             return "redirect:/";
         }
@@ -86,6 +88,7 @@ public class AdminUIController {
 
     @GetMapping("/recipeShowcase")
     public String recipeShowcase(Model model){
+        model.addAttribute("user", authenticationService.getUser());
         if(!isAdminLoggedIn()){
             return "redirect:/";
         }
@@ -168,12 +171,12 @@ public class AdminUIController {
 
     @GetMapping("/aktiveOpskrifter")
     public String showActiveRecipes(Model model, RedirectAttributes redirectAttributes){
+        model.addAttribute("user", authenticationService.getUser());
         if(!isAdminLoggedIn()){
             return "redirect:/";
         }
        try{
            ArrayList<Recipe> recipes = websiteService.getAllActiveRecipes();
-           websiteService.setBase64Image(recipes);
            model.addAttribute("recipes", recipes);
            return "activeRecipesShowcase";
        }catch (EntityNotFoundException e){
