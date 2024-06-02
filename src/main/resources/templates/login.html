@@ -34,8 +34,8 @@
                 </div>
                 <div class="Forgotbutton">Glemt kodeord?</div>
             </div>
-            <button class="Button" type="submit"> 
-                <div class="ButtonLabel">LOG IN</div>
+            <button class="Button green" type="submit"> 
+                <a class="ButtonLabel">LOG IN</a>
             </button>
                 <div th:if="${loginError}" class="error-message">
                     <p th:text="${loginError}"></p>
@@ -48,7 +48,7 @@
                 <div class="NewUser">
                     <div>Har du ikke en bruger? </div> 
                     <div class="CreateUserButton">
-                        <a th:href="@{/opretBruger}"><div>Opret en bruger</div> </a>
+                        <a th:href="@{/opretBruger}"><div style="color: #87CC83;">Opret en bruger</div> </a>
                     </div>
                 </div>
             </div>
