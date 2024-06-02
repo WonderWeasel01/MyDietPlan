@@ -179,7 +179,8 @@ public class UserUIController {
     }
 
     @GetMapping("/minProfil")
-    public String showUserProfile(){
+    public String showUserProfile(Model model){
+        model.addAttribute("user", authenticationService.getUser());
         if(!isLoggedInAndHasSub()){
             return "redirect:/";
         }
