@@ -16,48 +16,7 @@
 </head>
 
 <body>
-  <div class="Navbar green">
-    <div class="Header">
-        <a href="/">
-          <img class="Logo" th:src="@{/Images/PNGS/minkostplan-logo-white.png}" alt="Logo" />
-        </a>
-        <ul class="headerLinks">
-            <li>
-                <a href="/velkommen ">Kostplan</a>
-            </li>
-            <li>
-                <a href="/omOs">Om os</a>
-            </li>
-            <li>
-                <a href="/kontakt">Kontakt</a>
-            </li>   
-        </ul>
-    </div>
-
-    <div class="Header2">
-        <div class="Profiledropdown profile action" onclick="menuToggle();">
-            <img class="Profileimage" src="https://via.placeholder.com/59x52" />
-            <div class="Name"><span style="color: white;" th:text="${user.firstName}">User</span></div>
-            <i class="fa-solid fa-sort-down" style="color: #ffffff;"></i>
-        
-        <div class="menu">
-            <ul>
-              <li>
-                <i class="fa-solid fa-user" style="color: #87cc83;"></i><a href="/minProfil">Min Profil</a>
-              </li>
-              <li>
-                <i class="fa-solid fa-pen" style="color: #87cc83;"></i>
-                  <a th:href="@{/opdaterBruger/{userID}(userID=${user.userId})}">Rediger Profil</a>
-              </li>
-              <li th:action="@{/logout}">
-                <i class="fa-solid fa-arrow-right-from-bracket" style="color: #87cc83;"></i>
-                <a th:href="@{/logout}">Log ud</a>
-            </li>
-            </ul>
-          </div>
-        </div>
-    </div>
-</div>
+  <div th:include="layout :: header"></div>
 
 
   <div class="MacbookAir1">

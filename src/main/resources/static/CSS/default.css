@@ -22,6 +22,7 @@ html{
     gap: 10px;
     display: flex;
     color: white;
+    cursor: pointer;
 }
 .ButtonStroke{
     width: 200px;
