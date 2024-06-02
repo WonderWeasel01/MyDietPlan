@@ -40,12 +40,14 @@ public class UserUIController {
     }
 
     @GetMapping("/paymentSite")
-    public String paymentSite() {
+    public String paymentSite(Model model) {
+        model.addAttribute("user", authenticationService.getUser());
         return "paymentSite";
     }
 
     @GetMapping("/ingenAbonnement")
-    public String notLoggedIn() {
+    public String notLoggedIn(Model model) {
+        model.addAttribute("user", authenticationService.getUser());
         return "noSubscription";
     }
 
@@ -89,20 +91,25 @@ public class UserUIController {
 
 
     @GetMapping("/login")
-    public String loginForm() {
+    public String loginForm(Model model) {
         // Grants instant access if the user is already logged in
         if (authenticationService.isAdminLoggedIn()){
             return "redirect:/admin";
         }
 
-        if(authenticationService.isUserLoggedIn()){
-            return handleUserLogin();
+        try{
+            if(authenticationService.isUserLoggedIn()){
+                return handleUserLogin();
+            }
+        }catch (SystemErrorException | EntityNotFoundException e ){
+            model.addAttribute("errorMessage", e.getMessage());
         }
+
 
         return "login";
     }
 
-    private String handleUserLogin(){
+    private String handleUserLogin() throws SystemErrorException, EntityNotFoundException {
         if (authenticationService.isPayingUser()) {
             return "redirect:/velkommen";
         } else return "redirect:/ingenAbonnement";
@@ -113,7 +120,7 @@ public class UserUIController {
         try{
             User validatedUser = authenticationService.loginUser(email, password);
             return determineViewDependingOnRole(validatedUser);
-        } catch (InputErrorException e){
+        } catch (InputErrorException | SystemErrorException | EntityNotFoundException e){
             model.addAttribute("loginError" , e.getMessage());
             return "login";
         }
@@ -121,8 +128,13 @@ public class UserUIController {
 
 
     @PostMapping("/payingUser")
-    public String handlePayingUser() {
-        authenticationService.payingUser();
+    public String handlePayingUser(RedirectAttributes redirectAttributes) {
+        try{
+            authenticationService.paySub();
+        } catch (EntityNotFoundException | SystemErrorException e){
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/CreatePayment";
+        }
         return "redirect:/velkommen";
     }
 
@@ -132,12 +144,18 @@ public class UserUIController {
         if(!isLoggedInAndHasSub()){
             return "redirect:/";
         }
-        try{
-            ArrayList<Recipe> adjustedRecipes = websiteService.adjustAndSetWeeklyRecipesToLoggedInUser();
-            websiteService.setBase64Image(adjustedRecipes);
-            model.addAttribute("weeklyRecipes", adjustedRecipes);
 
+        try{
             User user = authenticationService.getUser();
+            //If the user already has adjustedRecipes attached, use them to save time.
+            if(user.getAdjustedRecipes() != null){
+                model.addAttribute("weeklyRecipes", user.getAdjustedRecipes());
+            } else {
+                ArrayList<Recipe> adjustedRecipes = websiteService.adjustAndSetWeeklyRecipesToLoggedInUser();
+                websiteService.setBase64Image(adjustedRecipes);
+                model.addAttribute("weeklyRecipes", adjustedRecipes);
+            }
+
             model.addAttribute("user", user);
         } catch (EntityNotFoundException e) {
             model.addAttribute("errorMessage", e.getMessage());
@@ -180,10 +198,14 @@ public class UserUIController {
 
     @GetMapping("/minProfil")
     public String showUserProfile(Model model){
+<<<<<<< HEAD
         model.addAttribute("user", authenticationService.getUser());
+=======
+>>>>>>> 411da20141b26f3b97d9a66e766f77583b00579b
         if(!isLoggedInAndHasSub()){
             return "redirect:/";
         }
+        model.addAttribute("user",authenticationService.getUser());
         return "userProfile";
     }
 
@@ -206,7 +228,7 @@ public class UserUIController {
 
 
 
-    private String determineViewDependingOnRole(User user) {
+    private String determineViewDependingOnRole(User user) throws SystemErrorException, EntityNotFoundException {
         if ("Admin".equals(user.getRole())) {
             return "redirect:/admin";
         }
@@ -216,8 +238,13 @@ public class UserUIController {
         return "redirect:/ingenAbonnement";
     }
 
-    private boolean isLoggedInAndHasSub(){
-       return authenticationService.isUserLoggedIn() && authenticationService.isPayingUser();
+    private boolean isLoggedInAndHasSub() {
+        try{
+            return authenticationService.isUserLoggedIn() && authenticationService.isPayingUser();
+        } catch (SystemErrorException | EntityNotFoundException e){
+            return false;
+        }
+
     }
 
 

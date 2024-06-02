@@ -194,23 +194,54 @@ public class AuthenticationService {
      * Checks if the user is a paying user.
      * @return True if the user is a paying user, false if not.
      */
-    public boolean isPayingUser()  {
-        LocalDate currentDate = LocalDate.now();
+    public boolean isPayingUser() throws SystemErrorException, EntityNotFoundException {
         try{
-            LocalDate subEndDate = repo.getSubscription(getUser().getUserId()).getSubscriptionEndDate().toLocalDate();
-            return currentDate.isBefore(subEndDate);
+            User user = getUser();
+            Subscription subscription = repo.getSubscriptionByUserID(user.getUserId());
+
+            //Renew if active subscription ran out
+            if(isSubExpired(subscription) && subscription.isActiveSubscription()){
+                return renewSub(subscription);
+            }
+            else return !isSubExpired(subscription);
+
         } catch (EmptyResultDataAccessException e){
             System.out.println("Intet abonnement fundet");
             return false;
         }
     }
 
-    public boolean renewSub(int userID) throws SystemErrorException {
-        Date date = Date.valueOf(LocalDate.now().plusWeeks(4));
+    public boolean isSubExpired(Subscription subscription){
+        LocalDate currentDate = LocalDate.now();
+        return currentDate.isAfter(subscription.getSubscriptionEndDate().toLocalDate());
+    }
+
+    public boolean renewSub(Subscription subscription) throws SystemErrorException, EntityNotFoundException {
+        Date date;
+
+        //If the user still has time left on their sub, the month gets added to their current sub end day.
+        if (subscription.getSubscriptionEndDate().toLocalDate().isAfter(LocalDate.now())){
+            date = Date.valueOf(subscription.getSubscriptionEndDate().toLocalDate().plusMonths(1));
+        } else {
+            date = Date.valueOf(LocalDate.now().plusMonths(1));
+        }
+
+        //Update sub attributes.
+        subscription.setSubscriptionStartDate(Date.valueOf(LocalDate.now()));
+        subscription.setSubscriptionEndDate(date);
+        subscription.setSubscriptionPrice(196);
+
+        //Set active status
+        if(!subscription.isActiveSubscription()){
+            subscription.setActiveSubscription(true);
+        }
+
         try{
-            return repo.updateSubscriptionEndDate(date, userID);
+            return repo.updateSubscription(subscription);
         }catch (EmptyResultDataAccessException e){
-            throw new SystemErrorException("Kunne ikke finde abonnement i databasen");
+            throw new EntityNotFoundException("Kunne ikke finde abonnement i databasen");
+        } catch (DataAccessException e) {
+            throw new SystemErrorException("Der skete en fejl med databasen. Prøv igen senere");
         }
     }
 
@@ -232,23 +263,38 @@ public class AuthenticationService {
 
     /**
      * Sets up a subscription for the user.
-     * @return The created Subscription object.
      */
-    public Subscription payingUser() {
+    public void paySub() throws SystemErrorException, EntityNotFoundException{
         User user = getUser();
-        int paidUserId = user.getUserId();
-        Subscription subscription = setupSubscription();
+        int userID = user.getUserId();
+        Subscription subscription = getSubscriptionByUserID(userID);
 
-        // Set the subscription start date to the current date
-        repo.insertSubscription(subscription,paidUserId);
-        return subscription;
+        try{
+            //If the user has a sub, renew it, else create a new one
+            if(subscription != null){
+            renewSub(subscription);
+            } else{
+                subscription = setupNewSubscription();
+                repo.insertSubscription(subscription,userID);
+            }
+        }catch (DataAccessException e){
+            throw new SystemErrorException("Der skete en database fejl. Prøv igen senere");
+        }
+    }
+
+    public Subscription getSubscriptionByUserID(int userID){
+        try{
+            return repo.getSubscriptionByUserID(userID);
+        } catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
     /**
      * Sets up a new subscription.
      * @return The configured Subscription object.
      */
-    public Subscription setupSubscription(){
+    public Subscription setupNewSubscription(){
         Subscription subscription = new Subscription();
 
         java.util.Date currentDate = new java.util.Date();
@@ -256,7 +302,7 @@ public class AuthenticationService {
         subscription.setSubscriptionStartDate(sqlStartDate);
 
         // Set the subscription end date one week later
-        LocalDate localEndDate = sqlStartDate.toLocalDate().plusWeeks(4);
+        LocalDate localEndDate = sqlStartDate.toLocalDate().plusMonths(1);
         java.sql.Date sqlEndDate = java.sql.Date.valueOf(localEndDate);
         subscription.setSubscriptionEndDate(sqlEndDate);
 
@@ -264,7 +310,7 @@ public class AuthenticationService {
         subscription.setActiveSubscription(true);
 
         //Set the Price of the membership
-        subscription.setSubscriptionPrice(49.00);
+        subscription.setSubscriptionPrice(0);
         return subscription;
     }
 

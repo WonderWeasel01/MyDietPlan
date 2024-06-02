@@ -86,12 +86,16 @@
                     <input class="Input" type="text" placeholder="***">  
                 </div>
             </div>
+        </div>
+    </form>
+        <form th:action="@{/payingUser}" method="post">
+            <button type="submit" class="KomIgang">BETAL</button>
+            <i class="fa-solid fa-chevron-right" style="color: #ffffff;"></i>
         </form>
-            <form th:action="@{/payingUser}" method="post">
-                <button type="submit" class="KomIgang">BETAL</button>
-                <i class="fa-solid fa-chevron-right" style="color: #ffffff;"></i>
-            </form>
-
+        <div th:if="${errorMessage} or ${successMessage}" class="message">
+            <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
+            <p th:if="${successMessage}" th:text="${successMessage}" class="success-message"></p>
+        </div>
 </div>
 </body>
 </html>

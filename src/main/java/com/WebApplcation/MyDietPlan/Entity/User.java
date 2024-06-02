@@ -16,8 +16,8 @@ public class User {
     private String activityLevel;
     private String goal;
     private String role;
-    ArrayList<Recipe> favoriteRecipes = new ArrayList<>();
-    ArrayList<Recipe> adjustedRecipes = new ArrayList<>();
+    ArrayList<Recipe> favoriteRecipes;
+    ArrayList<Recipe> adjustedRecipes;
     private Subscription subscription;
     private double dailyCalorieBurn;
     private double dailyCalorieGoal;
