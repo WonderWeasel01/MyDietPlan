@@ -37,17 +37,26 @@
                 
                 <div class="menu">
                     <ul>
-                      <li>
-                        <i class="fa-solid fa-user" style="color: #87cc83;"></i><a href="/minProfil">Min Profil</a>
-                      </li>
-                      <li>
-                        <i class="fa-solid fa-pen" style="color: #87cc83;"></i>
-                          <a th:href="@{/opdaterBruger/{userID}(userID=${user.userId})}">Rediger Profil</a>
-                      </li>
-                      <li th:action="@{/logout}">
-                        <i class="fa-solid fa-arrow-right-from-bracket" style="color: #87cc83;"></i>
-                        <a th:href="@{/logout}">Log ud</a>
-                    </li>
+                        <a href="/minProfil">
+                            <li>
+                                <i class="fa-solid fa-user" style="color: #87cc83;"></i>
+                                <a href="/minProfil">Min Profil</a>
+                            </li>
+                        </a>
+
+                        <a th:href="@{/opdaterBruger/{userID}(userID=${user.userId})}">
+                            <li>
+                                <i class="fa-solid fa-pen" style="color: #87cc83;"></i>
+                                <a th:href="@{/opdaterBruger/{userID}(userID=${user.userId})}">Rediger Profil</a>
+                            </li>
+                        </a>
+
+                        <a href="/logout">
+                            <li>
+                                <i class="fa-solid fa-arrow-right-from-bracket" style="color: #87cc83;"></i>
+                                <a href="/logout">Log ud</a>
+                            </li>
+                        </a>
                     </ul>
                   </div>
                 </div>
@@ -65,3 +74,4 @@ toggleMenu.classList.toggle("active");
 }
     </script>
 </div>
+           
