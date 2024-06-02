@@ -1,0 +1,62 @@
+<div th:fragment="header2">
+    <!-- Paste the provided HTML code here -->
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="https://kit.fontawesome.com/c0582023bf.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/CSS/Default.css">
+        
+    </head>
+    <body>
+        <div class="Navbar green">
+            <div class="Header">
+                <a href="/">
+                    <img class="Logo" th:src="@{/Images/PNGS/minkostplan-logo-white.png}" alt="Logo" />
+                </a>
+                <ul class="headerLinks">
+                    <li>
+                        <a href="/admin">ny opskrift</a>
+                    </li>
+                    <li>
+                        <a href="/opretIngrediens">ny ingrediens</a>
+                    </li>
+                    <li>
+                        <a href="/recipeShowcase">deaktiveret opskrifter</a>
+                    </li>   
+                    <li>
+                        <a href="/aktiveOpskrifter">aktiveret opskrifter</a>
+                    </li>   
+                    <li>
+                        <a href="/redigerBruger">rediger Bruger</a>
+                    </li>   
+                </ul>
+            </div>
+        
+ 
+                
+
+                      <a class="Button grey" href="/logout">
+                        <i class="fa-solid fa-arrow-right-from-bracket" style="color: #87cc83;"></i>
+                       <div class="ButtonText">Log Ud</div>
+                      </a>
+                
+ 
+         
+        
+        </div>
+    </body>
+    </html>
+
+
+    <script>
+        //DropDown
+function menuToggle() {
+const toggleMenu = document.querySelector(".menu");
+toggleMenu.classList.toggle("active");
+}
+    </script>
+</div>
