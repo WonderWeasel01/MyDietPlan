@@ -5,8 +5,10 @@ import com.WebApplcation.MyDietPlan.Entity.Ingredient;
 import com.WebApplcation.MyDietPlan.Entity.Recipe;
 import com.WebApplcation.MyDietPlan.Entity.Subscription;
 import com.WebApplcation.MyDietPlan.Entity.User;
+import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -453,6 +455,17 @@ public class MyDietPlanRepository {
         return image;
     }
 
+    public List<User> getAllUsers(String searchQuery) {
+            String sql = "SELECT * FROM User";
+
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                sql += "WHERE first_name LIKE ?";
+                return jdbcTemplate.query(sql, userRowMapper(), "%" + searchQuery + "%");
+            } else {
+                return jdbcTemplate.query(sql, userRowMapper());
+            }
+    }
+
 
      private RowMapper<Image> imageRowMapper(){
         return ((rs, rowNum) -> {
@@ -464,6 +477,7 @@ public class MyDietPlanRepository {
             return image;
         });
     }
+
     
 
 

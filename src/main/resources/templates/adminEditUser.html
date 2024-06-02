@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin - Edit User</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+<h2>Search Users</h2>
+<form th:action="@{/opdaterBrugerAdmin}" method="get">
+    <label for="searchQuery">Search by Name:</label>
+    <input type="text" id="searchQuery" name="searchQuery" placeholder="Enter first or last name">
+    <button type="submit">Search</button>
+</form>
+</body>
+</html>

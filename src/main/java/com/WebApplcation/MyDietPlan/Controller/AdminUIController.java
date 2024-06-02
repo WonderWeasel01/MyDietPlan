@@ -1,5 +1,6 @@
 package com.WebApplcation.MyDietPlan.Controller;
 
+import com.WebApplcation.MyDietPlan.Entity.User;
 import com.WebApplcation.MyDietPlan.Exception.EntityNotFoundException;
 import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
@@ -19,6 +20,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class AdminUIController {
@@ -178,6 +181,44 @@ public class AdminUIController {
        }
        return "redirect:/aktiveOpskrifter";
     }
+
+    @GetMapping("/opdaterBrugerAdmin")
+    public String adminEditUser(@RequestParam String searchQuery, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            List<User> allUsers = websiteService.getAllUsers((searchQuery));
+            List<User> filteredUsers;
+
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                filteredUsers = allUsers.stream()
+                        .filter(user -> user.getFirstName().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                                user.getLastName().toLowerCase().contains(searchQuery.toLowerCase()))
+                        .collect(Collectors.toList());
+            } else {
+                filteredUsers = allUsers;
+            }
+            model.addAttribute("users", filteredUsers);
+            return "adminEditUser";
+
+        } catch (SystemErrorException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+
+        }
+        return "redirect:/opdaterBrugerAdmin";
+    }
+
+    @PostMapping("/opdaterBrugerAdmin")
+    public String editUserPost(@ModelAttribute User user, RedirectAttributes redirectAttributes) {
+        try {
+            websiteService.updateUser(user);
+            redirectAttributes.addFlashAttribute("successMessage", "Brugeren blev opdateret!");
+        } catch (InputErrorException | SystemErrorException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/admin";
+    }
+
+
+
 
 
 
