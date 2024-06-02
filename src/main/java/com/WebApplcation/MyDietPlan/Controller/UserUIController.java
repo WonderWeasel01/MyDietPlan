@@ -96,7 +96,6 @@ public class UserUIController {
         if (authenticationService.isAdminLoggedIn()){
             return "redirect:/admin";
         }
-
         try{
             if(authenticationService.isUserLoggedIn()){
                 return handleUserLogin();
@@ -227,11 +226,7 @@ public class UserUIController {
     private String determineViewDependingOnRole(User user) throws SystemErrorException, EntityNotFoundException {
         if ("Admin".equals(user.getRole())) {
             return "redirect:/admin";
-        }
-        if(authenticationService.isPayingUser()){
-            return "redirect:/velkommen";
-        }
-        return "redirect:/ingenAbonnement";
+        } else return "redirect:/velkommen";
     }
 
     private boolean isLoggedInAndHasSub() {

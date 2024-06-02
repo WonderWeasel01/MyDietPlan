@@ -196,9 +196,10 @@ public class AuthenticationService {
      */
     public boolean isPayingUser() throws SystemErrorException, EntityNotFoundException {
         try{
-            User user = getUser();
-            Subscription subscription = repo.getSubscriptionByUserID(user.getUserId());
 
+            Subscription subscription = repo.getSubscriptionByUserID(getUser().getUserId());
+
+            System.out.println(subscription);
             //Renew if active subscription ran out
             if(isSubExpired(subscription) && subscription.isActiveSubscription()){
                 return renewSub(subscription);

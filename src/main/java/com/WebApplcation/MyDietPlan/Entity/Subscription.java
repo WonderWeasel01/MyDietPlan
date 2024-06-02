@@ -63,15 +63,16 @@ public double getSubscriptionPrice() {
 public void setSubscriptionPrice(double subscriptionPrice) {
     this.subscriptionPrice = subscriptionPrice;
 }
-@Override
-public String toString() {
-    return "Subscription [subscriptionID=" + subscriptionID + ", subscriptionType=" +
-            ", subscriptionStartDate=" + subscriptionStartDate + ", subscriptionEndDate=" + subscriptionEndDate
-            + ", subscriptionStatus=" + activeSubscription + ", subscriptionPrice=" + subscriptionPrice + "]";
-}
 
-
-
-
-
+    @Override
+    public String toString() {
+        return "Subscription{" +
+                "subscriptionID=" + subscriptionID +
+                ", subscriptionStartDate=" + subscriptionStartDate +
+                ", subscriptionEndDate=" + subscriptionEndDate +
+                ", activeSubscription=" + activeSubscription +
+                ", subscriptionPrice=" + subscriptionPrice +
+                ", userID=" + userID +
+                '}';
+    }
 }
