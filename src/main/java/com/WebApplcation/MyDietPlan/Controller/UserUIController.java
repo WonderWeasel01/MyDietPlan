@@ -104,7 +104,6 @@ public class UserUIController {
             model.addAttribute("errorMessage", e.getMessage());
         }
 
-
         return "login";
     }
 
@@ -197,10 +196,9 @@ public class UserUIController {
 
     @GetMapping("/minProfil")
     public String showUserProfile(Model model){
-<<<<<<< HEAD
+
         model.addAttribute("user", authenticationService.getUser());
-=======
->>>>>>> 411da20141b26f3b97d9a66e766f77583b00579b
+
         if(!isLoggedInAndHasSub()){
             return "redirect:/";
         }
