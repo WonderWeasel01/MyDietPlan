@@ -12,13 +12,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler({MissingServletRequestParameterException.class, MethodArgumentNotValidException.class})
-    public String handleMissingServletRequestParameterException(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    public String handleMissingServletRequestParameterException(MissingServletRequestParameterException exception, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         // Capture the original URL
         String referer = request.getHeader("Referer");
 
+
         // Add the flash attribute
         redirectAttributes.addFlashAttribute("errorMessage", "Udfyld venligst alle felter korrekt.");
-
+        System.out.println(exception.getMessage());
         // Redirect back to the original URL
         return "redirect:" + (referer);
     }

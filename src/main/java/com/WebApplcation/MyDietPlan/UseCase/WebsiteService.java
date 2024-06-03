@@ -1,12 +1,9 @@
 package com.WebApplcation.MyDietPlan.UseCase;
 
+import com.WebApplcation.MyDietPlan.Entity.*;
 import com.WebApplcation.MyDietPlan.Exception.EntityNotFoundException;
 import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
-import com.WebApplcation.MyDietPlan.Entity.Image;
-import com.WebApplcation.MyDietPlan.Entity.Ingredient;
-import com.WebApplcation.MyDietPlan.Entity.Recipe;
-import com.WebApplcation.MyDietPlan.Entity.User;
 import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -535,18 +532,8 @@ public class WebsiteService {
      * @throws InputErrorException if the user object is null or if the user ID within the user object is 0.
      */
     public User updateUser(User user) throws InputErrorException, SystemErrorException {
-        if (!authenticationService.isValidUser(user)) {
-            throw new InputErrorException("Udfyld venligst alle felter");
-        }
         try {
-            authenticationService.hashAndSetPassword(user);
-            user.setupDailyCalorieGoal();
-            //Attempt to update the user in the database
-            User updatedUser = repository.updateUser(user);
-            //Update the logged-in user with the updated information
-            authenticationService.setSession(updatedUser);
-
-            return updatedUser;
+            return repository.updateUser(user);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             throw new SystemErrorException("Kunne ikke finde brugeren i databasen. Prøv igen senere");
@@ -556,6 +543,47 @@ public class WebsiteService {
         }
     }
 
+    public void handleUserSelfUpdate(User user) throws InputErrorException, SystemErrorException {
+        if (!authenticationService.isValidUser(user)) {
+            throw new InputErrorException("Udfyld venligst alle felter");
+        }
+        authenticationService.hashAndSetPassword(user);
+        user.setupDailyCalorieGoal();
+        user = updateUser(user);
+        authenticationService.setSession(user);
+    }
+
+    public void handleAdminUserInfoUpdate(User user) throws InputErrorException, SystemErrorException {
+        if (!authenticationService.isValidUser(user)) {
+            throw new InputErrorException("Udfyld venligst alle felter");
+        }
+        authenticationService.hashAndSetPassword(user);
+        user.setupDailyCalorieGoal();
+
+        try{
+            repository.updateUser(user);
+        } catch (DataAccessException e){
+            throw new SystemErrorException("Der skete en fejl med databasen. Prøv igen senere");
+        }
+
+    }
+
+    public void handleAdminUserSubscriptionUpdate(Subscription subscription) throws SystemErrorException {
+        try{
+            repository.updateSubscription(subscription);
+        } catch(DataAccessException e){
+            throw new SystemErrorException("Der er sket en fejl med databasen. Prøv igen senere");
+        }
+
+    }
+
+    public Subscription getSubscriptionByUserID(int userID){
+        try{
+            return repository.getSubscriptionByUserID(userID);
+        } catch (EmptyResultDataAccessException e){
+            return null;
+        }
+    }
     public List<User> getAllUsers(String searchQuery) throws SystemErrorException {
         try {
             return repository.getAllUsers(searchQuery);

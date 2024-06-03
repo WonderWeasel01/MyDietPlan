@@ -199,7 +199,6 @@ public class AuthenticationService {
 
             Subscription subscription = repo.getSubscriptionByUserID(getUser().getUserId());
 
-            System.out.println(subscription);
             //Renew if active subscription ran out
             if(isSubExpired(subscription) && subscription.isActiveSubscription()){
                 return renewSub(subscription);
@@ -262,34 +261,29 @@ public class AuthenticationService {
 
 
 
+
     /**
      * Sets up a subscription for the user.
      */
-    public void paySub() throws SystemErrorException, EntityNotFoundException{
+    public void paySubscription() throws SystemErrorException, EntityNotFoundException{
         User user = getUser();
         int userID = user.getUserId();
-        Subscription subscription = getSubscriptionByUserID(userID);
 
         try{
-            //If the user has a sub, renew it, else create a new one
-            if(subscription != null){
+            //Renew the users subscription
+            Subscription subscription = repo.getSubscriptionByUserID(userID);
             renewSub(subscription);
-            } else{
-                subscription = setupNewSubscription();
-                repo.insertSubscription(subscription,userID);
-            }
+
+            //Set up a new subscription if the user doesn't have one.
+        } catch (EmptyResultDataAccessException e){
+            Subscription subscription = setupNewSubscription();
+            repo.insertSubscription(subscription,userID);
         }catch (DataAccessException e){
             throw new SystemErrorException("Der skete en database fejl. Prøv igen senere");
         }
     }
 
-    public Subscription getSubscriptionByUserID(int userID){
-        try{
-            return repo.getSubscriptionByUserID(userID);
-        } catch (EmptyResultDataAccessException e){
-            return null;
-        }
-    }
+
 
     /**
      * Sets up a new subscription.

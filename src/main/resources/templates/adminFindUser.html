@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html class="Head" lang="en">
+<head><title>Admin - Edit User</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+</head>
+<body>
+<div th:insert="~{adminLayout :: header2}"></div>
+<h1>Admin - Edit User</h1>
+<h2>Search Users</h2>
+<input type="text" id="searchQuery" oninput="searchUser()" placeholder="Search for names..">
+
+<h2>Users List</h2>
+<div th:if="${users != null}">
+    <div class="userBox" th:each="user : ${users}">
+        <p class="username" th:text="${user.firstName + ' ' + user.lastName}"></p>
+        <p class="email" th:text="${user.email}"></p>
+        <a th:href="@{/opdaterBrugerAdmin/{userID}(userID =${user.userId})}">Administrer bruger</a>
+    </div>
+    <div th:if="${users == null}">
+        <p>No users found</p>
+    </div>
+</div>
+</body>
+<script>
+    function searchUser() {
+        var input = document.getElementById('searchQuery').value.toLowerCase();
+        var usernames = document.getElementsByClassName('username');
+        var emails = document.getElementsByClassName('email');
+
+        for (var i = 0; i < usernames.length; i++) {
+            var username = usernames[i].textContent.toLowerCase();
+            var email = emails[i].textContent.toLowerCase();
+
+            var parentElement = usernames[i].closest('.userBox');
+
+            if (username.includes(input) || email.includes(input)) {
+                parentElement.style.display = 'block';
+            } else {
+                parentElement.style.display = 'none';
+            }
+        }
+    }
+</script>
+</html>

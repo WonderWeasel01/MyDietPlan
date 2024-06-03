@@ -98,7 +98,7 @@ public class UserUIController {
         }
         try{
             if(authenticationService.isUserLoggedIn()){
-                return handleUserLogin();
+                return handleUserLoginView();
             }
         }catch (SystemErrorException | EntityNotFoundException e ){
             model.addAttribute("errorMessage", e.getMessage());
@@ -107,11 +107,7 @@ public class UserUIController {
         return "login";
     }
 
-    private String handleUserLogin() throws SystemErrorException, EntityNotFoundException {
-        if (authenticationService.isPayingUser()) {
-            return "redirect:/velkommen";
-        } else return "redirect:/ingenAbonnement";
-    }
+
 
     @PostMapping("/login")
     public String loginUser(@RequestParam String email, @RequestParam String password, Model model) {
@@ -128,7 +124,7 @@ public class UserUIController {
     @PostMapping("/payingUser")
     public String handlePayingUser(RedirectAttributes redirectAttributes) {
         try{
-            authenticationService.paySub();
+            authenticationService.paySubscription();
         } catch (EntityNotFoundException | SystemErrorException e){
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/CreatePayment";
@@ -186,7 +182,7 @@ public class UserUIController {
         }
 
         try {
-            websiteService.updateUser(updatedUser);
+            websiteService.handleUserSelfUpdate(updatedUser);
             return "redirect:/velkommen";
         } catch (InputErrorException | SystemErrorException e) {
             model.addAttribute("errorMessage", e.getMessage());
@@ -222,13 +218,16 @@ public class UserUIController {
     }
 
 
-
-
-
     private String determineViewDependingOnRole(User user) throws SystemErrorException, EntityNotFoundException {
         if ("Admin".equals(user.getRole())) {
             return "redirect:/admin";
-        } else return "redirect:/velkommen";
+        } else return handleUserLoginView();
+    }
+
+    private String handleUserLoginView() throws SystemErrorException, EntityNotFoundException {
+        if (authenticationService.isPayingUser()) {
+            return "redirect:/velkommen";
+        } else return "redirect:/ingenAbonnement";
     }
 
     private boolean isLoggedInAndHasSub() {
