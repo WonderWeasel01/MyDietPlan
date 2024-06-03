@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/CSS/editUser.css">
     <link rel="stylesheet" type="text/css" href="/CSS/default.css">
 </head>
-<div th:include="layout :: header"></div>
+<div th:insert="~{layout :: header}"></div>
 <div class="Background">
 
     <div class="Left">
@@ -32,8 +32,7 @@
     <div class="Right">
         <form class="Form" action="#" th:action="@{/opdaterBruger}" th:object="${user}" method="post">
             <input type="hidden" th:field="*{userId}" class="Input">
-            <input type="hidden" th:field="*{gender}" class="Input">
-        
+
             <div class="userFirstName">Nyt Fornavn:</div>
             <input type="text" id="userFirstName" th:value="firstName" th:field="*{firstName}" class="Input" required>
             <div class="userLastName">Nyt Efternavn:</div>
@@ -42,6 +41,11 @@
             <input type="text" id="email" th:value="email" th:field="*{email}" class="Input" required>
             <div class="password">Nyt password:</div>
             <input type="password" id="password" th:field="*{password}" class="Input" required>
+            <div class="genderDropdown">Køn</div>
+            <select id="genderDropdown" name="genderSelect" th:field="*{gender}" class="Input">
+                <option value="M">Mand</option>
+                <option value="F">Kvinde</option>
+            </select>
             <div class="height">Ny Højde:</div>
             <input type="number" id="height" th:value="height" th:field="*{height}" class="Input" required>
             <div class="weight">Ny Vægt:</div>
@@ -50,7 +54,7 @@
             <input type="number" id="age" th:value="age" th:field="*{age}" class="Input" required>
             <div class="userGoal">Nyt Mål:</div>
             <label for="goalDropdown"> </label>
-            <select id="goalDropdown" name="activitySelect" th:field="*{goal}" required>
+            <select id="goalDropdown" name="activitySelect" th:field="*{goal}" class="Input" required>
                 <option value="Build muscle">Opbyg muskler</option>
                 <option value="Loose weight">Tab vægt</option>
                 <option value="Increase weight">Øg din vægt</option>
@@ -58,7 +62,7 @@
             </select>
             <div class="userActivityLevel">Nyt Aktivitetsniveau:</div>
             <label for="activityDropdown"></label>
-                <select id="activityDropdown" name="activitySelect" th:field="*{activityLevel}" required>
+                <select id="activityDropdown" name="activitySelect" th:field="*{activityLevel}" class="Input" required>
                     <option value="No exercise">Ingen- eller meget lavt aktivitet</option>
                     <option value="Light activity">1-2 gange aktivitet om ugen</option>
                     <option value="Average activity">3-5 gange aktivitet om ugen</option>
@@ -66,7 +70,7 @@
                     <option value="Extreme activity">1-2 gange aktivitet om dagen</option>
                 </select>
             <div class="updateButton">
-                <button type="submit">Opdater information</button>
+                <button class="Input" type="submit">Opdater information</button>
             </div>
         </form>
     </div>

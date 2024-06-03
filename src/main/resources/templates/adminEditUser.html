@@ -45,7 +45,7 @@
             <input type="number" id="age" th:value="age" th:field="*{age}" class="Input" required>
             <div class="userGoal">Nyt Mål:</div>
             <label for="goalDropdown"> </label>
-            <select id="goalDropdown" name="activitySelect" th:field="*{goal}" required>
+            <select id="goalDropdown" name="activitySelect" th:field="*{goal}" class="Input" required>
                 <option value="Build muscle">Opbyg muskler</option>
                 <option value="Loose weight">Tab vægt</option>
                 <option value="Increase weight">Øg din vægt</option>
@@ -53,7 +53,7 @@
             </select>
             <div class="userActivityLevel">Nyt Aktivitetsniveau:</div>
             <label for="activityDropdown"></label>
-            <select id="activityDropdown" name="activitySelect" th:field="*{activityLevel}" required>
+            <select id="activityDropdown" name="activitySelect" th:field="*{activityLevel}" class="Input" required>
                 <option value="No exercise">Ingen- eller meget lavt aktivitet</option>
                 <option value="Light activity">1-2 gange aktivitet om ugen</option>
                 <option value="Average activity">3-5 gange aktivitet om ugen</option>
@@ -76,7 +76,7 @@
                 <label for="subPrice">Pris:</label>
                 <input type="number" id="subPrice" th:field="*{subscriptionPrice}" class="Input" step="1" required >
                 <label for="subStatus">Aktivt abonnement:</label>
-                <input type="checkbox" id="subStatus" th:field="*{activeSubscription}" onclick="return confirm('Opsig brugers abonnement?')" class="Input">
+                <input type="checkbox" id="subStatus" th:field="*{activeSubscription}" onclick="return confirm('Opsig/Gentoptag brugers abonnement?')" class="Input">
                 <div class="updateButton">
                     <button type="submit">Opdater abonnement</button>
                 </div>

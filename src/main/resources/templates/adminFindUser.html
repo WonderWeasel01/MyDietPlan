@@ -36,8 +36,10 @@
             var username = usernames[i].textContent.toLowerCase();
             var email = emails[i].textContent.toLowerCase();
 
+            //Finds the closest <div class="userBox" th:each="user : ${users}"> for usernames[i]
             var parentElement = usernames[i].closest('.userBox');
 
+            //Shows the div if username or email is included in the searchbar
             if (username.includes(input) || email.includes(input)) {
                 parentElement.style.display = 'block';
             } else {

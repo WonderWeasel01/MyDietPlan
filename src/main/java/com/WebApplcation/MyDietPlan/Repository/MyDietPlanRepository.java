@@ -372,8 +372,15 @@ public class MyDietPlanRepository {
      */
 
     public boolean updateUser(User user){
-        String sql ="UPDATE `User` SET `first_name`= ?,`last_name`= ?, `email`= ?, `password`= ?, `goal`= ?, `activity_level`= ?, `weight`= ?, `height`= ?,  `age`= ?, `daily_calorie_burn`= ?, `daily_calorie_goal`= ? WHERE user_id = ?";
-        return 0 < jdbcTemplate.update(sql, user.getFirstName(),user.getLastName(), user.getEmail(), user.getPassword(), user.getGoal(), user.getActivityLevel(), user.getWeight(), user.getHeight(), user.getAge(), user.getDailyCalorieBurn(), user.getDailyCalorieGoal(), user.getUserId());
+        String sql = "UPDATE `User` SET `first_name`= ?, `last_name`= ?, `email`= ?, `password`= ?, " +
+                "`goal`= ?, `activity_level`= ?, `gender`= ?, `weight`= ?, `height`= ?, `age`= ?, " +
+                "`daily_calorie_burn`= ?, `daily_calorie_goal`= ? WHERE user_id = ?";
+
+        return 0 < jdbcTemplate.update(sql,
+                user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(),
+                user.getGoal(), user.getActivityLevel(), String.valueOf(user.getGender()),
+                user.getWeight(), user.getHeight(), user.getAge(),
+                user.getDailyCalorieBurn(), user.getDailyCalorieGoal(), user.getUserId());
     }
 
     public int getActiveRecipeAmount(){

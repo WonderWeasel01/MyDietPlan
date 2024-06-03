@@ -215,7 +215,6 @@ public class AdminUIController {
             Subscription subscription = websiteService.getSubscriptionByUserID(userID);
 
             if(subscription != null){
-                System.out.println(subscription);
                 model.addAttribute("subscription", subscription);
             }
 
@@ -242,7 +241,6 @@ public class AdminUIController {
     @PostMapping("/opdaterBrugerAbonnementAdmin")
     public String editUserSubscription(@ModelAttribute Subscription subscription, RedirectAttributes redirectAttributes){
         try{
-            System.out.println(subscription);
             if(websiteService.handleAdminUserSubscriptionUpdate(subscription)){
                 redirectAttributes.addFlashAttribute("successMessage", "Brugerens abonnement blev opdateret!");
             }

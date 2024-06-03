@@ -182,6 +182,7 @@ public class UserUIController {
         }
 
         try {
+            System.out.println(updatedUser);
             websiteService.handleUserSelfUpdate(updatedUser);
             redirectAttributes.addFlashAttribute("successMessage", "Oplysninger opdateret!");
             return "redirect:/opdaterBruger";
@@ -215,7 +216,7 @@ public class UserUIController {
        } catch (EntityNotFoundException | SystemErrorException e){
            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
        }
-       return "redirect:/opdaterBruger/" + userID;
+       return "redirect:/opdaterBruger";
     }
 
 

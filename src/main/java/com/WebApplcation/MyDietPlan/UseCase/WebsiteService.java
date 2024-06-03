@@ -569,8 +569,12 @@ public class WebsiteService {
         //Update the user and the session if the update went well.
         if(updateUser(user)){
             authenticationService.setSession(getUserByID(user.getUserId()));
+            System.out.println(true);
             return true;
-        } else return false;
+        } else {
+            System.out.println(false)
+            ;return false;
+        }
     }
 
     public boolean handleAdminUserInfoUpdate(User user) throws InputErrorException, SystemErrorException {
