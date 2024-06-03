@@ -43,11 +43,11 @@
             <div class="password">Nyt password:</div>
             <input type="password" id="password" th:field="*{password}" class="Input" required>
             <div class="height">Ny Højde:</div>
-            <input type="text" id="height" th:value="height" th:field="*{height}" class="Input" required>
+            <input type="number" id="height" th:value="height" th:field="*{height}" class="Input" required>
             <div class="weight">Ny Vægt:</div>
-            <input type="text" id="weight" th:value="weight" th:field="*{weight}" class="Input" required>
+            <input type="number" id="weight" th:value="weight" th:field="*{weight}" class="Input" required>
             <div class="age">Ny Alder:</div>
-            <input type="text" id="age" th:value="age" th:field="*{age}" class="Input" required>
+            <input type="number" id="age" th:value="age" th:field="*{age}" class="Input" required>
             <div class="userGoal">Nyt Mål:</div>
             <label for="goalDropdown"> </label>
             <select id="goalDropdown" name="activitySelect" th:field="*{goal}" required>

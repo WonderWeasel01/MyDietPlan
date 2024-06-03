@@ -1,5 +1,6 @@
 package com.WebApplcation.MyDietPlan;
 
+import com.WebApplcation.MyDietPlan.Exception.EntityNotFoundException;
 import com.WebApplcation.MyDietPlan.Exception.InputErrorException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Entity.User;
@@ -82,7 +83,7 @@ public class UserTest {
 
     }
     @Test
-    public void testUpdateUser_ValidUser() throws InputErrorException, SystemErrorException {
+    public void testUpdateUser_ValidUser() throws InputErrorException, SystemErrorException, EntityNotFoundException {
 
         User user = new User("username", "password");
         user.setFirstName("FirstName");
@@ -105,11 +106,11 @@ public class UserTest {
         when(authenticationService.isValidUser(user)).thenReturn(true);
 
         // Mock behavior of repository
-        when(repo.updateUser(user)).thenReturn(user);
-
+        when(repo.updateUser(user)).thenReturn(true);
+        when(repo.getUserByID(user.getUserId())).thenReturn(user);
         System.out.println(user);
 
-        User updatedUser = websiteService.updateUser(user);
+        User updatedUser = websiteService.getUserByID(user.getUserId());
 
         assertNotNull(updatedUser);
         assertEquals(user, updatedUser);

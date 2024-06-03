@@ -44,7 +44,7 @@
                                 });
                             </script>
                         <div th:if="${errorMessage}" class="error-message">
-                            <p th:text="${errorMessage}"></p>
+                            <p th:if="${errorMessage}" th:text="${errorMessage}"></p>
                         </div>
                     </div>
                     <div class="Step2">

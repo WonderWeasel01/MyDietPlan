@@ -51,7 +51,7 @@ public Date getSubscriptionEndDate() {
 public void setSubscriptionEndDate(Date subscriptionEndDate) {
     this.subscriptionEndDate = subscriptionEndDate;
 }
-public Boolean isActiveSubscription() {
+public Boolean getActiveSubscription() {
     return activeSubscription;
 }
 public void setActiveSubscription(Boolean activeSubscription) {

@@ -74,12 +74,12 @@ public class UserUIController {
     }
 
     @PostMapping("/opretBruger")
-    public String createUser( @ModelAttribute User user, Model model){
+    public String createUser( @ModelAttribute User user, RedirectAttributes redirectAttributes){
         try{
             authenticationService.createUser(user);
             return "redirect:/";
         } catch (SystemErrorException | InputErrorException e) {
-            model.addAttribute("errorMessage", e.getMessage());
+           redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
         return "redirect:/opretBruger";
     }
@@ -165,26 +165,27 @@ public class UserUIController {
         return "redirect:/";
     }
 
-    @GetMapping("/opdaterBruger/{userID}")
-    public String editUser(@PathVariable int userID, Model model) {
+    @GetMapping("/opdaterBruger")
+    public String editUser(Model model) {
         if(!isLoggedInAndHasSub()){
             return "redirect:/";
         }
-        User user = websiteService.getUserByID(userID);
+        User user = authenticationService.getUser();
         model.addAttribute("user", user);
         return "editUser";
     }
 
     @PostMapping("/opdaterBruger")
-    public String updateUser(@ModelAttribute User updatedUser, Model model) {
+    public String updateUser(@ModelAttribute User updatedUser, Model model, RedirectAttributes redirectAttributes) {
         if(!isLoggedInAndHasSub()){
             return "redirect:/";
         }
 
         try {
             websiteService.handleUserSelfUpdate(updatedUser);
-            return "redirect:/velkommen";
-        } catch (InputErrorException | SystemErrorException e) {
+            redirectAttributes.addFlashAttribute("successMessage", "Oplysninger opdateret!");
+            return "redirect:/opdaterBruger";
+        } catch (EntityNotFoundException | InputErrorException | SystemErrorException e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "editUser"; // Return to the edit page to display the error
         }

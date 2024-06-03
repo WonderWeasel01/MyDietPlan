@@ -11,6 +11,10 @@
 <input type="text" id="searchQuery" oninput="searchUser()" placeholder="Search for names..">
 
 <h2>Users List</h2>
+<div th:if="${errorMessage} or ${successMessage}" class="message">
+    <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
+    <p th:if="${successMessage}" th:text="${successMessage}" class="success-message"></p>
+</div>
 <div th:if="${users != null}">
     <div class="userBox" th:each="user : ${users}">
         <p class="username" th:text="${user.firstName + ' ' + user.lastName}"></p>

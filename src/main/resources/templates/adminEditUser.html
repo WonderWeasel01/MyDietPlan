@@ -16,16 +16,13 @@
                 <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
                 <p th:if="${successMessage}" th:text="${successMessage}" class="success-message"></p>
             </div>
-            <a href="/velkommen" class="Button">
-                <div > Back</div>
-            </a>
         </div>
     </div>
 
     <div class="Right">
-        <form class="Form" action="#" th:action="@{/opdaterBruger}" th:object="${user}" method="post">
+        <form class="Form" action="#" th:action="@{/opdaterBrugerOplysningerAdmin}" th:object="${user}" method="post">
             <input type="hidden" th:field="*{userId}" class="Input">
-            <input type="hidden" th:field="*{gender}" class="Input">
+
 
             <div class="userFirstName">Nyt Fornavn:</div>
             <input type="text" id="userFirstName" th:value="firstName" th:field="*{firstName}" class="Input" required>
@@ -35,12 +32,17 @@
             <input type="text" id="email" th:value="email" th:field="*{email}" class="Input" required>
             <div class="password">Nyt password:</div>
             <input type="password" id="password" th:field="*{password}" class="Input" required>
+            <div class="genderDropdown">Nyt Køn</div>
+            <select id="genderDropdown" name="genderSelect" th:field="*{gender}" required>
+                <option value="M">Mand</option>
+                <option value="F">Kvinde</option>
+            </select>
             <div class="height">Ny Højde:</div>
-            <input type="text" id="height" th:value="height" th:field="*{height}" class="Input" required>
+            <input type="number" id="height" th:value="height" th:field="*{height}" class="Input" required>
             <div class="weight">Ny Vægt:</div>
-            <input type="text" id="weight" th:value="weight" th:field="*{weight}" class="Input" required>
+            <input type="number" id="weight" th:value="weight" th:field="*{weight}" class="Input" required>
             <div class="age">Ny Alder:</div>
-            <input type="text" id="age" th:value="age" th:field="*{age}" class="Input" required>
+            <input type="number" id="age" th:value="age" th:field="*{age}" class="Input" required>
             <div class="userGoal">Nyt Mål:</div>
             <label for="goalDropdown"> </label>
             <select id="goalDropdown" name="activitySelect" th:field="*{goal}" required>
@@ -63,11 +65,24 @@
             </div>
         </form>
 
-
-        <a class="Button" th:href="@{/afmeldAbonnement/{userID}(userID = ${user.userId})}" onclick='return confirm("Er du sikker på at du vil afmelde dit abonnement?")' >
-            <div > Afmeld abonnement </div>
-        </a>
-    </div>
+        <div th:if="${subscription}" class="subscriptionForm">
+            <form class="Form" action="#" th:action="@{/opdaterBrugerAbonnementAdmin}" th:object="${subscription}" method="post">
+                <input type="hidden" id="subID" th:field="*{subscriptionID}" class="Input" required>
+                <input type="hidden" id="subUserID" th:field="*{userID}" class="Input" required>
+                <label for="startDate">Start dato:</label>
+                <input type="date" id="startDate" th:field="*{subscriptionStartDate}" class="Input" required>
+                <label for="endDate">Slut dato:</label>
+                <input type="date" id="endDate" th:field="*{subscriptionEndDate}" class="Input" required>
+                <label for="subPrice">Pris:</label>
+                <input type="number" id="subPrice" th:field="*{subscriptionPrice}" class="Input" step="1" required >
+                <label for="subStatus">Aktivt abonnement:</label>
+                <input type="checkbox" id="subStatus" th:field="*{activeSubscription}" onclick="return confirm('Opsig brugers abonnement?')" class="Input">
+                <div class="updateButton">
+                    <button type="submit">Opdater abonnement</button>
+                </div>
+            </form>
+        </div>
+</div>
 </div>
 </body>
 </html>

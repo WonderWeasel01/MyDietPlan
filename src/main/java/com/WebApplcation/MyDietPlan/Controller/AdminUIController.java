@@ -209,24 +209,30 @@ public class AdminUIController {
     }
 
     @GetMapping("/opdaterBrugerAdmin/{userID}")
-    public String adminEditUserForm(@PathVariable int userID, Model model){
-        model.addAttribute("user", websiteService.getUserByID(userID));
+    public String adminEditUserForm(@PathVariable int userID, Model model, RedirectAttributes redirectAttributes){
+        try{
+            model.addAttribute("user", websiteService.getUserByID(userID));
+            Subscription subscription = websiteService.getSubscriptionByUserID(userID);
 
-        Subscription subscription = websiteService.getSubscriptionByUserID(userID);
+            if(subscription != null){
+                System.out.println(subscription);
+                model.addAttribute("subscription", subscription);
+            }
 
-        if(subscription != null){
-            model.addAttribute("subscription", subscription);
+            return "adminEditUser";
+        } catch (SystemErrorException | EntityNotFoundException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/findBrugerAdmin";
         }
-
-        return "adminEditUser";
     }
 
 
     @PostMapping("/opdaterBrugerOplysningerAdmin")
     public String editUserPost(@ModelAttribute User user, RedirectAttributes redirectAttributes) {
         try {
-            websiteService.handleAdminUserInfoUpdate(user);
-            redirectAttributes.addFlashAttribute("successMessage", "Brugeren blev opdateret!");
+            if(websiteService.handleAdminUserInfoUpdate(user)){
+                redirectAttributes.addFlashAttribute("successMessage", "Brugeren blev opdateret!");
+            }
         } catch (InputErrorException | SystemErrorException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
@@ -236,8 +242,10 @@ public class AdminUIController {
     @PostMapping("/opdaterBrugerAbonnementAdmin")
     public String editUserSubscription(@ModelAttribute Subscription subscription, RedirectAttributes redirectAttributes){
         try{
-            websiteService.handleAdminUserSubscriptionUpdate(subscription);
-            redirectAttributes.addFlashAttribute("successMessage", "Bruger opdateret!");
+            System.out.println(subscription);
+            if(websiteService.handleAdminUserSubscriptionUpdate(subscription)){
+                redirectAttributes.addFlashAttribute("successMessage", "Brugerens abonnement blev opdateret!");
+            }
         } catch (SystemErrorException e){
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }

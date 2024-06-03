@@ -5,17 +5,14 @@ import com.WebApplcation.MyDietPlan.Entity.Ingredient;
 import com.WebApplcation.MyDietPlan.Entity.Recipe;
 import com.WebApplcation.MyDietPlan.Entity.Subscription;
 import com.WebApplcation.MyDietPlan.Entity.User;
-import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -352,7 +349,7 @@ public class MyDietPlanRepository {
             ps.setInt(1, userID);
             ps.setDate(2, subscription.getSubscriptionStartDate());
             ps.setDate(3, subscription.getSubscriptionEndDate());
-            ps.setBoolean(4, subscription.isActiveSubscription());
+            ps.setBoolean(4, subscription.getActiveSubscription());
             ps.setDouble(5, subscription.getSubscriptionPrice());
 
             return ps;
@@ -374,10 +371,9 @@ public class MyDietPlanRepository {
      * @return User that was just updated in the database.
      */
 
-    public User updateUser(User user){
+    public boolean updateUser(User user){
         String sql ="UPDATE `User` SET `first_name`= ?,`last_name`= ?, `email`= ?, `password`= ?, `goal`= ?, `activity_level`= ?, `weight`= ?, `height`= ?,  `age`= ?, `daily_calorie_burn`= ?, `daily_calorie_goal`= ? WHERE user_id = ?";
-        jdbcTemplate.update(sql, user.getFirstName(),user.getLastName(), user.getEmail(), user.getPassword(), user.getGoal(), user.getActivityLevel(), user.getWeight(), user.getHeight(), user.getAge(), user.getDailyCalorieBurn(), user.getDailyCalorieGoal(), user.getUserId());
-        return getUserByID(user.getUserId());
+        return 0 < jdbcTemplate.update(sql, user.getFirstName(),user.getLastName(), user.getEmail(), user.getPassword(), user.getGoal(), user.getActivityLevel(), user.getWeight(), user.getHeight(), user.getAge(), user.getDailyCalorieBurn(), user.getDailyCalorieGoal(), user.getUserId());
     }
 
     public int getActiveRecipeAmount(){
@@ -394,7 +390,7 @@ public class MyDietPlanRepository {
 
     public boolean updateSubscription(Subscription subscription){
         String sql = "UPDATE Subscription SET `subscriptionStartDate`= ? ,`subscriptionEndDate`= ?,`subscriptionStatus`= ?,`subscriptionPrice`= ? WHERE user_id = ?";
-        return 0 < jdbcTemplate.update(sql,subscription.getSubscriptionStartDate(),subscription.getSubscriptionEndDate(),subscription.isActiveSubscription(), subscription.getSubscriptionPrice(), subscription.getUserID());
+        return 0 < jdbcTemplate.update(sql,subscription.getSubscriptionStartDate(),subscription.getSubscriptionEndDate(),subscription.getActiveSubscription(), subscription.getSubscriptionPrice(), subscription.getUserID());
     }
 
     public boolean isActiveMember(int userID){

@@ -200,7 +200,7 @@ public class AuthenticationService {
             Subscription subscription = repo.getSubscriptionByUserID(getUser().getUserId());
 
             //Renew if active subscription ran out
-            if(isSubExpired(subscription) && subscription.isActiveSubscription()){
+            if(isSubExpired(subscription) && subscription.getActiveSubscription()){
                 return renewSub(subscription);
             }
             else return !isSubExpired(subscription);
@@ -232,7 +232,7 @@ public class AuthenticationService {
         subscription.setSubscriptionPrice(196);
 
         //Set active status
-        if(!subscription.isActiveSubscription()){
+        if(!subscription.getActiveSubscription()){
             subscription.setActiveSubscription(true);
         }
 

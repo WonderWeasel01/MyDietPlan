@@ -280,7 +280,7 @@ public class WebsiteService {
     }
 
     /**
-     * Checks if a recipe is valid by ensuring that all required fields are filled.
+     * Checks if a recipe  by ensuring that all required fields are filled.
      * Required fields include:
      * - Title
      * - Prep time
@@ -388,6 +388,7 @@ public class WebsiteService {
         try {
             return repository.getIngredientById(id);
         } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
             throw new EntityNotFoundException("Kan ikke finde ingrediens");
         }
 
@@ -423,6 +424,7 @@ public class WebsiteService {
         try {
             return new ArrayList<>(repository.getAllRecipeWithoutIngredients());
         } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
             throw new EntityNotFoundException("Du har ikke tilføjet nogle opskrifter endnu!");
         }
     }
@@ -437,6 +439,7 @@ public class WebsiteService {
         try {
             return new ArrayList<>(repository.getAllDeactivatedRecipeWithoutIngredients());
         } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
             throw new EntityNotFoundException("Du har ikke tilføjet nogle opskrifter endnu!");
         }
     }
@@ -473,6 +476,7 @@ public class WebsiteService {
         try {
             return (ArrayList<Recipe>) repository.getAllActiveRecipe();
         } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
             throw new EntityNotFoundException("Du har ikke tilføjet nogle opskrifter endnu!");
         }
     }
@@ -520,8 +524,16 @@ public class WebsiteService {
      * @param userId The ID of the user being fetched.
      * @return The user being fetched.
      */
-    public User getUserByID(int userId) {
-        return repository.getUserByID(userId);
+    public User getUserByID(int userId) throws EntityNotFoundException, SystemErrorException {
+        try{
+            return repository.getUserByID(userId);
+        } catch(EmptyResultDataAccessException e){
+            e.printStackTrace();
+            throw new EntityNotFoundException("Kunne ikke finde en bruger med givet id");
+        } catch (DataAccessException e ){
+            e.printStackTrace();
+            throw new SystemErrorException("Der skete en fejl med databasen. Prøv igen sener");
+        }
     }
 
     /**
@@ -531,7 +543,7 @@ public class WebsiteService {
      * @return returns the updated user object
      * @throws InputErrorException if the user object is null or if the user ID within the user object is 0.
      */
-    public User updateUser(User user) throws InputErrorException, SystemErrorException {
+    public boolean updateUser(User user) throws InputErrorException, SystemErrorException {
         try {
             return repository.updateUser(user);
         } catch (EmptyResultDataAccessException e) {
@@ -540,50 +552,54 @@ public class WebsiteService {
         } catch (DuplicateKeyException e) {
             e.printStackTrace();
             throw new InputErrorException("Email bruges allerede");
-        }
-    }
-
-    public void handleUserSelfUpdate(User user) throws InputErrorException, SystemErrorException {
-        if (!authenticationService.isValidUser(user)) {
-            throw new InputErrorException("Udfyld venligst alle felter");
-        }
-        authenticationService.hashAndSetPassword(user);
-        user.setupDailyCalorieGoal();
-        user = updateUser(user);
-        authenticationService.setSession(user);
-    }
-
-    public void handleAdminUserInfoUpdate(User user) throws InputErrorException, SystemErrorException {
-        if (!authenticationService.isValidUser(user)) {
-            throw new InputErrorException("Udfyld venligst alle felter");
-        }
-        authenticationService.hashAndSetPassword(user);
-        user.setupDailyCalorieGoal();
-
-        try{
-            repository.updateUser(user);
         } catch (DataAccessException e){
-            throw new SystemErrorException("Der skete en fejl med databasen. Prøv igen senere");
-        }
-
-    }
-
-    public void handleAdminUserSubscriptionUpdate(Subscription subscription) throws SystemErrorException {
-        try{
-            repository.updateSubscription(subscription);
-        } catch(DataAccessException e){
+            e.printStackTrace();
             throw new SystemErrorException("Der er sket en fejl med databasen. Prøv igen senere");
         }
+    }
 
+    public boolean handleUserSelfUpdate(User user) throws InputErrorException, SystemErrorException, EntityNotFoundException {
+        if (!authenticationService.isValidUser(user)) {
+            throw new InputErrorException("Udfyld venligst alle felter");
+        }
+        //Setup password and calorie goal
+        authenticationService.hashAndSetPassword(user);
+        user.setupDailyCalorieGoal();
+
+        //Update the user and the session if the update went well.
+        if(updateUser(user)){
+            authenticationService.setSession(getUserByID(user.getUserId()));
+            return true;
+        } else return false;
+    }
+
+    public boolean handleAdminUserInfoUpdate(User user) throws InputErrorException, SystemErrorException {
+        if (!authenticationService.isValidUser(user)) {
+            throw new InputErrorException("Udfyld venligst alle felter");
+        }
+        authenticationService.hashAndSetPassword(user);
+        user.setupDailyCalorieGoal();
+        return updateUser(user);
+    }
+
+    public boolean handleAdminUserSubscriptionUpdate(Subscription subscription) throws SystemErrorException {
+        try{
+            return repository.updateSubscription(subscription);
+        } catch(DataAccessException e){
+            e.printStackTrace();
+            throw new SystemErrorException("Der er sket en fejl med databasen. Prøv igen senere");
+        }
     }
 
     public Subscription getSubscriptionByUserID(int userID){
         try{
             return repository.getSubscriptionByUserID(userID);
         } catch (EmptyResultDataAccessException e){
+            e.printStackTrace();
             return null;
         }
     }
+
     public List<User> getAllUsers(String searchQuery) throws SystemErrorException {
         try {
             return repository.getAllUsers(searchQuery);
@@ -591,8 +607,8 @@ public class WebsiteService {
             e.printStackTrace();
             throw new SystemErrorException("Kunne ikke finde nogle brugere i databasen. Prøv igen senere. ");
         }
-
     }
+
 }
 
 
