@@ -14,8 +14,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -477,6 +480,15 @@ public class WebsiteService {
             return (ArrayList<Recipe>) repository.getAllActiveRecipe();
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
+            throw new EntityNotFoundException("Der er ikke tilføjet nogle opskrifter endnu!");
+        }
+    }
+
+    public ArrayList<Recipe> getAllActiveRecipesWithoutIngredientsAndImage() throws EntityNotFoundException {
+        try {
+            return (ArrayList<Recipe>) repository.getAllActiveRecipeWithoutIngredientsAndImage();
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
             throw new EntityNotFoundException("Du har ikke tilføjet nogle opskrifter endnu!");
         }
     }
@@ -602,6 +614,18 @@ public class WebsiteService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public int daysLeftOnSubscription(int userID) {
+        //Convert user sub end date to LocalDate
+        LocalDate subscriptionEndDate = repository.getSubscriptionByUserID(userID).getSubscriptionEndDate().toLocalDate();
+
+        LocalDate currentDate = LocalDate.now();
+
+        // Calculate the difference in days between the current date and the subscription end date
+        long daysLeft = ChronoUnit.DAYS.between(currentDate, subscriptionEndDate);
+
+        return (int) daysLeft;
     }
 
     public List<User> getAllUsers(String searchQuery) throws SystemErrorException {

@@ -92,6 +92,11 @@ public class MyDietPlanRepository {
         return 0 < jdbcTemplate.update(sql,recipeID);
     }
 
+    public Recipe getRecipeWithoutImageAndIngredients(int recipeID){
+        String sql = "SELECT * FROM Recipe WHERE recipe_id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{recipeID}, recipeRowMapper());
+    }
+
     public Recipe getRecipeWithIngredientsByRecipeID(int recipeID){
         String sql = "SELECT * FROM Recipe WHERE recipe_id = ?";
 
@@ -206,13 +211,20 @@ public class MyDietPlanRepository {
         String sql = "SELECT * FROM Recipe where active = 1";
         List<Recipe> recipes = jdbcTemplate.query(sql, recipeRowMapper());
 
-        for (int i = 0; i < recipes.size(); i++) {
-            int recipeID = recipes.get(i).getRecipeID();
+        for (Recipe recipe : recipes) {
+            //Get ingredient list and images
+            int recipeID = recipe.getRecipeID();
             ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) getRecipeIngredientsByRecipeID(recipeID);
-            recipes.get(i).setIngredientList(ingredients);
+            recipe.setIngredientList(ingredients);
+            recipe.setImage(getImageByImageID(recipe.getImage().getImageID()));
         }
 
         return recipes;
+    }
+
+    public List<Recipe> getAllActiveRecipeWithoutIngredientsAndImage(){
+        String sql = "SELECT * FROM Recipe where active = 1";
+        return jdbcTemplate.query(sql, recipeRowMapper());
     }
 
 
@@ -513,6 +525,8 @@ public class MyDietPlanRepository {
     private RowMapper<Recipe> recipeRowMapper(){
         return ((rs, rowNum) -> {
             Recipe recipe = new Recipe();
+            Image image = new Image();
+            recipe.setImage(image);
             recipe.setRecipeID(rs.getInt("recipe_id"));
             recipe.setTitle(rs.getString("recipe_title"));
             recipe.setTimeOfDay(rs.getString("time_of_day"));
@@ -523,10 +537,11 @@ public class MyDietPlanRepository {
             recipe.setTotalCarbohydrates(rs.getDouble("total_carbohydrates"));
             recipe.setActive(rs.getBoolean("active"));
             recipe.setInstructions(rs.getString("instructions"));
-            recipe.setImage(getImageByImageID(rs.getInt("image_id")));
+            recipe.getImage().setImageID((rs.getInt("image_id")));
             return recipe;
         });
     }
+
     private RowMapper<Ingredient> ingredientRowMapper(){
         return ((rs, rowNum) -> {
             Ingredient ingredient = new Ingredient();

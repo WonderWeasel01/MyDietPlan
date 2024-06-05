@@ -173,7 +173,7 @@ public class AdminUIController {
             return "redirect:/";
         }
        try{
-           ArrayList<Recipe> recipes = websiteService.getAllActiveRecipes();
+           ArrayList<Recipe> recipes = websiteService.getAllActiveRecipesWithoutIngredientsAndImage();
            model.addAttribute("recipes", recipes);
            return "activeRecipesShowcase";
        }catch (EntityNotFoundException e){

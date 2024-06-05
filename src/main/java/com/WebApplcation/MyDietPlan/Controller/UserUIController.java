@@ -2,6 +2,7 @@ package com.WebApplcation.MyDietPlan.Controller;
 
 import com.WebApplcation.MyDietPlan.Entity.Recipe;
 
+import com.WebApplcation.MyDietPlan.Entity.Subscription;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import com.WebApplcation.MyDietPlan.UseCase.WebsiteService;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 
@@ -112,7 +114,7 @@ public class UserUIController {
     @PostMapping("/login")
     public String loginUser(@RequestParam String email, @RequestParam String password, Model model) {
         try{
-            User validatedUser = authenticationService.loginUser(email, password);
+            User validatedUser = authenticationService.loginUserAndSetSession(email, password);
             return determineViewDependingOnRole(validatedUser);
         } catch (InputErrorException | SystemErrorException | EntityNotFoundException e){
             model.addAttribute("loginError" , e.getMessage());
@@ -193,13 +195,16 @@ public class UserUIController {
 
     @GetMapping("/minProfil")
     public String showUserProfile(Model model){
-
-        model.addAttribute("user", authenticationService.getUser());
-
         if(!isLoggedInAndHasSub()){
             return "redirect:/";
         }
-        model.addAttribute("user",authenticationService.getUser());
+
+        User user = authenticationService.getUser();
+        int subDaysLeft = websiteService.daysLeftOnSubscription(user.getUserId());
+
+        model.addAttribute("user",user);
+        model.addAttribute("subDaysLeft", subDaysLeft);
+
         return "userProfile";
     }
 

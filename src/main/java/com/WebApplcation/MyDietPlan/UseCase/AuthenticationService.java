@@ -158,7 +158,7 @@ public class AuthenticationService {
      * @return The User object of the logged-in user.
      * @throws InputErrorException If the given user is missing important information or is trying to use an already existing email.
      */
-    public User loginUser(String email, String password) throws InputErrorException {
+    public User loginUserAndSetSession(String email, String password) throws InputErrorException {
         validateLogin(email, password);
         User user = repo.getUserByEmail(email);
         setSession(user);

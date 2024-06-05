@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html class="Head" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Profil</title>
@@ -8,5 +8,21 @@
 </head>
 <body>
     <div th:include="layout :: header"></div>
+    <h1>User Details</h1>
+    <div>
+        <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+        <p><strong>First Name:</strong> <span th:text="${user.firstName}"></span></p>
+        <p><strong>Last Name:</strong> <span th:text="${user.lastName}"></span></p>
+        <p><strong>Gender:</strong> <span th:text="${user.gender}"></span></p>
+        <p><strong>Height:</strong> <span th:text="${user.height}"></span> cm</p>
+        <p><strong>Weight:</strong> <span th:text="${user.weight}"></span> kg</p>
+        <p><strong>Age:</strong> <span th:text="${user.age}"></span></p>
+        <p><strong>Activity Level:</strong> <span th:text="${user.activityLevel}"></span></p>
+        <p><strong>Goal:</strong> <span th:text="${user.goal}"></span></p>
+        <p><strong>Role:</strong> <span th:text="${user.role}"></span></p>
+        <p><strong>Daily Calorie Goal:</strong> <span th:text="${user.dailyCalorieGoal}"></span> kcal</p>
+        <p><strong>Dage tilbage af abonnement:</strong> <span th:text="${subDaysLeft}"></span></p>
+
+    </div>
 </body>
 </html>
