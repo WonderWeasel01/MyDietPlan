@@ -80,57 +80,7 @@ public class User {
         this.subscription = subscription;
     }
 
-    public double calculateDailyCalorieBurn() {
-        double BMR = 0;
-        double dailyCalorieBurn = 0;
-        if (this.gender == 'M') {
-            BMR = (10 * weight) + (6.25 * height) - (5 * age) + 5;
-        } else if (this.gender == 'F') {
-            BMR = (10 * weight) + (6.25 * height) - (5 * age) - 161;
-        }
-        switch (activityLevel) {
-            case "No exercise":
-                dailyCalorieBurn = BMR * 1.2;
-                break;
-            case "Light activity":
-                dailyCalorieBurn = BMR * 1.5;
-                break;
-            case "Average activity":
-                dailyCalorieBurn = BMR * 1.7;
-                break;
-            case "Intense activity":
-                dailyCalorieBurn = BMR * 1.9;
-                break;
-            case "Extreme activity":
-                dailyCalorieBurn = BMR * 2.4;
-                break;
-        }
-        return dailyCalorieBurn;
-    }
 
-    public double calculateDailyCalorieGoal(String goal, double dailyCalorieBurn){
-      double calorieGoal = 0;
-      switch(goal) {
-          case ("Loose weight"):
-              calorieGoal = dailyCalorieBurn - 500;
-              break;
-          case ("Maintain weight"):
-              calorieGoal = dailyCalorieBurn;
-              break;
-          case ("Increase weight"):
-              calorieGoal = dailyCalorieBurn + 500;
-              break;
-          case("Build muscle"):
-              calorieGoal = dailyCalorieBurn + 300;
-              break;
-      }
-      return calorieGoal;
-    }
-
-    public void setupDailyCalorieGoal(){
-      this.dailyCalorieBurn = calculateDailyCalorieBurn();
-      this.dailyCalorieGoal = calculateDailyCalorieGoal(this.goal,this.dailyCalorieBurn);
-    }
 
     public double getDailyCalorieGoal() {
         return dailyCalorieGoal;

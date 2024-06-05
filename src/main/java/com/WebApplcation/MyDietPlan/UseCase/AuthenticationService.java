@@ -24,7 +24,7 @@ import java.util.Objects;
 @Service
 public class AuthenticationService {
     private final HttpSession session;
-    public MyDietPlanRepository repo;
+    private final MyDietPlanRepository repository;
 
     /**
      * Constructs an AuthenticationService object.
@@ -34,49 +34,12 @@ public class AuthenticationService {
     @Autowired
     public AuthenticationService(HttpSession session, MyDietPlanRepository repository){
         this.session = session;
-        this.repo = repository;
+        this.repository = repository;
+
     }
 
 
-    /**
-     * Sets up all the necessary information that a user needs and saves the user in the database.
-     * @param user A user with information to put in the database
-     * @return Returns the user with an auto generated id attached.
-     * @throws SystemErrorException If the system cant connect to database, sql errors etc.
-     * @throws InputErrorException If the given user is missing important information or is trying to use an already existing email.
-     */
-    public User createUser(User user) throws SystemErrorException, InputErrorException {
-        if(!isValidUser(user)){
-            throw new InputErrorException("Venligst udfyld alle felterne korrekt");
-        }
-        hashAndSetPassword(user);
-        user.setRole("User");
-        user.setupDailyCalorieGoal();
-        return saveUser(user);
-    }
 
-    /**
-     * Saves a user in the database.
-     * @param user Save a user object.
-     * @return The saved user object
-     * @throws SystemErrorException If the system can't connect to the database, sql errors etc.
-     * @throws InputErrorException If the given user is missing important information or is trying to use an already existing email.
-     * @throws DuplicateKeyException If the user has the same id as an already existing user.
-     */
-    private User saveUser(User user) throws SystemErrorException, InputErrorException, DuplicateKeyException {
-        try {
-            return repo.createUser(user);
-        } catch (DuplicateKeyException e) {
-            e.printStackTrace();
-            throw new InputErrorException("Email bruges allerede");
-        } catch (DataIntegrityViolationException e) {
-            e.printStackTrace();
-            throw new InputErrorException("Venligst udfyld alle felterne korrekt");
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            throw new SystemErrorException("Der skete en fejl under opretning af brugeren. Prøv igen senere");
-        }
-    }
 
     /**
      * Hashes the users password and sets it in the user object.
@@ -131,7 +94,7 @@ public class AuthenticationService {
      */
     public void validateLogin(String email, String password) throws InputErrorException {
         try{
-            String hashedPassword = repo.getPasswordByEmail(email);
+            String hashedPassword = repository.getPasswordByEmail(email);
             validatePassword(password, hashedPassword);
         } catch (EmptyResultDataAccessException e){
             e.printStackTrace();
@@ -160,7 +123,7 @@ public class AuthenticationService {
      */
     public User loginUserAndSetSession(String email, String password) throws InputErrorException {
         validateLogin(email, password);
-        User user = repo.getUserByEmail(email);
+        User user = repository.getUserByEmail(email);
         setSession(user);
         return getUser();
     }
@@ -197,13 +160,11 @@ public class AuthenticationService {
     public boolean isPayingUser() throws SystemErrorException, EntityNotFoundException {
         try{
 
-            Subscription subscription = repo.getSubscriptionByUserID(getUser().getUserId());
-
-            //Renew if active subscription ran out
-            if(isSubExpired(subscription) && subscription.getActiveSubscription()){
-                return renewSub(subscription);
+            Subscription subscription = repository.getSubscriptionByUserID(getUser().getUserId());
+            if(isSubExpired(subscription) && isUserSubscriptionActive(subscription)){
+                renewSub(subscription);
             }
-            else return !isSubExpired(subscription);
+            return !isSubExpired(subscription);
 
         } catch (EmptyResultDataAccessException e){
             System.out.println("Intet abonnement fundet");
@@ -211,24 +172,21 @@ public class AuthenticationService {
         }
     }
 
-    public boolean isSubExpired(Subscription subscription){
-        LocalDate currentDate = LocalDate.now();
-        return currentDate.isAfter(subscription.getSubscriptionEndDate().toLocalDate());
-    }
-
     public boolean renewSub(Subscription subscription) throws SystemErrorException, EntityNotFoundException {
-        Date date;
 
-        //If the user still has time left on their sub, the month gets added to their current sub end day.
-        if (subscription.getSubscriptionEndDate().toLocalDate().isAfter(LocalDate.now())){
-            date = Date.valueOf(subscription.getSubscriptionEndDate().toLocalDate().plusMonths(1));
+        java.sql.Date newEndDate;
+        LocalDate subscriptionEndDate = subscription.getSubscriptionEndDate().toLocalDate();
+
+        //If the user still has time left on their sub, a month gets added to their current sub end day.
+        if (subscriptionEndDate.isAfter(LocalDate.now())){
+            newEndDate = java.sql.Date.valueOf(subscriptionEndDate.plusMonths(1));
         } else {
-            date = Date.valueOf(LocalDate.now().plusMonths(1));
+            newEndDate = java.sql.Date.valueOf(LocalDate.now().plusMonths(1));
         }
 
         //Update sub attributes.
         subscription.setSubscriptionStartDate(Date.valueOf(LocalDate.now()));
-        subscription.setSubscriptionEndDate(date);
+        subscription.setSubscriptionEndDate(newEndDate);
         subscription.setSubscriptionPrice(196);
 
         //Set active status
@@ -237,7 +195,7 @@ public class AuthenticationService {
         }
 
         try{
-            return repo.updateSubscription(subscription);
+            return repository.updateSubscription(subscription);
         }catch (EmptyResultDataAccessException e){
             throw new EntityNotFoundException("Kunne ikke finde abonnement i databasen");
         } catch (DataAccessException e) {
@@ -245,71 +203,14 @@ public class AuthenticationService {
         }
     }
 
-
-
-    public void cancelUserSubscription(int userID) throws EntityNotFoundException, SystemErrorException {
-        try{
-            repo.cancelSubscription(userID);
-        } catch (EmptyResultDataAccessException e){
-            e.printStackTrace();
-            throw new EntityNotFoundException("Kunne ikke finde et aktivt abonnement");
-        } catch (DataAccessException e){
-            e.printStackTrace();
-            throw new SystemErrorException("Kunne ikke oprette forbindelse til databasen");
-        }
+    public boolean isUserSubscriptionActive(Subscription subscription){
+        return subscription.getActiveSubscription();
     }
 
-
-
-
-    /**
-     * Sets up a subscription for the user.
-     */
-    public void paySubscription() throws SystemErrorException, EntityNotFoundException{
-        User user = getUser();
-        int userID = user.getUserId();
-
-        try{
-            //Renew the users subscription
-            Subscription subscription = repo.getSubscriptionByUserID(userID);
-            renewSub(subscription);
-
-            //Set up a new subscription if the user doesn't have one.
-        } catch (EmptyResultDataAccessException e){
-            Subscription subscription = setupNewSubscription();
-            repo.insertSubscription(subscription,userID);
-        }catch (DataAccessException e){
-            throw new SystemErrorException("Der skete en database fejl. Prøv igen senere");
-        }
+    public boolean isSubExpired(Subscription subscription){
+        LocalDate currentDate = LocalDate.now();
+        return currentDate.isAfter(subscription.getSubscriptionEndDate().toLocalDate());
     }
-
-
-
-    /**
-     * Sets up a new subscription.
-     * @return The configured Subscription object.
-     */
-    public Subscription setupNewSubscription(){
-        Subscription subscription = new Subscription();
-
-        java.util.Date currentDate = new java.util.Date();
-        java.sql.Date sqlStartDate = new java.sql.Date(currentDate.getTime());
-        subscription.setSubscriptionStartDate(sqlStartDate);
-
-        // Set the subscription end date one week later
-        LocalDate localEndDate = sqlStartDate.toLocalDate().plusMonths(1);
-        java.sql.Date sqlEndDate = java.sql.Date.valueOf(localEndDate);
-        subscription.setSubscriptionEndDate(sqlEndDate);
-
-        //Set subscription to me active= True
-        subscription.setActiveSubscription(true);
-
-        //Set the Price of the membership
-        subscription.setSubscriptionPrice(0);
-        return subscription;
-    }
-
-
 
     /**
      * Deletes a user by their user ID.
@@ -317,7 +218,7 @@ public class AuthenticationService {
      * @return True if the user was successfully deleted, false if not.
      */
     public boolean deleteUser(int userID) {
-        return repo.deleteUser(userID);
+        return repository.deleteUser(userID);
     }
 
 
