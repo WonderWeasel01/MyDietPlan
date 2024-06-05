@@ -1,25 +1,55 @@
 <!DOCTYPE html>
 <html class="Head" lang="en">
 <head><title>Admin - Edit User</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/adminFindUser.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/default.css">
+
 
 </head>
 <body>
 <div th:insert="~{adminLayout :: header2}"></div>
-<h1>Admin - Edit User</h1>
-<h2>Search Users</h2>
-<input type="text" id="searchQuery" oninput="searchUser()" placeholder="Search for names..">
 
-<h2>Users List</h2>
+
+
+
+
+<h2>Liste af brugere</h2>
+
+<div class="group">
+    <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+        <g>
+            <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+        </g>
+    </svg>
+    <input placeholder="Search" id="searchQuery" type="search" oninput="searchUser()" class="input">
+</div>
 <div th:if="${errorMessage} or ${successMessage}" class="message">
     <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
     <p th:if="${successMessage}" th:text="${successMessage}" class="success-message"></p>
 </div>
-<div th:if="${users != null}">
+<div class="UserList" th:if="${users != null}">
     <div class="userBox" th:each="user : ${users}">
-        <p class="username" th:text="${user.firstName + ' ' + user.lastName}"></p>
-        <p class="email" th:text="${user.email}"></p>
-        <a th:href="@{/opdaterBrugerAdmin/{userID}(userID =${user.userId})}">Administrer bruger</a>
+
+  
+        <a th:href="@{/opdaterBrugerAdmin/{userID}(userID=${user.userId})}">
+            <i class="icons fa-solid fa-pen-to-square fa-lg" style="color: green;"></i>
+        </a>
+        
+        
+
+        <div class="fill">
+            <p class="username" th:text="${user.firstName + ' ' + user.lastName}"></p>
+        </div>
+  
+        <div class="fil">
+            <p class="email" th:text="${user.email}"></p>
+        </div>
+      
+      
+         
+            </div>
+  
+
     </div>
     <div th:if="${users == null}">
         <p>No users found</p>
