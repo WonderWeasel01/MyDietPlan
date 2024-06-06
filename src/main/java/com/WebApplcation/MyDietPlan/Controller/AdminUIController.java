@@ -112,7 +112,6 @@ public class AdminUIController {
             model.addAttribute("recipe", recipe);
             model.addAttribute("allIngredients", allIngredients);
 
-
             return "editRecipe";
         } catch(EntityNotFoundException | SystemErrorException e){
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -121,11 +120,10 @@ public class AdminUIController {
     }
 
     @PostMapping("/opdaterOpskrift")
-    public String updateRecipePost(@RequestParam List<Integer> ingredientIds, @RequestParam List<Integer> weights, @ModelAttribute Recipe recipe, RedirectAttributes redirectAttributes){
+    public String updateRecipePost(@RequestParam List<Integer> ingredientIds, @RequestParam List<Integer> weights,
+                                   @ModelAttribute Recipe recipe, RedirectAttributes redirectAttributes){
         try {
-
             websiteService.setupRecipeWithIngredients(recipe,ingredientIds, weights);
-
             //Update the recipe.
             websiteService.updateRecipe(recipe);
             redirectAttributes.addFlashAttribute("successMessage", "Opskrift gemt!");
@@ -136,6 +134,7 @@ public class AdminUIController {
             return "redirect:/recipeShowcase";
         }
     }
+
     @GetMapping("/sletOpskrift/{recipeID}")
     public String deleteRecipe(@PathVariable int recipeID, RedirectAttributes redirectAttributes){
         if(!isAdminLoggedIn()){
