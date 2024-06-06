@@ -35,11 +35,7 @@ public class AuthenticationService {
     public AuthenticationService(HttpSession session, MyDietPlanRepository repository){
         this.session = session;
         this.repository = repository;
-
     }
-
-
-
 
     /**
      * Hashes the users password and sets it in the user object.
@@ -159,20 +155,31 @@ public class AuthenticationService {
      */
     public boolean isPayingUser() throws SystemErrorException, EntityNotFoundException {
         try{
-
             Subscription subscription = repository.getSubscriptionByUserID(getUser().getUserId());
             if(isSubExpired(subscription) && isUserSubscriptionActive(subscription)){
                 renewSub(subscription);
             }
             return !isSubExpired(subscription);
-
         } catch (EmptyResultDataAccessException e){
             System.out.println("Intet abonnement fundet");
             return false;
         }
     }
 
-    public boolean renewSub(Subscription subscription) throws SystemErrorException, EntityNotFoundException {
+    /**
+     * Renews the given subscription by extending its end date and updating its attributes.
+     *
+     * <p>If the subscription still has time remaining, one month is added to the current subscription end date.
+     * Otherwise, one month is added to the current date.</p>
+     *
+     * <p>The method updates the subscription start date to the current date, sets the new end date,
+     * updates the subscription price, and sets the subscription to active if it is not already active.</p>
+     *
+     * @param subscription the subscription to be renewed
+     * @throws SystemErrorException if there is a data access error when updating the subscription
+     * @throws EntityNotFoundException if the subscription cannot be found in the database
+     */
+    public void renewSub(Subscription subscription) throws SystemErrorException, EntityNotFoundException {
 
         java.sql.Date newEndDate;
         LocalDate subscriptionEndDate = subscription.getSubscriptionEndDate().toLocalDate();
@@ -195,10 +202,12 @@ public class AuthenticationService {
         }
 
         try{
-            return repository.updateSubscription(subscription);
+            repository.updateSubscription(subscription);
         }catch (EmptyResultDataAccessException e){
+            e.printStackTrace();
             throw new EntityNotFoundException("Kunne ikke finde abonnement i databasen");
         } catch (DataAccessException e) {
+            e.printStackTrace();
             throw new SystemErrorException("Der skete en fejl med databasen. Prøv igen senere");
         }
     }

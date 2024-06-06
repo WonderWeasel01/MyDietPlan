@@ -133,16 +133,17 @@ public class WebsiteService {
      */
     public boolean updateRecipeActiveStatus(int recipeID) throws SystemErrorException, EntityNotFoundException {
         try {
+            //Set the recipe active status to false if it is active
             if (getRecipeById(recipeID).getActive()) {
                 return repository.updateRecipeActiveStatus(recipeID, 0);
-            } else {
-                if (getActiveRecipeAmount() < 21) {
-                    return repository.updateRecipeActiveStatus(recipeID, 1);
-                } else
-                    throw new SystemErrorException("Der er allerede 21 aktive opskrifter. Deaktiver en eller flere aktive opskrifter for at tilføje flere");
             }
+            //Set the recipe active status to true if there is less than 21 already active in the database.
+            if (getActiveRecipeAmount() < 21) {
+                return repository.updateRecipeActiveStatus(recipeID, 1);
+            } throw new SystemErrorException("Der er allerede 21 aktive opskrifter. Deaktiver en eller flere aktive opskrifter for at tilføje flere");
+
         } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException("Der er sket en fejl med opdateringen af opskrift status. Prøv igen senere");
+            throw new EntityNotFoundException("Kunne ikke finde opskriften i databasen. Prøv igen senere");
         }
     }
 
@@ -506,7 +507,7 @@ public class WebsiteService {
         ArrayList<Recipe> weeklyRecipes = getAllActiveRecipes();
 
         //Adjust them to the logged-in user
-        ArrayList<Recipe> adjustedRecipes = adjustRecipesToUser(weeklyRecipes);
+        ArrayList<Recipe> adjustedRecipes = adjustRecipesToUser(weeklyRecipes, loggedInUser);
 
         //Set the adjustedRecipes on the user.
         loggedInUser.setAdjustedRecipes(adjustedRecipes);
@@ -520,9 +521,8 @@ public class WebsiteService {
      * @param weeklyRecipes The recipes to be adjusted.
      * @return The adjusted recipes.
      */
-    public ArrayList<Recipe> adjustRecipesToUser(ArrayList<Recipe> weeklyRecipes) {
+    public ArrayList<Recipe> adjustRecipesToUser(ArrayList<Recipe> weeklyRecipes, User user) {
         ArrayList<Recipe> adjustedRecipes = new ArrayList<>();
-        User user = authenticationService.getUser();
 
         for (Recipe recipe : weeklyRecipes) {
             adjustedRecipes.add(adjustRecipeToUser(recipe, user.getDailyCalorieGoal()));
@@ -651,8 +651,8 @@ public class WebsiteService {
 
             //Set up a new subscription if the user doesn't have one.
         } catch (EmptyResultDataAccessException e){
-            Subscription subscription = setupNewSubscription();
-            repository.insertSubscription(subscription,userID);
+            Subscription newSubscription = setupNewSubscription();
+            repository.insertSubscription(newSubscription,userID);
         }catch (DataAccessException e){
             throw new SystemErrorException("Der skete en database fejl. Prøv igen senere");
         }

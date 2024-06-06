@@ -70,7 +70,6 @@ public class MyDietPlanRepository {
                 recipe.getTotalCalories(), recipe.getTotalProtein(), recipe.getTotalFat(), recipe.getTotalCarbohydrates(),
                 recipe.getInstructions(), recipe.getRecipeID());
 
-
         return rowsAffected > 0;
     }
 
@@ -212,10 +211,11 @@ public class MyDietPlanRepository {
         List<Recipe> recipes = jdbcTemplate.query(sql, recipeRowMapper());
 
         for (Recipe recipe : recipes) {
-            //Get ingredient list and images
             int recipeID = recipe.getRecipeID();
+            //Get and set ingredient list
             ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) getRecipeIngredientsByRecipeID(recipeID);
             recipe.setIngredientList(ingredients);
+            //Get and set image
             recipe.setImage(getImageByImageID(recipe.getImage().getImageID()));
         }
 
@@ -463,11 +463,9 @@ public class MyDietPlanRepository {
     public Image getImageByImageID(int imageID) {
         String sql = "SELECT Image.image_id, Image.image_name, Image.image_type, Image.image_blob FROM Image " +
                 "INNER JOIN Recipe ON Image.image_id = Recipe.image_id WHERE Image.image_id = ?";
-        Image image = jdbcTemplate.queryForObject(sql, new Object[]{imageID}, imageRowMapper());
 
-        String base64Image = Base64.getEncoder().encodeToString(image.getBlob());
-        image.setBase64Image(base64Image);
-        return image;
+        return jdbcTemplate.queryForObject(sql, new Object[]{imageID}, imageRowMapper());
+
     }
 
     public List<User> getAllUsers(String searchQuery) {
