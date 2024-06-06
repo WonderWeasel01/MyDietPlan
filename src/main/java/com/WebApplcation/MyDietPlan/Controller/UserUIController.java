@@ -149,7 +149,6 @@ public class UserUIController {
                 websiteService.setBase64Image(adjustedRecipes);
                 model.addAttribute("weeklyRecipes", adjustedRecipes);
             }
-
             model.addAttribute("user", user);
         } catch (EntityNotFoundException e) {
             model.addAttribute("errorMessage", e.getMessage());

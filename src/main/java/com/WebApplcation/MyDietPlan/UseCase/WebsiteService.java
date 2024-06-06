@@ -534,7 +534,6 @@ public class WebsiteService {
     public ArrayList<Recipe> adjustRecipesToUser(ArrayList<Recipe> weeklyRecipes, User user) {
         ArrayList<Recipe> adjustedRecipes = new ArrayList<>();
 
-
         for (Recipe recipe : weeklyRecipes) {
             adjustedRecipes.add(adjustRecipeToUser(recipe, user.getDailyCalorieGoal()));
         }
@@ -649,17 +648,16 @@ public class WebsiteService {
             throw new SystemErrorException("Kunne ikke finde nogle brugere i databasen. Prøv igen senere. ");
         }
     }
-    public void addFavoriteRecipe(Recipe recipe, User user) {
-        user.addFavoriteRecipe(recipe);
-    }
 
     public List<Recipe> addFavoriteRecipe(int userID, int recipeID) throws SystemErrorException {
         try {
             repository.addFavoriteRecipe(userID, recipeID);
-        } catch (SystemErrorException e) {
+            return repository.getFavoriteRecipesByUserID(userID);
+        } catch(DuplicateKeyException e) {
+            throw new SystemErrorException("Du har allerede tilføjet denne opskrift til favoriter");
+        } catch (DataAccessException e) {
             throw new SystemErrorException("Fejl ved tilføjelse af opskrift til favoritter");
         }
-        return repository.getFavoriteRecipesByUserID(userID);
     }
 
     public List <Recipe> getFavoriteRecipesByUserID (int userID) {
