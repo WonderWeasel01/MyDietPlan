@@ -71,7 +71,6 @@ public class MyDietPlanRepository {
                 recipe.getTotalCalories(), recipe.getTotalProtein(), recipe.getTotalFat(), recipe.getTotalCarbohydrates(),
                 recipe.getInstructions(), recipe.getRecipeID());
 
-
         return rowsAffected > 0;
     }
 
@@ -91,6 +90,11 @@ public class MyDietPlanRepository {
     public boolean deleteIngredientsFromRecipe(int recipeID){
         String sql = "DELETE FROM `Recipe_has_ingredient` WHERE recipe_id = ?";
         return 0 < jdbcTemplate.update(sql,recipeID);
+    }
+
+    public Recipe getRecipeWithoutImageAndIngredients(int recipeID){
+        String sql = "SELECT * FROM Recipe WHERE recipe_id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{recipeID}, recipeRowMapper());
     }
 
     public Recipe getRecipeWithIngredientsByRecipeID(int recipeID){
@@ -207,10 +211,13 @@ public class MyDietPlanRepository {
         String sql = "SELECT * FROM Recipe where active = 1";
         List<Recipe> recipes = jdbcTemplate.query(sql, recipeRowMapper());
 
-        for (int i = 0; i < recipes.size(); i++) {
-            int recipeID = recipes.get(i).getRecipeID();
+        for (Recipe recipe : recipes) {
+            int recipeID = recipe.getRecipeID();
+            //Get and set ingredient list
             ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) getRecipeIngredientsByRecipeID(recipeID);
-            recipes.get(i).setIngredientList(ingredients);
+            recipe.setIngredientList(ingredients);
+            //Get and set image
+            recipe.setImage(getImageByImageID(recipe.getImage().getImageID()));
         }
 
         return recipes;
@@ -218,6 +225,11 @@ public class MyDietPlanRepository {
     public Recipe getRecipeByID(Recipe recipe) {
         String sql = "SELECT * FROM Recipe WHERE recipe_id = ?";
         return jdbcTemplate.queryForObject(sql, recipeRowMapper(), recipe);
+    }
+
+    public List<Recipe> getAllActiveRecipeWithoutIngredientsAndImage(){
+        String sql = "SELECT * FROM Recipe where active = 1";
+        return jdbcTemplate.query(sql, recipeRowMapper());
     }
 
 
@@ -456,11 +468,9 @@ public class MyDietPlanRepository {
     public Image getImageByImageID(int imageID) {
         String sql = "SELECT Image.image_id, Image.image_name, Image.image_type, Image.image_blob FROM Image " +
                 "INNER JOIN Recipe ON Image.image_id = Recipe.image_id WHERE Image.image_id = ?";
-        Image image = jdbcTemplate.queryForObject(sql, new Object[]{imageID}, imageRowMapper());
 
-        String base64Image = Base64.getEncoder().encodeToString(image.getBlob());
-        image.setBase64Image(base64Image);
-        return image;
+        return jdbcTemplate.queryForObject(sql, new Object[]{imageID}, imageRowMapper());
+
     }
 
     public List<User> getAllUsers(String searchQuery) {
@@ -552,6 +562,8 @@ public class MyDietPlanRepository {
     private RowMapper<Recipe> recipeRowMapper(){
         return ((rs, rowNum) -> {
             Recipe recipe = new Recipe();
+            Image image = new Image();
+            recipe.setImage(image);
             recipe.setRecipeID(rs.getInt("recipe_id"));
             recipe.setTitle(rs.getString("recipe_title"));
             recipe.setTimeOfDay(rs.getString("time_of_day"));
@@ -562,10 +574,11 @@ public class MyDietPlanRepository {
             recipe.setTotalCarbohydrates(rs.getDouble("total_carbohydrates"));
             recipe.setActive(rs.getBoolean("active"));
             recipe.setInstructions(rs.getString("instructions"));
-            recipe.setImage(getImageByImageID(rs.getInt("image_id")));
+            recipe.getImage().setImageID((rs.getInt("image_id")));
             return recipe;
         });
     }
+
     private RowMapper<Ingredient> ingredientRowMapper(){
         return ((rs, rowNum) -> {
             Ingredient ingredient = new Ingredient();

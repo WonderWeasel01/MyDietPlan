@@ -29,6 +29,8 @@ public class AdminUIController {
         this.websiteService = websiteService;
         this.authenticationService = authenticationService;
     }
+
+
     @GetMapping("/admin")
     public String adminPageForm(Model model){  
         if(!isAdminLoggedIn()){
@@ -119,10 +121,8 @@ public class AdminUIController {
     }
 
     @PostMapping("/opdaterOpskrift")
-    public String editRecipePost(@RequestParam List<Integer> ingredientIds, @RequestParam List<Integer> weights, @ModelAttribute Recipe recipe, RedirectAttributes redirectAttributes){
+    public String updateRecipePost(@RequestParam List<Integer> ingredientIds, @RequestParam List<Integer> weights, @ModelAttribute Recipe recipe, RedirectAttributes redirectAttributes){
         try {
-            // ObjectMapper can convert java objects into JSON or vice versa
-
 
             websiteService.setupRecipeWithIngredients(recipe,ingredientIds, weights);
 
@@ -148,7 +148,6 @@ public class AdminUIController {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
         return "redirect:/recipeShowcase";
-
     }
 
     @GetMapping("/aktiverOpskrift/{recipeID}")
@@ -173,7 +172,7 @@ public class AdminUIController {
             return "redirect:/";
         }
        try{
-           ArrayList<Recipe> recipes = websiteService.getAllActiveRecipes();
+           ArrayList<Recipe> recipes = websiteService.getAllActiveRecipesWithoutIngredientsAndImage();
            model.addAttribute("recipes", recipes);
            return "activeRecipesShowcase";
        }catch (EntityNotFoundException e){

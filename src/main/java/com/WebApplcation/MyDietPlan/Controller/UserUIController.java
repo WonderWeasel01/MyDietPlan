@@ -46,7 +46,7 @@ public class UserUIController {
     }
 
     @GetMapping("/ingenAbonnement")
-    public String notLoggedIn(Model model) {
+    public String noSubscriptionAlert(Model model) {
         model.addAttribute("user", authenticationService.getUser());
         return "noSubscription";
     }
@@ -76,7 +76,8 @@ public class UserUIController {
     @PostMapping("/opretBruger")
     public String createUser( @ModelAttribute User user, RedirectAttributes redirectAttributes){
         try{
-            authenticationService.createUser(user);
+            websiteService.setupDailyCalorieGoal(user);
+            websiteService.createUser(user);
             return "redirect:/";
         } catch (SystemErrorException | InputErrorException e) {
            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -112,7 +113,7 @@ public class UserUIController {
     @PostMapping("/login")
     public String loginUser(@RequestParam String email, @RequestParam String password, Model model) {
         try{
-            User validatedUser = authenticationService.loginUser(email, password);
+            User validatedUser = authenticationService.loginUserAndSetSession(email, password);
             return determineViewDependingOnRole(validatedUser);
         } catch (InputErrorException | SystemErrorException | EntityNotFoundException e){
             model.addAttribute("loginError" , e.getMessage());
@@ -124,7 +125,7 @@ public class UserUIController {
     @PostMapping("/payingUser")
     public String handlePayingUser(RedirectAttributes redirectAttributes) {
         try{
-            authenticationService.paySubscription();
+            websiteService.paySubscription();
         } catch (EntityNotFoundException | SystemErrorException e){
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/CreatePayment";
@@ -138,7 +139,6 @@ public class UserUIController {
         if(!isLoggedInAndHasSub()){
             return "redirect:/";
         }
-
         try{
             User user = authenticationService.getUser();
             //If the user already has adjustedRecipes attached, use them to save time.
@@ -156,8 +156,6 @@ public class UserUIController {
         }
         return "loggedIn";
     }
-
-
 
     @GetMapping("/logout")
     public String logoutButton(){
@@ -182,7 +180,6 @@ public class UserUIController {
         }
 
         try {
-            System.out.println(updatedUser);
             websiteService.handleUserSelfUpdate(updatedUser);
             redirectAttributes.addFlashAttribute("successMessage", "Oplysninger opdateret!");
             return "redirect:/opdaterBruger";
@@ -194,13 +191,16 @@ public class UserUIController {
 
     @GetMapping("/minProfil")
     public String showUserProfile(Model model){
-
-        model.addAttribute("user", authenticationService.getUser());
-
         if(!isLoggedInAndHasSub()){
             return "redirect:/";
         }
-        model.addAttribute("user",authenticationService.getUser());
+
+        User user = authenticationService.getUser();
+        int subDaysLeft = websiteService.daysLeftOnSubscription(user.getUserId());
+
+        model.addAttribute("user",user);
+        model.addAttribute("subDaysLeft", subDaysLeft);
+
         return "userProfile";
     }
 
@@ -211,7 +211,7 @@ public class UserUIController {
            return "redirect:/";
        }
        try{
-           authenticationService.cancelUserSubscription(userID);
+           websiteService.cancelUserSubscription(userID);
            redirectAttributes.addFlashAttribute("successMessage","Abonnement afmeldt");
        } catch (EntityNotFoundException | SystemErrorException e){
            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
