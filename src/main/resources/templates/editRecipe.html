@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html class="Head" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/CSS/adminPage.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/default.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/adminEditRecipe.css">
+
     <title>Opdater Opskrift</title>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
-<form action="/opdaterOpskrift" th:action="@{/opdaterOpskrift}" th:object="${recipe}" method="post">
+<div th:insert="~{adminLayout :: header2}"></div>
+
+<form action="/opdaterOpskrift" th:action="@{/opdaterOpskrift}" th:object="${recipe}" enctype="multipart/form-data" method="post">
     <input type="hidden" th:field="*{recipeID}" />
     <input type="hidden" th:field="*{active}" />
     <input type="hidden" th:field="*{image.imageID}" />
+
 
     <!-- Opskrift informationer -->
     <div class="Recipeinputframe">

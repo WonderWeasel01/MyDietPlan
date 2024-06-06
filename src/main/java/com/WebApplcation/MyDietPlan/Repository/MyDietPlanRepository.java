@@ -5,6 +5,7 @@ import com.WebApplcation.MyDietPlan.Entity.Ingredient;
 import com.WebApplcation.MyDietPlan.Entity.Recipe;
 import com.WebApplcation.MyDietPlan.Entity.Subscription;
 import com.WebApplcation.MyDietPlan.Entity.User;
+import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -94,6 +95,11 @@ public class MyDietPlanRepository {
     public Recipe getRecipeWithoutImageAndIngredients(int recipeID){
         String sql = "SELECT * FROM Recipe WHERE recipe_id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{recipeID}, recipeRowMapper());
+    }
+
+    public boolean updateImageByRecipeID(int recipeID, Image image){
+        String sql = "UPDATE `Image`INNER JOIN `Recipe` ON Image.image_id = Recipe.image_id SET image_name = ?, image_type = ?, image_blob = ? WHERE Recipe.recipe_id = ?";
+        return 0 < jdbcTemplate.update(sql, image.getImageName(), image.getImageType(), image.getBlob(), recipeID);
     }
 
     public Recipe getRecipeWithIngredientsByRecipeID(int recipeID){
@@ -221,6 +227,10 @@ public class MyDietPlanRepository {
 
         return recipes;
     }
+    public Recipe getRecipeByID(Recipe recipe) {
+        String sql = "SELECT * FROM Recipe WHERE recipe_id = ?";
+        return jdbcTemplate.queryForObject(sql, recipeRowMapper(), recipe);
+    }
 
     public List<Recipe> getAllActiveRecipeWithoutIngredientsAndImage(){
         String sql = "SELECT * FROM Recipe where active = 1";
@@ -229,7 +239,7 @@ public class MyDietPlanRepository {
 
 
     public List<Recipe> getAllDeactivatedRecipeWithoutIngredients(){
-        String sql = "SELECT * FROM Recipe where active = 0";
+        String sql = "SELECT * FROM Recipe WHERE active = 0";
         return jdbcTemplate.query(sql, recipeRowMapper());
     }
 
@@ -478,6 +488,25 @@ public class MyDietPlanRepository {
                 return jdbcTemplate.query(sql, userRowMapper());
             }
     }
+    public void addFavoriteRecipe (int userID, int recipeID) {
+        String sql = "INSERT INTO User_favorite_recipe (user_id, recipe_id) values (?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, userID);
+            ps.setInt(2, recipeID);
+
+            return ps;
+        }, keyHolder);
+    }
+
+    public List<Recipe> getFavoriteRecipesByUserID(int userID) {
+        // Define the SQL query string, the r is just shortened from recipe and ufr is shortened user_favorite_recipe
+        String sql = "SELECT * FROM Recipe r" +
+                "INNER JOIN user_favorite_recipe ufr ON r.recipe_id = ufr.recipe_id" +
+                "WHERE ufr.user_id = ?";
+        return jdbcTemplate.query(sql,recipeRowMapper(), userID);
+    }
 
 
      private RowMapper<Image> imageRowMapper(){
@@ -490,9 +519,6 @@ public class MyDietPlanRepository {
             return image;
         });
     }
-
-    
-
 
 
     /**

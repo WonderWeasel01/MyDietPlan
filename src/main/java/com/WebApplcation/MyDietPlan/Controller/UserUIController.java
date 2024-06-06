@@ -149,7 +149,6 @@ public class UserUIController {
                 websiteService.setBase64Image(adjustedRecipes);
                 model.addAttribute("weeklyRecipes", adjustedRecipes);
             }
-
             model.addAttribute("user", user);
         } catch (EntityNotFoundException e) {
             model.addAttribute("errorMessage", e.getMessage());
@@ -219,6 +218,9 @@ public class UserUIController {
        return "redirect:/opdaterBruger";
     }
 
+    @GetMapping("/brugerFavoritOpskrifter")
+
+
 
     private String determineViewDependingOnRole(User user) throws SystemErrorException, EntityNotFoundException {
         if ("Admin".equals(user.getRole())) {
@@ -240,6 +242,7 @@ public class UserUIController {
         }
 
     }
+
 
 
 }
