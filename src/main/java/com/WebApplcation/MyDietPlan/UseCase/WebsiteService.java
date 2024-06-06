@@ -533,6 +533,7 @@ public class WebsiteService {
      */
     public ArrayList<Recipe> adjustRecipesToUser(ArrayList<Recipe> weeklyRecipes, User user) {
         ArrayList<Recipe> adjustedRecipes = new ArrayList<>();
+        User user = authenticationService.getUser();
 
         for (Recipe recipe : weeklyRecipes) {
             adjustedRecipes.add(adjustRecipeToUser(recipe, user.getDailyCalorieGoal()));
@@ -592,6 +593,7 @@ public class WebsiteService {
         //Update the user and the session if the update went well.
         if (updateUser(user)) {
             authenticationService.setSession(getUserByID(user.getUserId()));
+            System.out.println(true);
             return true;
         } else {
             System.out.println(false)
@@ -646,6 +648,17 @@ public class WebsiteService {
             e.printStackTrace();
             throw new SystemErrorException("Kunne ikke finde nogle brugere i databasen. Prøv igen senere. ");
         }
+    }
+    public void addFavoriteRecipe(Recipe recipe, User user) {
+        user.addFavoriteRecipe(recipe);
+    }
+    public List<Recipe> addFavoriteRecipe(int userID, int recipeID) throws SystemErrorException {
+        try {
+            repository.addFavoriteRecipe(userID, recipeID);
+        } catch (SystemErrorException e) {
+            throw new SystemErrorException("Fejl ved tilføjelse af opskrift til favoritter");
+        }
+        return repository.getFavoriteRecipesByUserID(userID);
     }
 
     /**

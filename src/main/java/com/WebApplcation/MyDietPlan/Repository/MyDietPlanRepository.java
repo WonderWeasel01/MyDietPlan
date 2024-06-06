@@ -5,6 +5,7 @@ import com.WebApplcation.MyDietPlan.Entity.Ingredient;
 import com.WebApplcation.MyDietPlan.Entity.Recipe;
 import com.WebApplcation.MyDietPlan.Entity.Subscription;
 import com.WebApplcation.MyDietPlan.Entity.User;
+import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -226,6 +227,10 @@ public class MyDietPlanRepository {
 
         return recipes;
     }
+    public Recipe getRecipeByID(Recipe recipe) {
+        String sql = "SELECT * FROM Recipe WHERE recipe_id = ?";
+        return jdbcTemplate.queryForObject(sql, recipeRowMapper(), recipe);
+    }
 
     public List<Recipe> getAllActiveRecipeWithoutIngredientsAndImage(){
         String sql = "SELECT * FROM Recipe where active = 1";
@@ -234,7 +239,7 @@ public class MyDietPlanRepository {
 
 
     public List<Recipe> getAllDeactivatedRecipeWithoutIngredients(){
-        String sql = "SELECT * FROM Recipe where active = 0";
+        String sql = "SELECT * FROM Recipe WHERE active = 0";
         return jdbcTemplate.query(sql, recipeRowMapper());
     }
 
@@ -483,6 +488,40 @@ public class MyDietPlanRepository {
                 return jdbcTemplate.query(sql, userRowMapper());
             }
     }
+    public List<Recipe> addFavoriteRecipe (int userID, int recipeID) throws SystemErrorException {
+        String sql = "INSERT INTO User_favorite_recipe (user_id, recipe_id) values (?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, userID);
+            ps.setInt(2, recipeID);
+
+
+            return ps;
+        }, keyHolder);
+        return getFavoriteRecipesByUserID(userID);
+
+    }
+    public List<Recipe> getFavoriteRecipesByUserID(int userID) {
+        // Define the SQL query string, the r is just shortened from recipe and ufr is shortened user_favorite_recipe
+        String sql = "SELECT r.recipe_id FROM Recipe r" +
+                "INNER JOIN user_favorite_recipe ufr ON r.recipe_id = ufr.recipe_id" +
+                "WHERE ufr.user_id = ?";
+        // Execute the query and map the result set to a list of Recipe objects
+        // The lamba function -> takes two parameters (1. rs, which is the current row of the result set and 2.rowNum, the row number)
+        return jdbcTemplate.query(sql, new Object[]{userID}, (rs, rowNum) -> {
+            // Create a new Recipe object
+            Recipe recipe = new Recipe();
+            // Set the recipeID field of the Recipe object from the result set
+            recipe.setRecipeID(rs.getInt("recipe_id"));
+            // Return the populated Recipe object
+            return recipe;
+        });
+    }
+
+
+
+
 
 
      private RowMapper<Image> imageRowMapper(){
