@@ -7,7 +7,7 @@ public class Subscription {
 private int subscriptionID;
 private Date subscriptionStartDate;
 private Date subscriptionEndDate;
-private Boolean activeSubscription;
+private boolean activeSubscription;
 private double subscriptionPrice;
 
 private int userID;
@@ -51,10 +51,10 @@ public Date getSubscriptionEndDate() {
 public void setSubscriptionEndDate(Date subscriptionEndDate) {
     this.subscriptionEndDate = subscriptionEndDate;
 }
-public Boolean getActiveSubscription() {
+public boolean getActiveSubscription() {
     return activeSubscription;
 }
-public void setActiveSubscription(Boolean activeSubscription) {
+public void setActiveSubscription(boolean activeSubscription) {
     this.activeSubscription = activeSubscription;
 }
 public double getSubscriptionPrice() {

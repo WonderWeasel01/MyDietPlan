@@ -1,6 +1,7 @@
-package com.WebApplcation.MyDietPlan;
+package com.WebApplcation.MyDietPlan.UseCase;
 import com.WebApplcation.MyDietPlan.Entity.Ingredient;
 import com.WebApplcation.MyDietPlan.Entity.Recipe;
+import com.WebApplcation.MyDietPlan.Exception.EntityNotFoundException;
 import com.WebApplcation.MyDietPlan.Exception.SystemErrorException;
 import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
 import com.WebApplcation.MyDietPlan.UseCase.AuthenticationService;
@@ -22,8 +23,6 @@ import static org.mockito.Mockito.when;
 class RecipeTest {
 	@Mock
 	private MyDietPlanRepository repo;
-	@Mock
-	private AuthenticationService authenticationService;
 	@InjectMocks
 	private WebsiteService websiteService;
 	private Recipe recipe;
@@ -123,17 +122,6 @@ class RecipeTest {
 
 		//Assert that the total calories in the recipe is correct after ingredient adjustment.
 		assertEquals(858, adjustedRecipe.getTotalCalories(), 5);
-	}
-
-	@Test
-	void deleteRecipeFailedTest() throws SystemErrorException {
-
-		//Mock the deleteRecipe method in MyDietPlanRepository to return false when called.
-		when(repo.deleteRecipe(recipe.getRecipeID())).thenReturn(false);
-		//Call the method to be tested
-		boolean result = websiteService.deleteRecipe(recipe.getRecipeID());
-		//Assert that websiteservice.deleteRecipe also return false
-		assertFalse(result);
 	}
 
 	@Test

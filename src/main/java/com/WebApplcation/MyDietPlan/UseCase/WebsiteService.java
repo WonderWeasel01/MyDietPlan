@@ -114,12 +114,12 @@ public class WebsiteService {
      * @param recipeID ID of the recipe that is being deleted
      * @return true if the deletion went well
      */
-    public boolean deleteRecipe(int recipeID) throws SystemErrorException {
+    public boolean deleteRecipe(int recipeID) throws SystemErrorException, EntityNotFoundException {
         try {
             return repository.deleteRecipe(recipeID);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
-            throw new SystemErrorException("Der er sket en fejl. Prøv igen senere");
+            throw new EntityNotFoundException("Kunne ikke finde opskrift");
         } catch (DataAccessException e) {
             e.printStackTrace();
             throw new SystemErrorException("Der er sket en fejl. Prøv igen senere");
@@ -406,7 +406,6 @@ public class WebsiteService {
             e.printStackTrace();
             throw new EntityNotFoundException("Kan ikke finde ingrediens");
         }
-
     }
 
     /**
@@ -583,7 +582,7 @@ public class WebsiteService {
 
     public boolean handleUserSelfUpdate(User user) throws InputErrorException, SystemErrorException, EntityNotFoundException {
         if (!authenticationService.isValidUser(user)) {
-            throw new InputErrorException("Udfyld venligst alle felter");
+            throw new InputErrorException("Udfyld venligst alle felter korrekt");
         }
         //Setup password and calorie goal
         authenticationService.hashAndSetPassword(user);
@@ -592,11 +591,8 @@ public class WebsiteService {
         //Update the user and the session if the update went well.
         if (updateUser(user)) {
             authenticationService.setSession(getUserByID(user.getUserId()));
-            System.out.println(true);
             return true;
         } else {
-            System.out.println(false)
-            ;
             return false;
         }
     }
@@ -800,6 +796,18 @@ public class WebsiteService {
         }
     }
 
+    public void activateUserSubscription(int userID) throws EntityNotFoundException, SystemErrorException {
+        try {
+            repository.activateSubscription(userID);
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            throw new EntityNotFoundException("Kunne ikke finde et aktivt abonnement");
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new SystemErrorException("Kunne ikke oprette forbindelse til databasen");
+        }
+    }
+
 
     /**
      * Sets up a new subscription.
@@ -828,7 +836,6 @@ public class WebsiteService {
 
     public byte[] base64ToBlob(String base64String){
         return Base64.getDecoder().decode(base64String);
-
     }
 
 

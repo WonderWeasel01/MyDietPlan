@@ -143,7 +143,7 @@ public class AdminUIController {
         try{
             websiteService.deleteRecipe(recipeID);
             redirectAttributes.addFlashAttribute("successMessage", "Opskrift slettet!");
-        } catch (SystemErrorException e){
+        } catch (EntityNotFoundException | SystemErrorException e){
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
         return "redirect:/recipeShowcase";

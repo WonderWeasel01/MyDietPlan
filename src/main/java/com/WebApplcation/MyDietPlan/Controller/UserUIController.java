@@ -2,6 +2,7 @@ package com.WebApplcation.MyDietPlan.Controller;
 
 import com.WebApplcation.MyDietPlan.Entity.Recipe;
 
+import com.WebApplcation.MyDietPlan.Entity.Subscription;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -168,12 +169,15 @@ public class UserUIController {
             return "redirect:/";
         }
         User user = authenticationService.getUser();
+        Subscription subscription = websiteService.getSubscriptionByUserID(user.getUserId());
+
         model.addAttribute("user", user);
+        model.addAttribute("subscriptionStatus", subscription.getActiveSubscription());
         return "editUser";
     }
 
     @PostMapping("/opdaterBruger")
-    public String updateUser(@ModelAttribute User updatedUser, Model model, RedirectAttributes redirectAttributes) {
+    public String updateUser(@ModelAttribute User updatedUser, RedirectAttributes redirectAttributes) {
         if(!isLoggedInAndHasSub()){
             return "redirect:/";
         }
@@ -181,11 +185,10 @@ public class UserUIController {
         try {
             websiteService.handleUserSelfUpdate(updatedUser);
             redirectAttributes.addFlashAttribute("successMessage", "Oplysninger opdateret!");
-            return "redirect:/opdaterBruger";
         } catch (EntityNotFoundException | InputErrorException | SystemErrorException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "editUser"; // Return to the edit page to display the error
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
+        return "redirect:/opdaterBruger";
     }
 
     @GetMapping("/minProfil")
@@ -199,6 +202,7 @@ public class UserUIController {
 
         model.addAttribute("user",user);
         model.addAttribute("subDaysLeft", subDaysLeft);
+
 
         return "userProfile";
     }
@@ -216,6 +220,19 @@ public class UserUIController {
            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
        }
        return "redirect:/opdaterBruger";
+    }
+    @GetMapping("/genoptagAbonnement/{userID}")
+    public String renewSubscription(@PathVariable int userID, RedirectAttributes redirectAttributes){
+        if(!isLoggedInAndHasSub()){
+            return "redirect:/";
+        }
+        try{
+            websiteService.activateUserSubscription(userID);
+            redirectAttributes.addFlashAttribute("successMessage","Abonnement genoptaget");
+        } catch (EntityNotFoundException | SystemErrorException e){
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/opdaterBruger";
     }
 
     @GetMapping("/brugerFavoritOpskrifter")

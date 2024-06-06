@@ -1,4 +1,4 @@
-package com.WebApplcation.MyDietPlan;
+package com.WebApplcation.MyDietPlan.Repository;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,11 +9,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.WebApplcation.MyDietPlan.Repository.MyDietPlanRepository;
 
-
-
-public class UaserPaymentTest {
+public class UserPaymentTest {
 
 
     @Mock

@@ -156,7 +156,7 @@ public class AuthenticationService {
     public boolean isPayingUser() throws SystemErrorException, EntityNotFoundException {
         try{
             Subscription subscription = repository.getSubscriptionByUserID(getUser().getUserId());
-            if(isSubExpired(subscription) && isUserSubscriptionActive(subscription)){
+            if(isSubExpired(subscription) && subscription.getActiveSubscription()){
                 renewSub(subscription);
             }
             return !isSubExpired(subscription);
@@ -210,10 +210,6 @@ public class AuthenticationService {
             e.printStackTrace();
             throw new SystemErrorException("Der skete en fejl med databasen. Prøv igen senere");
         }
-    }
-
-    public boolean isUserSubscriptionActive(Subscription subscription){
-        return subscription.getActiveSubscription();
     }
 
     public boolean isSubExpired(Subscription subscription){

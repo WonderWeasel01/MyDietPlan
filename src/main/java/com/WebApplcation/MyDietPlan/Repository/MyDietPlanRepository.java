@@ -437,6 +437,11 @@ public class MyDietPlanRepository {
         return 0 < jdbcTemplate.update(sql,0,userID);
     }
 
+    public boolean activateSubscription(int userID){
+        String sql = "UPDATE Subscription SET subscriptionStatus = ? Where user_id = ?";
+        return 0 < jdbcTemplate.update(sql,1,userID);
+    }
+
 
 
 
