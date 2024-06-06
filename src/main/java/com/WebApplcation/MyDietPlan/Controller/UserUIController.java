@@ -219,6 +219,9 @@ public class UserUIController {
        return "redirect:/opdaterBruger";
     }
 
+    @GetMapping("/brugerFavoritOpskrifter")
+
+
 
     private String determineViewDependingOnRole(User user) throws SystemErrorException, EntityNotFoundException {
         if ("Admin".equals(user.getRole())) {
@@ -240,6 +243,7 @@ public class UserUIController {
         }
 
     }
+
 
 
 }

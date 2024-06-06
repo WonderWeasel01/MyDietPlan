@@ -523,7 +523,7 @@ public class WebsiteService {
      */
     public ArrayList<Recipe> adjustRecipesToUser(ArrayList<Recipe> weeklyRecipes, User user) {
         ArrayList<Recipe> adjustedRecipes = new ArrayList<>();
-        User user = authenticationService.getUser();
+
 
         for (Recipe recipe : weeklyRecipes) {
             adjustedRecipes.add(adjustRecipeToUser(recipe, user.getDailyCalorieGoal()));
@@ -641,12 +641,17 @@ public class WebsiteService {
     public void addFavoriteRecipe(Recipe recipe, User user) {
         user.addFavoriteRecipe(recipe);
     }
+
     public List<Recipe> addFavoriteRecipe(int userID, int recipeID) throws SystemErrorException {
         try {
             repository.addFavoriteRecipe(userID, recipeID);
         } catch (SystemErrorException e) {
             throw new SystemErrorException("Fejl ved tilføjelse af opskrift til favoritter");
         }
+        return repository.getFavoriteRecipesByUserID(userID);
+    }
+
+    public List <Recipe> getFavoriteRecipesByUserID (int userID) {
         return repository.getFavoriteRecipesByUserID(userID);
     }
 

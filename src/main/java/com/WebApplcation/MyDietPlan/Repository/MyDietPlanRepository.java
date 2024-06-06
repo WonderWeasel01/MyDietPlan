@@ -503,7 +503,7 @@ public class MyDietPlanRepository {
                 "INNER JOIN user_favorite_recipe ufr ON r.recipe_id = ufr.recipe_id" +
                 "WHERE ufr.user_id = ?";
         // Execute the query and map the result set to a list of Recipe objects
-        // The lamba function -> takes two parameters (1. rs, which is the current row of the result set and 2.rowNum, the row number)
+        // The lamba function "->" takes two parameters (1. rs, which is the current row of the result set and 2.rowNum, the row number)
         return jdbcTemplate.query(sql, new Object[]{userID}, (rs, rowNum) -> {
             // Create a new Recipe object
             Recipe recipe = new Recipe();
