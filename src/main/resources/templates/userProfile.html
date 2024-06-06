@@ -8,20 +8,97 @@
 </head>
 <body>
     <div th:include="layout :: header"></div>
-    <h1>User Details</h1>
-    <div>
-        <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
-        <p><strong>First Name:</strong> <span th:text="${user.firstName}"></span></p>
-        <p><strong>Last Name:</strong> <span th:text="${user.lastName}"></span></p>
-        <p><strong>Gender:</strong> <span th:text="${user.gender}"></span></p>
-        <p><strong>Height:</strong> <span th:text="${user.height}"></span> cm</p>
-        <p><strong>Weight:</strong> <span th:text="${user.weight}"></span> kg</p>
-        <p><strong>Age:</strong> <span th:text="${user.age}"></span></p>
-        <p><strong>Activity Level:</strong> <span th:text="${user.activityLevel}"></span></p>
-        <p><strong>Goal:</strong> <span th:text="${user.goal}"></span></p>
-        <p><strong>Role:</strong> <span th:text="${user.role}"></span></p>
-        <p><strong>Daily Calorie Goal:</strong> <span th:text="${user.dailyCalorieGoal}"></span> kcal</p>
-        <p><strong>Dage tilbage af abonnement:</strong> <span th:text="${subDaysLeft}"></span> dage</p>
-    </div>
+
+        <img class="Userbackground" src="Images/PNGS/louis-hansel-MlPD-AzZYMg-unsplash.jpg" />
+        <div class="Userprofile">
+          <img class="Userprofileimage" src="https://via.placeholder.com/130x130" />
+        </div>
+
+        <div class="UserInfo">
+            <div class="Name">  <span th:text="${user.firstName}"></span>  <span th:text="${user.lastName}"></span></div>
+            <div class="Button">
+                    <div id="emailButton" class="Buttontext">SEND BESKED</div>
+                </div>
+            </div>
+
+
+
+
+            <section class="centerdiv">
+            <div class="Infodiv">
+              <h2 class="Userinfo">INFO</h2>
+              <div class="Row">
+                <div class="Column">
+                  <div class="Iconandtext">
+                    <i class="fa-solid fa-venus-mars fa-lg" style="color: #79d779;"></i>
+                    <div class="Text"><p><strong>Køn:</strong> <span th:text="${user.gender}"></span></p></div>
+                  </div>
+                  <div class="Iconandtext">
+                    <i class="fa-solid fa-up-down fa-lg" style="color: #79d779;"></i>
+                    <div class="Text"><p><strong>Højde:</strong> <span th:text="${user.height}"></span> cm</p></div>
+                  </div>
+                  <div class="Iconandtext">
+                    <i class="fa-solid fa-weight-scale fa-lg" style="color: #79d779;"></i>
+                    <div class="Text"><p><strong>Vægt:</strong> <span th:text="${user.weight}"></span> kg</p></div>
+                  </div>
+                  <div class="Iconandtext">
+                    <i class="fa-solid fa-clock-rotate-left fa-lg" style="color: #79d779;"></i>
+                    <div class="Text"><p><strong>Alder:</strong> <span th:text="${user.age}"></span></p></div>
+                  </div>
+                </div>
+                <div class="Column">
+                  <div class="Iconandtext">
+                    <i class="fa-solid fa-chart-line fa-lg" style="color: #79d779;"></i>
+                    <div class="Text"><p><strong>Aktivitet:</strong> <span th:text="${user.activityLevel}"></span></p></div>
+                  </div>
+                  <div class="Iconandtext">
+                    <i class="fa-solid fa-bullseye fa-lg" style="color: #79d779;"></i>
+                    <div class="Text"><p><strong>Mål:</strong> <span th:text="${user.goal}"></span></p></div>
+                  </div>
+                  <div class="Iconandtext">
+                    <i class="fa-solid fa-bolt fa-lg" style="color: #79d779;"></i>
+                    <div class="Text"><p><strong>Kaloriemål:</strong> <span th:text="${#numbers.formatDecimal(user.dailyCalorieGoal, 0, 0)}"></span> kcal</p></div>
+                  </div>
+                  <div class="Iconandtext">
+                    <i class="fa-solid fa-calendar fa-lg" style="color: #79d779;"></i>
+                    <div class="Text"><p><strong>Abonnement slut:</strong> <span th:text="${subDaysLeft}"></span> dage</p></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+       
+
+
+
+
+
+
+  
+
+
+
+      
+        
+        
+        
+        
+        
+        
+ <span hidden th:text="${user.role}"></span>
+
+ 
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        document.getElementById('emailButton').onclick = function() {
+            var email = /*[[${user.email}]]*/ 'default@example.com';
+            var subject = 'Subject';
+            var body = 'Body Content';
+            window.location.href = 'mailto:' + email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        }
+        /*]]>*/
+    </script>
+
 </body>
 </html>
