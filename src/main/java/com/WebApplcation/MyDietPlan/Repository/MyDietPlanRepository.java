@@ -97,6 +97,11 @@ public class MyDietPlanRepository {
         return jdbcTemplate.queryForObject(sql, new Object[]{recipeID}, recipeRowMapper());
     }
 
+    public boolean updateImageByRecipeID(int recipeID, Image image){
+        String sql = "UPDATE `Image`INNER JOIN `Recipe` ON Image.image_id = Recipe.image_id SET image_name = ?, image_type = ?, image_blob = ? WHERE Recipe.recipe_id = ?";
+        return 0 < jdbcTemplate.update(sql, image.getImageName(), image.getImageType(), image.getBlob(), recipeID);
+    }
+
     public Recipe getRecipeWithIngredientsByRecipeID(int recipeID){
         String sql = "SELECT * FROM Recipe WHERE recipe_id = ?";
 

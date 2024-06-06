@@ -6,6 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @ControllerAdvice
@@ -19,6 +20,18 @@ public class GlobalExceptionHandler {
 
         // Add the flash attribute
         redirectAttributes.addFlashAttribute("errorMessage", "Udfyld venligst alle felter korrekt.");
+        // Redirect back to the original URL
+        return "redirect:" + (referer);
+    }
+
+    @ExceptionHandler({MaxUploadSizeExceededException.class})
+    public String handleMaxUploadSizeExceededException(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        // Capture the original URL
+        String referer = request.getHeader("Referer");
+
+
+        // Add the flash attribute
+        redirectAttributes.addFlashAttribute("errorMessage", "Maximum upload størrelse.");
         // Redirect back to the original URL
         return "redirect:" + (referer);
     }

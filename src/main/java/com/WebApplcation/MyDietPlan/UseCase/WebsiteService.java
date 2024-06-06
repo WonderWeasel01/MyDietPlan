@@ -14,7 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -78,6 +81,7 @@ public class WebsiteService {
         try {
             Image image = convertFileToImage(imageFile);
             recipe.setImage(image);
+            setBase64Image(recipe);
         } catch (IOException e) {
             e.printStackTrace();
             throw new SystemErrorException("Der skete en fejl under forsøget på at gemme billedet");
@@ -93,12 +97,11 @@ public class WebsiteService {
      * @throws InputErrorException  Rethrows if validateRecipe(recipe) fails.
      * @throws SystemErrorException
      */
-    public boolean updateRecipe(Recipe recipe) throws InputErrorException, SystemErrorException {
+    public void updateRecipe(Recipe recipe) throws InputErrorException, SystemErrorException, EntityNotFoundException{
         try {
-            if (repository.updateRecipeWithoutIngredients(recipe)) {
-                return updateRecipeIngredients(recipe.getRecipeID(), recipe.getIngredientList());
-            }
-            throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
+            repository.updateRecipeWithoutIngredients(recipe);
+            updateRecipeIngredients(recipe.getRecipeID(), recipe.getIngredientList());
+
         } catch (DataAccessException e) {
             System.err.println("Error accessing the database: " + e.getMessage());
             throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
@@ -140,7 +143,8 @@ public class WebsiteService {
             //Set the recipe active status to true if there is less than 21 already active in the database.
             if (getActiveRecipeAmount() < 21) {
                 return repository.updateRecipeActiveStatus(recipeID, 1);
-            } throw new SystemErrorException("Der er allerede 21 aktive opskrifter. Deaktiver en eller flere aktive opskrifter for at tilføje flere");
+            }
+            throw new SystemErrorException("Der er allerede 21 aktive opskrifter. Deaktiver en eller flere aktive opskrifter for at tilføje flere");
 
         } catch (EmptyResultDataAccessException e) {
             throw new EntityNotFoundException("Kunne ikke finde opskriften i databasen. Prøv igen senere");
@@ -171,10 +175,16 @@ public class WebsiteService {
      * @return True if update was successful, False if not.
      * @throws SystemErrorException If there was an error while deleting the original ingredientlist
      */
-    public boolean updateRecipeIngredients(int recipeID, List<Ingredient> newIngredients) throws SystemErrorException {
-        if (repository.deleteIngredientsFromRecipe(recipeID)) {
-            return repository.insertIngredientsOntoRecipe(recipeID, newIngredients);
-        } else throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
+    public void updateRecipeIngredients(int recipeID, List<Ingredient> newIngredients) throws SystemErrorException, EntityNotFoundException {
+        try{
+            repository.deleteIngredientsFromRecipe(recipeID);
+            repository.insertIngredientsOntoRecipe(recipeID, newIngredients);
+        } catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            throw new EntityNotFoundException("Kunne ikke finde opskriftens ingredienser");
+        }catch (DataAccessException e){
+            throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
+        }
     }
 
 
@@ -539,12 +549,12 @@ public class WebsiteService {
      * @return The user being fetched.
      */
     public User getUserByID(int userId) throws EntityNotFoundException, SystemErrorException {
-        try{
+        try {
             return repository.getUserByID(userId);
-        } catch(EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             throw new EntityNotFoundException("Kunne ikke finde en bruger med givet id");
-        } catch (DataAccessException e ){
+        } catch (DataAccessException e) {
             e.printStackTrace();
             throw new SystemErrorException("Der skete en fejl med databasen. Prøv igen sener");
         }
@@ -566,7 +576,7 @@ public class WebsiteService {
         } catch (DuplicateKeyException e) {
             e.printStackTrace();
             throw new InputErrorException("Email bruges allerede");
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             e.printStackTrace();
             throw new SystemErrorException("Der er sket en fejl med databasen. Prøv igen senere");
         }
@@ -581,13 +591,14 @@ public class WebsiteService {
         setupDailyCalorieGoal(user);
 
         //Update the user and the session if the update went well.
-        if(updateUser(user)){
+        if (updateUser(user)) {
             authenticationService.setSession(getUserByID(user.getUserId()));
             System.out.println(true);
             return true;
         } else {
             System.out.println(false)
-            ;return false;
+            ;
+            return false;
         }
     }
 
@@ -601,18 +612,18 @@ public class WebsiteService {
     }
 
     public boolean handleAdminUserSubscriptionUpdate(Subscription subscription) throws SystemErrorException {
-        try{
+        try {
             return repository.updateSubscription(subscription);
-        } catch(DataAccessException e){
+        } catch (DataAccessException e) {
             e.printStackTrace();
             throw new SystemErrorException("Der er sket en fejl med databasen. Prøv igen senere");
         }
     }
 
-    public Subscription getSubscriptionByUserID(int userID){
-        try{
+    public Subscription getSubscriptionByUserID(int userID) {
+        try {
             return repository.getSubscriptionByUserID(userID);
-        } catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             return null;
         }
@@ -658,20 +669,20 @@ public class WebsiteService {
     /**
      * Sets up a subscription for the user.
      */
-    public void paySubscription() throws SystemErrorException, EntityNotFoundException{
+    public void paySubscription() throws SystemErrorException, EntityNotFoundException {
         User user = authenticationService.getUser();
         int userID = user.getUserId();
 
-        try{
+        try {
             //Renew the users subscription
             Subscription subscription = repository.getSubscriptionByUserID(userID);
             authenticationService.renewSub(subscription);
 
             //Set up a new subscription if the user doesn't have one.
-        } catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             Subscription newSubscription = setupNewSubscription();
-            repository.insertSubscription(newSubscription,userID);
-        }catch (DataAccessException e){
+            repository.insertSubscription(newSubscription, userID);
+        } catch (DataAccessException e) {
             throw new SystemErrorException("Der skete en database fejl. Prøv igen senere");
         }
     }
@@ -712,14 +723,15 @@ public class WebsiteService {
 
     /**
      * Sets up all the necessary information that a user needs and saves the user in the database.
+     *
      * @param user A user with information to put in the database
      * @return Returns the user with an auto generated id attached.
      * @throws SystemErrorException If the system cant connect to database, sql errors etc.
-     * @throws InputErrorException If the given user is missing important information or is trying to use an already existing email.
+     * @throws InputErrorException  If the given user is missing important information or is trying to use an already existing email.
      */
 
     public User createUser(User user) throws SystemErrorException, InputErrorException {
-        if(!authenticationService.isValidUser(user)){
+        if (!authenticationService.isValidUser(user)) {
             throw new InputErrorException("Venligst udfyld alle felterne korrekt");
         }
         authenticationService.hashAndSetPassword(user);
@@ -729,10 +741,11 @@ public class WebsiteService {
 
     /**
      * Saves a user in the database.
+     *
      * @param user Save a user object.
      * @return The saved user object
-     * @throws SystemErrorException If the system can't connect to the database, sql errors etc.
-     * @throws InputErrorException If the given user is missing important information or is trying to use an already existing email.
+     * @throws SystemErrorException  If the system can't connect to the database, sql errors etc.
+     * @throws InputErrorException   If the given user is missing important information or is trying to use an already existing email.
      * @throws DuplicateKeyException If the user has the same id as an already existing user.
      */
     private User saveUser(User user) throws SystemErrorException, InputErrorException, DuplicateKeyException {
@@ -750,11 +763,11 @@ public class WebsiteService {
         }
     }
 
-    public double calculateDailyCalorieGoal(User user){
+    public double calculateDailyCalorieGoal(User user) {
         double calorieGoal = 0;
         double dailyCalorieBurn = user.getDailyCalorieBurn();
 
-        switch(user.getGoal()) {
+        switch (user.getGoal()) {
             case ("Loose weight"):
                 calorieGoal = dailyCalorieBurn - 500;
                 break;
@@ -764,26 +777,26 @@ public class WebsiteService {
             case ("Increase weight"):
                 calorieGoal = dailyCalorieBurn + 500;
                 break;
-            case("Build muscle"):
+            case ("Build muscle"):
                 calorieGoal = dailyCalorieBurn + 300;
                 break;
         }
         return calorieGoal;
     }
 
-    public void setupDailyCalorieGoal(User user){
+    public void setupDailyCalorieGoal(User user) {
         user.setDailyCalorieBurn(calculateDailyCalorieBurn(user));
         user.setDailyCalorieGoal(calculateDailyCalorieGoal(user));
     }
 
 
     public void cancelUserSubscription(int userID) throws EntityNotFoundException, SystemErrorException {
-        try{
+        try {
             repository.cancelSubscription(userID);
-        } catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             throw new EntityNotFoundException("Kunne ikke finde et aktivt abonnement");
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             e.printStackTrace();
             throw new SystemErrorException("Kunne ikke oprette forbindelse til databasen");
         }
@@ -792,9 +805,10 @@ public class WebsiteService {
 
     /**
      * Sets up a new subscription.
+     *
      * @return The configured Subscription object.
      */
-    public Subscription setupNewSubscription(){
+    public Subscription setupNewSubscription() {
         Subscription subscription = new Subscription();
 
         java.util.Date currentDate = new java.util.Date();
@@ -812,6 +826,11 @@ public class WebsiteService {
         //Set the Price of the membership
         subscription.setSubscriptionPrice(0);
         return subscription;
+    }
+
+    public byte[] base64ToBlob(String base64String){
+        return Base64.getDecoder().decode(base64String);
+
     }
 
 

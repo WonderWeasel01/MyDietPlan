@@ -1,0 +1,7 @@
+.Mealimage{
+    object-fit: cover;
+    text-align: center;
+    width: 420px;
+    height: 200px;
+    border-radius: 15px;
+}
