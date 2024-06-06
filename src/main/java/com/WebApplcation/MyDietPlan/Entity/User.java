@@ -1,6 +1,7 @@
 package com.WebApplcation.MyDietPlan.Entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class User {
 
@@ -22,10 +23,13 @@ public class User {
     private double dailyCalorieBurn;
     private double dailyCalorieGoal;
 
-  public User() {
+    public User() {
+        initializeLists();
     }
+
     public User(String firstName, String lastName) {
     }
+
 
     public User(String email, String password, String firstName, String lastName, char gender, int height, int weight, int age, String activityLevel, String goal, String role) {
         this.email = email;
@@ -108,28 +112,43 @@ public class User {
         return dailyCalorieBurn;
     }
 
-    public double calculateDailyCalorieGoal(String goal, double dailyCalorieBurn){
-      double calorieGoal = 0;
-      switch(goal) {
-          case ("Loose weight"):
-              calorieGoal = dailyCalorieBurn - 500;
-              break;
-          case ("Maintain weight"):
-              calorieGoal = dailyCalorieBurn;
-              break;
-          case ("Increase weight"):
-              calorieGoal = dailyCalorieBurn + 500;
-              break;
-          case("Build muscle"):
-              calorieGoal = dailyCalorieBurn + 300;
-              break;
-      }
-      return calorieGoal;
+    public double calculateDailyCalorieGoal(String goal, double dailyCalorieBurn) {
+        double calorieGoal = 0;
+        switch (goal) {
+            case ("Loose weight"):
+                calorieGoal = dailyCalorieBurn - 500;
+                break;
+            case ("Maintain weight"):
+                calorieGoal = dailyCalorieBurn;
+                break;
+            case ("Increase weight"):
+                calorieGoal = dailyCalorieBurn + 500;
+                break;
+            case ("Build muscle"):
+                calorieGoal = dailyCalorieBurn + 300;
+                break;
+        }
+        return calorieGoal;
     }
 
-    public void setupDailyCalorieGoal(){
-      this.dailyCalorieBurn = calculateDailyCalorieBurn();
-      this.dailyCalorieGoal = calculateDailyCalorieGoal(this.goal,this.dailyCalorieBurn);
+    private void initializeLists() {
+        favoriteRecipes = new ArrayList<>();
+        adjustedRecipes = new ArrayList<>();
+    }
+
+    public void addFavoriteRecipe(Recipe recipe) {
+        if (recipe != null && !favoriteRecipes.contains(recipe)) {
+            favoriteRecipes.add(recipe);
+        }
+    }
+
+    public void removeFavoriteRecipe(Recipe recipe) {
+        favoriteRecipes.remove(recipe);
+    }
+
+    public void setupDailyCalorieGoal() {
+        this.dailyCalorieBurn = calculateDailyCalorieBurn();
+        this.dailyCalorieGoal = calculateDailyCalorieGoal(this.goal, this.dailyCalorieBurn);
     }
 
     public double getDailyCalorieGoal() {
@@ -240,9 +259,11 @@ public class User {
         return favoriteRecipes;
     }
 
-    public void setFavoriteRecipes(ArrayList<Recipe> favoriteRecipes) {
-        this.favoriteRecipes = favoriteRecipes;
+
+    public void setFavoriteRecipes(List<Recipe> favoriteRecipes) {
+        this.favoriteRecipes = new ArrayList<>(favoriteRecipes);
     }
+
 
     @Override
     public String toString() {
@@ -267,3 +288,4 @@ public class User {
                 '}';
     }
 }
+

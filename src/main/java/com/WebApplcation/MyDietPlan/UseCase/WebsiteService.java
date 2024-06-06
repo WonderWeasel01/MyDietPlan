@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -611,6 +612,17 @@ public class WebsiteService {
             e.printStackTrace();
             throw new SystemErrorException("Kunne ikke finde nogle brugere i databasen. Prøv igen senere. ");
         }
+    }
+    public void addFavoriteRecipe(Recipe recipe, User user) {
+        user.addFavoriteRecipe(recipe);
+    }
+    public List<Recipe> addFavoriteRecipe(int userID, int recipeID) throws SystemErrorException {
+        try {
+            repository.addFavoriteRecipe(userID, recipeID);
+        } catch (SystemErrorException e) {
+            throw new SystemErrorException("Fejl ved tilføjelse af opskrift til favoritter");
+        }
+        return repository.getFavoriteRecipesByUserID(userID);
     }
 
 }
