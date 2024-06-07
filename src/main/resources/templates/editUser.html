@@ -9,15 +9,12 @@
 <div th:insert="~{layout :: header}"></div>
 <body>
 
-
-    <div class="FormBox">
+    <div class="FormBox Column">
+        <h2> REDIGER BRUGER</h2>
         <form class="Form" action="#" th:action="@{/opdaterBruger}" th:object="${user}" method="post">
-
         <div class="Row">
-
             <div class="RightSite"> 
                 <input type="hidden" th:field="*{userId}" class="Input">
-
                 <div class="Column">
                     <div class="userFirstName">Fornavn:</div>
                     <input type="text" id="userFirstName" th:value="firstName" th:field="*{firstName}" class="Input" required>

@@ -14,65 +14,73 @@
     <div class="HeaderFrame">
     </div>
     <div class="AdminFormBox">
+        <div class="row">
         <form class="Form" action="#" th:action="@{/opdaterBrugerOplysningerAdmin}" th:object="${user}" method="post">
             <input type="hidden" th:field="*{userId}" class="Input">
 
+            <h2>Opdater bruger information</h2>
             <div class="Row">
-                <h2>Opdater bruger information</h2>
-                <div class="RightSite">
-                    <div class="Column">
-                        <div class="userFirstName">Nyt Fornavn:</div>
-                        <input type="text" id="userFirstName" th:value="firstName" th:field="*{firstName}" class="Input" required>
-                    </div>
 
-                    <div class="Column">
+                <!-- Left side -->
+                <div class="Column">
+                        <div>
+                            <div class="userFirstName">Nyt Fornavn:</div>
+                            <input type="text" id="userFirstName" th:value="firstName" th:field="*{firstName}" class="Input" required>
+                        </div>
+
+                        <div>
+                            <div class="email">Ny email:</div>
+                            <input type="text" id="email" th:value="email" th:field="*{email}" class="Input" required>
+                        </div>
+
+                        <div>
+                            <div class="genderDropdown">Nyt Køn</div>
+                            <select id="genderDropdown" name="genderSelect" th:field="*{gender}" class="Input" required>
+                                <option value="M">Mand</option>
+                                <option value="F">Kvinde</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <div class="weight">Ny Vægt:</div>
+                            <input type="number" id="weight" th:value="weight" th:field="*{weight}" class="Input" required>
+                        </div>
+
+                        <div>
+                            <div class="userGoal">Nyt Mål:</div>
+                            <label for="goalDropdown"> </label>
+                            <select id="goalDropdown" name="activitySelect" th:field="*{goal}" class="Input" required>
+                                <option value="Build muscle">Opbyg muskler</option>
+                                <option value="Loose weight">Tab vægt</option>
+                                <option value="Increase weight">Øg din vægt</option>
+                                <option value="Maintain weight">Hold vægten</option>
+                            </select>
+                        </div>
+                </div>
+
+                <!-- Right side -->
+                <div class="Column">
+                    <div>
                         <div class="userLastName">Nyt Efternavn:</div>
                         <input type="text" id="userLastName" th:value="lastName" th:field="*{lastName}" class="Input" required>
                     </div>
-                    <div class="Column">
-                        <div class="email">Ny email:</div>
-                        <input type="text" id="email" th:value="email" th:field="*{email}" class="Input" required>
-                    </div>
 
-                    <div class="Column">
+                    <div>
                         <div class="password">Nyt password:</div>
                         <input type="password" id="password" th:field="*{password}" class="Input" required>
                     </div>
-                    <div class="Column">
-                        <div class="genderDropdown">Nyt Køn</div>
-                        <select id="genderDropdown" name="genderSelect" th:field="*{gender}" class="Input" required>
-                            <option value="M">Mand</option>
-                            <option value="F">Kvinde</option>
-                        </select>
-                    </div>
-                </div>
 
-                <div class="RightSite">
-                    <div class="Column">
+                    <div>
                         <div class="height">Ny Højde:</div>
                         <input type="number" id="height" th:value="height" th:field="*{height}" class="Input" required>
                     </div>
-                    <div class="Column">
-                        <div class="weight">Ny Vægt:</div>
-                        <input type="number" id="weight" th:value="weight" th:field="*{weight}" class="Input" required>
-                    </div>
-                    <div class="Column">
+
+                    <div>
                         <div class="age">Ny Alder:</div>
                         <input type="number" id="age" th:value="age" th:field="*{age}" class="Input" required>
                     </div>
 
-                    <div class="Column">
-                        <div class="userGoal">Nyt Mål:</div>
-                        <label for="goalDropdown"> </label>
-                        <select id="goalDropdown" name="activitySelect" th:field="*{goal}" class="Input" required>
-                            <option value="Build muscle">Opbyg muskler</option>
-                            <option value="Loose weight">Tab vægt</option>
-                            <option value="Increase weight">Øg din vægt</option>
-                            <option value="Maintain weight">Hold vægten</option>
-                        </select>
-                    </div>
-
-                    <div class="Column">
+                    <div>
                         <div class="userActivityLevel">Nyt Aktivitetsniveau:</div>
                         <label for="activityDropdown"></label>
                         <select id="activityDropdown" name="activitySelect" th:field="*{activityLevel}" class="Input" required>
@@ -83,6 +91,7 @@
                             <option value="Extreme activity">1-2 gange aktivitet om dagen</option>
                         </select>
                     </div>
+
                 </div>
             </div>
             <div th:if="${errorMessage} or ${successMessage}" class="message">
@@ -93,29 +102,38 @@
                 <button class="Button" type="submit">Opdater information</button>
             </div>
         </form>
+        </div>
     </div>
 
     <div class="AdminFormBox">
-        <div class="Row">
-            <h2>Opdater bruger abonnement</h2>
-            <div th:if="${subscription}" class="subscriptionForm">
+            <div th:if="${subscription}">
             <form class="Form" action="#" th:action="@{/opdaterBrugerAbonnementAdmin}" th:object="${subscription}" method="post">
-                <input type="hidden" id="subID" th:field="*{subscriptionID}" class="Input" required>
-                <input type="hidden" id="subUserID" th:field="*{userID}" class="Input" required>
-                <label for="startDate">Start dato:</label>
-                <input type="date" id="startDate" th:field="*{subscriptionStartDate}" class="Input" required>
-                <label for="endDate">Slut dato:</label>
-                <input type="date" id="endDate" th:field="*{subscriptionEndDate}" class="Input" required>
-                <label for="subPrice">Pris:</label>
-                <input type="number" id="subPrice" th:field="*{subscriptionPrice}" class="Input" step="1" required >
-                <label for="subStatus">Aktivt abonnement:</label>
-                <input type="checkbox" id="subStatus" th:field="*{activeSubscription}" onclick="return confirm('Opsig/Gentoptag brugers abonnement?')" class="Input">
+                <h2>OPDATER BRUGER ABONNEMENT</h2>
+                <div class="Column">
+                        <input type="hidden" id="subID" th:field="*{subscriptionID}" class="Input" required>
+                        <input type="hidden" id="subUserID" th:field="*{userID}" class="Input" required>
 
-                <div class="Button">
-                    <button class="Button" type="submit">Opdater abonnement</button>
+                        <div>
+                            <label for="startDate">Start dato:</label>
+                            <input type="date" id="startDate" th:field="*{subscriptionStartDate}" class="Input" required>
+                        </div>
+                        <div>
+                            <label for="endDate">Slut dato:</label>
+                            <input type="date" id="endDate" th:field="*{subscriptionEndDate}" class="Input" required>
+                        </div>
+                        <div>
+                            <label for="subPrice">Pris:</label>
+                            <input type="number" id="subPrice" th:field="*{subscriptionPrice}" class="Input" step="1" required >
+                        </div>
+                        <div class="Row">
+                            <label for="subStatus">Aktivt abonnement:</label>
+                            <input type="checkbox" id="subStatus" th:field="*{activeSubscription}" onclick="return confirm('Opsig/Gentoptag brugers abonnement?')" class="Input">
+                        </div>
+                        <div class="Button">
+                            <button class="Button" type="submit">Opdater abonnement</button>
+                        </div>
                 </div>
             </form>
-        </div>
         </div>
     </div>
 </div>
