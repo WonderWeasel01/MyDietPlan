@@ -42,7 +42,7 @@ public class AuthenticationService {
      * @param user The User object whose password needs to be hashed.
      */
     public void hashAndSetPassword(User user){
-        String hashedPassword = hashPassword(user.getPassword());
+        String hashedPassword = BCrypt.hashpw(user.getPassword(),BCrypt.gensalt());
         user.setPassword(hashedPassword);
     }
 
@@ -71,15 +71,6 @@ public class AuthenticationService {
         return user != null && StringUtils.hasText(user.getEmail()) && StringUtils.hasText(user.getPassword()) && StringUtils.hasText(user.getFirstName())
                 && StringUtils.hasText(user.getLastName()) &&  StringUtils.hasText(user.getGoal()) && StringUtils.hasText(user.getActivityLevel()) && StringUtils.hasText(String.valueOf(user.getGender()))
                 && user.getHeight() > 0 && user.getAge() > 0 && user.getWeight() > 0;
-    }
-
-    /**
-     * Hashes a users password and adds salt
-     * @param password Password that needs hashing
-     * @return The hashed password
-     */
-    public String hashPassword(String password){
-        return BCrypt.hashpw(password,BCrypt.gensalt());
     }
 
     /**

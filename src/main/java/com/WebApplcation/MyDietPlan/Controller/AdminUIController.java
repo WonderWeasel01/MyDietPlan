@@ -210,9 +210,10 @@ public class AdminUIController {
     @GetMapping("/opdaterBrugerAdmin/{userID}")
     public String adminEditUserForm(@PathVariable int userID, Model model, RedirectAttributes redirectAttributes){
         try{
-            model.addAttribute("user", websiteService.getUserByID(userID));
-            Subscription subscription = websiteService.getSubscriptionByUserID(userID);
+            User user = websiteService.getUserByID(userID);
+            model.addAttribute("user", user);
 
+            Subscription subscription = websiteService.getSubscriptionByUserID(userID);
             if(subscription != null){
                 model.addAttribute("subscription", subscription);
             }

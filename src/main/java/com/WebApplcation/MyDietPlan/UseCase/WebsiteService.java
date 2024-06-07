@@ -14,11 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -81,7 +77,6 @@ public class WebsiteService {
         try {
             Image image = convertFileToImage(imageFile);
             recipe.setImage(image);
-            setBase64Image(recipe);
         } catch (IOException e) {
             e.printStackTrace();
             throw new SystemErrorException("Der skete en fejl under forsøget på at gemme billedet");
@@ -198,10 +193,14 @@ public class WebsiteService {
      * @throws EntityNotFoundException If an ingredient is not found.
      */
     public void setupRecipeWithIngredients(Recipe recipe, List<Integer> ingredientIds, List<Integer> weights) throws InputErrorException, EntityNotFoundException {
+        //Assure the lists have the same length
         validateIngredientAndWeightSizes(ingredientIds, weights);
+
         ArrayList<Ingredient> ingredients = new ArrayList<>();
         for (int i = 0; i < ingredientIds.size(); i++) {
+            //Get ingredient from database
             Ingredient ingredient = getIngredientByID(ingredientIds.get(i));
+            //Attach the weight to the ingredient
             ingredient.setWeightGrams(weights.get(i));
             ingredients.add(ingredient);
         }
@@ -723,12 +722,12 @@ public class WebsiteService {
      * @throws SystemErrorException If the system cant connect to database, sql errors etc.
      * @throws InputErrorException  If the given user is missing important information or is trying to use an already existing email.
      */
-
-    public User createUser(User user) throws SystemErrorException, InputErrorException {
+    public User setupAndSaveUser(User user) throws SystemErrorException, InputErrorException {
         if (!authenticationService.isValidUser(user)) {
             throw new InputErrorException("Venligst udfyld alle felterne korrekt");
         }
         authenticationService.hashAndSetPassword(user);
+        setupDailyCalorieGoal(user);
         user.setRole("User");
         return saveUser(user);
     }

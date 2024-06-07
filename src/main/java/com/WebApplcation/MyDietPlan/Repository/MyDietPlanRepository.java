@@ -359,7 +359,7 @@ public class MyDietPlanRepository {
 
     public String getPasswordByEmail(String email){
         String sql = "SELECT password FROM `User` WHERE email = ?";
-        return jdbcTemplate.queryForObject(sql,new Object[]{email},  String.class);
+        return jdbcTemplate.queryForObject(sql,new Object[]{email}, String.class);
     }
 
     public Subscription insertSubscription(Subscription subscription, int userID) {

@@ -75,10 +75,9 @@ public class UserUIController {
     }
 
     @PostMapping("/opretBruger")
-    public String createUser( @ModelAttribute User user, RedirectAttributes redirectAttributes){
+    public String createUser(@ModelAttribute User user, RedirectAttributes redirectAttributes){
         try{
-            websiteService.setupDailyCalorieGoal(user);
-            websiteService.createUser(user);
+            websiteService.setupAndSaveUser(user);
             return "redirect:/";
         } catch (SystemErrorException | InputErrorException e) {
            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
