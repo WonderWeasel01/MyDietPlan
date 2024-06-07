@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/CSS/default.css">
-    <link rel="stylesheet" type="text/css" href="/CSS/adminEditRecipe.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/adminPage.css">
 
     <title>Opdater Opskrift</title>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400&display=swap" rel="stylesheet">
@@ -12,32 +12,36 @@
 <body>
 <div th:insert="~{adminLayout :: header2}"></div>
 
-<form action="/opdaterOpskrift" th:action="@{/opdaterOpskrift}" th:object="${recipe}" enctype="multipart/form-data" method="post">
+<div class="Recipeheaderframe">
+    <h2>OPDATER OPSKRIFT!</h2>
+</div>
+<form class="recipeInputForm" action="/opdaterOpskrift" th:action="@{/opdaterOpskrift}" th:object="${recipe}" enctype="multipart/form-data" method="post">
     <input type="hidden" th:field="*{recipeID}" />
     <input type="hidden" th:field="*{active}" />
     <input type="hidden" th:field="*{image.imageID}" />
 
-
+    <div class="FormInput">
     <!-- Opskrift informationer -->
     <div class="Recipeinputframe">
-        <div class="Recipenameframe">
+        <div class="RowFrame">
             <label for="title" class="OpskriftNavntext">Opskrift navn</label>
             <input type="text" id="title" th:field="*{title}" class="recipe-input" placeholder="Opskrift navn">
         </div>
-        <div class="Preptimeframe">
+        <div class="RowFrame">
             <label for="prepTime" class="Tilberedningstidtext">Tilberedningstid</label>
             <input type="text" id="prepTime" th:field="*{prepTime}" class="prep-time-input" placeholder="Tilberedningstid">
         </div>
-        <div class="Timeofdayframe">
+        <div class="RowFrame">
             <label for="timeOfDay" class="Tidspunkttext">Tidspunkt</label>
             <input type="text" id="timeOfDay" th:field="*{timeOfDay}" class="time-of-day-input" placeholder="Tidspunkt">
         </div>
-        <div class="Instructionframe">
+        <div class="RowFrame">
             <label for="instructions" class="Instruktioner">Instruktioner</label>
             <textarea id="instructions" th:field="*{instructions}" class="instructions-input" placeholder="Instruktioner"></textarea>
         </div>
 
         <!-- Ingrediens liste -->
+
 
         <ul class="ingredientList" id="ingredientList">
             <li th:each="ingredient : ${recipe.ingredientList}">
@@ -76,8 +80,8 @@
             <p th:if="${successMessage}" th:text="${successMessage}" class="success-message"></p>
         </div>
     </div>
+    </div>
 </form>
-<button onclick="history.back()" class="back-button">Back</button>
 <script src="/JS/updateRecipeIngredients.js" defer></script>
 </body>
 </html>

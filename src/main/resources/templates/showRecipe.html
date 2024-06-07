@@ -33,7 +33,9 @@
       <div class="Recipename"><span th:text="${recipe.title}">Time of Day</span></div>
       <div class="Buttonbox">
         <div class="Button green">
-          <div class="ButtonText"><span th:text="${recipe.timeOfDay}">Calories</span></div>
+          <div class="ButtonText">
+            <span th:text="${#messages.msg('timeOfDay.' + recipe.timeOfDay)}"></span>
+          </div>
         </div>
         <div class="ButtonStroke">
           <div class="ButtonText">FAVORIT RET</div>
@@ -43,25 +45,25 @@
       <div class="Neutritionrow">
         <div class="Neutritionbox">
           <div class="Numberbox">
-            <div class="Numbertext"><span th:text="${#numbers.formatDecimal(recipe.totalCalories, 0, 0)}">Carbs</span></div>
+            <div class="Numbertext"><span th:text="${#numbers.formatDecimal(recipe.totalCalories, 0, 0)} + g">Carbs</span></div>
           </div>
           <div class="Labeltext">KALORIER</div>
         </div>
         <div class="Neutritionbox">
           <div class="Numberbox">
-            <div class="Numbertext"><span th:text="${#numbers.formatDecimal(recipe.totalProtein, 0, 0)}">Carbs</span></div>
+            <div class="Numbertext"><span th:text="${#numbers.formatDecimal(recipe.totalProtein, 0, 0)} + g">Carbs</span></div>
           </div>
           <div class="Labeltext">PROTEIN</div>
         </div>
         <div class="Neutritionbox">
           <div class="Numberbox">
-            <div class="Numbertext"><span th:text="${#numbers.formatDecimal(recipe.totalFat, 0, 0)}">Carbs</span></div>
+            <div class="Numbertext"><span th:text="${#numbers.formatDecimal(recipe.totalFat, 0, 0)} + g">Carbs</span></div>
           </div>
           <div class="Labeltext">FEDT</div>
         </div>
         <div class="Neutritionbox">
           <div class="Numberbox">
-            <div class="Numbertext"><span th:text="${#numbers.formatDecimal(recipe.totalCarbohydrates, 0, 0)}">Carbs</span></div>
+            <div class="Numbertext"><span th:text="${#numbers.formatDecimal(recipe.totalCarbohydrates, 0, 0)} + g">Carbs</span></div>
           </div>
           <div class="Labeltext">KULHYDRATER</div>
         </div>

@@ -36,10 +36,11 @@ public class AdminUIController {
         if(!isAdminLoggedIn()){
             return "redirect:/";
         }
-        model.addAttribute("user", authenticationService.getUser());
+
         List<Ingredient> ingredients = websiteService.getAllIngredients();
         Recipe recipe = new Recipe();
 
+        model.addAttribute("user", authenticationService.getUser());
         model.addAttribute("ingredients", ingredients);
         model.addAttribute("recipe", recipe);
 

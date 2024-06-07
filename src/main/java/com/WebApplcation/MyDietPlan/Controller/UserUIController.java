@@ -169,10 +169,9 @@ public class UserUIController {
             return "redirect:/";
         }
         User user = authenticationService.getUser();
-        Subscription subscription = websiteService.getSubscriptionByUserID(user.getUserId());
+
 
         model.addAttribute("user", user);
-        model.addAttribute("subscriptionStatus", subscription.getActiveSubscription());
         return "editUser";
     }
 
@@ -198,11 +197,12 @@ public class UserUIController {
         }
 
         User user = authenticationService.getUser();
+        Subscription subscription = websiteService.getSubscriptionByUserID(user.getUserId());
         int subDaysLeft = websiteService.daysLeftOnSubscription(user.getUserId());
 
         model.addAttribute("user",user);
         model.addAttribute("subDaysLeft", subDaysLeft);
-
+        model.addAttribute("subscriptionStatus", subscription.getActiveSubscription());
 
         return "userProfile";
     }
@@ -219,7 +219,7 @@ public class UserUIController {
        } catch (EntityNotFoundException | SystemErrorException e){
            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
        }
-       return "redirect:/opdaterBruger";
+       return "redirect:/minProfil";
     }
     @GetMapping("/genoptagAbonnement/{userID}")
     public String renewSubscription(@PathVariable int userID, RedirectAttributes redirectAttributes){
@@ -232,7 +232,7 @@ public class UserUIController {
         } catch (EntityNotFoundException | SystemErrorException e){
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-        return "redirect:/opdaterBruger";
+        return "redirect:/minProfil";
     }
 
     @GetMapping("/brugerFavoritOpskrifter")

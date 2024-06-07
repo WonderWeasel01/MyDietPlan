@@ -3,72 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <title>Profil</title>
-    <link rel="stylesheet" href="CSS/Default.css">
-    <link rel="stylesheet" href="CSS/userProfile.css">
+    <link rel="stylesheet" href="/CSS/default.css">
+    <link rel="stylesheet" href="/CSS/userProfile.css">
 </head>
 <body>
-    <div th:include="layout :: header"></div>
+<div th:insert="~{layout :: header}"></div>
 
         <img class="Userbackground" src="Images/PNGS/louis-hansel-MlPD-AzZYMg-unsplash.jpg" />
         <div class="Userprofile">
           <img class="Userprofileimage" src="https://via.placeholder.com/130x130" />
         </div>
 
-        <div class="UserInfo">
-            <div class="Name">  <span th:text="${user.firstName}"></span>  <span th:text="${user.lastName}"></span></div>
-            <div class="Button">
-                    <div id="emailButton" class="Buttontext">SEND BESKED</div>
-                </div>
+    <div class="sticky-button" th:if="${subscriptionStatus}">
+        <a class="StickyButton" th:href="@{/afmeldAbonnement/{userID}(userID = ${user.userId})}" onclick='return confirm("Er du sikker på at du vil afmelde dit abonnement?")'>
+            <div> Afmeld abonnement </div>
+        </a>
+    </div>
+
+    <div class="sticky-button" th:if="${!subscriptionStatus}">
+        <a class="StickyButton" th:href="@{/genoptagAbonnement/{userID}(userID = ${user.userId})}" onclick='return confirm("Er du sikker på at du vil forny dit abonnement?")'>
+            <div> Genoptag abonnement </div>
+        </a>
+    </div>
+
+
+
+    <div class="UserInfo">
+        <div class="Name">  <span th:text="${user.firstName}"></span>  <span th:text="${user.lastName}"></span></div>
+        <div class="Button">
+            <div id="emailButton" class="Buttontext">SEND BESKED</div>
+        </div>
+    </div>
+
+    <div th:if="${errorMessage} or ${successMessage}" class="message">
+        <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
+        <p th:if="${successMessage}" th:text="${successMessage}" class="success-message"></p>
+    </div>
+
+    <section class="centerdiv">
+    <div class="Infodiv">
+      <h2 class="Userinfo">INFO</h2>
+      <div class="Row">
+        <div class="Column">
+          <div class="Iconandtext">
+            <i class="fa-solid fa-venus-mars fa-lg" style="color: #79d779;"></i>
+            <div class="Text">
+                <p> <strong>Køn:</strong> <span th:switch="${user.gender}">
+                    <span th:case="'F'" th:text="'Kvinde'"></span>
+                    <span th:case="'M'" th:text="'Mand'"></span>
             </div>
-
-
-
-
-            <section class="centerdiv">
-            <div class="Infodiv">
-              <h2 class="Userinfo">INFO</h2>
-              <div class="Row">
-                <div class="Column">
-                  <div class="Iconandtext">
-                    <i class="fa-solid fa-venus-mars fa-lg" style="color: #79d779;"></i>
-                    <div class="Text"><p><strong>Køn:</strong> <span th:text="${user.gender}"></span></p></div>
-                  </div>
-                  <div class="Iconandtext">
-                    <i class="fa-solid fa-up-down fa-lg" style="color: #79d779;"></i>
-                    <div class="Text"><p><strong>Højde:</strong> <span th:text="${user.height}"></span> cm</p></div>
-                  </div>
-                  <div class="Iconandtext">
-                    <i class="fa-solid fa-weight-scale fa-lg" style="color: #79d779;"></i>
-                    <div class="Text"><p><strong>Vægt:</strong> <span th:text="${user.weight}"></span> kg</p></div>
-                  </div>
-                  <div class="Iconandtext">
-                    <i class="fa-solid fa-clock-rotate-left fa-lg" style="color: #79d779;"></i>
-                    <div class="Text"><p><strong>Alder:</strong> <span th:text="${user.age}"></span></p></div>
-                  </div>
-                </div>
-                <div class="Column">
-                  <div class="Iconandtext">
-                    <i class="fa-solid fa-chart-line fa-lg" style="color: #79d779;"></i>
-                    <div class="Text"><p><strong>Aktivitet:</strong> <span th:text="${user.activityLevel}"></span></p></div>
-                  </div>
-                  <div class="Iconandtext">
-                    <i class="fa-solid fa-bullseye fa-lg" style="color: #79d779;"></i>
-                    <div class="Text"><p><strong>Mål:</strong> <span th:text="${user.goal}"></span></p></div>
-                  </div>
-                  <div class="Iconandtext">
-                    <i class="fa-solid fa-bolt fa-lg" style="color: #79d779;"></i>
-                    <div class="Text"><p><strong>Kaloriemål:</strong> <span th:text="${#numbers.formatDecimal(user.dailyCalorieGoal, 0, 0)}"></span> kcal</p></div>
-                  </div>
-                  <div class="Iconandtext">
-                    <i class="fa-solid fa-calendar fa-lg" style="color: #79d779;"></i>
-                    <div class="Text"><p><strong>Abonnement slutter om:</strong> <span th:text="${subDaysLeft}"></span> dage</p></div>
-                  </div>
-                </div>
-              </div>
+          </div>
+          <div class="Iconandtext">
+            <i class="fa-solid fa-up-down fa-lg" style="color: #79d779;"></i>
+            <div class="Text"><p><strong>Højde:</strong> <span th:text="${user.height}"></span> cm</p></div>
+          </div>
+          <div class="Iconandtext">
+            <i class="fa-solid fa-weight-scale fa-lg" style="color: #79d779;"></i>
+            <div class="Text"><p><strong>Vægt:</strong> <span th:text="${user.weight}"></span> kg</p></div>
+          </div>
+          <div class="Iconandtext">
+            <i class="fa-solid fa-clock-rotate-left fa-lg" style="color: #79d779;"></i>
+            <div class="Text">
+                <p><strong>Alder:</strong> <span th:text="${user.age}"></span></p>
             </div>
-          </section>
+          </div>
+        </div>
+        <div class="Column">
+          <div class="Iconandtext">
+            <i class="fa-solid fa-chart-line fa-lg" style="color: #79d779;"></i>
+            <div class="Text">
+                <p>
+                    <strong>Aktivitet:</strong> <span th:switch="${user.activityLevel}">
+                    <span th:case="'No exercise'" th:text="'Ingen- eller meget lavt'"></span>
+                    <span th:case="'Light activity'" th:text="'1-2 gange om ugen'"></span>
+                    <span th:case="'Average activity'" th:text="'3-5 gange om ugen'"></span>
+                    <span th:case="'Intense activity'" th:text="'6-7 gange om ugen'"></span>
+                     <span th:case="'Extreme activity'" th:text="'1-2 gange om dagen'"></span>
+                </span>
+                </p>
+            </div>
+          </div>
+          <div class="Iconandtext">
+            <i class="fa-solid fa-bullseye fa-lg" style="color: #79d779;"></i>
+            <div class="Text">
+                <p>
+                <strong>Mål:</strong> <span th:switch="${user.goal}">
+                    <span th:case="'Build muscle'" th:text="'Opbyg muskler'"></span>
+                    <span th:case="'Loose weight'" th:text="'Tab vægt'"></span>
+                    <span th:case="'Increase weight'" th:text="'Øg din vægt'"></span>
+                    <span th:case="'Maintain weight'" th:text="'Hold vægten'"></span>
+                </span>
+                </p>
+            </div>
+          </div>
+          <div class="Iconandtext">
+            <i class="fa-solid fa-bolt fa-lg" style="color: #79d779;"></i>
+            <div class="Text"><p><strong>Kaloriemål:</strong> <span th:text="${#numbers.formatDecimal(user.dailyCalorieGoal, 0, 0)}"></span> kcal</p></div>
+          </div>
+          <div class="Iconandtext">
+            <i class="fa-solid fa-calendar fa-lg" style="color: #79d779;"></i>
+            <div class="Text"><p><strong>Abonnement slutter om:</strong> <span th:text="${subDaysLeft}"></span> dage</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </section>
 
- <span hidden th:text="${user.role}"></span>
+    <span hidden th:text="${user.role}"></span>
 
  
     <script th:inline="javascript">

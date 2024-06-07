@@ -9,17 +9,6 @@
 <div th:insert="~{layout :: header}"></div>
 <body>
 
-<div class="sticky-button" th:if="${subscriptionStatus}">
-    <a class="Button" th:href="@{/afmeldAbonnement/{userID}(userID = ${user.userId})}" onclick='return confirm("Er du sikker på at du vil afmelde dit abonnement?")'>
-        <div> Afmeld abonnement </div>
-    </a>
-</div>
-
-<div class="sticky-button" th:if="${!subscriptionStatus}">
-    <a class="Button" th:href="@{/genoptagAbonnement/{userID}(userID = ${user.userId})}" onclick='return confirm("Er du sikker på at du vil forny dit abonnement?")'>
-        <div> Forny abonnement </div>
-    </a>
-</div>
 
     <div class="FormBox">
         <form class="Form" action="#" th:action="@{/opdaterBruger}" th:object="${user}" method="post">

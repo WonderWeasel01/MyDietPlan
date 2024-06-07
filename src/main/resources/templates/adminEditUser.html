@@ -11,12 +11,14 @@
 <div th:insert="~{adminLayout :: header2}"></div>
 <div class="Background">
 
-
-    <div class="FormBox">
+    <div class="HeaderFrame">
+    </div>
+    <div class="AdminFormBox">
         <form class="Form" action="#" th:action="@{/opdaterBrugerOplysningerAdmin}" th:object="${user}" method="post">
             <input type="hidden" th:field="*{userId}" class="Input">
 
             <div class="Row">
+                <h2>Opdater bruger information</h2>
                 <div class="RightSite">
                     <div class="Column">
                         <div class="userFirstName">Nyt Fornavn:</div>
@@ -93,9 +95,10 @@
         </form>
     </div>
 
-    <div class="FormBox">
+    <div class="AdminFormBox">
         <div class="Row">
-        <div th:if="${subscription}" class="subscriptionForm">
+            <h2>Opdater bruger abonnement</h2>
+            <div th:if="${subscription}" class="subscriptionForm">
             <form class="Form" action="#" th:action="@{/opdaterBrugerAbonnementAdmin}" th:object="${subscription}" method="post">
                 <input type="hidden" id="subID" th:field="*{subscriptionID}" class="Input" required>
                 <input type="hidden" id="subUserID" th:field="*{userID}" class="Input" required>
