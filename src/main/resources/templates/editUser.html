@@ -13,19 +13,19 @@
         <h2> REDIGER BRUGER</h2>
         <form class="Form" action="#" th:action="@{/opdaterBruger}" th:object="${user}" method="post">
         <div class="Row">
-            <div class="RightSite"> 
+            <div class="Column"> 
                 <input type="hidden" th:field="*{userId}" class="Input">
-                <div class="Column">
+                <div>
                     <div class="userFirstName">Fornavn:</div>
                     <input type="text" id="userFirstName" th:value="firstName" th:field="*{firstName}" class="Input" required>
                 </div>
 
-                <div class="Column">
+                <div>
                     <div class="email">Email:</div>
                     <input type="text" id="email" th:value="email" th:field="*{email}" class="Input" required>
                 </div>
 
-                <div class="Column">
+                <div >
                     <div class="genderDropdown">Køn</div>
                     <select id="genderDropdown" name="genderSelect" th:field="*{gender}" class="select">
                         <option value="M">Mand</option>
@@ -33,12 +33,12 @@
                     </select>
                 </div>
                 
-                <div class="Column">
+                <div >
                     <div class="weight">Vægt:</div>
                     <input type="number" id="weight" th:value="weight" th:field="*{weight}" class="Input" required>
                 </div>
 
-                <div class="Column">
+                <div>
                     <div class="userGoal">Mål:</div>
                     <label for="goalDropdown"> </label>
                     <select id="goalDropdown" name="activitySelect" th:field="*{goal}" class="select" required>
@@ -51,28 +51,29 @@
 
             </div>
 
-            <div class="RightSite">
+            <div class="Column">
 
-                <div class="Column">
+                <div >
                     <div class="userLastName">Efternavn:</div>
                     <input type="text" id="userLastName" th:value="lastName" th:field="*{lastName}" class="Input" required>
                 </div>
 
-                <div class="Column">
+                <div>
                     <div class="password">Kodeord:</div>
                     <input type="password" id="password" th:field="*{password}" class="Input" required>
                 </div>
 
-                <div class="Column">
+                <div>
                     <div class="height">Højde:</div>
                     <input type="number" id="height" th:value="height" th:field="*{height}" class="Input" required>
                 </div>
-                <div class="Column">
+
+                <div>
                     <div class="age">Alder:</div>
                     <input type="number" id="age" th:value="age" th:field="*{age}" class="Input" required>
                 </div>
 
-                <div class="Cloumn">
+                <div>
                     <div class="userActivityLevel">Aktivitetsniveau:</div>
                     <label for="activityDropdown"></label>
                         <select id="activityDropdown" name="activitySelect" th:field="*{activityLevel}" class="select" required>
@@ -83,6 +84,7 @@
                             <option value="Extreme activity">1-2 gange om dagen</option>
                         </select>
                 </div>
+                
             </div>
         </div>
         <div th:if="${errorMessage} or ${successMessage}" class="message">

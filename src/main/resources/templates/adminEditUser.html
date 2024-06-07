@@ -110,18 +110,22 @@
             <form class="Form" action="#" th:action="@{/opdaterBrugerAbonnementAdmin}" th:object="${subscription}" method="post">
                 <h2>OPDATER BRUGER ABONNEMENT</h2>
                 <div class="Column">
-                        <input type="hidden" id="subID" th:field="*{subscriptionID}" class="Input" required>
-                        <input type="hidden" id="subUserID" th:field="*{userID}" class="Input" required>
+                    
+                        <div class="Col">
+                            <input type="hidden" id="subID" th:field="*{subscriptionID}" class="Input" required>
+                            <input type="hidden" id="subUserID" th:field="*{userID}" class="Input" required>    
+                        </div>
+                       
 
-                        <div>
+                        <div class="Col">
                             <label for="startDate">Start dato:</label>
                             <input type="date" id="startDate" th:field="*{subscriptionStartDate}" class="Input" required>
                         </div>
-                        <div>
+                        <div class="Col">
                             <label for="endDate">Slut dato:</label>
                             <input type="date" id="endDate" th:field="*{subscriptionEndDate}" class="Input" required>
                         </div>
-                        <div>
+                        <div class="Col">
                             <label for="subPrice">Pris:</label>
                             <input type="number" id="subPrice" th:field="*{subscriptionPrice}" class="Input" step="1" required >
                         </div>
