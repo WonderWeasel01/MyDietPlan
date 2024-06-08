@@ -213,16 +213,17 @@ public class MyDietPlanRepository {
         return jdbcTemplate.query(sql, recipeRowMapper());
     }
     public List<Recipe> getAllActiveRecipe(){
-        String sql = "SELECT * FROM Recipe where active = 1";
-        List<Recipe> recipes = jdbcTemplate.query(sql, recipeRowMapper());
+        String sql = "SELECT Recipe.*, Image.image_type, Image.image_name, Image.image_blob" +
+                     " FROM Recipe" +
+                     " INNER JOIN Image ON Recipe.image_id = Image.image_id" +
+                     " WHERE Recipe.active = 1;\n";
+        List<Recipe> recipes = jdbcTemplate.query(sql, recipeWithImageRowMapper());
 
         for (Recipe recipe : recipes) {
             int recipeID = recipe.getRecipeID();
             //Get and set ingredient list
             ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) getRecipeIngredientsByRecipeID(recipeID);
             recipe.setIngredientList(ingredients);
-            //Get and set image
-            recipe.setImage(getImageByImageID(recipe.getImage().getImageID()));
         }
 
         return recipes;
@@ -555,7 +556,7 @@ public class MyDietPlanRepository {
         return ((rs, rowNum) -> {
             Recipe recipe = new Recipe();
             Image image = new Image();
-            recipe.setImage(image);
+
             recipe.setRecipeID(rs.getInt("recipe_id"));
             recipe.setTitle(rs.getString("recipe_title"));
             recipe.setTimeOfDay(rs.getString("time_of_day"));
@@ -566,7 +567,33 @@ public class MyDietPlanRepository {
             recipe.setTotalCarbohydrates(rs.getDouble("total_carbohydrates"));
             recipe.setActive(rs.getBoolean("active"));
             recipe.setInstructions(rs.getString("instructions"));
-            recipe.getImage().setImageID((rs.getInt("image_id")));
+            image.setImageID((rs.getInt("image_id")));
+
+            recipe.setImage(image);
+            return recipe;
+        });
+    }
+    private RowMapper<Recipe> recipeWithImageRowMapper(){
+        return ((rs, rowNum) -> {
+            Recipe recipe = new Recipe();
+            Image image = new Image();
+
+            recipe.setRecipeID(rs.getInt("recipe_id"));
+            recipe.setTitle(rs.getString("recipe_title"));
+            recipe.setTimeOfDay(rs.getString("time_of_day"));
+            recipe.setPrepTime(rs.getString("prep_time"));
+            recipe.setTotalCalories(rs.getDouble("total_calories"));
+            recipe.setTotalProtein(rs.getDouble("total_protein"));
+            recipe.setTotalFat(rs.getDouble("total_fat"));
+            recipe.setTotalCarbohydrates(rs.getDouble("total_carbohydrates"));
+            recipe.setActive(rs.getBoolean("active"));
+            recipe.setInstructions(rs.getString("instructions"));
+            image.setImageID(rs.getInt("image_id"));
+            image.setImageType(rs.getString("image_type"));
+            image.setImageName(rs.getString("image_name"));
+            image.setBlob(rs.getBytes("image_blob"));
+
+            recipe.setImage(image);
             return recipe;
         });
     }

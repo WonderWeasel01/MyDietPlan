@@ -10,7 +10,7 @@ function addIngredientToList() {
         return;
     }
 
-    // Create list item for ingredient
+    // Create the list of added ingredients that is being shown to the user
     const listContent = document.createElement('li');
     listContent.textContent = `${selectedOption.text} - ${weight} gram`;
 
