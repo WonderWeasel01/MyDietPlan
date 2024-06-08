@@ -51,11 +51,11 @@ public class AdminUIController {
     public String recipePost(@ModelAttribute Recipe recipe,
                              @RequestParam List<Integer> ingredientIds,
                              @RequestParam List<Integer> weights,
-                             @RequestParam MultipartFile file,
+                             @RequestParam MultipartFile imageFile,
                              RedirectAttributes redirectAttributes) {
         try {
             websiteService.setupRecipeWithIngredients(recipe, ingredientIds, weights);
-            websiteService.setupRecipeWithImage(recipe,file);
+            websiteService.setupRecipeWithImage(recipe,imageFile);
             websiteService.createRecipe(recipe);
             redirectAttributes.addFlashAttribute("successMessage", "Opskrift gemt!");
         } catch (InputErrorException | SystemErrorException | EntityNotFoundException e) {

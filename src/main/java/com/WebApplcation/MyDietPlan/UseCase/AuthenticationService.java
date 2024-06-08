@@ -208,14 +208,7 @@ public class AuthenticationService {
         return currentDate.isAfter(subscription.getSubscriptionEndDate().toLocalDate());
     }
 
-    /**
-     * Deletes a user by their user ID.
-     * @param userID The userID of the user to be deleted.
-     * @return True if the user was successfully deleted, false if not.
-     */
-    public boolean deleteUser(int userID) {
-        return repository.deleteUser(userID);
-    }
+
 
 
 }

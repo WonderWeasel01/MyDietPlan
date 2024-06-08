@@ -197,6 +197,7 @@ public class WebsiteService {
         validateIngredientAndWeightSizes(ingredientIds, weights);
 
         ArrayList<Ingredient> ingredients = new ArrayList<>();
+
         for (int i = 0; i < ingredientIds.size(); i++) {
             //Get ingredient from database
             Ingredient ingredient = getIngredientByID(ingredientIds.get(i));
@@ -204,6 +205,7 @@ public class WebsiteService {
             ingredient.setWeightGrams(weights.get(i));
             ingredients.add(ingredient);
         }
+
         recipe.setIngredientList(ingredients);
         calculateAndSetMacros(recipe);
     }
@@ -360,14 +362,14 @@ public class WebsiteService {
      * @return The recipe being fetched from the database.
      * @throws EntityNotFoundException If the recipe was not found.
      */
-    public Recipe getUsersAdjustedRecipeById(int recipeID) throws SystemErrorException {
-        ArrayList<Recipe> recipes = authenticationService.getUser().getAdjustedRecipes();
-        for (int i = 0; i < recipes.size(); i++) {
-            if (recipes.get(i).getRecipeID() == recipeID) {
-                return recipes.get(i);
+    public Recipe getUsersAdjustedRecipeById(User user, int recipeID) throws EntityNotFoundException {
+        ArrayList<Recipe> recipes = user.getAdjustedRecipes();
+        for (Recipe recipe : recipes) {
+            if (recipe.getRecipeID() == recipeID) {
+                return recipe;
             }
         }
-        throw new SystemErrorException("Der er sket en fejl. Prøv igen senere");
+        throw new EntityNotFoundException("Kunne ikke finde opskriften med givet id");
     }
 
     /**
@@ -458,12 +460,11 @@ public class WebsiteService {
     }
 
     /**
-     * Fetches all recipes from the database with ingredients.
+     * Sets Base64-encoded images for a list of recipes.
      *
-     * @return A list of all recipes with ingredients.
-     * @throws EntityNotFoundException If no recipes were found.
+     * @param recipe recipe to set Base64-encoded images for.
      */
-    public void setBase64Image(Recipe recipe) {
+    public void CreateAndSetBase64String(Recipe recipe) {
         String base64Image = Base64.getEncoder().encodeToString(recipe.getImage().getBlob());
         recipe.getImage().setBase64Image(base64Image);
     }
@@ -473,9 +474,9 @@ public class WebsiteService {
      *
      * @param recipes The list of recipes to set Base64-encoded images for.
      */
-    public void setBase64Image(ArrayList<Recipe> recipes) {
-        for (int i = 0; i < recipes.size(); i++) {
-            setBase64Image(recipes.get(i));
+    public void CreateAndSetBase64String(ArrayList<Recipe> recipes) {
+        for (Recipe recipe : recipes) {
+            CreateAndSetBase64String(recipe);
         }
     }
 
@@ -485,12 +486,15 @@ public class WebsiteService {
      * @return A list of all active recipes.
      * @throws EntityNotFoundException If no active recipes were found.
      */
-    public ArrayList<Recipe> getAllActiveRecipes() throws EntityNotFoundException {
+    public ArrayList<Recipe> getAllActiveRecipes() throws EntityNotFoundException, SystemErrorException {
         try {
             return (ArrayList<Recipe>) repository.getAllActiveRecipe();
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             throw new EntityNotFoundException("Der er ikke tilføjet nogle opskrifter endnu!");
+        } catch (DataAccessException e){
+            e.printStackTrace();
+            throw new SystemErrorException("Der skete en fejl med databasen. Prøv igen senere");
         }
     }
 
@@ -509,16 +513,15 @@ public class WebsiteService {
      * @return A list of all recipes with ingredients.
      * @throws EntityNotFoundException If no recipes were found.
      */
-    public ArrayList<Recipe> adjustAndSetWeeklyRecipesToLoggedInUser() throws EntityNotFoundException {
-        User loggedInUser = authenticationService.getUser();
-        //Fetch the weekly recipes
+    public ArrayList<Recipe> adjustAndSetWeeklyRecipes(User user) throws EntityNotFoundException, SystemErrorException {
+        //Fetch the weekly recipes. Throws EntityNotFoundException & SystemErrorException
         ArrayList<Recipe> weeklyRecipes = getAllActiveRecipes();
 
-        //Adjust them to the logged-in user
-        ArrayList<Recipe> adjustedRecipes = adjustRecipesToUser(weeklyRecipes, loggedInUser);
+        //Adjust the recipes to the logged-in user
+        ArrayList<Recipe> adjustedRecipes = adjustRecipesToUser(weeklyRecipes, user);
 
         //Set the adjustedRecipes on the user.
-        loggedInUser.setAdjustedRecipes(adjustedRecipes);
+        user.setAdjustedRecipes(adjustedRecipes);
 
         return adjustedRecipes;
     }
@@ -837,6 +840,14 @@ public class WebsiteService {
         return Base64.getDecoder().decode(base64String);
     }
 
+    /**
+     * Deletes a user by their user ID.
+     * @param userID The userID of the user to be deleted.
+     * @return True if the user was successfully deleted, false if not.
+     */
+    public boolean deleteUser(int userID) {
+        return repository.deleteUser(userID);
+    }
 
 }
 

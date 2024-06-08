@@ -188,8 +188,9 @@ public class MyDietPlanRepository {
         } else return null;
 
         // Insert the ingredientlist
-        if(insertIngredientsOntoRecipe(recipe.getRecipeID(), recipe.getIngredientList())){
-        } else return null;
+        if(!insertIngredientsOntoRecipe(recipe.getRecipeID(), recipe.getIngredientList())){
+            return null;
+        }
 
         return recipe;
     }

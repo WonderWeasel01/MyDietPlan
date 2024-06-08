@@ -48,7 +48,7 @@ public class Image {
                 "imageID=" + imageID +
                 ", imageName='" + imageName + '\'' +
                 ", imageType='" + imageType + '\'' +
-                ", blob=" + (blob != null) +
+                ", blob=" + (blob != null) + ", base64String=" + (base64Image != null) +
                 '}';
     }
 }

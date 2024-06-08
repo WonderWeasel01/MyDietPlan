@@ -55,12 +55,17 @@ public class UserUIController {
 
     @GetMapping("/seOpskrift/{recipeID}")
     public String showRecipe(Model model, @PathVariable int recipeID, RedirectAttributes redirectAttributes){
+        if(!isLoggedInAndHasSub()){
+            return "redirect:/";
+        }
         try{
-            Recipe recipe = websiteService.getUsersAdjustedRecipeById(recipeID);
+            User user = authenticationService.getUser();
+            Recipe recipe = websiteService.getUsersAdjustedRecipeById(user,recipeID);
+
             model.addAttribute("recipe", recipe);
-            model.addAttribute("user", authenticationService.getUser());
+            model.addAttribute("user", user);
             return "showRecipe";
-        } catch (SystemErrorException e) {
+        } catch (EntityNotFoundException e) {
             redirectAttributes.addAttribute("errorMessage", e.getMessage());
         }
         return "redirect:/velkommen";
@@ -139,20 +144,25 @@ public class UserUIController {
         if(!isLoggedInAndHasSub()){
             return "redirect:/";
         }
-        try{
-            User user = authenticationService.getUser();
-            //If the user already has adjustedRecipes attached, use them to save time.
-            if(user.getAdjustedRecipes() != null){
-                model.addAttribute("weeklyRecipes", user.getAdjustedRecipes());
-            } else {
-                ArrayList<Recipe> adjustedRecipes = websiteService.adjustAndSetWeeklyRecipesToLoggedInUser();
-                websiteService.setBase64Image(adjustedRecipes);
-                model.addAttribute("weeklyRecipes", adjustedRecipes);
-            }
-            model.addAttribute("user", user);
-        } catch (EntityNotFoundException e) {
+
+        User user = authenticationService.getUser();
+        //If the user already has adjustedRecipes attached, use them to save time.
+        if(user.getAdjustedRecipes() != null) {
+            model.addAttribute("weeklyRecipes", user.getAdjustedRecipes());
+        } else try {
+            //Adjust and set weekly recipes on user
+            ArrayList<Recipe> adjustedRecipes = websiteService.adjustAndSetWeeklyRecipes(user);
+
+            //Create and set the Base64 string on the recipes
+            websiteService.CreateAndSetBase64String(adjustedRecipes);
+
+            model.addAttribute("weeklyRecipes", adjustedRecipes);
+
+        }catch (SystemErrorException | EntityNotFoundException e) {
             model.addAttribute("errorMessage", e.getMessage());
         }
+
+        model.addAttribute("user", user);
         return "loggedIn";
     }
 
