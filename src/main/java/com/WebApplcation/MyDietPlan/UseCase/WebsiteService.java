@@ -658,10 +658,10 @@ public class WebsiteService {
         }
     }
 
-    public List<Recipe> addFavoriteRecipe(int userID, int recipeID) throws SystemErrorException {
+    public void addFavoriteRecipe(int recipeID) throws SystemErrorException {
         try {
+            int userID = authenticationService.getUser().getUserId();
             repository.addFavoriteRecipe(userID, recipeID);
-            return repository.getFavoriteRecipesByUserID(userID);
         } catch(DuplicateKeyException e) {
             throw new SystemErrorException("Du har allerede tilføjet denne opskrift til favoriter");
         } catch (DataAccessException e) {
@@ -669,8 +669,13 @@ public class WebsiteService {
         }
     }
 
-    public List <Recipe> getFavoriteRecipesByUserID (int userID) {
-        return repository.getFavoriteRecipesByUserID(userID);
+    public List <Recipe> getFavoriteRecipesByUserID (int userID) throws EntityNotFoundException {
+        try {
+            return repository.getFavoriteRecipesByUserID(userID);
+        } catch (EmptyResultDataAccessException e) {
+            throw new EntityNotFoundException("Du har ikke tilføjet nogle favorit retter.");
+        }
+
     }
 
     /**

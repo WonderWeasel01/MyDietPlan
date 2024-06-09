@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<ul th:each="recipe : ${favoriteRecipes}">
+    <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}">
+    <li th:text="*{recipe.title}">
+
+
+    </li>
+    </a>
+</ul>
+</body>
+</html>

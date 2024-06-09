@@ -37,9 +37,11 @@
             <span th:text="${#messages.msg('timeOfDay.' + recipe.timeOfDay)}"></span>
           </div>
         </div>
+        <a th:href="@{/brugerTilføjFavoritOpskrifter/{recipeID}(recipeID=${recipe.recipeID})}" onclick="return confirm('Er du sikker på du vil tilføje opskriften til favorit?')">
         <div class="ButtonStroke">
           <div class="ButtonText">FAVORIT RET</div>
         </div>
+        </a>
       </div>
       <div class="Title">Nærings indhold pr. servering</div>
       <div class="Neutritionrow">

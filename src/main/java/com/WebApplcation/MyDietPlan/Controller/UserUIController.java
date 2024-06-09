@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -243,7 +244,34 @@ public class UserUIController {
         return "redirect:/minProfil";
     }
 
+    @GetMapping("/brugerTilføjFavoritOpskrifter/{recipeID}")
+    public String addFavoriteRecipe (@PathVariable int recipeID, RedirectAttributes redirectAttributes) {
+        try {
+            websiteService.addFavoriteRecipe(recipeID);
+        } catch (SystemErrorException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        } return "redirect:/seOpskrift/" + recipeID;
+    }
+
     @GetMapping("/brugerFavoritOpskrifter")
+    public String getFavoriteRecipes (RedirectAttributes redirectAttributes, Model model) {
+        try {
+            User user = authenticationService.getUser();
+            List<Recipe> favoriteRecipes = websiteService.getFavoriteRecipesByUserID(user.getUserId());
+            model.addAttribute("favoriteRecipes", favoriteRecipes);
+            model.addAttribute("User", user);
+
+            return "userFavoriteRecipes";
+        } catch (EntityNotFoundException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/minProfil";
+
+
+    }
+
+
+
 
 
 

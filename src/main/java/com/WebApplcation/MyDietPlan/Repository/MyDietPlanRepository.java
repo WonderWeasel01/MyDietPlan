@@ -509,9 +509,12 @@ public class MyDietPlanRepository {
 
     public List<Recipe> getFavoriteRecipesByUserID(int userID) {
         // Define the SQL query string, the r is just shortened from recipe and ufr is shortened user_favorite_recipe
-        String sql = "SELECT * FROM Recipe r" +
-                "INNER JOIN user_favorite_recipe ufr ON r.recipe_id = ufr.recipe_id" +
-                "WHERE ufr.user_id = ?";
+        String sql = "SELECT Recipe.*\n" +
+                "FROM User\n" +
+                "INNER JOIN User_favorite_recipe ON User.user_id = User_favorite_recipe.user_id\n" +
+                "INNER JOIN Recipe ON User_favorite_recipe.recipe_id = Recipe.recipe_id\n" +
+                "WHERE User.user_id = ?";
+
         return jdbcTemplate.query(sql,recipeRowMapper(), userID);
     }
 
