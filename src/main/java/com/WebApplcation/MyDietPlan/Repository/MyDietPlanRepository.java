@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -155,14 +156,15 @@ public class MyDietPlanRepository {
      * @return The newly created recipe with the auto generated id attached
      */
 
+    @Transactional
     public Recipe createRecipe(Recipe recipe){
         String sql = "INSERT INTO `Recipe`(`time_of_day`,`recipe_title`,`prep_time`, `total_calories`, `total_protein`, `total_fat`, `total_carbohydrates`, `active`,`instructions`,`image_id`) " +
                 "VALUES (?,?,?,?,?,?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        if(insertImage(recipe.getImage()) == null){
-            return null;
-        }
+        //Insert image.
+        Image image = insertImage(recipe.getImage());
+
         //insert the recipe into the database
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -175,7 +177,7 @@ public class MyDietPlanRepository {
             ps.setDouble(7,recipe.getTotalCarbohydrates());
             ps.setBoolean(8,recipe.getActive());
             ps.setString(9,recipe.getInstructions());
-            ps.setInt(10,recipe.getImage().getImageID());
+            ps.setInt(10,image.getImageID());
 
             return ps;
         }, keyHolder);
@@ -188,9 +190,7 @@ public class MyDietPlanRepository {
         } else return null;
 
         // Insert the ingredientlist
-        if(!insertIngredientsOntoRecipe(recipe.getRecipeID(), recipe.getIngredientList())){
-            return null;
-        }
+        insertIngredientsOntoRecipe(recipe.getRecipeID(), recipe.getIngredientList());
 
         return recipe;
     }

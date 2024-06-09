@@ -48,6 +48,9 @@ public class WebsiteService {
         } catch (DataAccessException e) {
             e.printStackTrace();
             throw new SystemErrorException("Der er sket en fejl på vores side. Prøv igen senere.");
+        } catch (RuntimeException e){
+            e.printStackTrace();
+            throw new SystemErrorException("Der skete en fejl med indsættelsen af opskriften");
         }
     }
 
@@ -81,6 +84,15 @@ public class WebsiteService {
             e.printStackTrace();
             throw new SystemErrorException("Der skete en fejl under forsøget på at gemme billedet");
         }
+    }
+
+    public void setupRecipe(Recipe recipe, List<Integer> ingredientIds, List<Integer> weights, MultipartFile imageFile)
+            throws InputErrorException, EntityNotFoundException, SystemErrorException {
+
+        setupRecipeWithIngredients(recipe, ingredientIds, weights);
+        calculateAndSetMacros(recipe);
+        setupRecipeWithImage(recipe,imageFile);
+        createRecipe(recipe);
     }
 
 
@@ -184,7 +196,7 @@ public class WebsiteService {
 
 
     /**
-     * Sets up the recipe with ingredients.
+     * Sets up the recipe with the ingredients and calculates the total macros.
      *
      * @param recipe        The recipe being set up.
      * @param ingredientIds List of ingredient IDs.
@@ -196,18 +208,17 @@ public class WebsiteService {
         //Assure the lists have the same length
         validateIngredientAndWeightSizes(ingredientIds, weights);
 
-        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        ArrayList<Ingredient> ingredientList = new ArrayList<>();
 
         for (int i = 0; i < ingredientIds.size(); i++) {
             //Get ingredient from database
             Ingredient ingredient = getIngredientByID(ingredientIds.get(i));
             //Attach the weight to the ingredient
             ingredient.setWeightGrams(weights.get(i));
-            ingredients.add(ingredient);
+            ingredientList.add(ingredient);
         }
 
-        recipe.setIngredientList(ingredients);
-        calculateAndSetMacros(recipe);
+        recipe.setIngredientList(ingredientList);
     }
 
     /**

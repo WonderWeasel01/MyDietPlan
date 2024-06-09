@@ -59,14 +59,12 @@
                         <input type="number" id="ingredientWeight" name="ingredientWeight" min="1" placeholder="Vægt i gram" class="weight-input">
                         <button class="DefaultButton2" type="button" onclick="addIngredientToList()">Tilføj Ingrediens</button>
                     </div>
-                        <form id="recipeForm" th:action="@{/admin}" method="post">
-                            <ul id="ingredientList"></ul>
-                           <div class="RowFrame">
-                               <div class="sticky-button">
-                                   <button class="DefaultButton" type="submit">Opret Opskrift</button>
-                               </div>
-                            </div>
-                        </form>
+                    <ul id="ingredientList"></ul>
+                    <div class="RowFrame">
+                       <div class="sticky-button">
+                           <button class="DefaultButton" type="submit">Opret Opskrift</button>
+                       </div>
+                    </div>
                 </div>
             </form>
         </div>

@@ -179,7 +179,6 @@ public class UserUIController {
         }
         User user = authenticationService.getUser();
 
-
         model.addAttribute("user", user);
         return "editUser";
     }

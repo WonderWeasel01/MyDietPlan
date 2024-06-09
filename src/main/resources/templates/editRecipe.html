@@ -24,19 +24,19 @@
     <!-- Opskrift informationer -->
     <div class="Recipeinputframe">
         <div class="RowFrame">
-            <label for="title" class="OpskriftNavntext">Opskrift navn</label>
+            <label for="title" class="OpskriftNavntext">Opskrift navn:</label>
             <input type="text" id="title" th:field="*{title}" class="recipe-input" placeholder="Opskrift navn">
         </div>
         <div class="RowFrame">
-            <label for="prepTime" class="Tilberedningstidtext">Tilberedningstid</label>
+            <label for="prepTime" class="Tilberedningstidtext">Tilberedningstid:</label>
             <input type="text" id="prepTime" th:field="*{prepTime}" class="prep-time-input" placeholder="Tilberedningstid">
         </div>
         <div class="RowFrame">
-            <label for="timeOfDay" class="Tidspunkttext">Tidspunkt</label>
+            <label for="timeOfDay" class="Tidspunkttext">Tidspunkt:</label>
             <input type="text" id="timeOfDay" th:field="*{timeOfDay}" class="time-of-day-input" placeholder="Tidspunkt">
         </div>
         <div class="RowFrame">
-            <label for="instructions" class="Instruktioner">Instruktioner</label>
+            <label for="instructions" class="Instruktioner">Instruktioner:</label>
             <textarea id="instructions" th:field="*{instructions}" class="instructions-input" placeholder="Instruktioner"></textarea>
         </div>
 
@@ -55,7 +55,7 @@
         <!-- Ingrediens liste select -->
         <h2>OPDATER INGREDIENS LISTE</h2>
         <div class="RowFrame">
-            <label  class="Ingrediens">Ingredienser</label>
+            <label  class="Ingrediens">Ingredienser:</label>
             <select id="ingredientSelect">
                 <option th:each="ingredient : ${allIngredients}"
                         th:value="${ingredient.ingredientID}"
@@ -63,7 +63,7 @@
             </select>
         </div>
         <!-- Ingrediens vægt input -->
-        <label for="ingredientWeight" class="Vægt">Vægt</label>
+        <label for="ingredientWeight" class="Vægt">Vægt:</label>
         <input type="number" id="ingredientWeight" name="ingredientWeight" min="1" placeholder="Vægt i gram" class="weight-input">
         <button class="DefaultButton2" type="button" onclick="addIngredientToList()">Tilføj Ingrediens</button>
 
