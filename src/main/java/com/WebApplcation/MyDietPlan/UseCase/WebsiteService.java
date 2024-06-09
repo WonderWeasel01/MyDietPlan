@@ -89,9 +89,11 @@ public class WebsiteService {
     public void setupRecipe(Recipe recipe, List<Integer> ingredientIds, List<Integer> weights, MultipartFile imageFile)
             throws InputErrorException, EntityNotFoundException, SystemErrorException {
 
+        //Call setup methods
         setupRecipeWithIngredients(recipe, ingredientIds, weights);
         calculateAndSetMacros(recipe);
         setupRecipeWithImage(recipe,imageFile);
+
         createRecipe(recipe);
     }
 
@@ -334,7 +336,7 @@ public class WebsiteService {
      */
     private void validateIngredientAndWeightSizes(List<Integer> ingredientIds, List<Integer> weights) throws InputErrorException {
         if (ingredientIds.size() != weights.size()) {
-            throw new InputErrorException("The number of ingredients and weights do not match.");
+            throw new InputErrorException("Antallet af ingredienser og vægte passer ikke");
         }
     }
 

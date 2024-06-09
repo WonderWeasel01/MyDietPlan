@@ -40,10 +40,8 @@ public class AdminUIController {
         List<Ingredient> ingredients = websiteService.getAllIngredients();
         Recipe recipe = new Recipe();
 
-        model.addAttribute("user", authenticationService.getUser());
         model.addAttribute("ingredients", ingredients);
         model.addAttribute("recipe", recipe);
-
         return "adminPage";
     }
 

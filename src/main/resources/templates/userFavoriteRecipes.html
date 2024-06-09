@@ -8,12 +8,9 @@
 <body>
 
 <ul th:each="recipe : ${favoriteRecipes}">
-    <a th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}">
-    <li th:text="*{recipe.title}">
-
-
+    <li>
+    <a th:text="*{recipe.title}" th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}"></a>
     </li>
-    </a>
 </ul>
 </body>
 </html>
