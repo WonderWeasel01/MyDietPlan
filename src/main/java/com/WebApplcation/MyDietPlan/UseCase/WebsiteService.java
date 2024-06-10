@@ -762,7 +762,7 @@ public class WebsiteService {
      * @throws InputErrorException   If the given user is missing important information or is trying to use an already existing email.
      * @throws DuplicateKeyException If the user has the same id as an already existing user.
      */
-    private User saveUser(User user) throws SystemErrorException, InputErrorException, DuplicateKeyException {
+    public User saveUser(User user) throws SystemErrorException, InputErrorException, DuplicateKeyException {
         try {
             return repository.createUser(user);
         } catch (DuplicateKeyException e) {

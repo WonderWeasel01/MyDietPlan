@@ -50,12 +50,36 @@ public class UserTest {
     @Test
     public void testCreateUser() {
         MyDietPlanRepository ur = new MyDietPlanRepository(jdbcTemplate);
-        User user = new User("Alex", "Wentzel");
+        User userTest = new User("Alex", "Wentzel");
+        System.out.println(userTest);
+    }
+    @Test
+    void testSaveUser() throws SystemErrorException, InputErrorException {
+        // Arrange
+        User user = new User();
+        user.setUserId(1);
+        user.setFirstName("John");
+        user.setLastName("Joe");
+
+        User savedUser = new User();
+        savedUser.setUserId(1);
+        savedUser.setFirstName("John");
+        savedUser.setLastName("Doe");
+
+        when(repo.createUser(any(User.class))).thenReturn(savedUser);
+
+        // Act
+        User result = websiteService.saveUser(user);
+
+        // Assert
+        verify(repo).createUser(user);
+        assertEquals(savedUser, result);
+        System.out.println(result);
+        System.out.println(savedUser);
     }
 
     
     // A unit test to test if our deleteUser method works.
-
 
     @Test
     public void testDeleteUser() {
