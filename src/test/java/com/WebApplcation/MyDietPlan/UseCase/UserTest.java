@@ -78,6 +78,17 @@ public class UserTest {
         System.out.println(savedUser);
     }
 
+    @Test
+    public void testCreateUser_InvalidUser() {
+        User user = new User();
+
+        when(authenticationService.isValidUser(any(User.class))).thenReturn(false);
+
+        // Act & Assert
+        assertThrows(InputErrorException.class, () -> websiteService.setupAndSaveUser(user));
+        verifyNoInteractions(repo);
+    }
+
     
     // A unit test to test if our deleteUser method works.
 

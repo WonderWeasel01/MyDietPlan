@@ -59,6 +59,7 @@ public class UserUIController {
         if(!isLoggedInAndHasSub()){
             return "redirect:/";
         }
+        
         try{
             User user = authenticationService.getUser();
             Recipe recipe = websiteService.getUsersAdjustedRecipeById(user,recipeID);
@@ -87,8 +88,8 @@ public class UserUIController {
             return "redirect:/";
         } catch (SystemErrorException | InputErrorException e) {
            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/opretBruger";
         }
-        return "redirect:/opretBruger";
     }
 
     @GetMapping("/CreatePayment")

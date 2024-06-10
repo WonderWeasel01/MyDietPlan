@@ -23,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class WelcomePageTest {
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -53,10 +54,12 @@ public class WelcomePageTest {
 
         System.out.println("Load time: " + loadTime + " ms");
 
-        assertTrue(loadTime < 2000);
-
         String responseContent = result.getResponse().getContentAsString();
         assertNotNull(responseContent);
+
+        assertTrue(loadTime < 2000);
+
+
     }
 
 
