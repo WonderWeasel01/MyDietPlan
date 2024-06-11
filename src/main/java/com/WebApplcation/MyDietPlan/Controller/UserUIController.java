@@ -260,8 +260,7 @@ public class UserUIController {
             User user = authenticationService.getUser();
             List<Recipe> favoriteRecipes = websiteService.getFavoriteRecipesByUserID(user.getUserId());
             model.addAttribute("favoriteRecipes", favoriteRecipes);
-            model.addAttribute("User", user);
-
+            model.addAttribute("user", user);
             return "userFavoriteRecipes";
         } catch (EntityNotFoundException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());

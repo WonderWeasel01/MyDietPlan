@@ -1,15 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html >
+<html class="Head" lang="en">
 <head>
 
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/CSS/default.css">
 </head>
 <body>
+<div th:insert="~{layout :: header}"></div>
 
 <ul th:each="recipe : ${favoriteRecipes}">
     <li>
-    <a th:text="*{recipe.title}" th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}"></a>
+    <a th:text="*{recipe.title}" style="color: #0d0c22" th:href="@{/seOpskrift/{recipeID}(recipeID=${recipe.recipeID})}"></a>
     </li>
 </ul>
 </body>
