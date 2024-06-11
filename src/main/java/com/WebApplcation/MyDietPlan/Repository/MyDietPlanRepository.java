@@ -164,7 +164,6 @@ public class MyDietPlanRepository {
 
         //Insert image.
         Image image = insertImage(recipe.getImage());
-
         //insert the recipe into the database
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -316,7 +315,7 @@ public class MyDietPlanRepository {
         Number generatedKey = keyHolder.getKey();
         if (generatedKey != null) {
             int userId = generatedKey.intValue();
-            user.setUserId(userId);//
+            user.setUserId(userId);
         }
         return user;
     }

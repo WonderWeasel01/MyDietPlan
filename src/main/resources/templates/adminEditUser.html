@@ -11,6 +11,7 @@
 <div th:insert="~{adminLayout :: header2}"></div>
 <div class="Background">
 
+
     <div class="HeaderFrame">
     </div>
     <div class="AdminFormBox">
@@ -19,8 +20,10 @@
             <input type="hidden" th:field="*{userId}" class="Input">
 
             <h2>Opdater bruger information</h2>
+            <div class="Button">
+                <div id="emailButton" class="Buttontext">SEND BESKED</div>
+            </div>
             <div class="Row">
-
                 <!-- Left side -->
                 <div class="Column">
                         <div>
@@ -141,6 +144,15 @@
         </div>
     </div>
 </div>
-
 </body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    document.getElementById('emailButton').onclick = function() {
+        var email = /*[[${user.email}]]*/ 'default@example.com';
+        var subject = 'Subject';
+        var body = 'Body Content';
+        window.location.href = 'mailto:' + email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    }
+    /*]]>*/
+</script>
 </html>

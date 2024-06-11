@@ -121,6 +121,7 @@ public class AdminUIController {
                                    @ModelAttribute Recipe recipe, RedirectAttributes redirectAttributes){
         try {
             websiteService.setupRecipeWithIngredients(recipe,ingredientIds, weights);
+            websiteService.calculateAndSetMacros(recipe);
             //Update the recipe.
             websiteService.updateRecipe(recipe);
             redirectAttributes.addFlashAttribute("successMessage", "Opskrift gemt!");
