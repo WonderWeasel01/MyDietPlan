@@ -30,9 +30,6 @@
 
     <div class="UserInfo">
         <div class="Name">  <span th:text="${user.firstName}"></span>  <span th:text="${user.lastName}"></span></div>
-        <div class="Button">
-            <div id="emailButton" class="Buttontext">SEND BESKED</div>
-        </div>
         <a href="/brugerFavoritOpskrifter">
         <div class="Button">
             <div id="favoriteButton" class="Buttontext">Favorit opskrifter</div>
@@ -116,18 +113,6 @@
     </section>
 
     <span hidden th:text="${user.role}"></span>
-
- 
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        document.getElementById('emailButton').onclick = function() {
-            var email = /*[[${user.email}]]*/ 'default@example.com';
-            var subject = 'Subject';
-            var body = 'Body Content';
-            window.location.href = 'mailto:' + email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-        }
-        /*]]>*/
-    </script>
 
 </body>
 </html>
